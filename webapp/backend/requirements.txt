@@ -1,0 +1,16 @@
+# 后端依赖。第一阶段只用得到前四项。
+#
+# FastAPI + Pydantic v2 是必需的：协议层（schemas.py）用 Pydantic 定义，
+# 它的校验就是「后端发出的每个字段都符合契约」的运行时保证 —— 少一个字段
+# 会在这里报错，而不是在前端渲染成空白。
+fastapi==0.136.1
+uvicorn==0.46.0
+pydantic==2.13.4
+
+# 测试用。TestClient 需要 httpx；两个测试文件都直接跑在真实封存 artifact 上。
+pytest==9.1.1
+httpx==0.28.1
+
+# 第二阶段（真实分析模式的 SSE 推送）才需要。现在不引入 —— 一个依赖
+# 放在这里但没被 import，会让「这个系统用到了什么」变得说不清。
+# sse-starlette==3.4.4

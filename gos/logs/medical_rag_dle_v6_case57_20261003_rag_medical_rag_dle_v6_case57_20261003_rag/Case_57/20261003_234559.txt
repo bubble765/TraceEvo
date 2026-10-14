@@ -1,0 +1,246 @@
+[2026-10-03 23:46:09] | #### Here are the reponse of ingest function -- generating basic symptom and evidence nodes:
+
+ {
+  "symptom_node": "Patient had a pruritic and painful periorbital eruption lasting 1 month",
+  "isolated_evidence": [
+    "Medical history included lupus nephritis requiring hemodialysis, immune thrombocytopenia, acute myeloid leukemia, chemotherapy-induced peripheral neuropathy, deep vein thrombosis, diverticulitis, and postcolectomy diarrhea.",
+    "Past treatments included hydroxychloroquine (resulted in retinal toxic effects) and lenalidomide (severely worsened platelet count, with a nadir of 28 ×103/μL).",
+    "Physical examination demonstrated scaly, crusted pink plaques that involved the periorbital skin."
+  ]
+}
+[2026-10-03 23:46:33] | #### Here are the reponse of ingest function -- generating L1 hypos and corresponding relationship between evidence and hypos:
+
+ {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Cutaneous lupus erythematosus",
+      "confidence": 0.7,
+      "why": "Lupus nephritis/ITP (node-2) and HCQ use (node-3) support autoimmune cause; scaly crusted periorbital plaques (node-4) fit cutaneous lupus."
+    },
+    {
+      "id": "h002",
+      "label": "Drug-induced skin eruption",
+      "confidence": 0.2,
+      "why": "Lenalidomide/HCQ exposure and chemo/immunosuppression (node-2,3) support drug reaction, but scaly crusted plaques (node-4) are less typical."
+    },
+    {
+      "id": "h003",
+      "label": "Seborrheic dermatitis",
+      "confidence": 0.1,
+      "why": "Periorbital scaly crusted pink plaques (node-4) are typical; immunosuppression (node-2) predisposes to seborrheic dermatitis."
+    }
+  ],
+  "edges": [
+    {"src": "node-2", "dst": "h001", "relation": "support"},
+    {"src": "node-2", "dst": "h002", "relation": "support"},
+    {"src": "node-2", "dst": "h003", "relation": "support"},
+    {"src": "node-3", "dst": "h001", "relation": "support"},
+    {"src": "node-3", "dst": "h002", "relation": "support"},
+    {"src": "node-4", "dst": "h001", "relation": "support"},
+    {"src": "node-4", "dst": "h002", "relation": "refute"},
+    {"src": "node-4", "dst": "h003", "relation": "support"}
+  ]
+}
+[2026-10-03 23:46:37] | #### Step1: Finding the current frontier 
+
+ {'node_id': 'node-5', 'label': 'Cutaneous lupus erythematosus', 'why': 'Lupus nephritis/ITP (node-2) and HCQ use (node-3) support autoimmune cause; scaly crusted periorbital plaques (node-4) fit cutaneous lupus.', 'score': 0.7, 'level': 1, 'supports': 3, 'refutes': 0}
+[2026-10-03 23:46:49] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name":"Pathologist","planning_intent":"interpret_existing_evidence"},
+  {"expert_name":"Laboratory_Physician","planning_intent":"seek_discriminating_evidence"}
+]
+[2026-10-03 23:46:49] | Step 1 - Decision Making
+[2026-10-03 23:46:52] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-10-03 23:46:52] | Step 1 parsed result: type=1, decision=retrieve
+[2026-10-03 23:46:52] | Step 1 - Content Generation
+[2026-10-03 23:46:56] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need skin biopsy histopathology with direct immunofluorescence and serum ANA, anti-dsDNA, anti-Ro/SSA and anti-La/SSB (core tests for confirming cutaneous lupus versus drug eruption or seborrheic dermatitis), plus precise medication timeline for lenalidomide and hydroxychloroquine; these are critical to verify the leading hypothesis and exclude mimics."}
+[2026-10-03 23:47:00] | Step 1 Observations: - Biopsy Results: Punch biopsy from the left upper eyelid demonstrated vacuolar interface dermatitis with follicular involvement and epidermal atrophy.
+[2026-10-03 23:47:46] | Step 1 Medical Knowledge: [GENERAL MEDICAL LITERATURE — NOT PATIENT-SPECIFIC EVIDENCE]
+
+Use only as general clinical context. Do not report these statements as findings from this patient. Retrieval relevance is not diagnostic confidence.
+
+[1] Challenges in the diagnosis of systemic lupus erythematosus.
+PMCID: PMC-12546666
+Section: Diagnosis and classification criteria > Heterogeneity of SLE features
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12546666/
+License: CC BY 4.0
+Passage: [Diagnosis and classification criteria > Heterogeneity of SLE features]
+
+[Table: Common less specific features of SLE and their mimickers.]
+
+[Columns: Signs or symptoms | Mimickers]
+
+Signs or symptoms: Butterfly or malar rash | Mimickers: Dermatology: rosacea, actinic keratosis, seborrhoeic dermatitis, contact dermatitis Infection: cellulitis, erysipelas, Lyme disease Autoimmune: dermatomyositis Metabolic: pellagra (niacin deficiency) Genetic: Bloom syndrome, homocystinuria
+
+Signs or symptoms: Mucosal ulceration | Mimickers: Physical: biting cheek, burns, poorly fitted dentures, smoking Inflammation/autoimmune: inflammatory bowel disease, coeliac, Behcet’s, lichen planus Metabolic: folate, B12 or iron deficiency Infection: HIV, herpes simplex virus, varicella zoster virus, hand, foot and mouth disease, syphilis, tuberculosis Psychological: stress, anxiety Iatrogenic: NSAIDs, beta-blocker, nicorandil Paraneoplastic: oral cancer
+
+Signs or symptoms: Hair loss | Mimickers: Genetic: male and female pattern baldness (androgenetic alopecia) Inflammation/autoimmune: alopecia areata Metabolic: iron, vitamin D, B vitamins, or zinc deficiency Hormone: thyroid disease, pregnancy, childbirth, menopause Infection: fungal infection Iatrogenic: chemotherapy, radiotherapy, methotrexate, anti-hypertensives (ACE inhibitor, beta-blocker), statins, anti-depressants, anti-convulsant, Parkinson’s disease drugs, acne drugs, warfarin Psychological: stress (telogen effluvium)
+
+Signs or symptoms: Raynaud’s phenomenon | Mimickers: Idiopathic: primary Raynaud’s Inflammatory/autoimmune: scleroderma, mixed connective tissue disease, Sjogren’s disease, inflammatory myopathies, rheumatoid arthritis, cryoglobulinaemia Physical: exposure to vibrating tools, smoking Iatrogenic: beta-blockers, anti-migraine drugs, decongestants Vascular/neurovascular: atherosclerosis, Buerger’s disease, primary pulmonary hypertension, thoracic outlet syndrome, carpal tunnel syndrome
+
+[2] Challenges in the diagnosis of systemic lupus erythematosus.
+PMCID: PMC-12546666
+Section: Diagnosis and classification criteria > Heterogeneity of SLE features
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12546666/
+License: CC BY 4.0
+Passage: [Diagnosis and classification criteria > Heterogeneity of SLE features]
+
+[Table: Common less specific features of SLE and their mimickers.]
+
+[Columns: Signs or symptoms | Mimickers]
+
+Signs or symptoms: Butterfly or malar rash | Mimickers: Dermatology: rosacea, actinic keratosis, seborrhoeic dermatitis, contact dermatitis Infection: cellulitis, erysipelas, Lyme disease Autoimmune: dermatomyositis Metabolic: pellagra (niacin deficiency) Genetic: Bloom syndrome, homocystinuria
+
+Signs or symptoms: Mucosal ulceration | Mimickers: Physical: biting cheek, burns, poorly fitted dentures, smoking Inflammation/autoimmune: inflammatory bowel disease, coeliac, Behcet’s, lichen planus Metabolic: folate, B12 or iron deficiency Infection: HIV, herpes simplex virus, varicella zoster virus, hand, foot and mouth disease, syphilis, tuberculosis Psychological: stress, anxiety Iatrogenic: NSAIDs, beta-blocker, nicorandil Paraneoplastic: oral cancer
+
+Signs or symptoms: Hair loss | Mimickers: Genetic: male and female pattern baldness (androgenetic alopecia) Inflammation/autoimmune: alopecia areata Metabolic: iron, vitamin D, B vitamins, or zinc deficiency Hormone: thyroid disease, pregnancy, childbirth, menopause Infection: fungal infection Iatrogenic: chemotherapy, radiotherapy, methotrexate, anti-hypertensives (ACE inhibitor, beta-blocker), statins, anti-depressants, anti-convulsant, Parkinson’s disease drugs, acne drugs, warfarin Psychological: stress (telogen effluvium)
+
+Signs or symptoms: Raynaud’s phenomenon | Mimickers: Idiopathic: primary Raynaud’s Inflammatory/autoimmune: scleroderma, mixed connective tissue disease, Sjogren’s disease, inflammatory myopathies, rheumatoid arthritis, cryoglobulinaemia Physical: exposure to vibrating tools, smoking Iatrogenic: beta-blockers, anti-migraine drugs, decongestants Vascular/neurovascular: atherosclerosis, Buerger’s disease, primary pulmonary hypertension, thoracic outlet syndrome, carpal tunnel syndrome
+[2026-10-03 23:47:46] | Step 2 - Decision Making
+[2026-10-03 23:47:50] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-10-03 23:47:50] | Step 2 parsed result: type=1, decision=retrieve
+[2026-10-03 23:47:50] | Step 2 - Content Generation
+[2026-10-03 23:47:55] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the direct immunofluorescence result from the left upper eyelid biopsy and serum ANA, anti-dsDNA, anti-Ro/SSA, anti-La/SSB, plus precise lenalidomide and hydroxychloroquine start/stop dates, because interface dermatitis supports cutaneous lupus but DIF and autoantibodies are required to confirm it and exclude drug-induced eruption."}
+[2026-10-03 23:48:01] | Step 2 Observations: Biopsy Results: Punch biopsy from the left upper eyelid demonstrated vacuolar interface dermatitis with follicular involvement and epidermal atrophy.
+[2026-10-03 23:48:31] | Step 2 Medical Knowledge: [GENERAL MEDICAL LITERATURE — NOT PATIENT-SPECIFIC EVIDENCE]
+
+Use only as general clinical context. Do not report these statements as findings from this patient. Retrieval relevance is not diagnostic confidence.
+
+[1] Challenges in the diagnosis of systemic lupus erythematosus.
+PMCID: PMC-12546666
+Section: Diagnosis and classification criteria > Problems with ANA test
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12546666/
+License: CC BY 4.0
+Passage: [Diagnosis and classification criteria > Problems with ANA test]
+
+The immunologic hallmark of SLE is the presence of ANA. ANA is present in 95–99% of patients, so a negative test makes SLE unlikely. In children presenting with SLE symptoms but with negative ANA, lupus-like disorders such as monogenic interferonopathies and complement deficiencies should be considered.
+
+Since ANA testing is highly sensitive, it comes at the cost of lower specificity as a trade-off. ANA is positive in approximately 5–10% of healthy adults, far exceeding the prevalence of SLE. ANA positivity can occur in a variety of other conditions, including autoimmune connective tissue diseases (CTD) (eg Sjogren’s disease, inflammatory myopathies and systemic sclerosis), viral infections and malignancy.
+
+The gold standard for ANA test is indirect immunofluorescence assay (IFA), although multiplex immunoassays are increasingly used. Multiplex assays utilise beads coated with different antigens and have the advantages in detecting multiple specific autoantibodies in a single test, thus saving time and resources. These assays can yield false positive results up to 7%, particularly when low titres are detected, thus clinical correlation is important. In addition, low-level detection of lupus autoantigen on multiplex assay should be supplemented by ANA testing on IFA to improve sensitivity.
+
+[2] Discoid lupus erythematosus and its progression to systemic lupus erythematosus across age groups: a systematic review.
+PMCID: PMC-12577789
+Section: Results > Treatment patterns
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12577789/
+License: CC BY 4.0
+Passage: [Results > Treatment patterns]
+
+Treatment data were available for 648 patients across case reports and case series (45 pediatric, 603 adult). Topical corticosteroids were the most frequently used therapy in both pediatric (20/45, 44.4%) and adult (311/603, 51.6%) populations. Hydroxychloroquine was the second most common (pediatric: 5/45, 11.1%; adult: 173/603, 28.7%). Other agents included oral corticosteroids, chloroquine derivatives, dapsone, tacrolimus, and newer biologics (e.g., anifrolumab, lenalidomide) in adults (Table 4).
+[2026-10-03 23:48:31] | Step 3 - Decision Making
+[2026-10-03 23:48:33] | Step 3 Decision: {"type": 1, "decision": "analyze"}
+[2026-10-03 23:48:33] | Step 3 parsed result: type=1, decision=analyze
+[2026-10-03 23:48:33] | Step 3 - Content Generation
+[2026-10-03 23:48:48] | Step 3 reponse: {"type":1,"decision":"analyze","content":"History of lupus nephritis/ITP and prior HCQ plus left upper eyelid biopsy showing vacuolar interface dermatitis with follicular involvement and epidermal atrophy support cutaneous lupus erythematosus (0.7). Missing DIF, ANA/dsDNA/Ro/SSA/La/SSB and medication timing limit excluding drug eruption or seborrheic dermatitis; morphology and autoimmune background favor CLE. Available key data covered."}
+[2026-10-03 23:48:48] | Step 1 - Decision Making
+[2026-10-03 23:48:51] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-10-03 23:48:51] | Step 1 parsed result: type=1, decision=retrieve
+[2026-10-03 23:48:51] | Step 1 - Content Generation
+[2026-10-03 23:48:57] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the skin biopsy histopathology and direct immunofluorescence (lupus band test) results, along with serological markers (ANA, anti-dsDNA, anti-Ro/SSA, anti-La/SSB), to confirm cutaneous lupus erythematosus and exclude drug-induced eruption and seborrheic dermatitis; these are critical for verifying the leading hypothesis."}
+[2026-10-03 23:49:00] | Step 1 Observations: Biopsy Results: Punch biopsy from the left upper eyelid demonstrated vacuolar interface dermatitis with follicular involvement and epidermal atrophy.
+[2026-10-03 23:49:28] | Step 1 Medical Knowledge: [GENERAL MEDICAL LITERATURE — NOT PATIENT-SPECIFIC EVIDENCE]
+
+Use only as general clinical context. Do not report these statements as findings from this patient. Retrieval relevance is not diagnostic confidence.
+
+[1] Discoid lupus erythematosus and its progression to systemic lupus erythematosus across age groups: a systematic review.
+PMCID: PMC-12577789
+Section: Results > Immunological profile
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12577789/
+License: CC BY 4.0
+Passage: [Results > Immunological profile]
+
+ANA positivity was found in 51.4% (322/626) of pediatric and 48.1% (1,052/2,188) of adult patients. Anti-dsDNA antibodies were present in 21.9% (137/626) of pediatric and 19.5% (427/2,188) of adult patients. Low complement (C3/C4) levels were reported in 37.5% (235/626) of pediatric and 34.2% (749/2,188) of adult patients (Table 3).
+
+[2] Challenges in the diagnosis of systemic lupus erythematosus.
+PMCID: PMC-12546666
+Section: Diagnosis and classification criteria > Problems with ANA test
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12546666/
+License: CC BY 4.0
+Passage: [Diagnosis and classification criteria > Problems with ANA test]
+
+The immunologic hallmark of SLE is the presence of ANA. ANA is present in 95–99% of patients, so a negative test makes SLE unlikely. In children presenting with SLE symptoms but with negative ANA, lupus-like disorders such as monogenic interferonopathies and complement deficiencies should be considered.
+
+Since ANA testing is highly sensitive, it comes at the cost of lower specificity as a trade-off. ANA is positive in approximately 5–10% of healthy adults, far exceeding the prevalence of SLE. ANA positivity can occur in a variety of other conditions, including autoimmune connective tissue diseases (CTD) (eg Sjogren’s disease, inflammatory myopathies and systemic sclerosis), viral infections and malignancy.
+
+The gold standard for ANA test is indirect immunofluorescence assay (IFA), although multiplex immunoassays are increasingly used. Multiplex assays utilise beads coated with different antigens and have the advantages in detecting multiple specific autoantibodies in a single test, thus saving time and resources. These assays can yield false positive results up to 7%, particularly when low titres are detected, thus clinical correlation is important. In addition, low-level detection of lupus autoantigen on multiplex assay should be supplemented by ANA testing on IFA to improve sensitivity.
+[2026-10-03 23:49:28] | Step 2 - Decision Making
+[2026-10-03 23:49:31] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-10-03 23:49:31] | Step 2 parsed result: type=1, decision=retrieve
+[2026-10-03 23:49:31] | Step 2 - Content Generation
+[2026-10-03 23:49:37] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Given biopsy shows vacuolar interface dermatitis, need the direct immunofluorescence lupus band test and serum ANA, anti-dsDNA, anti-Ro/SSA, anti-La/SSB, C3/C4 to confirm cutaneous lupus and exclude drug reaction/seborrheic dermatitis."}
+[2026-10-03 23:49:40] | Step 2 Observations: Biopsy Results: Punch biopsy from the left upper eyelid demonstrated vacuolar interface dermatitis with follicular involvement and epidermal atrophy.
+[2026-10-03 23:50:09] | Step 2 Medical Knowledge: [GENERAL MEDICAL LITERATURE — NOT PATIENT-SPECIFIC EVIDENCE]
+
+Use only as general clinical context. Do not report these statements as findings from this patient. Retrieval relevance is not diagnostic confidence.
+
+[1] Discoid lupus erythematosus and its progression to systemic lupus erythematosus across age groups: a systematic review.
+PMCID: PMC-12577789
+Section: Results > Immunological profile
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12577789/
+License: CC BY 4.0
+Passage: [Results > Immunological profile]
+
+ANA positivity was found in 51.4% (322/626) of pediatric and 48.1% (1,052/2,188) of adult patients. Anti-dsDNA antibodies were present in 21.9% (137/626) of pediatric and 19.5% (427/2,188) of adult patients. Low complement (C3/C4) levels were reported in 37.5% (235/626) of pediatric and 34.2% (749/2,188) of adult patients (Table 3).
+
+[2] Challenges in the diagnosis of systemic lupus erythematosus.
+PMCID: PMC-12546666
+Section: Diagnosis and classification criteria > Problems with ANA test
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12546666/
+License: CC BY 4.0
+Passage: [Diagnosis and classification criteria > Problems with ANA test]
+
+The immunologic hallmark of SLE is the presence of ANA. ANA is present in 95–99% of patients, so a negative test makes SLE unlikely. In children presenting with SLE symptoms but with negative ANA, lupus-like disorders such as monogenic interferonopathies and complement deficiencies should be considered.
+
+Since ANA testing is highly sensitive, it comes at the cost of lower specificity as a trade-off. ANA is positive in approximately 5–10% of healthy adults, far exceeding the prevalence of SLE. ANA positivity can occur in a variety of other conditions, including autoimmune connective tissue diseases (CTD) (eg Sjogren’s disease, inflammatory myopathies and systemic sclerosis), viral infections and malignancy.
+
+The gold standard for ANA test is indirect immunofluorescence assay (IFA), although multiplex immunoassays are increasingly used. Multiplex assays utilise beads coated with different antigens and have the advantages in detecting multiple specific autoantibodies in a single test, thus saving time and resources. These assays can yield false positive results up to 7%, particularly when low titres are detected, thus clinical correlation is important. In addition, low-level detection of lupus autoantigen on multiplex assay should be supplemented by ANA testing on IFA to improve sensitivity.
+[2026-10-03 23:50:09] | Step 3 - Decision Making
+[2026-10-03 23:50:11] | Step 3 Decision: {"type":1,"decision":"analyze"}
+[2026-10-03 23:50:11] | Step 3 parsed result: type=1, decision=analyze
+[2026-10-03 23:50:11] | Step 3 - Content Generation
+[2026-10-03 23:50:28] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Evidence best supports cutaneous lupus erythematosus: periorbital scaly crusted plaques, lupus nephritis/ITP, prior hydroxychloroquine, and biopsy showing vacuolar interface dermatitis. Drug reaction and seborrheic dermatitis are less likely. DIF and ANA/anti-dsDNA/anti-Ro/SSA/anti-La/SSB/C3/C4 are missing; clinically correlate and manage as cutaneous lupus. All key information covered."}
+[2026-10-03 23:50:39] | #### Step1: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.75,
+      "why": "Both the pathologist and laboratory physician analyses highlight the left upper eyelid biopsy showing vacuolar interface dermatitis with follicular involvement and epidermal atrophy—a classic histologic pattern of cutaneous lupus. Combined with the established autoimmune background (lupus nephritis/ITP) and the scaly crusted periorbital plaques, this new biopsy evidence strengthens the diagnosis, so confidence is raised from 0.7 to 0.75. It is not higher because DIF and autoantibody testing remain unavailable."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.1,
+      "why": "The newly available biopsy demonstrating vacuolar interface dermatitis with follicular involvement and epidermal atrophy is the histologic hallmark of cutaneous lupus rather than a drug-induced eruption. The lenalidomide/hydroxychloroquine exposure remains only circumstantial and the medication timing is unconfirmed, so the drug-eruption hypothesis is weakened and confidence reduced from 0.2 to 0.1."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.05,
+      "why": "The new biopsy findings (vacuolar interface dermatitis with follicular involvement and epidermal atrophy) are not the histologic pattern expected in seborrheic dermatitis, which typically shows spongiosis and parakeratosis without interface change. Immunosuppression and the periorbital plaques still allow it as a remote possibility, but confidence is lowered from 0.1 to 0.05."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Left upper eyelid biopsy showed vacuolar interface dermatitis with follicular involvement and epidermal atrophy",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {"src": "ev001", "dst": "node-5", "relation": "support"},
+    {"src": "ev001", "dst": "node-6", "relation": "refute"},
+    {"src": "ev001", "dst": "node-7", "relation": "refute"}
+  ]
+}
+[2026-10-03 23:50:39] | #### Step1: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-5', 'label': 'Cutaneous lupus erythematosus', 'why': 'Both the pathologist and laboratory physician analyses highlight the left upper eyelid biopsy showing vacuolar interface dermatitis with follicular involvement and epidermal atrophy—a classic histologic pattern of cutaneous lupus. Combined with the established autoimmune background (lupus nephritis/ITP) and the scaly crusted periorbital plaques, this new biopsy evidence strengthens the diagnosis, so confidence is raised from 0.7 to 0.75. It is not higher because DIF and autoantibody testing remain unavailable.', 'score': 0.75, 'level': 1, 'supports': 4, 'refutes': 0}
+[2026-10-03 23:51:03] | #### Step1: Central agent decide to report or dive deeper
+
+ {
+  "type": 1,
+  "answer": "Cutaneous lupus erythematosus",
+  "report": "The patient has a one-month pruritic, painful periorbital eruption with scaly, crusted pink plaques and a history of lupus nephritis/ITP. Left upper eyelid biopsy shows vacuolar interface dermatitis with follicular involvement and epidermal atrophy, classic for cutaneous lupus erythematosus, refuting drug-induced eruption and seborrheic dermatitis. DIF/autoantibody testing unavailable, but clinical, autoimmune, and biopsy findings make cutaneous lupus erythematosus the most likely diagnosis."
+}

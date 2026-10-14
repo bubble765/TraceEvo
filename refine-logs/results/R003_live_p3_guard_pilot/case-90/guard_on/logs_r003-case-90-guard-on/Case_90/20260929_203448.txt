@@ -1,0 +1,480 @@
+[2026-09-29 20:34:50] | #### Here are the reponse of ingest function -- generating basic symptom and evidence nodes:
+
+ {
+  "symptom_node": "A woman in her 50s presented to the emergency department after a fall",
+  "isolated_evidence": [
+    "Patient reported being clumsy her entire life, with worsening difficulty with balance over the past few years",
+    "Patient reported occasional falls, sometimes preceded by vertigo and 'shaking' episodes"
+  ]
+}
+[2026-09-29 20:34:53] | #### Here are the reponse of ingest function -- generating L1 hypos and corresponding relationship between evidence and hypos:
+
+ ```json
+{
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Neurological disorder causing imbalance",
+      "confidence": 0.7,
+      "why": "node-2 supports lifelong clumsiness and progressive balance worsening, suggesting a chronic neurological condition; node-3 supports recurrent falls with vertigo, consistent with central/vestibular neurological dysfunction."
+    },
+    {
+      "id": "h002",
+      "label": "Vestibular dysfunction",
+      "confidence": 0.4,
+      "why": "node-3 supports vertigo-associated falls and shaking; node-2 supports chronic balance difficulties, which aligns with vestibular pathology, but does not fully explain lifelong clumsiness."
+    },
+    {
+      "id": "h003",
+      "label": "Cardiovascular syncope/pre-syncope",
+      "confidence": 0.15,
+      "why": "node-3 supports shaking episodes (possible pre-syncope) and falls, but node-2 refutes (lifelong clumsiness and progressive balance issues are less typical of cardiovascular syncope)."
+    },
+    {
+      "id": "h004",
+      "label": "Traumatic injury from fall",
+      "confidence": 0.2,
+      "why": "The fall is the core symptom but evidence node-2 and node-3 provide no direct support for acute traumatic injury; instead, they suggest underlying causes, refuting this as primary hypothesis."
+    }
+  ],
+  "edges": [
+    {"src": "node-2", "dst": "h001", "relation": "support"},
+    {"src": "node-3", "dst": "h001", "relation": "support"},
+    {"src": "node-3", "dst": "h002", "relation": "support"},
+    {"src": "node-2", "dst": "h002", "relation": "support"},
+    {"src": "node-3", "dst": "h003", "relation": "support"},
+    {"src": "node-2", "dst": "h003", "relation": "refute"},
+    {"src": "node-2", "dst": "h004", "relation": "refute"},
+    {"src": "node-3", "dst": "h004", "relation": "refute"}
+  ]
+}
+```
+[2026-09-29 20:34:56] | #### Step1: Finding the current frontier 
+
+ {'node_id': 'node-4', 'label': 'Neurological disorder causing imbalance', 'why': 'node-2 supports lifelong clumsiness and progressive balance worsening, suggesting a chronic neurological condition; node-3 supports recurrent falls with vertigo, consistent with central/vestibular neurological dysfunction.', 'score': 0.7, 'level': 1, 'supports': 2, 'refutes': 0}
+[2026-09-29 20:34:57] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name": "Radiologist", "planning_intent": "seek_discriminating_evidence"}
+]
+[2026-09-29 20:34:57] | Step 1 - Decision Making
+[2026-09-29 20:34:59] | Step 1 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-29 20:34:59] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-29 20:34:59] | Step 1 - Content Generation
+[2026-09-29 20:35:06] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's neurological examination findings, including cranial nerve assessment, cerebellar function tests, and gait analysis, as well as any prior neuroimaging reports such as brain MRI, to confirm the chronic neurological disorder causing imbalance and differentiate from vestibular or other causes."}
+[2026-09-29 20:35:08] | Step 1 Observations:
+[2026-09-29 20:35:08] | Step 2 - Decision Making
+[2026-09-29 20:35:12] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-29 20:35:12] | Step 2 parsed result: type=1, decision=retrieve
+[2026-09-29 20:35:12] | Step 2 - Content Generation
+[2026-09-29 20:35:14] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's detailed neurological examination report including cranial nerve, cerebellar, and gait assessments, plus brain MRI findings to confirm the chronic neurological disorder and exclude structural lesions."}
+[2026-09-29 20:35:19] | Step 2 Observations:
+[2026-09-29 20:35:19] | Step 3 - Decision Making
+[2026-09-29 20:35:21] | Step 3 Decision: {"type": 1, "decision": "analyze"}
+[2026-09-29 20:35:21] | Step 3 parsed result: type=1, decision=analyze
+[2026-09-29 20:35:21] | Step 3 - Content Generation
+[2026-09-29 20:35:23] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Based on the available evidence, the lifelong clumsiness and progressive balance worsening strongly align with a chronic neurological disorder, likely cerebellar or spinocerebellar in origin, as vestibular dysfunction alone cannot explain the lifelong symptom pattern. The recurrent falls with vertigo and shaking episodes may reflect episodic neurological events superimposed on a baseline ataxia. However, without the requested neurological examination findings and brain MRI, structural lesions such as Chiari malformation or multiple sclerosis remain unexcluded, and vestibular causes are not fully refuted. Despite reaching the retrieval limit, the current belief of neurological disorder holds moderate confidence, but key imaging and exam data are missing to achieve definitive diagnosis."}
+[2026-09-29 20:35:28] | #### Step1: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ ```json
+{
+  "edit": [
+    {
+      "node_id": "node-4",
+      "confidence": 0.72,
+      "why": "The radiologist's analysis reinforces the chronic neurological disorder hypothesis, noting that lifelong clumsiness and progressive balance worsening strongly align with cerebellar or spinocerebellar origin. The expert also highlights that vestibular dysfunction alone cannot explain the lifelong symptom pattern, and that recurrent falls with vertigo may reflect episodic neurological events on a baseline ataxia. However, since key imaging (brain MRI) and neurological examination data are still missing, confidence remains moderate at 0.72."
+    },
+    {
+      "node_id": "node-5",
+      "confidence": 0.35,
+      "why": "The radiologist's analysis explicitly states that vestibular dysfunction alone cannot explain the lifelong clumsiness and progressive balance worsening, and that the symptom pattern more strongly supports a chronic neurological disorder. While vertigo and shaking episodes partially align with vestibular dysfunction, the expert's reasoning reduces its likelihood as the primary cause, lowering confidence from 0.4 to 0.35."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.1,
+      "why": "The radiologist emphasizes an underlying chronic neurological cause rather than acute cardiovascular events. The lifelong clumsiness and progressive balance worsening are inconsistent with cardiovascular syncope, and the expert's analysis does not support this hypothesis. Confidence is reduced from 0.15 to 0.1."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.15,
+      "why": "The radiologist's analysis focuses on an underlying neurological disorder causing the fall, rather than the fall causing traumatic injury. The lifelong symptom pattern and lack of acute trauma indicators from the evidence nodes suggest traumatic injury is not the primary cause. Confidence is slightly reduced from 0.2 to 0.15."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Brain MRI not yet performed; structural lesions such as Chiari malformation or multiple sclerosis remain unexcluded",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Neurological examination findings not yet available",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Patient has cerebellar or spinocerebellar ataxia",
+      "node_type": "Hypothesis",
+      "confidence": 0.55,
+      "why": "The radiologist's analysis strongly suggests that lifelong clumsiness and progressive balance worsening align with cerebellar or spinocerebellar origin. The recurrent falls with vertigo may reflect episodic neurological events superimposed on baseline ataxia. Confidence is moderate at 0.55 because brain MRI and neurological examination are still pending, which could confirm or exclude structural lesions."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "h001",
+      "relation": "support"
+    }
+  ]
+}
+```
+[2026-09-29 20:35:28] | #### Step1: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-4', 'label': 'Neurological disorder causing imbalance', 'why': "The radiologist's analysis reinforces the chronic neurological disorder hypothesis, noting that lifelong clumsiness and progressive balance worsening strongly align with cerebellar or spinocerebellar origin. The expert also highlights that vestibular dysfunction alone cannot explain the lifelong symptom pattern, and that recurrent falls with vertigo may reflect episodic neurological events on a baseline ataxia. However, since key imaging (brain MRI) and neurological examination data are still missing, confidence remains moderate at 0.72.", 'score': 0.72, 'level': 1, 'supports': 4, 'refutes': 0}
+[2026-09-29 20:35:31] | #### Step2: Finding the current frontier 
+
+ {'node_id': 'node-4', 'label': 'Neurological disorder causing imbalance', 'why': "The radiologist's analysis reinforces the chronic neurological disorder hypothesis, noting that lifelong clumsiness and progressive balance worsening strongly align with cerebellar or spinocerebellar origin. The expert also highlights that vestibular dysfunction alone cannot explain the lifelong symptom pattern, and that recurrent falls with vertigo may reflect episodic neurological events on a baseline ataxia. However, since key imaging (brain MRI) and neurological examination data are still missing, confidence remains moderate at 0.72.", 'score': 0.72, 'level': 1, 'supports': 4, 'refutes': 0}
+[2026-09-29 20:35:37] | #### Here are the plan of central expert: 
+
+ [
+  {
+    "expert_name": "Radiologist",
+    "planning_intent": "seek_discriminating_evidence"
+  }
+]
+[2026-09-29 20:35:37] | Step 1 - Decision Making
+[2026-09-29 20:35:39] | Step 1 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-29 20:35:39] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-29 20:35:39] | Step 1 - Content Generation
+[2026-09-29 20:35:41] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's brain MRI report with detailed findings on cerebellar atrophy or structural lesions, plus any prior electromyography or nerve conduction studies to assess for peripheral neuropathy contributing to imbalance."}
+[2026-09-29 20:35:45] | Step 1 Observations: T1-weighted Images:
+         Image Description: T1 hyperintensity within the medial component, confirming fat presence. Lateral component at porus acusticus was isointense, without flow voids.
+       - T2-weighted Images:
+         Image Description: Complex signal with inhomogeneous signal in both fat and soft-tissue components.
+       - Postcontrast fat-saturated T1-weighted Images:
+         Image Description: Nodular enhancement of soft-tissue component and fat saturation of medial component.
+[2026-09-29 20:35:45] | Step 2 - Decision Making
+[2026-09-29 20:35:50] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-29 20:35:50] | Step 2 parsed result: type=1, decision=retrieve
+[2026-09-29 20:35:50] | Step 2 - Content Generation
+[2026-09-29 20:35:52] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's brain MRI report with specific assessment of cerebellar volume and signal abnormalities, as prior images only showed a vestibular schwannoma without addressing cerebellar structures; also need neurological examination findings on gait and coordination to confirm the chronic neurological disorder."}
+[2026-09-29 20:35:54] | Step 2 Observations: T1-weighted Images:
+         Image Description: T1 hyperintensity within the medial component, confirming fat presence. Lateral component at porus acusticus was isointense, without flow voids.
+T2-weighted Images:
+         Image Description: Complex signal with inhomogeneous signal in both fat and soft-tissue components.
+Postcontrast fat-saturated T1-weighted Images:
+         Image Description: Nodular enhancement of soft-tissue component and fat saturation of medial component.
+[2026-09-29 20:35:54] | Step 3 - Decision Making
+[2026-09-29 20:35:56] | Step 3 Decision: {"type": 1, "decision": "analyze"}
+[2026-09-29 20:35:56] | Step 3 parsed result: type=1, decision=analyze
+[2026-09-29 20:35:56] | Step 3 - Content Generation
+[2026-09-29 20:36:00] | Step 3 reponse: {"type":1,"decision":"analyze","content":"The retrieved brain MRI reveals a vestibular schwannoma with fat and soft-tissue components, but no assessment of cerebellar volume or signal abnormalities is provided. This finding supports a structural lesion in the cerebellopontine angle, which could contribute to imbalance and vertigo, yet it does not fully explain lifelong clumsiness or progressive worsening. Neurological examination data remain absent, leaving the cerebellar or spinocerebellar ataxia hypothesis unverified. The schwannoma may cause episodic vertigo and falls, but chronic progression suggests an additional degenerative process. Given the imaging limitation, I recommend clinical correlation with detailed neurological and gait assessments to differentiate schwannoma-related symptoms from a primary cerebellar disorder. All key imaging information from available evidence is covered, though neurological examination remains pending."}
+[2026-09-29 20:36:07] | #### Step2: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ {
+  "edit": [
+    {
+      "node_id": "node-4",
+      "confidence": 0.78,
+      "why": "The newly available brain MRI reveals a vestibular schwannoma, providing concrete structural evidence for a neurological cause of the patient's imbalance and vertigo. This directly supports the neurological disorder hypothesis and suggests a specific underlying lesion, though lifelong clumsiness and progressive worsening remain unexplained by the schwannoma alone, indicating a possible coexisting degenerative process. The absence of neurological examination data and lack of cerebellar assessment on the MRI leave the primary cerebellar ataxia hypothesis unverified, but the overall neurological hypothesis is strengthened, raising confidence from 0.72 to 0.78."
+    },
+    {
+      "node_id": "node-5",
+      "confidence": 0.45,
+      "why": "The brain MRI finding of a vestibular schwannoma provides direct anatomical evidence for vestibular dysfunction, as schwannomas in the cerebellopontine angle commonly cause vertigo and imbalance. This supports the vestibular dysfunction hypothesis more strongly than before, but it still cannot fully explain lifelong clumsiness and progressive worsening, which point to a chronic neurological disorder. Thus, the hypothesis is partially supported, increasing confidence from 0.35 to 0.45."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.6,
+      "why": "The radiologist's analysis notes that the MRI shows no assessment of cerebellar volume or signal abnormalities, leaving the cerebellar or spinocerebellar ataxia hypothesis unverified. However, the lifelong clumsiness and progressive balance worsening remain highly consistent with a cerebellar origin, and the radiologist suggests an additional degenerative process may coexist with the schwannoma. Since the MRI does not exclude cerebellar involvement, the hypothesis retains moderate support, and confidence is slightly raised from 0.55 to 0.6."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Brain MRI reveals a vestibular schwannoma with fat and soft-tissue components",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "MRI report provides no assessment of cerebellar volume or signal abnormalities",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Patient has a vestibular schwannoma contributing to imbalance and vertigo",
+      "node_type": "Hypothesis",
+      "confidence": 0.65,
+      "why": "The brain MRI directly reveals a vestibular schwannoma, which is a structural lesion in the cerebellopontine angle that can cause vertigo and imbalance. This explains the acute falls and shaking episodes, but it does not fully account for lifelong clumsiness or progressive worsening, suggesting the schwannoma is a contributing factor rather than the sole cause. Confidence is set at 0.65, acknowledging the MRI finding while recognizing incomplete symptom correlation."
+    },
+    {
+      "id": "h002",
+      "label": "Patient has a coexisting degenerative cerebellar disorder",
+      "node_type": "Hypothesis",
+      "confidence": 0.5,
+      "why": "The lifelong clumsiness and progressive balance worsening are not explained by the vestibular schwannoma alone, as noted by the radiologist. The MRI does not assess cerebellar abnormalities, leaving room for a primary degenerative cerebellar process. This hypothesis is moderately supported by the chronic symptom pattern and the expert's suggestion of an additional degenerative process, but it remains unconfirmed without neurological examination and detailed imaging."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-10",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    }
+  ]
+}
+[2026-09-29 20:36:07] | #### Step2: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-4', 'label': 'Neurological disorder causing imbalance', 'why': "The newly available brain MRI reveals a vestibular schwannoma, providing concrete structural evidence for a neurological cause of the patient's imbalance and vertigo. This directly supports the neurological disorder hypothesis and suggests a specific underlying lesion, though lifelong clumsiness and progressive worsening remain unexplained by the schwannoma alone, indicating a possible coexisting degenerative process. The absence of neurological examination data and lack of cerebellar assessment on the MRI leave the primary cerebellar ataxia hypothesis unverified, but the overall neurological hypothesis is strengthened, raising confidence from 0.72 to 0.78.", 'score': 0.78, 'level': 1, 'supports': 5, 'refutes': 0}
+[2026-09-29 20:36:16] | #### Step2: Central agent decide to report or dive deeper
+
+ ```json
+{
+  "type": 2,
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Patient has cerebellar ataxia with coexisting vestibular schwannoma",
+      "confidence": 0.55,
+      "why": "The current frontier 'Neurological disorder causing imbalance' is too general. This candidate refines it by combining the strong evidence for vestibular schwannoma (node-11, support for node-13 at 0.65) with the lifelong clumsiness and progressive worsening (node-2) that points to a primary cerebellar process (node-10 at 0.6, node-14 at 0.5). The MRI's lack of cerebellar assessment (node-12) means this cannot be excluded, making this a specific dual-pathology hypothesis that best explains all symptoms."
+    },
+    {
+      "id": "h002",
+      "label": "Patient has vestibular schwannoma causing secondary cerebellar compression",
+      "confidence": 0.3,
+      "why": "This refines the frontier by focusing on a mechanistic link: the schwannoma (node-11) could compress cerebellar structures, explaining both the acute vertigo (node-3) and progressive imbalance (node-2). This is more specific than the general neurological hypothesis, though it doesn't fully account for lifelong clumsiness, making it less likely than a primary cerebellar process but still plausible."
+    },
+    {
+      "id": "h003",
+      "label": "Patient has spinocerebellar ataxia with incidental vestibular schwannoma",
+      "confidence": 0.15,
+      "why": "This candidate refines the frontier by proposing that the lifelong clumsiness (node-2) is due to a genetic spinocerebellar ataxia, while the schwannoma (node-11) is an incidental finding explaining only recent vertigo (node-3). This accounts for the chronic pattern but may overcomplicate the picture; however, it remains a specific alternative worth considering given the lack of neurological examination (node-9)."
+    }
+  ]
+}
+```
+[2026-09-29 20:36:16] | #### Step3: Finding the current frontier 
+
+ {'node_id': 'node-15', 'label': 'Patient has cerebellar ataxia with coexisting vestibular schwannoma', 'why': "The current frontier 'Neurological disorder causing imbalance' is too general. This candidate refines it by combining the strong evidence for vestibular schwannoma (node-11, support for node-13 at 0.65) with the lifelong clumsiness and progressive worsening (node-2) that points to a primary cerebellar process (node-10 at 0.6, node-14 at 0.5). The MRI's lack of cerebellar assessment (node-12) means this cannot be excluded, making this a specific dual-pathology hypothesis that best explains all symptoms.", 'score': 0.55, 'level': 2, 'supports': 0, 'refutes': 0}
+[2026-09-29 20:36:18] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name": "Radiologist", "planning_intent": "assess_hypothesis"}
+]
+[2026-09-29 20:36:18] | Step 1 - Decision Making
+[2026-09-29 20:36:19] | Step 1 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-29 20:36:19] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-29 20:36:19] | Step 1 - Content Generation
+[2026-09-29 20:36:21] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's neurological examination report detailing cerebellar function tests, gait analysis, and cranial nerve assessment, as well as brain MRI findings specifically addressing cerebellar atrophy or structural abnormalities, to confirm the dual pathology of vestibular schwannoma and cerebellar ataxia."}
+[2026-09-29 20:36:23] | Step 1 Observations:
+[2026-09-29 20:36:23] | Step 2 - Decision Making
+[2026-09-29 20:36:26] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-29 20:36:26] | Step 2 parsed result: type=1, decision=retrieve
+[2026-09-29 20:36:26] | Step 2 - Content Generation
+[2026-09-29 20:36:28] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's detailed neurological examination findings, including cerebellar function tests (e.g., finger-to-nose, heel-to-shin, Romberg) and gait analysis, as well as a brain MRI report explicitly assessing cerebellar volume and signal abnormalities, to confirm or exclude the coexisting cerebellar ataxia and vestibular schwannoma."}
+[2026-09-29 20:36:29] | Step 2 Observations:
+[2026-09-29 20:36:29] | Step 3 - Decision Making
+[2026-09-29 20:36:32] | Step 3 Decision: {"type": 1, "decision": "analyze"}
+[2026-09-29 20:36:32] | Step 3 parsed result: type=1, decision=analyze
+[2026-09-29 20:36:32] | Step 3 - Content Generation
+[2026-09-29 20:36:35] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Based on the MRI showing a vestibular schwannoma with fat and soft-tissue components, this structural lesion supports a neurological cause for imbalance, but the lifelong clumsiness and progressive worsening suggest a coexisting cerebellar ataxia, as the MRI lacks cerebellar assessment. The evidence confirms vestibular schwannoma but cannot verify cerebellar degeneration; however, the chronic pattern and absence of acute trauma or syncope favor a primary neurological disorder, likely dual pathology. All available imaging information is covered, yet neurological examination data remains absent, leaving the ataxia component unconfirmed."}
+[2026-09-29 20:36:46] | #### Step3: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ ```json
+{
+  "edit": [
+    {
+      "node_id": "node-4",
+      "confidence": 0.82,
+      "why": "The radiologist's analysis reinforces the MRI finding of a vestibular schwannoma as concrete structural evidence for a neurological cause, and explicitly favors a primary neurological disorder given the chronic, progressive pattern and absence of acute trauma or syncope. The expert also suggests dual pathology (schwannoma plus possible cerebellar degeneration), which aligns with the lifelong clumsiness. However, the lack of neurological examination and cerebellar assessment on MRI remains a limiting factor, so confidence is raised from 0.78 to 0.82."
+    },
+    {
+      "node_id": "node-5",
+      "confidence": 0.5,
+      "why": "The radiologist confirms the vestibular schwannoma on MRI as direct anatomical evidence for vestibular dysfunction, supporting the hypothesis. However, the expert also notes that the schwannoma alone cannot explain lifelong clumsiness and progressive worsening, indicating a possible coexisting cerebellar process. This partial support raises confidence slightly from 0.45 to 0.5, acknowledging the structural basis while recognizing its incomplete explanatory power."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.08,
+      "why": "The radiologist explicitly states that the chronic pattern and absence of acute trauma or syncope favor a primary neurological disorder, directly contradicting cardiovascular syncope as a cause. The lifelong symptoms and progressive nature further refute this hypothesis. Confidence is reduced from 0.1 to 0.08."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.12,
+      "why": "The radiologist emphasizes an underlying neurological disorder causing the fall rather than traumatic injury from the fall, and notes no acute trauma indicators. The chronic, progressive symptom pattern and lack of acute injury evidence support refuting this hypothesis. Confidence is slightly reduced from 0.15 to 0.12."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.65,
+      "why": "The radiologist explicitly suggests a coexisting cerebellar ataxia due to the lifelong clumsiness and progressive worsening, and notes the MRI lacks cerebellar assessment, leaving this hypothesis unexcluded. The expert's support for an additional degenerative process strengthens the cerebellar/spinocerebellar ataxia hypothesis, raising confidence from 0.6 to 0.65."
+    },
+    {
+      "node_id": "node-13",
+      "confidence": 0.68,
+      "why": "The radiologist confirms the vestibular schwannoma on MRI as concrete structural evidence, supporting its role in imbalance and vertigo. However, the expert also notes that the schwannoma alone cannot explain lifelong clumsiness, suggesting it is a contributing factor rather than the sole cause. This nuanced support raises confidence slightly from 0.65 to 0.68."
+    },
+    {
+      "node_id": "node-14",
+      "confidence": 0.55,
+      "why": "The radiologist explicitly suggests a coexisting degenerative cerebellar disorder due to the lifelong clumsiness and progressive worsening, and notes the MRI lacks cerebellar assessment, leaving this possibility open. This expert support strengthens the hypothesis, raising confidence from 0.5 to 0.55, though it remains unconfirmed without neurological examination and detailed imaging."
+    },
+    {
+      "node_id": "node-15",
+      "confidence": 0.6,
+      "why": "The radiologist's analysis explicitly supports dual pathology—vestibular schwannoma plus a coexisting cerebellar ataxia—which directly aligns with this hypothesis. The expert notes the MRI confirms the schwannoma but lacks cerebellar assessment, leaving the ataxia component unverified yet plausible given the lifelong symptoms. This support raises confidence from 0.55 to 0.6."
+    },
+    {
+      "node_id": "node-16",
+      "confidence": 0.35,
+      "why": "The radiologist's analysis notes the schwannoma could be associated with cerebellar compression, and the MRI findings support this mechanistic link. However, the expert emphasizes that lifelong clumsiness points more to a primary cerebellar process rather than secondary compression, reducing the likelihood of this hypothesis. Confidence is slightly raised from 0.3 to 0.35, acknowledging the plausible mechanism but recognizing its limitations."
+    },
+    {
+      "node_id": "node-17",
+      "confidence": 0.2,
+      "why": "The radiologist's analysis suggests a coexisting degenerative process, which could include spinocerebellar ataxia, and notes the MRI lacks cerebellar assessment, leaving this possibility open. However, the expert does not specifically mention genetic ataxia, and the schwannoma is confirmed as a real lesion rather than purely incidental. This slightly raises confidence from 0.15 to 0.2, but it remains a less likely explanation given the confirmed schwannoma."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev002",
+      "label": "Radiologist confirms vestibular schwannoma on MRI as structural cause but notes lifelong symptoms suggest coexisting cerebellar ataxia",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "Radiologist states chronic progressive pattern and absence of acute trauma/syncope favor primary neurological disorder",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h002",
+      "label": "Patient has a primary progressive neurological disorder with vestibular schwannoma as a contributing factor",
+      "node_type": "Hypothesis",
+      "confidence": 0.7,
+      "why": "The radiologist's analysis confirms the vestibular schwannoma on MRI as structural evidence for a neurological cause of imbalance and vertigo, while also noting that lifelong clumsiness and progressive worsening suggest a coexisting degenerative process. The expert emphasizes the chronic, progressive nature and absence of acute trauma or syncope, favoring a primary neurological disorder. This hypothesis integrates the confirmed schwannoma as a contributing factor within a broader progressive neurological condition, explaining both acute episodes and chronic symptoms. Confidence is 0.7, reflecting strong support from imaging and expert analysis, though neurological examination data remain absent."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev002",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-10",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-14",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-15",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-6",
+      "relation": "refute"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-11",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    }
+  ]
+}
+```
+[2026-09-29 20:36:46] | Level: 2 Node: node-15 not the hypothesis with highest confidence, backtracking invoked
+[2026-09-29 20:36:46] | #### Step3: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-20', 'label': 'Patient has a primary progressive neurological disorder with vestibular schwannoma as a contributing factor', 'why': "The radiologist's analysis confirms the vestibular schwannoma on MRI as structural evidence for a neurological cause of imbalance and vertigo, while also noting that lifelong clumsiness and progressive worsening suggest a coexisting degenerative process. The expert emphasizes the chronic, progressive nature and absence of acute trauma or syncope, favoring a primary neurological disorder. This hypothesis integrates the confirmed schwannoma as a contributing factor within a broader progressive neurological condition, explaining both acute episodes and chronic symptoms. Confidence is 0.7, reflecting strong support from imaging and expert analysis, though neurological examination data remain absent.", 'score': 0.7, 'level': 2, 'supports': 4, 'refutes': 0}
+[2026-09-29 20:36:51] | #### Step3: Central agent decide to report or dive deeper
+
+ {
+  "type": 1,
+  "answer": "Primary progressive neurological disorder with schwannoma as contributing factor",
+  "report": "The patient's lifelong clumsiness and progressive balance issues, combined with MRI-confirmed vestibular schwannoma, suggest a primary neurological disorder. The radiologist's note that the schwannoma alone cannot explain lifelong symptoms supports a coexisting cerebellar or spinocerebellar ataxia. Chronic progression and absence of acute trauma or syncope refute cardiovascular and traumatic causes. Evidence strongly supports the integrated hypothesis of a primary progressive neurological disorder with the schwannoma as a contributing factor, though neurological examination and cerebellar MRI assessment are pending."
+}

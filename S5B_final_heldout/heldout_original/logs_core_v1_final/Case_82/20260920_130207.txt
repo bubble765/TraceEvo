@@ -1,0 +1,298 @@
+[2026-09-20 13:02:13] | #### Here are the reponse of ingest function -- generating basic symptom and evidence nodes:
+
+ {
+  "symptom_node": "Patient presented with tension-like headaches for several months, unrelieved by medical treatment",
+  "isolated_evidence": [
+    "Patient is a male veteran in his 40s with a history of posttraumatic stress disorder, traumatic brain injury, and chronic headaches",
+    "Patient had undergone tonsillectomy and adenoidectomy in childhood and reported no sinonasal symptoms, radiation exposure, or trauma",
+    "Head and neck examination including flexible nasopharyngolaryngoscopy showed bilateral fullness of the nasopharynx, with submucosal lesions appearing to be within the torus tubarii"
+  ]
+}
+[2026-09-20 13:02:29] | #### Here are the reponse of ingest function -- generating L1 hypos and corresponding relationship between evidence and hypos:
+
+ {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Nasopharyngeal lesion headache",
+      "confidence": 0.55,
+      "why": "node-4 reveals bilateral nasopharyngeal submucosal lesions, providing an organic source for headache; node-3 shows no sinonasal/radiation/trauma history but does not exclude such a lesion."
+    },
+    {
+      "id": "h002",
+      "label": "PTSD/TBI chronic headache",
+      "confidence": 0.25,
+      "why": "node-2 documents PTSD, traumatic brain injury, and chronic headaches, supporting a trauma-related or chronic pain headache mechanism."
+    },
+    {
+      "id": "h003",
+      "label": "Primary tension-type headache",
+      "confidence": 0.20,
+      "why": "Symptom pattern is tension-like and node-3 lacks red-flag exposures, supporting a primary headache; however node-4 nasopharyngeal lesion refutes this as the sole explanation."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "refute"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h003",
+      "relation": "refute"
+    }
+  ]
+}
+[2026-09-20 13:02:33] | #### Step1: Finding the current frontier 
+
+ {'node_id': 'node-5', 'label': 'Nasopharyngeal lesion headache', 'why': 'node-4 reveals bilateral nasopharyngeal submucosal lesions, providing an organic source for headache; node-3 shows no sinonasal/radiation/trauma history but does not exclude such a lesion.', 'score': 0.55, 'level': 1, 'supports': 1, 'refutes': 1}
+[2026-09-20 13:02:37] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name": "Radiologist"},
+  {"expert_name": "Pathologist"}
+]
+[2026-09-20 13:02:37] | Step 1 - Decision Making
+[2026-09-20 13:02:39] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-09-20 13:02:39] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-20 13:02:39] | Step 1 - Content Generation
+[2026-09-20 13:02:42] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's nasopharyngeal MRI or CT report to characterize the submucosal lesions (core imaging for confirming an organic nasopharyngeal source) and biopsy pathology results if available, as these are essential to verify the leading hypothesis of nasopharyngeal lesion headache."}
+[2026-09-20 13:02:46] | Step 1 Observations: Imaging Studies:    1. Brain MRI findings:       Image Title: Bilateral Nasopharyngeal Lesions on T2-Weighted Axial Noncontrast MRI       Image Description: Bilateral nasopharyngeal lesions with restricted diffusion on the diffusion weighted sequence
+Laboratory Tests:    1. Pathology: Benign respiratory mucosa with reactive lymphoid hyperplasia and mild chronic inflammation
+[2026-09-20 13:02:46] | Step 2 - Decision Making
+[2026-09-20 13:02:53] | Step 2 Decision: {"type":1,"decision":"retrieve"}
+[2026-09-20 13:02:53] | Step 2 parsed result: type=1, decision=retrieve
+[2026-09-20 13:02:53] | Step 2 - Content Generation
+[2026-09-20 13:03:02] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's high-resolution CT of the nasopharynx with contrast to evaluate for bony erosion, calcification, and exact extent of the bilateral submucosal lesions, which is essential to confirm the nasopharyngeal lesion as the organic cause of headache and to rule out skull base involvement."}
+[2026-09-20 13:03:04] | Step 2 Observations:
+[2026-09-20 13:03:04] | Step 3 - Decision Making
+[2026-09-20 13:03:08] | Step 3 Decision: {"type":1,"decision":"analyze"}
+[2026-09-20 13:03:08] | Step 3 parsed result: type=1, decision=analyze
+[2026-09-20 13:03:08] | Step 3 - Content Generation
+[2026-09-20 13:03:16] | Step 3 reponse: {"type":1,"decision":"analyze","content":"结合当前最可信的鼻咽部病变性头痛假设，现有MRI显示双侧咽鼓管圆枕黏膜下病变伴弥散受限，病理为良性呼吸性黏膜伴反应性淋巴增生及轻度慢性炎症，提示该病变为炎性/反应性而非恶性，为头痛提供了器质性来源。虽无鼻窦症状及放疗/外伤史，但并不能排除此病变。高分辨率增强CT未取得，颅底骨质破坏及病变精确范围尚未完全评估，但现有影像与病理已基本覆盖确认良性病变的核心信息，建议临床结合头痛特征考虑局部炎性病变所致，并继续随访。"}
+[2026-09-20 13:03:16] | Step 1 - Decision Making
+[2026-09-20 13:03:18] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-09-20 13:03:18] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-20 13:03:18] | Step 1 - Content Generation
+[2026-09-20 13:03:21] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's nasopharyngeal contrast-enhanced MRI and endoscopic biopsy pathology report (core evidence to confirm the nature and extent of the submucosal lesions and verify whether they cause headache)."}
+[2026-09-20 13:03:26] | Step 1 Observations: Imaging Studies:    1. Brain MRI findings:       Image Title: Bilateral Nasopharyngeal Lesions on T2-Weighted Axial Noncontrast MRI       Image Description: Bilateral nasopharyngeal lesions with restricted diffusion on the diffusion weighted sequence        2. Endoscopic examination:       Image Title: Intraoperative Endoscopic View of the Right Nasopharynx       Image Description: Enlarged, cystic-appearing torus tubarius with draining purulence after biopsy        - Laboratory Tests:    1. Pathology: Benign respiratory mucosa with reactive lymphoid hyperplasia and mild chronic inflammation
+[2026-09-20 13:03:26] | Step 2 - Decision Making
+[2026-09-20 13:03:33] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-20 13:03:33] | Step 2 parsed result: type=1, decision=retrieve
+[2026-09-20 13:03:33] | Step 2 - Content Generation
+[2026-09-20 13:03:39] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's contrast-enhanced nasopharyngeal MRI and tympanometry/audiometry results to delineate lesion extent and Eustachian tube dysfunction, plus detailed headache characteristics (location, duration, response to prior analgesics) to substantiate the causal link between the submucosal lesions and chronic headache."}
+[2026-09-20 13:03:41] | Step 2 Observations:
+[2026-09-20 13:03:41] | Step 3 - Decision Making
+[2026-09-20 13:03:43] | Step 3 Decision: {"type":1,"decision":"analyze"}
+[2026-09-20 13:03:43] | Step 3 parsed result: type=1, decision=analyze
+[2026-09-20 13:03:43] | Step 3 - Content Generation
+[2026-09-20 13:03:50] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with suspected nasopharyngeal lesion headache, MRI shows bilateral nasopharyngeal lesions with restricted diffusion, endoscopy reveals enlarged cystic torus tubarius with purulent drainage, and biopsy confirms benign reactive lymphoid hyperplasia with mild chronic inflammation. These findings support an organic inflammatory nasopharyngeal source capable of causing refractory headache, while weakening PTSD/TBI and primary tension-type headache explanations. Contrast-enhanced MRI and audiometry remain missing, but all currently retrievable key imaging and pathologic information is covered."}
+[2026-09-20 13:04:18] | #### Step1: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.78,
+      "why": "MRI demonstrates bilateral submucosal lesions in the torus tubarii with restricted diffusion, and biopsy confirms benign respiratory mucosa with reactive lymphoid hyperplasia and mild chronic inflammation; endoscopy also shows an enlarged cystic torus tubarius with purulent drainage. Expert analyses interpret these as an organic inflammatory/reactive nasopharyngeal source capable of producing refractory headache, which directly supports this hypothesis. The absence of sinonasal symptoms or prior radiation/trauma does not exclude the lesion, so confidence rises from 0.55 to 0.78, tempered by missing contrast-enhanced imaging and audiometry."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.15,
+      "why": "Although PTSD and TBI history are present, the newly confirmed organic inflammatory nasopharyngeal lesion provides a more compelling structural explanation for the refractory headache. Expert analyses explicitly weaken PTSD/TBI as the primary cause, and there is no direct evidence linking the PTSD/TBI severity to the current headache phenotype, so confidence is reduced from 0.25 to 0.15."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.1,
+      "why": "The tension-like headache pattern is compatible with primary tension-type headache, but the MRI/pathology-confirmed organic nasopharyngeal lesion and expert analyses weaken this explanation as the sole cause. The nasopharyngeal abnormality refutes primary tension-type headache as sufficient, so confidence is reduced from 0.2 to 0.1."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "MRI shows bilateral submucosal lesions in the torus tubarii with restricted diffusion",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Biopsy of the nasopharyngeal lesion reveals benign respiratory mucosa with reactive lymphoid hyperplasia and mild chronic inflammation",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "Endoscopy shows an enlarged cystic torus tubarius with purulent drainage",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "The nasopharyngeal lesions are benign reactive inflammatory lesions",
+      "node_type": "Hypothesis",
+      "confidence": 0.9,
+      "why": "MRI shows restricted diffusion in bilateral torus tubarii lesions, biopsy demonstrates benign respiratory mucosa with reactive lymphoid hyperplasia and mild chronic inflammation, and endoscopy reveals purulent drainage from an enlarged cystic torus tubarius. Expert analyses uniformly interpret these findings as inflammatory/reactive rather than malignant, supporting a benign reactive inflammatory process with high confidence."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "h001",
+      "dst": "node-7",
+      "relation": "refute"
+    }
+  ]
+}
+[2026-09-20 13:04:18] | Level: 1 Node: node-5 not the hypothesis with highest confidence, backtracking invoked
+[2026-09-20 13:04:18] | #### Step1: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-11', 'label': 'The nasopharyngeal lesions are benign reactive inflammatory lesions', 'why': 'MRI shows restricted diffusion in bilateral torus tubarii lesions, biopsy demonstrates benign respiratory mucosa with reactive lymphoid hyperplasia and mild chronic inflammation, and endoscopy reveals purulent drainage from an enlarged cystic torus tubarius. Expert analyses uniformly interpret these findings as inflammatory/reactive rather than malignant, supporting a benign reactive inflammatory process with high confidence.', 'score': 0.9, 'level': 1, 'supports': 3, 'refutes': 0}
+[2026-09-20 13:04:23] | #### Step2: Finding the current frontier 
+
+ {'node_id': 'node-11', 'label': 'The nasopharyngeal lesions are benign reactive inflammatory lesions', 'why': 'MRI shows restricted diffusion in bilateral torus tubarii lesions, biopsy demonstrates benign respiratory mucosa with reactive lymphoid hyperplasia and mild chronic inflammation, and endoscopy reveals purulent drainage from an enlarged cystic torus tubarius. Expert analyses uniformly interpret these findings as inflammatory/reactive rather than malignant, supporting a benign reactive inflammatory process with high confidence.', 'score': 0.9, 'level': 1, 'supports': 3, 'refutes': 0}
+[2026-09-20 13:04:28] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name": "Pathologist"},
+  {"expert_name": "Radiologist"}
+]
+[2026-09-20 13:04:28] | Step 1 - Decision Making
+[2026-09-20 13:04:37] | Step 1 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-20 13:04:37] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-20 13:04:37] | Step 1 - Content Generation
+[2026-09-20 13:04:45] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need contrast-enhanced nasopharyngeal MRI to delineate lesion enhancement and extent, tympanometry/audiometry to confirm Eustachian tube dysfunction, and a detailed headache diary (location, duration, analgesic response) to establish a temporal link between the submucosal lesions and refractory headache."}
+[2026-09-20 13:04:53] | Step 1 Observations:
+[2026-09-20 13:04:53] | Step 2 - Decision Making
+[2026-09-20 13:04:58] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-20 13:04:58] | Step 2 parsed result: type=1, decision=retrieve
+[2026-09-20 13:04:58] | Step 2 - Content Generation
+[2026-09-20 13:05:02] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's contrast-enhanced nasopharyngeal MRI to delineate lesion enhancement and extent, tympanometry/audiometry to confirm Eustachian tube dysfunction, and a detailed headache diary with temporal relationship to lesion onset for causal verification."}
+[2026-09-20 13:05:05] | Step 2 Observations:
+[2026-09-20 13:05:05] | Step 3 - Decision Making
+[2026-09-20 13:05:07] | Step 3 Decision: {"type":1,"decision":"analyze"}
+[2026-09-20 13:05:07] | Step 3 parsed result: type=1, decision=analyze
+[2026-09-20 13:05:07] | Step 3 - Content Generation
+[2026-09-20 13:05:15] | Step 3 reponse: {"type":1,"decision":"analyze","content":"MRI, endoscopy, and biopsy consistently reveal bilateral torus tubarius lesions with restricted diffusion, purulent drainage, and reactive lymphoid hyperplasia, confirming benign inflammatory nasopharyngeal lesions. This structural abnormality better explains the chronic tension-like headaches than PTSD/TBI or primary tension-type headache, which is refuted by imaging and pathology. Though contrast-enhanced MRI and headache diary are absent, all key diagnostic evidence currently available is covered and supports this conclusion."}
+[2026-09-20 13:05:15] | Step 1 - Decision Making
+[2026-09-20 13:05:20] | Step 1 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-20 13:05:20] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-20 13:05:20] | Step 1 - Content Generation
+[2026-09-20 13:05:24] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's nasopharyngeal endoscopy report documenting the purulent drainage and the high-resolution contrast-enhanced CT of the nasopharynx to assess bony erosion and lesion extent, as these are essential to confirm the benign inflammatory nature and exclude skull base involvement."}
+[2026-09-20 13:05:27] | Step 1 Observations: Intraoperative Endoscopic View of the Right Nasopharynx: Enlarged, cystic-appearing torus tubarius with draining purulence after biopsy
+[2026-09-20 13:05:27] | Step 2 - Decision Making
+[2026-09-20 13:05:29] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-09-20 13:05:29] | Step 2 parsed result: type=1, decision=retrieve
+[2026-09-20 13:05:29] | Step 2 - Content Generation
+[2026-09-20 13:05:33] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the high-resolution contrast-enhanced CT of the nasopharynx to assess bony erosion, calcification, and exact lesion extent, as this is the key missing imaging to confirm the benign inflammatory nature and exclude skull base involvement."}
+[2026-09-20 13:05:35] | Step 2 Observations:
+[2026-09-20 13:05:35] | Step 3 - Decision Making
+[2026-09-20 13:05:37] | Step 3 Decision: {"type": 1, "decision": "analyze"}
+[2026-09-20 13:05:37] | Step 3 parsed result: type=1, decision=analyze
+[2026-09-20 13:05:37] | Step 3 - Content Generation
+[2026-09-20 13:05:42] | Step 3 reponse: {"type":1,"decision":"analyze","content":"MRI shows bilateral torus tubarii lesions with restricted diffusion, biopsy confirms benign reactive lymphoid hyperplasia, and endoscopy reveals purulent drainage. These findings consistently indicate benign inflammatory nasopharyngeal lesions as the organic cause of refractory headache, outweighing PTSD/TBI history and refuting primary tension-type headache. All key imaging and pathologic information is covered; CT was not retrieved but current evidence suffices."}
+[2026-09-20 13:06:26] | #### Step2: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.85,
+      "why": "Both pathologist and radiologist analyses independently conclude that the MRI, endoscopy, and biopsy findings—bilateral torus tubarii lesions with restricted diffusion, reactive lymphoid hyperplasia, and purulent drainage—confirm benign inflammatory nasopharyngeal lesions as the organic cause of the refractory headache, outweighing the PTSD/TBI history and refuting primary tension-type headache. This directly strengthens the nasopharyngeal lesion headache hypothesis; confidence is raised from 0.78 to 0.85, tempered only by the absence of contrast-enhanced MRI and a headache diary."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.08,
+      "why": "Expert analyses explicitly state that the confirmed organic nasopharyngeal lesion better explains the chronic tension-like headaches than PTSD/TBI history, and there is no direct evidence linking PTSD/TBI severity to the current headache phenotype. Therefore the PTSD/TBI chronic headache hypothesis is further weakened; confidence is reduced from 0.15 to 0.08."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.05,
+      "why": "Expert analyses explicitly refute primary tension-type headache as sufficient because imaging and pathology demonstrate an organic nasopharyngeal inflammatory lesion that accounts for the headache. The tension-like headache pattern alone is no longer compelling; confidence is reduced from 0.10 to 0.05."
+    },
+    {
+      "node_id": "node-11",
+      "confidence": 0.95,
+      "why": "Both pathologist and radiologist analyses consistently interpret the MRI restricted diffusion, biopsy reactive lymphoid hyperplasia, and endoscopic purulent drainage as confirming benign inflammatory nasopharyngeal lesions. This reinforces the benign reactive inflammatory process hypothesis; confidence is increased from 0.90 to 0.95, with the absent contrast-enhanced MRI and unretrieved CT noted as non-critical limitations."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "h001",
+      "label": "Chronic tension-like headaches are caused by benign inflammatory nasopharyngeal lesions",
+      "node_type": "Hypothesis",
+      "confidence": 0.85,
+      "why": "The expert analyses uniformly conclude that the MRI, biopsy, and endoscopy findings confirm benign inflammatory nasopharyngeal lesions as the organic cause of the refractory headache, outweighing PTSD/TBI history and refuting primary tension-type headache. This combined causal attribution is directly supported by the confirmed benign reactive inflammatory process and the existing nasopharyngeal lesion headache hypothesis; confidence is 0.85 because contrast-enhanced MRI and headache diary are absent and CT was not retrieved."
+    }
+  ],
+  "edges": [
+    {"src": "node-8", "dst": "h001", "relation": "support"},
+    {"src": "node-9", "dst": "h001", "relation": "support"},
+    {"src": "node-10", "dst": "h001", "relation": "support"},
+    {"src": "node-11", "dst": "h001", "relation": "support"},
+    {"src": "node-5", "dst": "h001", "relation": "support"},
+    {"src": "h001", "dst": "node-6", "relation": "refute"},
+    {"src": "h001", "dst": "node-7", "relation": "refute"}
+  ]
+}
+[2026-09-20 13:06:26] | #### Step2: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-11', 'label': 'The nasopharyngeal lesions are benign reactive inflammatory lesions', 'why': {'why': 'Both pathologist and radiologist analyses consistently interpret the MRI restricted diffusion, biopsy reactive lymphoid hyperplasia, and endoscopic purulent drainage as confirming benign inflammatory nasopharyngeal lesions. This reinforces the benign reactive inflammatory process hypothesis; confidence is increased from 0.90 to 0.95, with the absent contrast-enhanced MRI and unretrieved CT noted as non-critical limitations.'}, 'score': 0.95, 'level': 1, 'supports': 3, 'refutes': 0}
+[2026-09-20 13:06:41] | #### Step2: Central agent decide to report or dive deeper
+
+ {
+  "type": 1,
+  "answer": "Benign nasopharyngeal headache",
+  "report": "Endoscopic fullness with purulent drainage, MRI showing bilateral torus tubarius lesions with restricted diffusion, and biopsy revealing reactive lymphoid hyperplasia consistently support node-11 (benign reactive inflammatory lesions, 0.95). This confirmed organic lesion refutes PTSD/TBI chronic headache (0.08) and primary tension-type headache (0.05) as sufficient causes, and directly supports node-12: chronic tension-like headaches are caused by benign inflammatory nasopharyngeal lesions (0.85). The frontier is sufficiently refined; no further sub-hypothesis is needed. Confidence is moderate-high, tempered only by absent contrast-enhanced MRI, no headache diary, and unretrieved CT."
+}

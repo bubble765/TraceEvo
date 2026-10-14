@@ -1,0 +1,46 @@
+# TraceEvo S1 configuration (amendment §5).
+#
+# `enabled: false` must degrade to exactly the S0 GoS baseline: every hook in
+# traceevo/hooks.py becomes a no-op and no provenance file is written.
+traceevo:
+  enabled: true
+  # provenance_only: record and check, never influence GoS reasoning.
+  # S1 forbids acting on audit results (amendment §9).
+  provenance_only: true
+
+  # Directory for event logs, deltas, integrity reports and provenance graphs.
+  # Empty -> <project root>/traceevo_runs
+  output_dir: ""
+
+  # T1: LLM response record/replay. off | record | replay
+  #   record -> run once, persist every request/response pair
+  #   replay -> serve recorded responses; a cache miss means instrumentation
+  #             changed the prompt or the control flow and (strict) raises
+  replay:
+    mode: "off"
+    recording_path: ""
+    strict: true
+
+  # S2 §1 D1: identity of the backbone that produced the events.
+  # `model_id` is what the config names -- reliable, but it is a *name*, not a
+  # build. `model_version` stays null unless the provider reports one, and
+  # `version_observable` says which of the two a reader is looking at, so no
+  # downstream claim can overstate it. Empty model_id -> the GoS backbone from
+  # configs/LLM_Configs.yaml (default_model_path).
+  model_id: ""
+  model_version: null
+  version_observable: false
+
+  # Deterministic source classification (amendment §1 D2). No LLM judgement.
+  source_classification:
+    verbatim: true
+    paraphrase: true
+    paraphrase_min_token_coverage: 0.6
+    min_verbatim_chars: 25
+    min_content_tokens: 4
+
+  # Optional report-level audit/recovery. The CLI switch enables this mode
+  # and disables the pre-commit grounding guard for that run.
+  post_report_audit:
+    enabled: false
+    max_retries: 1

@@ -1,0 +1,973 @@
+{
+  "task_id": "case-9",
+  "n_nodes": 26,
+  "n_edges": 35,
+  "nodes": [
+    {
+      "event_id": "evt-case-9-00001",
+      "task_id": "case-9",
+      "step_id": 0,
+      "timestamp": "2026-10-08T12:41:35.057+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "c171ee1a35a408fcf00375fc738ea45779bcc9b1c7ddb89919aa20f3d4843b91",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\"symptom_node\":\"A 32-year-old woman had painless unilateral blurring of vision in her left eye for the past three months\",\"isolated_evidence\":[\"Best-corrected visual acuity was 20/20 in the right eye and 20/250 in the left eye; color vision and Humphrey visual field analysis 24-2 were normal in the right eye, while the left eye exhibited severely depressed fields with central 10 degrees around fixation preserved\",\"Right eye examination was normal with a cup disc ratio of 0.5; left eye showed engorged episcleral vessels, a relative afferent pupillary defect, grade III nuclear sclerosis with cortical cataract, and a cup disc ratio of 0.9 on fundus examination\",\"Intraocular pressure was 16 mmHg in the right eye and 42 mmHg in the left eye by Goldman applanation tonometry; gonioscopy indicated open angles in both eyes\",\"There was no proptosis or audible bruit, and extraocular movements were full\"]}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00002",
+      "task_id": "case-9",
+      "step_id": 0,
+      "timestamp": "2026-10-08T12:41:51.620+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c171ee1a35a408fcf00375fc738ea45779bcc9b1c7ddb89919aa20f3d4843b91",
+      "event_hash": "2efcc801662ccb2c0c45fc701a0642f62ac7762ceaa253ccc34fb54f955ea525",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\n  \"candidates\": [\n    {\n      \"id\": \"h001\",\n      \"label\": \"Left eye glaucoma (open-angle)\",\n      \"confidence\": 0.9,\n      \"why\": \"node-2 field/VA defect, node-3 cupping/RAPD, node-4 IOP 42 open angles, node-5 no orbital signs support glaucomatous optic neuropathy.\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Left eye cataract\",\n      \"confidence\": 0.3,\n      \"why\": \"node-3 nuclear sclerosis/cortical cataract and node-2 reduced VA support cataract; node-4 high IOP suggests glaucoma as primary cause.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"Secondary open-angle glaucoma\",\n      \"confidence\": 0.4,\n      \"why\": \"node-3 engorged episcleral vessels and node-4 open-angle high IOP suggest secondary glaucoma; node-5 no proptosis/bruit argues against CCF.\"\n    }\n  ],\n  \"edges\": [\n    {\"src\": \"node-2\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-2\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h003\", \"relation\": \"support\"},\n    {\"src\": \"node-4\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-4\", \"dst\": \"h003\", \"relation\": \"support\"},\n    {\"src\": \"node-4\", \"dst\": \"h002\", \"relation\": \"refute\"},\n    {\"src\": \"node-5\", \"dst\": \"h003\", \"relation\": \"refute\"}\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00003",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:42:03.913+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2efcc801662ccb2c0c45fc701a0642f62ac7762ceaa253ccc34fb54f955ea525",
+      "event_hash": "17a80f3d361cd3d137b78e6b0b8690af9304a5b4796053b8f94da7d8ddbe6ae9",
+      "payload": {
+        "response": "[{\"expert_name\":\"Radiologist\",\"planning_intent\":\"interpret_existing_evidence\"}]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Left eye glaucoma (open-angle)",
+          "why": "node-2 field/VA defect, node-3 cupping/RAPD, node-4 IOP 42 open angles, node-5 no orbital signs support glaucomatous optic neuropathy.",
+          "score": 0.9,
+          "level": 1,
+          "supports": 3,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-9-00004",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:42:03.916+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "17a80f3d361cd3d137b78e6b0b8690af9304a5b4796053b8f94da7d8ddbe6ae9",
+      "event_hash": "c2efea7f8e35ac73807088aed9419096aaa57d9103a032c8e18c2dcf059ff59b",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00005",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:43:03.421+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c2efea7f8e35ac73807088aed9419096aaa57d9103a032c8e18c2dcf059ff59b",
+      "event_hash": "ba8bc5759de13a12fd3d69eccd0a165ae905ac285acb39dfd78de47f8f0e251b",
+      "payload": {
+        "query": "To verify left open-angle glaucoma, core items are reliable visual fields, optic nerve OCT/RNFL, gonioscopy, diurnal IOP, pachymetry and secondary cause screen. Current belief already has IOP 42, open angles, CDR 0.9 and field loss, but lacks OCT/RNFL, serial IOP and exclusion data; retrieving these is critical to confirm glaucomatous optic neuropathy and rule out secondary open-angle mechanisms.",
+        "hit": true,
+        "retrieval_output": "Neuro-imaging showed no evidence of tumor, thrombosis, or arterio-venous malformations..",
+        "record_hash": "e9c8136e4dc31f90dbd4e41bdffb3227e55bb842d2e25fb34e1ed4db4230a685",
+        "started_at": "2026-10-08T12:42:56.782+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00006",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:43:03.425+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ba8bc5759de13a12fd3d69eccd0a165ae905ac285acb39dfd78de47f8f0e251b",
+      "event_hash": "4f05d4b9631aa2d3dce389977a1cfdbc83dccebb4c526c5af94ab58352626c52",
+      "payload": {
+        "query": "To verify left open-angle glaucoma, core items are reliable visual fields, optic nerve OCT/RNFL, gonioscopy, diurnal IOP, pachymetry and secondary cause screen. Current belief already has IOP 42, open angles, CDR 0.9 and field loss, but lacks OCT/RNFL, serial IOP and exclusion data; retrieving these is critical to confirm glaucomatous optic neuropathy and rule out secondary open-angle mechanisms.",
+        "hit": true,
+        "retrieval_output": "Neuro-imaging showed no evidence of tumor, thrombosis, or arterio-venous malformations..",
+        "record_hash": "e9c8136e4dc31f90dbd4e41bdffb3227e55bb842d2e25fb34e1ed4db4230a685",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00007",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:43:10.549+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0001",
+        "rec-case-9-0002"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "4f05d4b9631aa2d3dce389977a1cfdbc83dccebb4c526c5af94ab58352626c52",
+      "event_hash": "2496fda978bbb36f5733aa41f76d890baeb7848f9ecfea6fccf31e256532da81",
+      "payload": {
+        "analysis": "结合无痛性左眼视力模糊、RAPD、视野缺损、CDR 0.9、IOP 42 mmHg及房角开放，左眼开角型青光眼为最可信诊断；视网膜神经纤维层OCT、动态眼压和角膜厚度尚未获取，但现有证据已足以排除白内障主因，且无突眼/杂音不支持颈动脉海绵窦瘘；神经影像阴性进一步排除继发性占位或血管畸形。当前关键信息已覆盖，建议按原发性开角型青光眼降眼压并随访。",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00008",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:43:42.206+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-9",
+        "node-10"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2496fda978bbb36f5733aa41f76d890baeb7848f9ecfea6fccf31e256532da81",
+      "event_hash": "6c8615b343493ae05a29aab6e4db939d63d0fb3fe6e30e851547fa0e1bd34484",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.95,\n      \"why\": \"New Radiologist analysis supports left open-angle glaucoma as the most credible diagnosis, and the newly noted negative neuroimaging excludes secondary mass/vascular malformation. Combined with existing evidence of asymmetric visual field loss, RAPD, CDR 0.9, IOP 42 mmHg with open angles, and no orbital signs, confidence increases from 0.9 to 0.95; pending retinal nerve fiber layer OCT, dynamic IOP, and corneal thickness prevent certainty.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.2,\n      \"why\": \"The Radiologist analysis states cataract is insufficient to explain the full picture and excludes it as the main cause. High IOP, RAPD, severe field loss, and CDR 0.9 all point to glaucoma, so cataract is likely a coexisting finding rather than the primary explanation; confidence decreases from 0.3 to 0.2.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.3,\n      \"why\": \"Engorged episcleral vessels and open-angle high IOP keep secondary open-angle glaucoma possible, but the Radiologist notes no proptosis or bruit and negative neuroimaging, which exclude cavernous-carotid fistula, mass, and vascular malformation. These findings reduce the likelihood of a secondary mechanism relative to primary open-angle glaucoma; confidence decreases from 0.4 to 0.3.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Neuroimaging was negative, with no evidence of intracranial mass or vascular malformation\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Left eye primary open-angle glaucoma\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.9,\n      \"why\": \"Painless unilateral left visual blurring, severe asymmetric visual field loss, RAPD, CDR 0.9, IOP 42 mmHg with open angles, and no proptosis/bruit support primary open-angle glaucoma. The Radiologist analysis considers left open-angle glaucoma most credible, and negative neuroimaging excludes major secondary causes. Confidence is 0.9 because retinal nerve fiber layer OCT, dynamic IOP, and corneal thickness are still pending.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"h002\",\n      \"dst\": \"node-6\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"h002\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00009",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:43:56.253+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "6c8615b343493ae05a29aab6e4db939d63d0fb3fe6e30e851547fa0e1bd34484",
+      "event_hash": "a8ff6591f26be266d00528d8f0bf70e08824e525d7016a2970810b5477802d80",
+      "payload": {
+        "response": "[{\"expert_name\":\"Radiologist\",\"planning_intent\":\"interpret_existing_evidence\"}]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Left eye glaucoma (open-angle)",
+          "why": "New Radiologist analysis supports left open-angle glaucoma as the most credible diagnosis, and the newly noted negative neuroimaging excludes secondary mass/vascular malformation. Combined with existing evidence of asymmetric visual field loss, RAPD, CDR 0.9, IOP 42 mmHg with open angles, and no orbital signs, confidence increases from 0.9 to 0.95; pending retinal nerve fiber layer OCT, dynamic IOP, and corneal thickness prevent certainty.",
+          "score": 0.95,
+          "level": 1,
+          "supports": 4,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-9-00010",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:43:56.256+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "a8ff6591f26be266d00528d8f0bf70e08824e525d7016a2970810b5477802d80",
+      "event_hash": "972a0c1727b021a433963b03c1882037f3ab3e613f71f6db8cf27d212de21ee6",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00011",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:44:08.827+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "972a0c1727b021a433963b03c1882037f3ab3e613f71f6db8cf27d212de21ee6",
+      "event_hash": "ab8f9f9bbb9dfe579395cab86967ea1d752fb1d3a84e508baaac1eff708e17e4",
+      "payload": {
+        "query": "Need the patient's RNFL/OCT of the optic nerve, serial diurnal IOP measurements, and central corneal pachymetry (core missing data to confirm left glaucomatous optic neuropathy and refine risk after open-angle, CDR 0.9, IOP 42, and negative neuroimaging).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "d1760e159255407994582a3a6cad94db9564232baace2b4371ed6d291294c9f9",
+        "started_at": "2026-10-08T12:44:05.453+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00012",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:44:08.830+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ab8f9f9bbb9dfe579395cab86967ea1d752fb1d3a84e508baaac1eff708e17e4",
+      "event_hash": "60a2f4ac9befc68337e500df691b0c3b32e559a327c44df1b4434ad5160deaf6",
+      "payload": {
+        "query": "Need the patient's RNFL/OCT of the optic nerve, serial diurnal IOP measurements, and central corneal pachymetry (core missing data to confirm left glaucomatous optic neuropathy and refine risk after open-angle, CDR 0.9, IOP 42, and negative neuroimaging).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "d1760e159255407994582a3a6cad94db9564232baace2b4371ed6d291294c9f9",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00013",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:44:21.849+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "60a2f4ac9befc68337e500df691b0c3b32e559a327c44df1b4434ad5160deaf6",
+      "event_hash": "573bed4c995971f4b04271c4922462bf18cc94234a7ecaded5ca28cf37ddb0d4",
+      "payload": {
+        "query": "Need the patient's RNFL OCT numeric report, serial diurnal IOP curve, and central corneal pachymetry values (the only missing core data to confirm left glaucomatous optic neuropathy and exclude secondary IOP elevation; prior request yielded no values).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "9d9f98e3a7bcac6dc2914bda5c51d4a9c97b57b34ddec0da1704a8278078b046",
+        "started_at": "2026-10-08T12:44:19.679+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00014",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:44:21.852+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "573bed4c995971f4b04271c4922462bf18cc94234a7ecaded5ca28cf37ddb0d4",
+      "event_hash": "00b2851ecb060397b9371a99270b00c163fe1758626b868455bf236e8d64757d",
+      "payload": {
+        "query": "Need the patient's RNFL OCT numeric report, serial diurnal IOP curve, and central corneal pachymetry values (the only missing core data to confirm left glaucomatous optic neuropathy and exclude secondary IOP elevation; prior request yielded no values).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "9d9f98e3a7bcac6dc2914bda5c51d4a9c97b57b34ddec0da1704a8278078b046",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00015",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:44:30.957+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0003",
+        "rec-case-9-0004",
+        "rec-case-9-0005",
+        "rec-case-9-0006"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "00b2851ecb060397b9371a99270b00c163fe1758626b868455bf236e8d64757d",
+      "event_hash": "05b4a06cc53f40ed5d55f40affc12a69e5368ac53d707cb4e0786d5d9c15055d",
+      "payload": {
+        "analysis": "Max retrieval reached. Available data support left eye primary open-angle glaucoma (confidence ~0.95): painless left blurring, asymmetric field loss, RAPD, CDR 0.9, IOP 42 mmHg with open angles, and negative neuroimaging excluding mass/vascular causes. Cataract is insufficient. RNFL OCT, serial IOP, and pachymetry remain missing, limiting final certainty; all retrieved key information is covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00016",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:45:11.033+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-11"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "05b4a06cc53f40ed5d55f40affc12a69e5368ac53d707cb4e0786d5d9c15055d",
+      "event_hash": "eb11dbcea7eb4725bfb13c81054bebeb8e87ab4e2337b7fd4ac81910004e63bb",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-10\",\n      \"confidence\": 0.92,\n      \"why\": \"The Radiologist analysis explicitly endorses left eye primary open-angle glaucoma with confidence ~0.95 and notes negative neuroimaging, which excludes intracranial mass or vascular malformation as secondary causes. Together with the severe asymmetric visual field loss, relative afferent pupillary defect, cup-to-disc ratio 0.9, and intraocular pressure of 42 mmHg with open angles, this argues for a slight increase from 0.9. It is kept below the broader left open-angle glaucoma because retinal nerve fiber layer OCT, dynamic intraocular pressure measurement, and corneal pachymetry are still pending and prevent final certainty.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"h002\",\n      \"label\": \"Left eye glaucomatous optic neuropathy\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.9,\n      \"why\": \"Severely depressed left visual fields with only the central 10 degrees around fixation preserved, a left relative afferent pupillary defect, and a cup-to-disc ratio of 0.9 together indicate structural and functional damage to the left optic nerve. The markedly elevated left intraocular pressure of 42 mmHg with open angles provides the plausible mechanism for this glaucomatous optic neuropathy, and the Radiologist analysis treats this as the most credible process. Confidence is 0.9 because retinal nerve fiber layer OCT and dynamic intraocular pressure data are still pending.\"\n    }\n  ],\n  \"edges\": [\n    {\"src\": \"node-2\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-4\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"h002\", \"dst\": \"node-10\", \"relation\": \"support\"}\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00017",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:45:58.714+00:00",
+      "event_type": "DRILL_DOWN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-12",
+        "node-13",
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "eb11dbcea7eb4725bfb13c81054bebeb8e87ab4e2337b7fd4ac81910004e63bb",
+      "event_hash": "595dbb287a419cf3a856c98415cda15e23ab9d7ac293f95cf26c3eff177d5ce6",
+      "payload": {
+        "level_from": 1,
+        "level_to": 2,
+        "candidates": [
+          "Left eye primary open-angle glaucoma",
+          "Left eye secondary open-angle glaucoma"
+        ],
+        "applied": true
+      }
+    },
+    {
+      "event_id": "evt-case-9-00018",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:46:04.155+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-12"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-12"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "595dbb287a419cf3a856c98415cda15e23ab9d7ac293f95cf26c3eff177d5ce6",
+      "event_hash": "58823b17793658283195049a4b0e674d84d87acdc0f7acbe1100b7954431fb9a",
+      "payload": {
+        "response": "[\n  {\n    \"expert_name\": \"Radiologist\",\n    \"planning_intent\": \"interpret_existing_evidence\"\n  }\n]",
+        "focus": {
+          "node_id": "node-12",
+          "label": "Left eye primary open-angle glaucoma",
+          "why": "The current frontier 'Left eye glaucoma (open-angle)' is a broad category that must be refined into primary versus secondary open-angle glaucoma. Primary open-angle glaucoma is the leading fine-grained subcategory: open angles in both eyes (node-4), a markedly elevated left intraocular pressure of 42 mmHg (node-4), cup-to-disc ratio 0.9 (node-3), left relative afferent pupillary defect with a severely depressed left visual field (nodes 2-3), and negative neuroimaging excluding mass/vascular causes (node-9) all support it, while the absence of proptosis or bruit (node-5) refutes a secondary vascular mechanism.",
+          "score": 0.85,
+          "level": 2,
+          "supports": 0,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-9-00019",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:46:04.158+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-12"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "58823b17793658283195049a4b0e674d84d87acdc0f7acbe1100b7954431fb9a",
+      "event_hash": "6b6294df3bd050424a9b716b6c48eccee47df0f1114678bcf3cd2e94fb23044d",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00020",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:46:17.454+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "6b6294df3bd050424a9b716b6c48eccee47df0f1114678bcf3cd2e94fb23044d",
+      "event_hash": "20ff777ca8ba1b4d61403bec6fe35e585d4ae5a4c5e21b418310a7996a1caea8",
+      "payload": {
+        "query": "Need the actual left optic nerve RNFL/GCC OCT printout with numeric thickness and deviation maps, the timed serial diurnal IOP curve, and central corneal pachymetry values; prior requests returned no data, and these are the only missing core items to confirm left primary open-angle glaucomatous optic neuropathy and exclude secondary IOP elevation.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "d83d28cd6d5beeda40477aaaddf65e253024683b6405b23d872d7dd722ca1046",
+        "started_at": "2026-10-08T12:46:14.954+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00021",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:46:17.458+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "20ff777ca8ba1b4d61403bec6fe35e585d4ae5a4c5e21b418310a7996a1caea8",
+      "event_hash": "344aadc0ce3699819bcfdb4bb930ae29aaf41200ddb27342b8fd08eaa8ec4d13",
+      "payload": {
+        "query": "Need the actual left optic nerve RNFL/GCC OCT printout with numeric thickness and deviation maps, the timed serial diurnal IOP curve, and central corneal pachymetry values; prior requests returned no data, and these are the only missing core items to confirm left primary open-angle glaucomatous optic neuropathy and exclude secondary IOP elevation.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "d83d28cd6d5beeda40477aaaddf65e253024683b6405b23d872d7dd722ca1046",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00022",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:46:34.656+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0009"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "344aadc0ce3699819bcfdb4bb930ae29aaf41200ddb27342b8fd08eaa8ec4d13",
+      "event_hash": "69ed29f6b575e85d1cd46e6e25e59a572523c9e6570734a32698875f7de65fcd",
+      "payload": {
+        "query": "Need documented prior topical/systemic steroid exposure, ocular trauma, uveitis, and pseudoexfoliation/pigment dispersion findings plus formal gonioscopy angle grading and stereo optic disc photographs (core to confirm primary open-angle glaucoma and exclude secondary open-angle mechanisms; RNFL OCT, diurnal IOP, and pachymetry requests already yielded no data).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "c7e9cd363c59284a27cc7d32a9c4941fb6a18feaac6398f0a22401983b841dea",
+        "started_at": "2026-10-08T12:46:31.967+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00023",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:46:34.659+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0010"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "69ed29f6b575e85d1cd46e6e25e59a572523c9e6570734a32698875f7de65fcd",
+      "event_hash": "8c156e64d5e4878f7328bfcd8fbcbf0535758d862d838a1d1e78d1e2a75972ed",
+      "payload": {
+        "query": "Need documented prior topical/systemic steroid exposure, ocular trauma, uveitis, and pseudoexfoliation/pigment dispersion findings plus formal gonioscopy angle grading and stereo optic disc photographs (core to confirm primary open-angle glaucoma and exclude secondary open-angle mechanisms; RNFL OCT, diurnal IOP, and pachymetry requests already yielded no data).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "c7e9cd363c59284a27cc7d32a9c4941fb6a18feaac6398f0a22401983b841dea",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00024",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:46:53.752+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0007",
+        "rec-case-9-0008",
+        "rec-case-9-0009",
+        "rec-case-9-0010"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8c156e64d5e4878f7328bfcd8fbcbf0535758d862d838a1d1e78d1e2a75972ed",
+      "event_hash": "0d5025e2e66cb88f33ccbe09c875df0f8e86f3b2de4588d67eebc56cc5f4d079",
+      "payload": {
+        "analysis": "32F with high-confidence left primary open-angle glaucoma and glaucomatous optic neuropathy: IOP 42, open angles, CDR 0.9, left RAPD, severe asymmetric field loss, negative neuroimaging, and no proptosis/bruit support this. RNFL OCT, diurnal IOP, and pachymetry remain unavailable after retrieval, but all available key information is covered; start IOP-lowering therapy.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00025",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:47:19.516+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-14"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0d5025e2e66cb88f33ccbe09c875df0f8e86f3b2de4588d67eebc56cc5f4d079",
+      "event_hash": "e9bfee5d280fe18fdd0f201a335df1e72d584bf89e944d8c512953d7cceeb5f1",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-10\",\n      \"confidence\": 0.93,\n      \"why\": \"The Radiologist explicitly endorses left eye primary open-angle glaucoma with high confidence and recommends starting intraocular pressure-lowering therapy, which reinforces the diagnosis beyond the previous reading. This layers onto the severe asymmetric visual field loss, left relative afferent pupillary defect, cup-to-disc ratio 0.9, and left intraocular pressure of 42 mmHg with open angles, while negative neuroimaging excludes mass or vascular secondary causes. Confidence is modestly raised from 0.92 to 0.93 and kept below certainty because retinal nerve fiber layer OCT, dynamic intraocular pressure measurement, and corneal pachymetry remain unavailable after retrieval.\"\n    },\n    {\n      \"node_id\": \"node-11\",\n      \"confidence\": 0.91,\n      \"why\": \"Severe asymmetric left visual field depression with only the central 10 degrees preserved, a left relative afferent pupillary defect, and a cup-to-disc ratio of 0.9 indicate structural and functional left optic nerve damage. The Radiologist treats glaucomatous optic neuropathy as the most credible process, driven by the markedly elevated left intraocular pressure of 42 mmHg with open angles, and the treatment recommendation for intraocular pressure reduction further supports it. Confidence is slightly raised from 0.9 to 0.91 to reflect this expert endorsement, though retinal nerve fiber layer OCT and dynamic intraocular pressure data are still pending.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev002\",\n      \"label\": \"The radiologist recommends initiating intraocular pressure-lowering therapy for the left eye\",\n      \"node_type\": \"Evidence\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-10\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-11\",\n      \"relation\": \"support\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00026",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T12:47:41.128+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-12"
+      ],
+      "causal_node_refs": [
+        "node-12"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e9bfee5d280fe18fdd0f201a335df1e72d584bf89e944d8c512953d7cceeb5f1",
+      "event_hash": "b07a9d152151a089fa28de1476076aceae67ef7dc75bef03b38cc013e4476886",
+      "payload": {
+        "prediction": "Left eye POAG",
+        "report": "Painless left visual blurring, left IOP 42 mmHg with open angles, cup-to-disc 0.9, left RAPD, and severe asymmetric field loss indicate glaucomatous optic neuropathy. Negative neuroimaging and absent proptosis/bruit exclude secondary mass or vascular causes. Cataract coexists but cannot explain the full picture. Radiologist's recommendation to lower IOP supports left primary open-angle glaucoma. Confidence is high but below certainty pending OCT, dynamic IOP, and pachymetry.",
+        "report_chars": 479,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 2,
+            "history": [
+              1,
+              2
+            ],
+            "stage_steps": {
+              "1": 2,
+              "2": 1
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 3,
+          "session_max_steps": 3,
+          "report_flag": "True",
+          "frontier": {
+            "node_id": "node-12",
+            "label": "Left eye primary open-angle glaucoma",
+            "why": "The current frontier 'Left eye glaucoma (open-angle)' is a broad category that must be refined into primary versus secondary open-angle glaucoma. Primary open-angle glaucoma is the leading fine-grained subcategory: open angles in both eyes (node-4), a markedly elevated left intraocular pressure of 42 mmHg (node-4), cup-to-disc ratio 0.9 (node-3), left relative afferent pupillary defect with a severely depressed left visual field (nodes 2-3), and negative neuroimaging excluding mass/vascular causes (node-9) all support it, while the absence of proptosis or bruit (node-5) refutes a secondary vascular mechanism.",
+            "score": 0.85,
+            "level": 2,
+            "supports": 0,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-9-00001",
+      "dst": "evt-case-9-00002"
+    },
+    {
+      "src": "evt-case-9-00002",
+      "dst": "evt-case-9-00003"
+    },
+    {
+      "src": "evt-case-9-00003",
+      "dst": "evt-case-9-00004"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00005"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00006"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00007"
+    },
+    {
+      "src": "evt-case-9-00005",
+      "dst": "evt-case-9-00007"
+    },
+    {
+      "src": "evt-case-9-00006",
+      "dst": "evt-case-9-00007"
+    },
+    {
+      "src": "evt-case-9-00007",
+      "dst": "evt-case-9-00008"
+    },
+    {
+      "src": "evt-case-9-00008",
+      "dst": "evt-case-9-00009"
+    },
+    {
+      "src": "evt-case-9-00009",
+      "dst": "evt-case-9-00010"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00011"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00012"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00013"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00014"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00011",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00012",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00013",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00014",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00015",
+      "dst": "evt-case-9-00016"
+    },
+    {
+      "src": "evt-case-9-00016",
+      "dst": "evt-case-9-00017"
+    },
+    {
+      "src": "evt-case-9-00017",
+      "dst": "evt-case-9-00018"
+    },
+    {
+      "src": "evt-case-9-00018",
+      "dst": "evt-case-9-00019"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00020"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00021"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00022"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00023"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00020",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00021",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00022",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00023",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00024",
+      "dst": "evt-case-9-00025"
+    },
+    {
+      "src": "evt-case-9-00025",
+      "dst": "evt-case-9-00026"
+    }
+  ]
+}

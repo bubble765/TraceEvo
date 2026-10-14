@@ -1,0 +1,629 @@
+diff --git a/Run/DiagnosisArena.py b/Run/DiagnosisArena.py
+index 244ff62..ba355e5 100755
+--- a/Run/DiagnosisArena.py
++++ b/Run/DiagnosisArena.py
+@@ -3,8 +3,15 @@ import pandas as pd
+ 
+ def Process_Diagnosis_Symptoms(cfg_domain, dataset):
+     dataset_path = os.path.join("datasets", dataset)
+-    data_path = os.path.join(dataset_path, "test_set.csv")
++    # TraceEvo S3B: an explicit override for the ground-truth isolation
++    # experiment (§4.1). When set, the run reads a copy of the dataset with the
++    # `Final Diagnosis` / `Right Option` columns removed, so the gold label is
++    # not merely unread during the run -- it is not in the process's inputs at
++    # all. Unset, this is the original path.
++    data_path = os.environ.get("TRACEEVO_DATASET_CSV") or os.path.join(
++        dataset_path, "test_set.csv")
+     data = pd.read_csv(data_path)
++    blinded = "Final Diagnosis" not in data.columns
+     symptoms = []
+     evidence_texts = []
+     answers = []
+@@ -12,7 +19,7 @@ def Process_Diagnosis_Symptoms(cfg_domain, dataset):
+         case_info = case["Case Information"]
+         physical_info = case["Physical Examination"]
+         evidence_text = case["Diagnostic Tests"]
+-        answer = case["Final Diagnosis"]
++        answer = "" if blinded else case["Final Diagnosis"]
+         description = f"##Case information: {case_info}\n## Physical Examination: {physical_info}"
+         symptoms.append((idx,description))
+         evidence_texts.append(evidence_text)
+diff --git a/agents/central_agent.py b/agents/central_agent.py
+index 1c6fe02..44831c0 100755
+--- a/agents/central_agent.py
++++ b/agents/central_agent.py
+@@ -1,7 +1,9 @@
+ import json
+ from prompts.prompt_generation import *
+ from utils.public_function import *
+-from utils.traceevo_bridge import emit as _txemit
++from utils.traceevo_bridge import (emit as _txemit,
++                                   ledger_parse as _txparse,
++                                   ledger_reject as _txreject)
+ from pathlib import Path
+ from datetime import datetime
+ 
+@@ -33,11 +35,11 @@ class Central_Agent:
+ 
+      
+         system_prompt, user_prompt = construct_ingest_prompt_basic_node(dataset=self.dataset, expert_name=self.name, symptom=self.case_symptom)
+-        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"])
++        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"], stage="GRAPH_UPDATE")
+         print(f"Response: {response}")
+         log_to_file(f"#### Here are the reponse of ingest function -- generating basic symptom and evidence nodes:\n\n {response}\n\n",log_path=self.log_path)
+ 
+-        response_dict = parse_json_response(response)
++        response_dict = _txparse(response, response)
+         symptom_node = response_dict["symptom_node"]
+         isolated_evidence = response_dict["isolated_evidence"]
+         total_input_tokens += meta["prompt_tokens"]
+@@ -53,15 +55,14 @@ class Central_Agent:
+         self.graph.pretty_print()
+ 
+         # TraceEvo S1 hook: initial graph, all nodes sourced from the case input.
+-        _txemit("on_ingest", self.graph, self.name, response, "basic_node",
+-                self.llm_args["model_path"])
++        _txemit("on_ingest", self.graph, self.name, response, "basic_node")
+ 
+         system_prompt, user_prompt = construct_ingest_prompt_L1_Hypo(dataset=self.dataset, expert_name=self.name, graph=self.graph, symptom_node_id=self.symptom_node_id, isolated_evidence_ids=self.isolated_evidence_ids)
+-        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"])
++        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"], stage="GRAPH_UPDATE")
+         print(f"Response: {response}")
+         log_to_file(f"#### Here are the reponse of ingest function -- generating L1 hypos and corresponding relationship between evidence and hypos:\n\n {response}\n\n",log_path=self.log_path)
+         
+-        response_dict = parse_json_response(response)
++        response_dict = _txparse(response, response)
+         candidates = response_dict["candidates"]
+         edges = response_dict["edges"]     
+ 
+@@ -105,8 +106,7 @@ class Central_Agent:
+         self.graph.pretty_print()
+ 
+         # TraceEvo S1 hook: L1 hypotheses + their evidence edges.
+-        _txemit("on_ingest", self.graph, self.name, response, "l1_hypo",
+-                self.llm_args["model_path"])
++        _txemit("on_ingest", self.graph, self.name, response, "l1_hypo")
+ 
+     def run(self):
+ 
+@@ -136,12 +136,12 @@ class Central_Agent:
+ 
+             
+             system_prompt, user_prompt = construct_generate_proposal_prompt(dataset=self.dataset, expert_name=self.name, analyses=analyses, graph_description=self.graph.to_dict(), belief=self.graph.belief)
+-            response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"])
++            response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"], stage="GRAPH_UPDATE")
+             print(f"Response: {response}")
+             log_to_file(f"#### Step{step}: Central agent decided to update the graph after receiving the analyses from expert agent\n\n {response}",log_path=self.log_path)
+ 
+     
+-            response_dict = parse_json_response(response)
++            response_dict = _txparse(response, response)
+             edits = response_dict.get("edit", [])  
+             nodes = response_dict["nodes"]
+             edges = response_dict["edges"]
+@@ -228,8 +228,7 @@ class Central_Agent:
+ 
+             # TraceEvo S1 hook: UpdateGraph finished applying the proposal.
+             # The delta is computed against the previously recorded state.
+-            _txemit("on_graph_update", self.graph, self.name, response,
+-                    self.llm_args["model_path"])
++            _txemit("on_graph_update", self.graph, self.name, response)
+ 
+             self.backtrack_frontier_chain()
+ 
+@@ -262,11 +261,16 @@ class Central_Agent:
+                 if step >= self.session_max_steps:
+                     Report_Flag = "True"
+                 system_prompt, user_prompt = construct_report_or_refine_prompt(dataset=self.dataset, expert_name=self.name, Report_Flag=Report_Flag,  graph_description=self.graph.to_dict(), belief=self.graph.belief, frontier=self.frontier)
+-                response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"])
++                response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"], stage="REPORT")
+                 print(f"Response: {response}")
+                 log_to_file(f"#### Step{step}: Central agent decide to report or dive deeper\n\n {response}\n\n",log_path=self.log_path)
+ 
+-                response_dict = parse_json_response(response)
++                # `report` is what on_final_report commits, so that is the text
++                # the ledger records; a drill-down (type != 1) commits nothing.
++                response_dict = _txparse(
++                    response,
++                    lambda d: (str(d.get("report") or "")
++                               if d.get("type") == 1 else ""))
+                 type = response_dict["type"]
+ 
+                 if type == 1:
+@@ -274,8 +278,7 @@ class Central_Agent:
+                     report = response_dict["report"]
+                     # TraceEvo S1 hook: final prediction + the reasoning state
+                     # it depends on (amendment §3.3).
+-                    _txemit("on_final_report", self.name, answer, report,
+-                            self.llm_args["model_path"], self.graph)
++                    _txemit("on_final_report", self.name, answer, report, self.graph)
+                     return answer, report
+                 else:
+ 
+@@ -364,15 +367,19 @@ class Central_Agent:
+         expert_descriptions = self.cfg_domain.get("expert_descriptions", {})
+ 
+         system_prompt, user_prompt = construct_call_expert_prompt(dataset=self.dataset, expert_name=self.name, frontier=frontier, expert_descriptions=expert_descriptions)
+-        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"])
++        # TraceEvo S3B §12: append the trusted-experience block, if memory is
++        # on and something cleared the similarity floor. Returns the prompt
++        # unchanged otherwise, so memory-off is byte-identical to plain GoS.
++        user_prompt = _txemit("on_plan_prompt", user_prompt)
++        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"], stage="CENTRAL_PLAN")
+         print(f"Response: {response}")
+         log_to_file(f"#### Here are the plan of central expert: \n\n {response}\n\n",log_path=self.log_path)
+ 
+ 
+-        response_dict = parse_json_response(response)
++        response_dict = _txparse(response, response)
+         plan = response_dict
+         # TraceEvo S1 hook: the plan (expert selection) for the current focus.
+-        _txemit("on_plan", self.name, response, self.llm_args["model_path"])
++        _txemit("on_plan", self.name, response)
+         return plan
+ 
+     def act(self, plan):
+@@ -388,6 +395,12 @@ class Central_Agent:
+           
+             matching_experts = [agent for agent in self.experts if agent.name == expert_name]
+             if not matching_experts:
++                # TraceEvo S2: record the failed dispatch, then re-raise the
++                # original exception unchanged. The hook must not swallow it,
++                # repair it, or alter the message.
++                _txemit("on_dispatch_failed", self.name, expert_name,
++                        [a.name for a in self.experts],
++                        f"Not founded, current list：{[a.name for a in self.experts]}")
+                 raise ValueError(f"Not founded, current list：{[a.name for a in self.experts]}")
+             expert = matching_experts[0]
+ 
+diff --git a/agents/expert_agent.py b/agents/expert_agent.py
+index bd77135..2003a79 100755
+--- a/agents/expert_agent.py
++++ b/agents/expert_agent.py
+@@ -1,6 +1,8 @@
+ import json
+ from utils.public_function import *
+-from utils.traceevo_bridge import emit as _txemit
++from utils.traceevo_bridge import (emit as _txemit,
++                                   ledger_parse as _txparse,
++                                   ledger_reject as _txreject)
+ from utils.IT_tools import Telemetry
+ from prompts.prompt_generation import *
+ from pathlib import Path
+@@ -41,11 +43,16 @@ class Expert_Agent:
+             return self._run_micro(frontier)
+ 
+         
+-        max_retrieve_step = self.max_retrieval_steps 
++        max_retrieve_step = self.max_retrieval_steps
+         retrieve_step = 0
+         final_analysis = None
+-        retrieval_history = self.retrieval_history 
+-        decision_result: Optional[dict] = None  
++        retrieval_history = self.retrieval_history
++        decision_result: Optional[dict] = None
++
++        # TraceEvo S2: remember WHY the loop ends so the ANALYSIS event can be
++        # marked degraded with an accurate reason. Observational only -- none of
++        # this feeds back into control flow or the returned text.
++        tx_exit_cause = None          # "empty_query" | "bad_decision" | "parse_error" | "budget"
+ 
+         if len(tool_names) == 1 and tool_names[0] == "Evidence_Text":
+             tool_prompt_base = "We provide only pre-prepared auxiliary evidence texts for you, and you must extract related information from the evidence texts."
+@@ -77,20 +84,24 @@ class Expert_Agent:
+                     temperature=self.llm_args["temperature"],
+                     max_tokens=self.llm_args["max_tokens"],
+                     system_prompt=system_p1,
+-                    return_meta=self.llm_args["return_meta"]
++                    return_meta=self.llm_args["return_meta"],
++                    stage="EXPERT_DECISION"
+                 )
+                 print(f"Step {retrieve_step + 1} Decision: {response_p1}")
+ 
+                
+                 log_to_file(f"Step {retrieve_step + 1} Decision: {response_p1}\n\n",log_path=self.log_path)
+                 
++                _tx_discard = "PARSER_ERROR"   # S3A: why the ledger says discarded
+                 try:
+-                    decision_result = parse_json_response(response_p1.strip())
+-                    
++                    decision_result = _txparse(response_p1.strip())
++
+                     if not all(k in decision_result for k in ["type", "decision"]):
++                        _tx_discard = "INVALID_SCHEMA"
+                         raise ValueError("Missing mandatory fields (type/decision) in decision response")
+-                   
++
+                     if decision_result["decision"] not in ["retrieve", "analyze"]:
++                        _tx_discard = "INVALID_SCHEMA"
+                         raise ValueError(f"Invalid decision value: {decision_result['decision']} (only 'retrieve'/'analyze' allowed for type1)")
+                     current_type = decision_result["type"]
+                     current_decision = decision_result["decision"]
+@@ -99,10 +110,12 @@ class Expert_Agent:
+                 except (json.JSONDecodeError, ValueError) as e:
+                     print(f"Failed parsing: {e}")
+                     log_to_file(f"Failed parsing: {e}\n\n",log_path=self.log_path)
++                    _txreject(_tx_discard)
++                    tx_exit_cause = "parse_error"
+                     retrieve_step += 1
+                     continue
+ 
+-                
++
+                 print(f"Step {retrieve_step + 1} - Content Generation")
+                 log_to_file(f"Step {retrieve_step + 1} - Content Generation\n\n",log_path=self.log_path)
+                 system_p2, user_p2 = construct_expert_analyze_prompt(
+@@ -123,32 +136,50 @@ class Expert_Agent:
+                     temperature=self.llm_args["temperature"],
+                     max_tokens=self.llm_args["max_tokens"],
+                     system_prompt=system_p2,
+-                    return_meta=self.llm_args["return_meta"]
++                    return_meta=self.llm_args["return_meta"],
++                    stage="EXPERT_CONTENT"
+                 )
+                 print(f"Step {retrieve_step + 1} reponse: {response_p2}")
+                 log_to_file(f"Step {retrieve_step + 1} reponse: {response_p2}\n\n",log_path=self.log_path)
+ 
+ 
+                 
++                # S3A §4: this is the seam where the A4 injections were
++                # absorbed. The decision stage above is read for {type,
++                # decision} only, so a fabricated `content` delivered there is
++                # dropped; the content stage then generates content for the
++                # flipped decision, disagrees with it, and the step dies here.
++                # The ledger is the only place that outcome is observable --
++                # no event is emitted for it.
++                _tx_discard = "PARSER_ERROR"
+                 try:
+-                    final_response_dict = parse_json_response(response_p2.strip())
++                    final_response_dict = _txparse(
++                        response_p2.strip(),
++                        lambda d: str(d.get("content") or "").strip())
+                     if not all(k in final_response_dict for k in ["type", "decision", "content"]):
++                        _tx_discard = "INVALID_SCHEMA"
+                         raise ValueError("Missing mandatory fields (type/decision/content) in final response")
+                     if (final_response_dict["type"] != current_type) or (final_response_dict["decision"] != current_decision):
++                        _tx_discard = "DECISION_CONTENT_MISMATCH"
+                         raise ValueError(f"Content stage result inconsistent with decision stage: expected (type={current_type}, decision={current_decision}), got (type={final_response_dict['type']}, decision={final_response_dict['decision']})")
+                     content = final_response_dict["content"].strip()
+                 except (json.JSONDecodeError, ValueError) as e:
+                     print(f"Failed Parsing: {e}")
+                     log_to_file(f"Failed Parsing: {e}\n\n",log_path=self.log_path)
++                    # This is the discarded-call record S2 could not produce:
++                    # a model response that really arrived and was thrown away.
++                    _txreject(_tx_discard)
++                    tx_exit_cause = "parse_error"
+                     retrieve_step += 1
+                     continue
+ 
+-               
++
+                 if current_decision == "retrieve":
+                     retrieve_step += 1
+                     if not content:
+                         print("Empty query, terminated!")
+                         log_to_file("Empty query, terminated!\n",log_path=self.log_path)
++                        tx_exit_cause = "empty_query"
+                         break
+                     # TraceEvo S1 hook: the expert decided to call the retrieval
+                     # tool. The EVIDENCE_READ event is emitted from inside
+@@ -162,20 +193,30 @@ class Expert_Agent:
+                 elif current_decision == "analyze":
+                     final_analysis = content
+                     # TraceEvo S1 hook: the expert's analysis for this focus.
+-                    _txemit("on_analysis", content, self.llm_args["model_path"])
++                    _txemit("on_analysis", content, "success", "NONE")
+                     break
+ 
+                 else:
+                     print(f"Wrong decision value: {current_decision}，terminated!")
+                     log_to_file(f"Wrong decision value: {current_decision}，terminated!\n\n",log_path=self.log_path)
++                    tx_exit_cause = "bad_decision"
+                     break
+ 
+-            
++
+             if final_analysis is None:
++                # Upstream returns this fixed text; S2 only *marks* that the path
++                # was a fallback. The text and the control flow are unchanged.
+                 final_analysis = "Insufficient information to complete the analysis (max retrieval steps reached or invalid decision/response)"
+-                # TraceEvo S1 hook: exhausted the retrieval budget; still record
+-                # what the expert returned so event coverage stays complete.
+-                _txemit("on_analysis", final_analysis, self.llm_args["model_path"])
++                _tx_reason = {
++                    "empty_query": "PARSER_ERROR",
++                    "bad_decision": "PARSER_ERROR",
++                    "parse_error": "PARSER_ERROR",
++                    "budget": "BUDGET_EXHAUSTED",
++                }.get(tx_exit_cause or "budget",
++                      "INSUFFICIENT_INFORMATION_FALLBACK")
++                # TraceEvo S2 hook: degraded -- completed, but on a fallback.
++                _txemit("on_analysis", final_analysis, "degraded", _tx_reason,
++                        tx_exit_cause or "budget")
+ 
+             return final_analysis
+         else:
+@@ -217,13 +258,16 @@ class Expert_Agent:
+                 max_tokens=self.llm_args["max_tokens"],
+                 system_prompt=system_p1,
+                 return_meta=self.llm_args["return_meta"],
++                stage="EXPERT_DECISION",
+             )
+             print(f"[] Step {retrieve_step + 1} Decision: {response_p1}")
+             log_to_file(f"[] Step {retrieve_step + 1} Decision: {response_p1}\n\n", log_path=self.log_path)
+ 
++            _tx_discard = "PARSER_ERROR"
+             try:
+-                decision_result = parse_json_response(response_p1.strip())
++                decision_result = _txparse(response_p1.strip())
+                 if not all(k in decision_result for k in ["type", "decision"]):
++                    _tx_discard = "INVALID_SCHEMA"
+                     raise ValueError("Missing mandatory fields (type/decision) in decision response")
+                 if decision_result["decision"] not in ["retrieve", "tool_call", "analyze"]:
+                     raise ValueError(f"Invalid decision value: {decision_result['decision']}")
+@@ -232,6 +276,7 @@ class Expert_Agent:
+             except (json.JSONDecodeError, ValueError) as e:
+                 print(f"Decision parsing failed: {e}")
+                 log_to_file(f"Decision parsing failed: {e}\n\n", log_path=self.log_path)
++                _txreject(_tx_discard)
+                 retrieve_step += 1
+                 continue
+ 
+@@ -255,15 +300,21 @@ class Expert_Agent:
+                 max_tokens=self.llm_args["max_tokens"],
+                 system_prompt=system_p2,
+                 return_meta=self.llm_args["return_meta"],
++                stage="EXPERT_CONTENT",
+             )
+             print(f"[] Step {retrieve_step + 1} Content Generation: {response_p2}")
+             log_to_file(f"[] Step {retrieve_step + 1} Content Generation: {response_p2}\n\n", log_path=self.log_path)
+ 
++            _tx_discard = "PARSER_ERROR"
+             try:
+-                final_response_dict = parse_json_response(response_p2.strip())
++                final_response_dict = _txparse(
++                    response_p2.strip(),
++                    lambda d: str(d.get("content") or "").strip())
+                 if not all(k in final_response_dict for k in ["type", "decision", "content"]):
++                    _tx_discard = "INVALID_SCHEMA"
+                     raise ValueError("Missing mandatory fields (type/decision/content) in final response")
+                 if (final_response_dict["type"] != current_type) or (final_response_dict["decision"] != current_decision):
++                    _tx_discard = "DECISION_CONTENT_MISMATCH"
+                     raise ValueError(
+                         f"Content stage result inconsistent with decision stage: expected (type={current_type}, decision={current_decision}), got (type={final_response_dict['type']}, decision={final_response_dict['decision']})"
+                     )
+@@ -271,6 +322,7 @@ class Expert_Agent:
+             except (json.JSONDecodeError, ValueError) as e:
+                 print(f"Failed parsing: {e}")
+                 log_to_file(f"Failed parsing: {e}\n\n", log_path=self.log_path)
++                _txreject(_tx_discard)
+                 retrieve_step += 1
+                 continue
+ 
+diff --git a/belief/graph.py b/belief/graph.py
+index 8b84414..d059e6b 100755
+--- a/belief/graph.py
++++ b/belief/graph.py
+@@ -3,6 +3,8 @@ import uuid
+ import json
+ import math
+ from utils.public_function import llm_generate_response, parse_json_response, default_model_path
++from utils.traceevo_bridge import (ledger_parse as _txparse,
++                                   ledger_state as _txstate)
+ 
+ class BeliefGraph:
+ 
+@@ -183,9 +185,13 @@ Example Output:
+ {{"belief": "The patient has a fever, and laboratory tests show an elevated white blood cell count. This evidence strongly supports the conclusion that the patient has a bacterial infection. Additionally, fever is causally linked to fatigue, and the bacterial infection can be further specified as an infection caused by Streptococcus pneumoniae."}}"""
+         # S0 patch: upstream hardcoded "gpt-3.5-turbo" here, which mixes a second
+         # backbone into the pipeline. Forced onto the configured S0 backbone.
+-        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=default_model_path(), temperature=0.5, max_tokens=2048, system_prompt=system_prompt, return_meta=True)
++        response, meta = llm_generate_response(user_prompt=user_prompt, model_path=default_model_path(), temperature=0.5, max_tokens=2048, system_prompt=system_prompt, return_meta=True, stage="OTHER")
+         print(f"Response: {response}")
+-        response_dict = parse_json_response(response)
++        # S3A: the belief text becomes GoS state (graph.belief, which later
++        # prompts read) without any provenance event being emitted for it, so
++        # the ledger is the only record that this call happened.
++        response_dict = _txparse(response, lambda d: str(d.get("belief") or ""))
++        _txstate("GRAPH_BELIEF")
+         self.belief = response_dict["belief"]
+ 
+    
+diff --git a/configs/TraceEvo_Configs.yaml b/configs/TraceEvo_Configs.yaml
+index c1a6d85..7e7f58c 100644
+--- a/configs/TraceEvo_Configs.yaml
++++ b/configs/TraceEvo_Configs.yaml
+@@ -21,6 +21,16 @@ traceevo:
+     recording_path: ""
+     strict: true
+ 
++  # S2 §1 D1: identity of the backbone that produced the events.
++  # `model_id` is what the config names -- reliable, but it is a *name*, not a
++  # build. `model_version` stays null unless the provider reports one, and
++  # `version_observable` says which of the two a reader is looking at, so no
++  # downstream claim can overstate it. Empty model_id -> the GoS backbone from
++  # configs/LLM_Configs.yaml (default_model_path).
++  model_id: ""
++  model_version: null
++  version_observable: false
++
+   # Deterministic source classification (amendment §1 D2). No LLM judgement.
+   source_classification:
+     verbatim: true
+diff --git a/main.py b/main.py
+index 76729e1..ea01065 100755
+--- a/main.py
++++ b/main.py
+@@ -125,7 +125,10 @@ def main():
+ 
+         # TraceEvo S1: open the provenance task for this case (no-op when
+         # traceevo.enabled is false).
+-        _txemit("start_task", f"case-{idx}", None, args.tag or "run")
++        # S3B: `symptom` is the case text the planner already has before the
++        # run begins, and it is exactly the retrieval query §11 specifies --
++        # case information plus physical examination, nothing computed later.
++        _txemit("start_task", f"case-{idx}", None, args.tag or "run", symptom)
+ 
+         # 1. Define log path
+         case_log_dir = f"{log_root}/Case_{idx}/"
+diff --git a/utils/public_function.py b/utils/public_function.py
+index ff38037..e433280 100755
+--- a/utils/public_function.py
++++ b/utils/public_function.py
+@@ -14,7 +14,11 @@ import http.client
+ import yaml
+ from dataclasses import dataclass
+ 
+-from utils.traceevo_bridge import emit as _txemit, recorder as _tx_recorder
++from utils.traceevo_bridge import (emit as _txemit, recorder as _tx_recorder,
++                                   ledger_open as _tx_ledger_open,
++                                   ledger_response as _tx_ledger_response,
++                                   ledger_parsed as _tx_ledger_parsed,
++                                   request_key as _tx_request_key)
+ 
+ 
+ # ---------------------------------------------------------------------------
+@@ -259,6 +263,7 @@ def llm_generate_response(
+     return_meta: bool = False,
+     api_base: Optional[str] = None,
+     api_endpoint: Optional[str] = None,
++    stage: str = "",
+ ) -> Any:
+ 
+     cfg = load_llm_config()
+@@ -289,6 +294,13 @@ def llm_generate_response(
+     if cfg.get("send_max_tokens"):
+         payload_dict["max_tokens"] = max_tokens
+ 
++    # TraceEvo S3A §3: open the invocation-ledger entry *before* anything can
++    # parse or discard this response. Observational only -- the call id is
++    # carried to the caller through the payload's side channel, never through
++    # the returned text, so GoS's own behaviour cannot depend on it.
++    _tx_call_id = _tx_ledger_open(stage, _tx_request_key(payload_dict),
++                                  model_path)
++
+     # TraceEvo S1: LLM record/replay (amendment §6 T1). In replay mode a served
+     # response never touches the network, so a run is bit-reproducible and any
+     # instrumentation-induced change to a prompt surfaces as a cache miss.
+@@ -296,6 +308,7 @@ def llm_generate_response(
+     if _tx_rec is not None and _tx_rec.serves_from_cache():
+         _cached = _tx_rec.lookup(payload_dict)
+         if _cached is not None:
++            _tx_ledger_response(_tx_call_id, _cached.response, "replay")
+             _cached_meta = dict(_cached.meta)
+             _cached_meta.update({"model": model_path, "temperature": temperature,
+                                  "max_tokens": max_tokens, "response": _cached.response,
+@@ -395,6 +408,8 @@ def llm_generate_response(
+ 
+     _record_usage(meta, _price_for(model_path, meta))
+ 
++    _tx_ledger_response(_tx_call_id, generated_text, "live")
++
+     # TraceEvo S1: persist the request/response pair while recording (T1).
+     if _tx_rec is not None and _tx_rec.stores_responses():
+         _tx_rec.store(payload_dict, generated_text, meta)
+@@ -642,7 +657,12 @@ Here are the evidence texts: {evidence_texts}.\n
+ Here is the input query: {query}.
+ """
+     # S0 patch: upstream hardcoded "gpt-5.1" here.
+-    response, meta = llm_generate_response(user_prompt=user_prompt, model_path=default_model_path(), temperature=0, max_tokens=2048, system_prompt=system_prompt, return_meta=True)
++    response, meta = llm_generate_response(user_prompt=user_prompt, model_path=default_model_path(), temperature=0, max_tokens=2048, system_prompt=system_prompt, return_meta=True, stage="EVIDENCE_RETRIEVAL")
++
++    # S3A: the retrieval response is plain text, not JSON, so there is no
++    # parser to report to -- it is accepted as-is by definition. Without this
++    # the call would sit `pending` and be closed as `failed` at task end.
++    _tx_ledger_parsed("", "accepted", "NONE", response)
+ 
+     # TraceEvo S1 hook: this is the only place a real external record enters
+     # the pipeline, so it owns the stable record_id (amendment §4.5).
+diff --git a/utils/traceevo_bridge.py b/utils/traceevo_bridge.py
+index 7a15be5..1a79565 100644
+--- a/utils/traceevo_bridge.py
++++ b/utils/traceevo_bridge.py
+@@ -38,3 +38,86 @@ def recorder() -> Any:
+     if _hooks is None:
+         return None
+     return _hooks.recorder()
++
++
++# ------------------------------------------------------------------- S3A §3
++# The Model Invocation Ledger. Same no-op discipline as `emit`: absent package
++# or disabled ledger means these return "" and nothing is recorded.
++def ledger_open(stage: str, prompt_hash: str, model_id: str = "",
++                actor_id: str = "") -> str:
++    """Open a ledger entry for one LLM call. Returns "" when not recording."""
++    if _hooks is None:
++        return ""
++    return _hooks.on_llm_open(stage, prompt_hash, model_id, actor_id)
++
++
++def ledger_response(call_id: str, response_text: str,
++                    source: str = "live") -> None:
++    if _hooks is None or not call_id:
++        return
++    _hooks.on_llm_response(call_id, response_text, source)
++
++
++def ledger_parsed(call_id: str, status: str, reason: str = "NONE",
++                  emitted_text: str = "") -> None:
++    # An empty `call_id` is meaningful, not missing: it asks the ledger to
++    # resolve the most recent still-pending call. Guarding on it here silently
++    # dropped every parse outcome, which showed up as 469/469 calls `pending`
++    # and closed as `failed` at task end.
++    if _hooks is None:
++        return
++    _hooks.on_llm_parsed(call_id, status, reason, emitted_text)
++
++
++def ledger_parse(raw: Any, emitted: Any = None) -> Any:
++    """`parse_json_response(raw)`, with the outcome reported to the ledger.
++
++    Behaviourally identical to the plain call, including on failure: the
++    exception is re-raised untouched. The only difference is that the ledger
++    learns whether the parser accepted or rejected the response, which is the
++    whole point of §3.2's `parse_status`.
++
++    `emitted` is the text the caller will later commit -- a string, or a
++    callable taking the parsed object. Recording it here is what makes the
++    later event binding exact rather than positional.
++    """
++    from utils.public_function import parse_json_response
++    try:
++        obj = parse_json_response(raw)
++    except Exception:
++        ledger_parsed("", "failed", "PARSER_ERROR")
++        raise
++    text = ""
++    if callable(emitted):
++        try:
++            text = str(emitted(obj) or "")
++        except Exception:
++            text = ""
++    elif emitted:
++        text = str(emitted)
++    ledger_parsed("", "accepted", "NONE", text)
++    return obj
++
++
++def ledger_state(target: str) -> None:
++    """The response became GoS state without becoming a provenance event."""
++    if _hooks is None:
++        return
++    _hooks.on_llm_state(target)
++
++
++def ledger_reject(reason: str = "INVALID_SCHEMA") -> None:
++    """The parser accepted the JSON but the caller rejected the content.
++
++    This is the A4 case: GoS parsed the substituted decision response fine and
++    then discarded the step because its content stage disagreed.
++    """
++    ledger_parsed("", "discarded", reason)
++
++
++def request_key(payload: Any) -> str:
++    """The recording key for a request payload -- the prompt hash."""
++    if _hooks is None:
++        return ""
++    from traceevo.recording import request_key as _rk
++    return _rk(payload)

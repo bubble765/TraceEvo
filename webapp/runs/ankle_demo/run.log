@@ -1,0 +1,1034 @@
+[S0] Running 1 case(s): [0]
+
+
+===============[RUN] Case 0  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1449 | Output token nums：1204 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Severe pain and swelling of the left ankle with inability to bear weight",
+  "isolated_evidence": [
+    "A 28-year-old man presented to the emergency department after landing awkwardly on his inverted left foot while playing basketball two hours earlier; he was unable to bear weight immediately, needed help off court, and denied hearing a pop.",
+    "He had no previous ankle injury, no history of bleeding disorder, and was not taking any medication.",
+    "Physical examination showed marked swelling and ecchymosis over the lateral left ankle, point tenderness anterior and inferior to the lateral malleolus, positive anterior drawer test with a soft endpoint, and positive talar tilt test.",
+    "There was no tenderness over the posterior malleolus, medial malleolus, or proximal fibula; distal pulses and sensation were intact.",
+    "The patient was unable to take four steps without assistance."
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Severe pain and swelling of the left ankle with inability t… | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+[node-3] Evidence[-] | He had no previous ankle injury, no history of bleeding dis… | score=1.000
+[node-4] Evidence[-] | Physical examination showed marked swelling and ecchymosis … | score=1.000
+[node-5] Evidence[-] | There was no tenderness over the posterior malleolus, media… | score=1.000
+[node-6] Evidence[-] | The patient was unable to take four steps without assistanc… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1515 | Output token nums：1994 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Lateral ankle ligament injury",
+      "confidence": 0.75,
+      "why": "Inversion trauma followed by lateral swelling, point tenderness over lateral collateral ligaments, positive anterior drawer and talar tilt tests, and no other bony tenderness strongly support acute lateral ligament sprain."
+    },
+    {
+      "id": "h002",
+      "label": "Ankle fracture",
+      "confidence": 0.15,
+      "why": "Inversion mechanism and inability to bear weight support possible fracture; however, lack of tenderness over medial/posterior malleolus and proximal fibula, plus positive ligament stress tests, reduce likelihood."
+    },
+    {
+      "id": "h003",
+      "label": "Syndesmotic ankle injury",
+      "confidence": 0.10,
+      "why": "Inversion mechanism and lateral ligament findings are atypical for syndesmotic injury; no tenderness over proximal fibula or syndesmosis further refutes this diagnosis."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "refute"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h003",
+      "relation": "refute"
+    },
+    {
+      "src": "node-5",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-5",
+      "dst": "h002",
+      "relation": "refute"
+    },
+    {
+      "src": "node-5",
+      "dst": "h003",
+      "relation": "refute"
+    },
+    {
+      "src": "node-6",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-6",
+      "dst": "h002",
+      "relation": "support"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Severe pain and swelling of the left ankle with inability t… | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+[node-3] Evidence[-] | He had no previous ankle injury, no history of bleeding dis… | score=1.000
+[node-4] Evidence[-] | Physical examination showed marked swelling and ecchymosis … | score=1.000
+[node-5] Evidence[-] | There was no tenderness over the posterior malleolus, media… | score=1.000
+[node-6] Evidence[-] | The patient was unable to take four steps without assistanc… | score=1.000
+[node-7] Hypothesis[1] | Lateral ankle ligament injury | score=0.750 | attrs={"why": "Inversion trauma followed by lateral swelling, point tenderness over l…
+[node-8] Hypothesis[1] | Ankle fracture | score=0.150 | attrs={"why": "Inversion mechanism and inability to bear weight support possible frac…
+[node-9] Hypothesis[1] | Syndesmotic ankle injury | score=0.100 | attrs={"why": "Inversion mechanism and lateral ligament findings are atypical for syn…
+=== Edges ===
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-7[Lateral ankle ligament injury] | refines | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-8[Ankle fracture] | refines | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-9[Syndesmotic ankle injury] | refines | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-8[Ankle fracture] | support | conf=0.000
+node-3[He had no previous ankle injury, no history of bleeding dis…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-3[He had no previous ankle injury, no history of bleeding dis…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-4[Physical examination showed marked swelling and ecchymosis …] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-4[Physical examination showed marked swelling and ecchymosis …] -> node-9[Syndesmotic ankle injury] | refute | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-9[Syndesmotic ankle injury] | refute | conf=0.000
+node-6[The patient was unable to take four steps without assistanc…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-6[The patient was unable to take four steps without assistanc…] -> node-8[Ankle fracture] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1390 | Output token nums：259 | price(CNY)：0.00000000
+Response: {"belief": "The presenting signal of severe left ankle pain, swelling, and inability to bear weight is most consistent with an acute lateral ankle ligament injury. Key evidence—inversion trauma with immediate inability to bear weight, lateral swelling and ecchymosis, point tenderness over the lateral collateral ligaments, positive anterior drawer and talar tilt tests, and absence of bony tenderness—strongly supports this diagnosis. While the mechanism and weight-bearing difficulty also raise the possibility of an ankle fracture, the lack of medial, posterior, or proximal fibular tenderness and the positive ligament stress tests reduce its likelihood. Syndesmotic injury is largely refuted by the inversion mechanism and absence of syndesmosis or proximal fibular tenderness. Thus, the consensus favors lateral ankle ligament injury as the primary diagnosis."}
+{'node_id': 'node-7', 'label': 'Lateral ankle ligament injury', 'why': 'Inversion trauma followed by lateral swelling, point tenderness over lateral collateral ligaments, positive anterior drawer and talar tilt tests, and no other bony tenderness strongly support acute lateral ligament sprain.', 'score': 0.75, 'level': 1, 'supports': 5, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1344 | Output token nums：273 | price(CNY)：0.00000000
+Response: [
+  {
+    "expert_name": "Radiologist"
+  }
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1128 | Output token nums：76 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1283 | Output token nums：257 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's ankle radiograph series (anteroposterior, lateral, and mortise views) to rule out fractures or bony avulsions, and if ligament injury confirmation is required, MRI of the ankle to assess the lateral collateral ligament complex; these are the core imaging examinations for confirming acute lateral ankle ligament injury and excluding occult fracture."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：656 | Output token nums：173 | price(CNY)：0.00000000
+Step 1 Observations: Imaging Studies:
+    1. Anteroposterior, lateral, and mortise radiographs of the left ankle showed no acute fracture or dislocation; the ankle mortise was congruent and the tibiofibular clear space was normal.
+    2. Magnetic resonance imaging of the left ankle demonstrated a complete full-thickness tear of the anterior talofibular ligament at its fibular attachment with surrounding soft tissue edema, together with a partial intrasubstance tear of the calcaneofibular ligament. The posterior talofibular ligament was intact. No osteochondral lesion of the talus and no fracture line were identified.
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1324 | Output token nums：627 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1479 | Output token nums：962 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's previous ankle imaging studies or documented history of prior ankle sprains to differentiate an acute tear from chronic ligamentous insufficiency, which is critical for determining whether the complete ATFL tear is a new injury or an exacerbation of a chronic condition and for guiding surgical versus conservative management."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：646 | Output token nums：61 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1401 | Output token nums：101 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1556 | Output token nums：514 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the suspected acute lateral ankle ligament injury, radiographs show no fracture, and MRI reveals a complete tear of the anterior talofibular ligament at its fibular attachment with surrounding edema and a partial tear of the calcaneofibular ligament, consistent with the clinical findings. Absence of prior imaging limits chronicity assessment, but acute mechanism and edema support acute injury. All key imaging information is covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3331 | Output token nums：3107 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-7",
+      "confidence": 0.96,
+      "why": "Radiographs exclude fracture and MRI directly confirms a complete tear of the anterior talofibular ligament at its fibular attachment with surrounding edema, plus a partial tear of the calcaneofibular ligament. These imaging findings strongly confirm the clinical diagnosis of acute lateral ankle ligament injury."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.02,
+      "why": "Plain radiographs show no fracture and MRI confirms ligament tears without evidence of fracture. The inversion mechanism and inability to bear weight are fully accounted for by the acute ligament injury, making ankle fracture very unlikely."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.03,
+      "why": "MRI identifies lateral ligament tears rather than syndesmotic injury, and the inversion mechanism with no proximal fibula or syndesmosis tenderness further reduces the likelihood of a syndesmotic injury."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Radiographs of the left ankle show no fracture",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "MRI shows complete tear of the anterior talofibular ligament at its fibular attachment with surrounding edema and partial tear of the calcaneofibular ligament",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Acute complete tear of the anterior talofibular ligament with partial tear of the calcaneofibular ligament",
+      "node_type": "Hypothesis",
+      "confidence": 0.92,
+      "why": "MRI directly demonstrates a complete tear of the anterior talofibular ligament at its fibular attachment and a partial tear of the calcaneofibular ligament, with surrounding edema. This matches the positive anterior drawer and talar tilt tests and the acute inversion mechanism, confirming an acute lateral ligament injury."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-8",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-7",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-8",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-7",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-7', 'label': 'Lateral ankle ligament injury', 'why': {'why': 'Radiographs exclude fracture and MRI directly confirms a complete tear of the anterior talofibular ligament at its fibular attachment with surrounding edema, plus a partial tear of the calcaneofibular ligament. These imaging findings strongly confirm the clinical diagnosis of acute lateral ankle ligament injury.'}, 'score': 0.96, 'level': 1, 'supports': 8, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Severe pain and swelling of the left ankle with inability t… | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+[node-3] Evidence[-] | He had no previous ankle injury, no history of bleeding dis… | score=1.000
+[node-4] Evidence[-] | Physical examination showed marked swelling and ecchymosis … | score=1.000
+[node-5] Evidence[-] | There was no tenderness over the posterior malleolus, media… | score=1.000
+[node-6] Evidence[-] | The patient was unable to take four steps without assistanc… | score=1.000
+[node-7] Hypothesis[1] | Lateral ankle ligament injury | score=0.960 | attrs={"why": {"why": "Radiographs exclude fracture and MRI directly confirms a compl…
+[node-8] Hypothesis[1] | Ankle fracture | score=0.020 | attrs={"why": {"why": "Plain radiographs show no fracture and MRI confirms ligament t…
+[node-9] Hypothesis[1] | Syndesmotic ankle injury | score=0.030 | attrs={"why": {"why": "MRI identifies lateral ligament tears rather than syndesmotic …
+[node-1] Evidence[-] | Radiographs of the left ankle show no fracture | score=1.000
+[node-1] Evidence[-] | MRI shows complete tear of the anterior talofibular ligamen… | score=1.000
+[node-1] Hypothesis[1] | Acute complete tear of the anterior talofibular ligament wi… | score=0.920 | attrs={"why": "MRI directly demonstrates a complete tear of the anterior talofibular …
+=== Edges ===
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-7[Lateral ankle ligament injury] | refines | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-8[Ankle fracture] | refines | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-9[Syndesmotic ankle injury] | refines | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-8[Ankle fracture] | support | conf=0.000
+node-3[He had no previous ankle injury, no history of bleeding dis…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-3[He had no previous ankle injury, no history of bleeding dis…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-4[Physical examination showed marked swelling and ecchymosis …] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-4[Physical examination showed marked swelling and ecchymosis …] -> node-9[Syndesmotic ankle injury] | refute | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-9[Syndesmotic ankle injury] | refute | conf=0.000
+node-6[The patient was unable to take four steps without assistanc…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-6[The patient was unable to take four steps without assistanc…] -> node-8[Ankle fracture] | support | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-1[Acute complete tear of the anterior talofibular ligament wi…] | refines | conf=0.000
+node-1[Radiographs of the left ankle show no fracture] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-1[Radiographs of the left ankle show no fracture] -> node-8[Ankle fracture] | refute | conf=0.000
+node-1[MRI shows complete tear of the anterior talofibular ligamen…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-1[MRI shows complete tear of the anterior talofibular ligamen…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-1[MRI shows complete tear of the anterior talofibular ligamen…] -> node-1[Acute complete tear of the anterior talofibular ligament wi…] | support | conf=0.000
+node-1[Acute complete tear of the anterior talofibular ligament wi…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1920 | Output token nums：566 | price(CNY)：0.00000000
+Response: {"belief": "The clinical presentation of severe left ankle pain, swelling, and inability to bear weight after an inversion injury is most consistent with an acute lateral ankle ligament injury. Supporting evidence includes lateral malleolar tenderness, positive anterior drawer and talar tilt tests, and inability to bear weight. The absence of tenderness over the medial/posterior malleolus and proximal fibula, along with normal radiographs, refutes ankle fracture and syndesmotic injury. MRI directly confirms a complete tear of the anterior talofibular ligament and partial tear of the calcaneofibular ligament, further refining the diagnosis to acute complete ATFL tear with partial CFL tear. Thus, lateral ankle ligament injury is strongly supported, while fracture and syndesmotic injury are very unlikely."}
+{'node_id': 'node-7', 'label': 'Lateral ankle ligament injury', 'why': {'why': 'Radiographs exclude fracture and MRI directly confirms a complete tear of the anterior talofibular ligament at its fibular attachment with surrounding edema, plus a partial tear of the calcaneofibular ligament. These imaging findings strongly confirm the clinical diagnosis of acute lateral ankle ligament injury.'}, 'score': 0.96, 'level': 1, 'supports': 8, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1366 | Output token nums：168 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Radiologist"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1380 | Output token nums：237 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "analyze"}
+Step 1 parsed result: type=1, decision=analyze
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1557 | Output token nums：1234 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the MRI report's detailed assessment of the peroneal tendons and deltoid ligament to rule out concomitant injuries, as these are critical for confirming isolated lateral ankle ligament injury and guiding surgical versus conservative management."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1380 | Output token nums：417 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1504 | Output token nums：2651 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the MRI report's detailed assessment of the syndesmotic ligament and peroneal tendons, since current imaging confirms ATFL and CFL tears but does not comment on these structures; this is critical to exclude associated injuries that may alter treatment."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：585 | Output token nums：665 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1450 | Output token nums：68 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1627 | Output token nums：4707 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Given suspected lateral ankle ligament injury, normal radiographs and MRI showing complete ATFL tear with partial CFL tear confirm the diagnosis; PTFL intact, no fracture. Fracture and syndesmotic injury are very unlikely. No comment on syndesmotic ligaments/peroneal tendons and prior history unavailable, but these do not weaken the core diagnosis. Key imaging information is covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3766 | Output token nums：5598 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-7",
+      "confidence": 0.97,
+      "why": "Radiologist review confirms the MRI findings of complete ATFL tear and partial CFL tear with no fracture, and notes the PTFL is intact. This expert confirmation strengthens the clinical picture of lateral ankle swelling/tenderness, positive drawer/talar tilt tests, and inability to bear weight, so the diagnosis of lateral ankle ligament injury is further supported. Fracture and syndesmotic injury remain very unlikely. Confidence increased from 0.96 to 0.97."
+    },
+    {
+      "node_id": "node-12",
+      "confidence": 0.95,
+      "why": "MRI directly demonstrates complete ATFL tear at the fibular attachment and partial CFL tear with surrounding edema. Radiologist interpretation confirms these findings and adds that the PTFL is intact, indicating the injury is localized to the ATFL/CFL. This, together with positive anterior drawer and talar tilt tests, supports acute complete ATFL tear with partial CFL tear. Confidence increased from 0.92 to 0.95."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.01,
+      "why": "Plain radiographs and MRI show no fracture, and the radiologist explicitly confirms no fracture. The inversion mechanism, lateral tenderness, and inability to bear weight are fully explained by the acute ATFL/CFL tears, making ankle fracture very unlikely. Confidence decreased from 0.02 to 0.01."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.01,
+      "why": "MRI findings are those of lateral ligament tears rather than syndesmotic injury, and the radiologist considers syndesmotic injury very unlikely. The inversion mechanism with no proximal fibula or syndesmosis tenderness further reduces this possibility. Confidence decreased from 0.03 to 0.01."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "MRI shows an intact posterior talofibular ligament and no fracture",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-12",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-8",
+      "relation": "refute"
+    }
+  ]
+}
+{'node_id': 'node-7', 'label': 'Lateral ankle ligament injury', 'why': {'why': 'Radiologist review confirms the MRI findings of complete ATFL tear and partial CFL tear with no fracture, and notes the PTFL is intact. This expert confirmation strengthens the clinical picture of lateral ankle swelling/tenderness, positive drawer/talar tilt tests, and inability to bear weight, so the diagnosis of lateral ankle ligament injury is further supported. Fracture and syndesmotic injury remain very unlikely. Confidence increased from 0.96 to 0.97.'}, 'score': 0.97, 'level': 1, 'supports': 9, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Severe pain and swelling of the left ankle with inability t… | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+[node-3] Evidence[-] | He had no previous ankle injury, no history of bleeding dis… | score=1.000
+[node-4] Evidence[-] | Physical examination showed marked swelling and ecchymosis … | score=1.000
+[node-5] Evidence[-] | There was no tenderness over the posterior malleolus, media… | score=1.000
+[node-6] Evidence[-] | The patient was unable to take four steps without assistanc… | score=1.000
+[node-7] Hypothesis[1] | Lateral ankle ligament injury | score=0.970 | attrs={"why": {"why": "Radiologist review confirms the MRI findings of complete ATFL …
+[node-8] Hypothesis[1] | Ankle fracture | score=0.010 | attrs={"why": {"why": "Plain radiographs and MRI show no fracture, and the radiologis…
+[node-9] Hypothesis[1] | Syndesmotic ankle injury | score=0.010 | attrs={"why": {"why": "MRI findings are those of lateral ligament tears rather than s…
+[node-1] Evidence[-] | Radiographs of the left ankle show no fracture | score=1.000
+[node-1] Evidence[-] | MRI shows complete tear of the anterior talofibular ligamen… | score=1.000
+[node-1] Hypothesis[1] | Acute complete tear of the anterior talofibular ligament wi… | score=0.950 | attrs={"why": {"why": "MRI directly demonstrates complete ATFL tear at the fibular at…
+[node-1] Evidence[-] | MRI shows an intact posterior talofibular ligament and no f… | score=1.000
+=== Edges ===
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-7[Lateral ankle ligament injury] | refines | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-8[Ankle fracture] | refines | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-9[Syndesmotic ankle injury] | refines | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-8[Ankle fracture] | support | conf=0.000
+node-3[He had no previous ankle injury, no history of bleeding dis…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-3[He had no previous ankle injury, no history of bleeding dis…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-4[Physical examination showed marked swelling and ecchymosis …] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-4[Physical examination showed marked swelling and ecchymosis …] -> node-9[Syndesmotic ankle injury] | refute | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-5[There was no tenderness over the posterior malleolus, media…] -> node-9[Syndesmotic ankle injury] | refute | conf=0.000
+node-6[The patient was unable to take four steps without assistanc…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-6[The patient was unable to take four steps without assistanc…] -> node-8[Ankle fracture] | support | conf=0.000
+node-1[Severe pain and swelling of the left ankle with inability t…] -> node-1[Acute complete tear of the anterior talofibular ligament wi…] | refines | conf=0.000
+node-1[Radiographs of the left ankle show no fracture] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-1[Radiographs of the left ankle show no fracture] -> node-8[Ankle fracture] | refute | conf=0.000
+node-1[MRI shows complete tear of the anterior talofibular ligamen…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-1[MRI shows complete tear of the anterior talofibular ligamen…] -> node-8[Ankle fracture] | refute | conf=0.000
+node-1[MRI shows complete tear of the anterior talofibular ligamen…] -> node-1[Acute complete tear of the anterior talofibular ligament wi…] | support | conf=0.000
+node-1[Acute complete tear of the anterior talofibular ligament wi…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-1[MRI shows an intact posterior talofibular ligament and no f…] -> node-7[Lateral ankle ligament injury] | support | conf=0.000
+node-1[MRI shows an intact posterior talofibular ligament and no f…] -> node-1[Acute complete tear of the anterior talofibular ligament wi…] | support | conf=0.000
+node-1[MRI shows an intact posterior talofibular ligament and no f…] -> node-8[Ankle fracture] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2190 | Output token nums：383 | price(CNY)：0.00000000
+Response: {"belief": "The clinical presentation of severe left ankle pain, swelling, and inability to bear weight after an inversion injury is most consistent with a lateral ankle ligament injury. Supporting evidence includes the acute mechanism, positive anterior drawer and talar tilt tests, lateral malleolar tenderness, and inability to take four steps. Radiographs showing no fracture and MRI demonstrating a complete anterior talofibular ligament tear with partial calcaneofibular ligament tear further refine the diagnosis to an acute ATFL/CFL injury. The intact posterior talofibular ligament and absence of fracture effectively refute ankle fracture and syndesmotic injury. Thus, the consensus is that the patient has a lateral ankle ligament injury, specifically an acute complete ATFL tear with partial CFL tear."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4331 | Output token nums：7085 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Complete ATFL tear;CFL partial",
+  "report": "Acute inversion injury with lateral ankle pain, swelling, and inability to bear weight. Positive anterior drawer and talar tilt tests and lateral malleolar tenderness indicate lateral ligament injury. Radiographs show no fracture; MRI shows complete ATFL tear and partial CFL tear with intact PTFL. Radiologist confirmed these findings, excluding fracture and syndesmotic injury. Diagnosis: acute complete ATFL tear with partial CFL tear."
+}
+Answer: Complete ATFL tear;CFL partial
+Report: Acute inversion injury with lateral ankle pain, swelling, and inability to bear weight. Positive anterior drawer and talar tilt tests and lateral malleolar tenderness indicate lateral ligament injury. Radiographs show no fracture; MRI shows complete ATFL tear and partial CFL tear with intact PTFL. Radiologist confirmed these findings, excluding fracture and syndesmotic injury. Diagnosis: acute complete ATFL tear with partial CFL tear.
+[TraceEvo] case 0: 17 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：25 | Input token nums：41558 | Output token nums：33387 | Total token nums：74945 | price(CNY)：0.00000000
+[S0] Running 1 case(s): [0]
+
+
+===============[RUN] Case 0  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1337 | Output token nums：620 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Left ankle is swollen and painful with inability to bear weight",
+  "isolated_evidence": [
+    "28-year-old man presented to the emergency department after landing awkwardly on his inverted left foot while playing basketball two hours earlier",
+    "Physical examination showed marked left ankle swelling with point tenderness anterior and inferior to the lateral malleolus, and he was unable to bear weight on the affected leg"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Left ankle is swollen and painful with inability to bear we… | score=1.000
+[node-2] Evidence[-] | 28-year-old man presented to the emergency department after… | score=1.000
+[node-3] Evidence[-] | Physical examination showed marked left ankle swelling with… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1400 | Output token nums：1584 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Ankle fracture",
+      "confidence": 0.7,
+      "why": "Inversion injury mechanism and physical exam showing point tenderness over lateral malleolus with inability to bear weight strongly support a possible ankle fracture."
+    },
+    {
+      "id": "h002",
+      "label": "Severe lateral ankle sprain",
+      "confidence": 0.25,
+      "why": "Same inversion mechanism and exam findings can also represent a severe ligament sprain, but bony point tenderness makes fracture more likely."
+    },
+    {
+      "id": "h003",
+      "label": "Other soft tissue injury",
+      "confidence": 0.05,
+      "why": "Mechanism could theoretically cause other soft tissue damage, but the focal bony tenderness and non-weight-bearing status are less consistent with this category."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "refute"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Left ankle is swollen and painful with inability to bear we… | score=1.000
+[node-2] Evidence[-] | 28-year-old man presented to the emergency department after… | score=1.000
+[node-3] Evidence[-] | Physical examination showed marked left ankle swelling with… | score=1.000
+[node-4] Hypothesis[1] | Ankle fracture | score=0.700 | attrs={"why": "Inversion injury mechanism and physical exam showing point tenderness …
+[node-5] Hypothesis[1] | Severe lateral ankle sprain | score=0.250 | attrs={"why": "Same inversion mechanism and exam findings can also represent a severe…
+[node-6] Hypothesis[1] | Other soft tissue injury | score=0.050 | attrs={"why": "Mechanism could theoretically cause other soft tissue damage, but the …
+=== Edges ===
+node-1[Left ankle is swollen and painful with inability to bear we…] -> node-4[Ankle fracture] | refines | conf=0.000
+node-1[Left ankle is swollen and painful with inability to bear we…] -> node-5[Severe lateral ankle sprain] | refines | conf=0.000
+node-1[Left ankle is swollen and painful with inability to bear we…] -> node-6[Other soft tissue injury] | refines | conf=0.000
+node-2[28-year-old man presented to the emergency department after…] -> node-4[Ankle fracture] | support | conf=0.000
+node-2[28-year-old man presented to the emergency department after…] -> node-5[Severe lateral ankle sprain] | support | conf=0.000
+node-2[28-year-old man presented to the emergency department after…] -> node-6[Other soft tissue injury] | support | conf=0.000
+node-3[Physical examination showed marked left ankle swelling with…] -> node-4[Ankle fracture] | support | conf=0.000
+node-3[Physical examination showed marked left ankle swelling with…] -> node-5[Severe lateral ankle sprain] | support | conf=0.000
+node-3[Physical examination showed marked left ankle swelling with…] -> node-6[Other soft tissue injury] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：987 | Output token nums：341 | price(CNY)：0.00000000
+Response: {"belief": "The patient’s presentation of left ankle swelling, pain, and inability to bear weight, combined with the inversion injury mechanism and physical exam findings of lateral malleolar point tenderness, most strongly supports an ankle fracture. The same evidence also supports a severe lateral ankle sprain as a plausible alternative, but the focal bony tenderness makes fracture more likely. Other soft tissue injury is considered unlikely, as the exam findings and non-weight-bearing status refute this category. Overall, the consensus favors ankle fracture as the leading hypothesis, with severe lateral ankle sprain as the main differential."}
+{'node_id': 'node-4', 'label': 'Ankle fracture', 'why': 'Inversion injury mechanism and physical exam showing point tenderness over lateral malleolus with inability to bear weight strongly support a possible ankle fracture.', 'score': 0.7, 'level': 1, 'supports': 2, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1331 | Output token nums：99 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Radiologist"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1086 | Output token nums：88 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1228 | Output token nums：191 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's ankle X-ray series including anteroposterior, lateral, and mortise views, which is the core imaging examination to confirm or exclude an ankle fracture and distinguish it from a severe lateral ankle sprain."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：488 | Output token nums：115 | price(CNY)：0.00000000
+Step 1 Observations: Radiographs of the left ankle showed no acute fracture or dislocation.
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1146 | Output token nums：332 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1288 | Output token nums：323 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's ankle MRI to evaluate the lateral ligament complex and detect occult osseous injury, as the negative X-ray excludes frank fracture but cannot differentiate severe sprain from subtle bone contusion, which is critical for finalizing the diagnosis."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：492 | Output token nums：115 | price(CNY)：0.00000000
+Step 2 Observations: Magnetic resonance imaging showed a complete full-thickness tear of the anterior talofibular ligament with surrounding soft tissue edema; the posterior talofibular ligament was intact and no fracture line was identified.
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1253 | Output token nums：69 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1395 | Output token nums：212 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Although initial suspicion favored ankle fracture, the negative X-ray and MRI showing a complete anterior talofibular ligament tear with no fracture line confirm a severe lateral ankle sprain rather than fracture. All key imaging information is covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2904 | Output token nums：1605 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-4",
+      "confidence": 0.05,
+      "why": "The inversion mechanism and focal bony tenderness initially suggested ankle fracture, but the radiologist's interpretation of the negative X-ray and MRI showing a complete anterior talofibular ligament tear with no fracture line directly refutes a fracture. Confidence is therefore reduced from 0.7 to 0.05."
+    },
+    {
+      "node_id": "node-5",
+      "confidence": 0.95,
+      "why": "The radiologist's analysis confirms that the negative X-ray and MRI showing a complete anterior talofibular ligament tear with no fracture line establish a severe lateral ankle sprain. This imaging evidence, combined with the inversion injury mechanism and lateral malleolar tenderness, strongly supports this diagnosis and raises confidence from 0.25 to 0.95."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.01,
+      "why": "The MRI precisely identifies a complete anterior talofibular ligament tear, which is a specific lateral ankle ligament injury rather than an 'other' soft tissue injury. The initial exam findings already pointed away from this broad category, and with imaging now localizing the injury to the ATFL, confidence is reduced to 0.01."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "X-ray of left ankle shows no fracture line",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "MRI of left ankle shows complete anterior talofibular ligament tear with no fracture line",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-4",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-4",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-6",
+      "relation": "refute"
+    }
+  ]
+}
+Level: 1 Node: node-4 not the hypothesis with highest confidence, backtracking invoked
+{'node_id': 'node-5', 'label': 'Severe lateral ankle sprain', 'why': {'why': "The radiologist's analysis confirms that the negative X-ray and MRI showing a complete anterior talofibular ligament tear with no fracture line establish a severe lateral ankle sprain. This imaging evidence, combined with the inversion injury mechanism and lateral malleolar tenderness, strongly supports this diagnosis and raises confidence from 0.25 to 0.95."}, 'score': 0.95, 'level': 1, 'supports': 4, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Left ankle is swollen and painful with inability to bear we… | score=1.000
+[node-2] Evidence[-] | 28-year-old man presented to the emergency department after… | score=1.000
+[node-3] Evidence[-] | Physical examination showed marked left ankle swelling with… | score=1.000
+[node-4] Hypothesis[1] | Ankle fracture | score=0.050 | attrs={"why": {"why": "The inversion mechanism and focal bony tenderness initially su…
+[node-5] Hypothesis[1] | Severe lateral ankle sprain | score=0.950 | attrs={"why": {"why": "The radiologist's analysis confirms that the negative X-ray an…
+[node-6] Hypothesis[1] | Other soft tissue injury | score=0.010 | attrs={"why": {"why": "The MRI precisely identifies a complete anterior talofibular l…
+[node-7] Evidence[-] | X-ray of left ankle shows no fracture line | score=1.000
+[node-8] Evidence[-] | MRI of left ankle shows complete anterior talofibular ligam… | score=1.000
+=== Edges ===
+node-1[Left ankle is swollen and painful with inability to bear we…] -> node-4[Ankle fracture] | refines | conf=0.000
+node-1[Left ankle is swollen and painful with inability to bear we…] -> node-5[Severe lateral ankle sprain] | refines | conf=0.000
+node-1[Left ankle is swollen and painful with inability to bear we…] -> node-6[Other soft tissue injury] | refines | conf=0.000
+node-2[28-year-old man presented to the emergency department after…] -> node-4[Ankle fracture] | support | conf=0.000
+node-2[28-year-old man presented to the emergency department after…] -> node-5[Severe lateral ankle sprain] | support | conf=0.000
+node-2[28-year-old man presented to the emergency department after…] -> node-6[Other soft tissue injury] | support | conf=0.000
+node-3[Physical examination showed marked left ankle swelling with…] -> node-4[Ankle fracture] | support | conf=0.000
+node-3[Physical examination showed marked left ankle swelling with…] -> node-5[Severe lateral ankle sprain] | support | conf=0.000
+node-3[Physical examination showed marked left ankle swelling with…] -> node-6[Other soft tissue injury] | refute | conf=0.000
+node-7[X-ray of left ankle shows no fracture line] -> node-5[Severe lateral ankle sprain] | support | conf=0.000
+node-7[X-ray of left ankle shows no fracture line] -> node-4[Ankle fracture] | refute | conf=0.000
+node-8[MRI of left ankle shows complete anterior talofibular ligam…] -> node-5[Severe lateral ankle sprain] | support | conf=0.000
+node-8[MRI of left ankle shows complete anterior talofibular ligam…] -> node-4[Ankle fracture] | refute | conf=0.000
+node-8[MRI of left ankle shows complete anterior talofibular ligam…] -> node-6[Other soft tissue injury] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1392 | Output token nums：316 | price(CNY)：0.00000000
+Response: {"belief": "A 28-year-old man presented with left ankle swelling, pain, and inability to bear weight after an inversion injury during basketball. Physical examination showed lateral malleolar tenderness and marked swelling. Imaging revealed no fracture on X-ray and a complete anterior talofibular ligament tear on MRI. These findings strongly support a severe lateral ankle sprain, while directly refuting ankle fracture and other soft tissue injury. The inversion mechanism and exam findings are consistent with this diagnosis, and the imaging evidence confirms it as the most probable conclusion."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3577 | Output token nums：404 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "左踝严重外侧副韧带扭伤（ATFL完全撕裂）",
+  "report": "患者打篮球时左踝内翻受伤，表现为肿胀、疼痛、无法负重，外踝前方压痛，符合外侧踝扭伤表现。X线无骨折线直接排除踝关节骨折；MRI显示前距腓韧带完全撕裂且无骨折线，明确损伤为外侧韧带复合体的严重扭伤，同时排除其他软组织损伤。综合受伤机制、体征及影像学证据，目前高度支持“严重外侧踝扭伤”这一诊断，置信度达0.95，无需进一步细化即可回答核心问题。"
+}
+Answer: 左踝严重外侧副韧带扭伤（ATFL完全撕裂）
+Report: 患者打篮球时左踝内翻受伤，表现为肿胀、疼痛、无法负重，外踝前方压痛，符合外侧踝扭伤表现。X线无骨折线直接排除踝关节骨折；MRI显示前距腓韧带完全撕裂且无骨折线，明确损伤为外侧韧带复合体的严重扭伤，同时排除其他软组织损伤。综合受伤机制、体征及影像学证据，目前高度支持“严重外侧踝扭伤”这一诊断，置信度达0.95，无需进一步细化即可回答核心问题。
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 24038 (\N{CJK UNIFIED IDEOGRAPH-5DE6}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 36381 (\N{CJK UNIFIED IDEOGRAPH-8E1D}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 20005 (\N{CJK UNIFIED IDEOGRAPH-4E25}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 37325 (\N{CJK UNIFIED IDEOGRAPH-91CD}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 22806 (\N{CJK UNIFIED IDEOGRAPH-5916}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 20391 (\N{CJK UNIFIED IDEOGRAPH-4FA7}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 21103 (\N{CJK UNIFIED IDEOGRAPH-526F}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 38887 (\N{CJK UNIFIED IDEOGRAPH-97E7}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 24102 (\N{CJK UNIFIED IDEOGRAPH-5E26}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 25197 (\N{CJK UNIFIED IDEOGRAPH-626D}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 20260 (\N{CJK UNIFIED IDEOGRAPH-4F24}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 65288 (\N{FULLWIDTH LEFT PARENTHESIS}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 23436 (\N{CJK UNIFIED IDEOGRAPH-5B8C}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 20840 (\N{CJK UNIFIED IDEOGRAPH-5168}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 25749 (\N{CJK UNIFIED IDEOGRAPH-6495}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 35010 (\N{CJK UNIFIED IDEOGRAPH-88C2}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+/Users/bubble/Desktop/TraceEvo/traceevo/audit/provenance_graph.py:236: UserWarning: Glyph 65289 (\N{FULLWIDTH RIGHT PARENTHESIS}) missing from font(s) DejaVu Sans.
+  fig.savefig(out_path, dpi=170, bbox_inches="tight")
+[TraceEvo] case 0: 12 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：15 | Input token nums：21304 | Output token nums：6414 | Total token nums：27718 | price(CNY)：0.00000000
+[S0] Running 1 case(s): [0]
+
+
+===============[RUN] Case 0  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1330 | Output token nums：309 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "The patient had a swollen and painful left ankle",
+  "isolated_evidence": [
+    "A 28-year-old man presented to the emergency department after landing awkwardly on his inverted left foot while playing basketball two hours earlier; physical examination showed marked swelling and diffuse tenderness of the left ankle, and he was unable to bear weight on the affected leg."
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | The patient had a swollen and painful left ankle | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1385 | Output token nums：2221 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Acute ankle sprain",
+      "confidence": 0.55,
+      "why": "node-2: inversion trauma with marked swelling, diffuse tenderness, and inability to bear weight strongly supports acute lateral ligament sprain; no refuting evidence."
+    },
+    {
+      "id": "h002",
+      "label": "Ankle fracture",
+      "confidence": 0.35,
+      "why": "node-2: same inversion mechanism and inability to bear weight raise suspicion for ankle fracture; marked swelling and tenderness support the need to exclude bony injury."
+    },
+    {
+      "id": "h003",
+      "label": "Peroneal tendon injury",
+      "confidence": 0.1,
+      "why": "node-2: inversion injury can stress peroneal tendons causing lateral ankle pain and swelling; less common than sprain or fracture, but supported by trauma mechanism."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h003",
+      "relation": "support"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | The patient had a swollen and painful left ankle | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+[node-3] Hypothesis[1] | Acute ankle sprain | score=0.550 | attrs={"why": "node-2: inversion trauma with marked swelling, diffuse tenderness, and…
+[node-4] Hypothesis[1] | Ankle fracture | score=0.350 | attrs={"why": "node-2: same inversion mechanism and inability to bear weight raise su…
+[node-5] Hypothesis[1] | Peroneal tendon injury | score=0.100 | attrs={"why": "node-2: inversion injury can stress peroneal tendons causing lateral a…
+=== Edges ===
+node-1[The patient had a swollen and painful left ankle] -> node-3[Acute ankle sprain] | refines | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-4[Ankle fracture] | refines | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-5[Peroneal tendon injury] | refines | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-3[Acute ankle sprain] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-4[Ankle fracture] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-5[Peroneal tendon injury] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：859 | Output token nums：217 | price(CNY)：0.00000000
+Response: {"belief": "The patient’s swollen and painful left ankle is the key signal, further detailed by the clinical evidence of inversion trauma, marked swelling, diffuse tenderness, and inability to bear weight. This evidence directly supports three possible diagnoses: acute ankle sprain is the most likely hypothesis, followed by ankle fracture, while peroneal tendon injury is less probable. The mechanism and examination findings most strongly align with an acute lateral ligament sprain, but the same features also warrant ruling out a fracture and considering peroneal tendon involvement."}
+{'node_id': 'node-3', 'label': 'Acute ankle sprain', 'why': 'node-2: inversion trauma with marked swelling, diffuse tenderness, and inability to bear weight strongly supports acute lateral ligament sprain; no refuting evidence.', 'score': 0.55, 'level': 1, 'supports': 1, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1338 | Output token nums：142 | price(CNY)：0.00000000
+Response: [
+  {"expert_name":"Radiologist"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1076 | Output token nums：104 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1225 | Output token nums：307 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's left ankle X-ray (anteroposterior, lateral, and mortise views) to rule out fracture per Ottawa rules, and if needed MRI to assess lateral ligament complex and peroneal tendons, as these are core for differentiating sprain from fracture and peroneal tendon injury."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：504 | Output token nums：114 | price(CNY)：0.00000000
+Step 1 Observations: Imaging Studies:    1. Radiographs of the left ankle showed no acute fracture or dislocation.    2. Magnetic resonance imaging showed a complete full-thickness tear of the anterior talofibular ligament with surrounding soft tissue edema; the posterior talofibular ligament was intact and no fracture line was identified.
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1199 | Output token nums：383 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1348 | Output token nums：380 | price(CNY)：0.00000000
+Step 2 reponse: {"type": 1, "decision": "retrieve", "content": "Need the MRI detailed evaluation of the peroneal tendons (peroneus longus and brevis) and calcaneofibular ligament to exclude peroneal tendon injury and confirm isolated anterior talofibular ligament tear, as these are core for differentiating acute lateral ankle sprain from peroneal tendon pathology."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：505 | Output token nums：80 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1280 | Output token nums：67 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1429 | Output token nums：546 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the belief of acute ankle sprain, X-ray excludes fracture, and MRI reveals a complete tear of the anterior talofibular ligament with surrounding edema, confirming acute lateral ligament sprain. The posterior talofibular ligament is intact, and no fracture is seen. Peroneal tendon status was not retrieved, so that alternative remains less probable but not fully excluded; clinical correlation advised. All key imaging information for the leading hypothesis is covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2840 | Output token nums：4773 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-3",
+      "confidence": 0.92,
+      "why": "X-ray excludes fracture and MRI reveals a complete tear of the anterior talofibular ligament with surrounding edema, confirming acute lateral ligament sprain. The posterior talofibular ligament is intact, supporting an isolated lateral ligament injury. These imaging findings markedly strengthen the clinical impression of acute ankle sprain, increasing confidence from 0.55 to 0.92."
+    },
+    {
+      "node_id": "node-4",
+      "confidence": 0.02,
+      "why": "X-ray shows no fracture and MRI also demonstrates no fracture, directly excluding an ankle fracture. The inversion injury and inability to bear weight initially raised suspicion, but imaging refutes bony injury, reducing confidence from 0.35 to 0.02."
+    },
+    {
+      "node_id": "node-5",
+      "confidence": 0.1,
+      "why": "MRI did not retrieve the peroneal tendon status, so peroneal tendon injury cannot be fully excluded; however, the confirmed anterior talofibular ligament tear and absence of fracture make it less probable. Confidence remains low at 0.10, pending clinical correlation."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "X-ray of the left ankle shows no fracture",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "MRI shows complete tear of the anterior talofibular ligament with surrounding edema",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "MRI shows the posterior talofibular ligament is intact",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev004",
+      "label": "Peroneal tendon status was not retrieved on MRI",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Complete tear of the anterior talofibular ligament",
+      "node_type": "Hypothesis",
+      "confidence": 0.95,
+      "why": "MRI directly demonstrates a complete tear of the anterior talofibular ligament with surrounding edema, and X-ray excludes fracture. This is the specific pathological lesion underlying the acute lateral ligament sprain. Confidence is high because imaging is confirmatory, though peroneal tendon status was not retrieved."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-4",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-3",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-3",
+      "relation": "support"
+    }
+  ]
+}
+Level: 1 Node: node-3 not the hypothesis with highest confidence, backtracking invoked
+{'node_id': 'node-10', 'label': 'Complete tear of the anterior talofibular ligament', 'why': 'MRI directly demonstrates a complete tear of the anterior talofibular ligament with surrounding edema, and X-ray excludes fracture. This is the specific pathological lesion underlying the acute lateral ligament sprain. Confidence is high because imaging is confirmatory, though peroneal tendon status was not retrieved.', 'score': 0.95, 'level': 1, 'supports': 2, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | The patient had a swollen and painful left ankle | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+[node-3] Hypothesis[1] | Acute ankle sprain | score=0.920 | attrs={"why": {"why": "X-ray excludes fracture and MRI reveals a complete tear of the…
+[node-4] Hypothesis[1] | Ankle fracture | score=0.020 | attrs={"why": {"why": "X-ray shows no fracture and MRI also demonstrates no fracture,…
+[node-5] Hypothesis[1] | Peroneal tendon injury | score=0.100 | attrs={"why": {"why": "MRI did not retrieve the peroneal tendon status, so peroneal t…
+[node-6] Evidence[-] | X-ray of the left ankle shows no fracture | score=1.000
+[node-7] Evidence[-] | MRI shows complete tear of the anterior talofibular ligamen… | score=1.000
+[node-8] Evidence[-] | MRI shows the posterior talofibular ligament is intact | score=1.000
+[node-9] Evidence[-] | Peroneal tendon status was not retrieved on MRI | score=1.000
+[node-1] Hypothesis[1] | Complete tear of the anterior talofibular ligament | score=0.950 | attrs={"why": "MRI directly demonstrates a complete tear of the anterior talofibular …
+=== Edges ===
+node-1[The patient had a swollen and painful left ankle] -> node-3[Acute ankle sprain] | refines | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-4[Ankle fracture] | refines | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-5[Peroneal tendon injury] | refines | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-3[Acute ankle sprain] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-4[Ankle fracture] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-5[Peroneal tendon injury] | support | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-1[Complete tear of the anterior talofibular ligament] | refines | conf=0.000
+node-6[X-ray of the left ankle shows no fracture] -> node-4[Ankle fracture] | refute | conf=0.000
+node-7[MRI shows complete tear of the anterior talofibular ligamen…] -> node-3[Acute ankle sprain] | support | conf=0.000
+node-7[MRI shows complete tear of the anterior talofibular ligamen…] -> node-1[Complete tear of the anterior talofibular ligament] | support | conf=0.000
+node-8[MRI shows the posterior talofibular ligament is intact] -> node-1[Complete tear of the anterior talofibular ligament] | support | conf=0.000
+node-1[Complete tear of the anterior talofibular ligament] -> node-3[Acute ankle sprain] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1470 | Output token nums：274 | price(CNY)：0.00000000
+Response: {"belief": "The patient presented with a swollen, painful left ankle after an inversion injury while playing basketball, and was unable to bear weight. This clinical signal initially raised suspicion for acute ankle sprain, ankle fracture, or peroneal tendon injury. However, X-ray showed no fracture, directly refuting the fracture hypothesis. MRI revealed a complete tear of the anterior talofibular ligament with surrounding edema, while the posterior talofibular ligament remained intact. These imaging findings strongly support the diagnosis of an acute lateral ankle sprain, specifically a complete anterior talofibular ligament tear, raising confidence to 0.92. Peroneal tendon status was not retrieved on MRI, so that injury cannot be entirely excluded, but it remains unlikely. Overall, the evidence converges on acute ankle sprain with an isolated anterior talofibular ligament tear."}
+{'node_id': 'node-10', 'label': 'Complete tear of the anterior talofibular ligament', 'why': 'MRI directly demonstrates a complete tear of the anterior talofibular ligament with surrounding edema, and X-ray excludes fracture. This is the specific pathological lesion underlying the acute lateral ligament sprain. Confidence is high because imaging is confirmatory, though peroneal tendon status was not retrieved.', 'score': 0.95, 'level': 1, 'supports': 2, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1367 | Output token nums：155 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Radiologist"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1326 | Output token nums：312 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1504 | Output token nums：400 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"The prior MRI retrieval for peroneal tendons returned no data; please provide the MRI report sections detailing the peroneus longus and brevis tendons and the calcaneofibular ligament, as their status is the only missing key item needed to confirm an isolated anterior talofibular ligament tear and exclude peroneal tendon injury."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：509 | Output token nums：232 | price(CNY)：0.00000000
+Step 1 Observations: 
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1395 | Output token nums：103 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1573 | Output token nums：314 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the MRI report sections specifically detailing the peroneus longus and brevis tendons and the calcaneofibular ligament, as prior retrieval returned no data; these are the only remaining key items to confirm an isolated anterior talofibular ligament tear and exclude peroneal tendon injury."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：500 | Output token nums：76 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1471 | Output token nums：69 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1649 | Output token nums：495 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the belief of acute lateral ankle sprain, X-ray excludes fracture, and MRI directly confirms complete tear of the anterior talofibular ligament with surrounding edema, while the posterior talofibular ligament is intact. This strongly supports the suspected complete ATFL tear with high confidence. Peroneal tendon status was not retrieved, so that injury cannot be entirely excluded but remains unlikely. All retrievable key imaging information is covered; the only missing item is peroneal tendon assessment, which does not alter the primary diagnosis."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3436 | Output token nums：6046 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-10",
+      "confidence": 0.96,
+      "why": "MRI directly demonstrates a complete tear of the anterior talofibular ligament with surrounding edema, and the posterior talofibular ligament is intact; X-ray excludes fracture. The radiologist independently confirms that these imaging findings strongly support a complete ATFL tear with high confidence, and that the missing peroneal tendon assessment does not alter the primary diagnosis. This expert corroboration reduces residual uncertainty, increasing confidence from 0.95 to 0.96."
+    },
+    {
+      "node_id": "node-3",
+      "confidence": 0.93,
+      "why": "The diagnosis of acute ankle sprain is supported by the inversion injury, inability to bear weight, X-ray excluding fracture, and MRI showing a complete anterior talofibular ligament tear with surrounding edema while the posterior talofibular ligament remains intact. The radiologist's analysis explicitly endorses acute lateral ankle sprain and states that the unretrieved peroneal tendon status does not alter the primary diagnosis, allowing confidence to rise from 0.92 to 0.93."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev011",
+      "label": "Radiologist analysis confirms MRI findings strongly support complete anterior talofibular ligament tear and states missing peroneal tendon assessment does not alter the primary diagnosis",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h011",
+      "label": "The patient has an isolated complete tear of the anterior talofibular ligament",
+      "node_type": "Hypothesis",
+      "confidence": 0.90,
+      "why": "MRI shows a complete tear of the anterior talofibular ligament with surrounding edema and an intact posterior talofibular ligament, while X-ray excludes fracture. The radiologist's analysis strongly supports the complete ATFL tear and indicates the missing peroneal tendon assessment does not alter the primary diagnosis. Confidence is 0.90 because the peroneal tendon status was not retrieved, so a concomitant peroneal injury cannot be entirely excluded."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev011",
+      "dst": "node-10",
+      "relation": "support"
+    },
+    {
+      "src": "ev011",
+      "dst": "node-3",
+      "relation": "support"
+    },
+    {
+      "src": "ev011",
+      "dst": "h011",
+      "relation": "support"
+    },
+    {
+      "src": "node-8",
+      "dst": "h011",
+      "relation": "support"
+    },
+    {
+      "src": "node-7",
+      "dst": "h011",
+      "relation": "support"
+    },
+    {
+      "src": "node-6",
+      "dst": "h011",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h011",
+      "relation": "support"
+    },
+    {
+      "src": "h011",
+      "dst": "node-10",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-10', 'label': 'Complete tear of the anterior talofibular ligament', 'why': {'why': 'MRI directly demonstrates a complete tear of the anterior talofibular ligament with surrounding edema, and the posterior talofibular ligament is intact; X-ray excludes fracture. The radiologist independently confirms that these imaging findings strongly support a complete ATFL tear with high confidence, and that the missing peroneal tendon assessment does not alter the primary diagnosis. This expert corroboration reduces residual uncertainty, increasing confidence from 0.95 to 0.96.'}, 'score': 0.96, 'level': 1, 'supports': 4, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | The patient had a swollen and painful left ankle | score=1.000
+[node-2] Evidence[-] | A 28-year-old man presented to the emergency department aft… | score=1.000
+[node-3] Hypothesis[1] | Acute ankle sprain | score=0.930 | attrs={"why": {"why": "The diagnosis of acute ankle sprain is supported by the invers…
+[node-4] Hypothesis[1] | Ankle fracture | score=0.020 | attrs={"why": {"why": "X-ray shows no fracture and MRI also demonstrates no fracture,…
+[node-5] Hypothesis[1] | Peroneal tendon injury | score=0.100 | attrs={"why": {"why": "MRI did not retrieve the peroneal tendon status, so peroneal t…
+[node-6] Evidence[-] | X-ray of the left ankle shows no fracture | score=1.000
+[node-7] Evidence[-] | MRI shows complete tear of the anterior talofibular ligamen… | score=1.000
+[node-8] Evidence[-] | MRI shows the posterior talofibular ligament is intact | score=1.000
+[node-9] Evidence[-] | Peroneal tendon status was not retrieved on MRI | score=1.000
+[node-1] Hypothesis[1] | Complete tear of the anterior talofibular ligament | score=0.960 | attrs={"why": {"why": "MRI directly demonstrates a complete tear of the anterior talo…
+[node-1] Evidence[-] | Radiologist analysis confirms MRI findings strongly support… | score=1.000
+[node-1] Hypothesis[1] | The patient has an isolated complete tear of the anterior t… | score=0.900 | attrs={"why": "MRI shows a complete tear of the anterior talofibular ligament with su…
+=== Edges ===
+node-1[The patient had a swollen and painful left ankle] -> node-3[Acute ankle sprain] | refines | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-4[Ankle fracture] | refines | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-5[Peroneal tendon injury] | refines | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-3[Acute ankle sprain] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-4[Ankle fracture] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-5[Peroneal tendon injury] | support | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-1[Complete tear of the anterior talofibular ligament] | refines | conf=0.000
+node-6[X-ray of the left ankle shows no fracture] -> node-4[Ankle fracture] | refute | conf=0.000
+node-7[MRI shows complete tear of the anterior talofibular ligamen…] -> node-3[Acute ankle sprain] | support | conf=0.000
+node-7[MRI shows complete tear of the anterior talofibular ligamen…] -> node-1[Complete tear of the anterior talofibular ligament] | support | conf=0.000
+node-8[MRI shows the posterior talofibular ligament is intact] -> node-1[Complete tear of the anterior talofibular ligament] | support | conf=0.000
+node-1[Complete tear of the anterior talofibular ligament] -> node-3[Acute ankle sprain] | support | conf=0.000
+node-1[The patient had a swollen and painful left ankle] -> node-1[The patient has an isolated complete tear of the anterior t…] | refines | conf=0.000
+node-1[Radiologist analysis confirms MRI findings strongly support…] -> node-1[Complete tear of the anterior talofibular ligament] | support | conf=0.000
+node-1[Radiologist analysis confirms MRI findings strongly support…] -> node-3[Acute ankle sprain] | support | conf=0.000
+node-1[Radiologist analysis confirms MRI findings strongly support…] -> node-1[The patient has an isolated complete tear of the anterior t…] | support | conf=0.000
+node-8[MRI shows the posterior talofibular ligament is intact] -> node-1[The patient has an isolated complete tear of the anterior t…] | support | conf=0.000
+node-7[MRI shows complete tear of the anterior talofibular ligamen…] -> node-1[The patient has an isolated complete tear of the anterior t…] | support | conf=0.000
+node-6[X-ray of the left ankle shows no fracture] -> node-1[The patient has an isolated complete tear of the anterior t…] | support | conf=0.000
+node-2[A 28-year-old man presented to the emergency department aft…] -> node-1[The patient has an isolated complete tear of the anterior t…] | support | conf=0.000
+node-1[The patient has an isolated complete tear of the anterior t…] -> node-1[Complete tear of the anterior talofibular ligament] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2059 | Output token nums：711 | price(CNY)：0.00000000
+Response: {"belief": "The patient's swollen, painful left ankle after an inversion injury, with inability to bear weight, initially raised suspicion for acute ankle sprain, ankle fracture, or peroneal tendon injury. X-ray showing no fracture effectively refutes ankle fracture. MRI demonstrating a complete anterior talofibular ligament tear with surrounding edema, an intact posterior talofibular ligament, and radiologist confirmation strongly support the diagnosis of acute lateral ankle sprain and specifically a complete ATFL tear. Because the peroneal tendon status was not retrieved on MRI, a concomitant peroneal tendon injury cannot be entirely excluded, making isolated complete ATFL tear slightly less certain (0.90) than the complete tear itself (0.96). Overall consensus: acute ankle sprain due to complete ATFL tear, with fracture ruled out and minor residual uncertainty regarding peroneal tendons."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4243 | Output token nums：1287 | price(CNY)：0.00000000
+Response: {"type":1,"answer":"Complete ATFL tear","report":"The patient's inversion injury, inability to bear weight, and swollen painful ankle initially suggested ankle sprain, fracture, or peroneal injury. X-ray showing no fracture effectively excludes ankle fracture. MRI demonstrates a complete anterior talofibular ligament tear with surrounding edema and an intact posterior talofibular ligament; the radiologist independently confirms these findings strongly support a complete ATFL tear and states that the missing peroneal tendon assessment does not alter the primary diagnosis. Therefore, the current frontier of complete ATFL tear is sufficiently specific to answer the core diagnostic question. Minor residual uncertainty about a possible concomitant peroneal tendon injury remains because peroneal tendon status was not retrieved, but this does not change the primary diagnosis of acute lateral ankle sprain due to complete ATFL tear."}
+Answer: Complete ATFL tear
+Report: The patient's inversion injury, inability to bear weight, and swollen painful ankle initially suggested ankle sprain, fracture, or peroneal injury. X-ray showing no fracture effectively excludes ankle fracture. MRI demonstrates a complete anterior talofibular ligament tear with surrounding edema and an intact posterior talofibular ligament; the radiologist independently confirms these findings strongly support a complete ATFL tear and states that the missing peroneal tendon assessment does not alter the primary diagnosis. Therefore, the current frontier of complete ATFL tear is sufficiently specific to answer the core diagnostic question. Minor residual uncertainty about a possible concomitant peroneal tendon injury remains because peroneal tendon status was not retrieved, but this does not change the primary diagnosis of acute lateral ankle sprain due to complete ATFL tear.
+[TraceEvo] case 0: 20 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：26 | Input token nums：38820 | Output token nums：20117 | Total token nums：58937 | price(CNY)：0.00000000

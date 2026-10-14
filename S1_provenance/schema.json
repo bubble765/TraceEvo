@@ -1,0 +1,310 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TraceEvo S1 provenance artifacts",
+  "description": "Schemas for the S1 provenance layer (amendment §3). Generated from the dataclasses, so it cannot drift from the code.",
+  "definitions": {
+    "ProvenanceEvent": {
+      "type": "object",
+      "required": [
+        "event_id",
+        "task_id",
+        "step_id",
+        "timestamp",
+        "event_type",
+        "actor_id",
+        "actor_role"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "step_id": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "PLAN",
+            "AGENT_CALL",
+            "TOOL_CALL",
+            "EVIDENCE_READ",
+            "ANALYSIS",
+            "GRAPH_UPDATE",
+            "BACKTRACK",
+            "DRILL_DOWN",
+            "FINAL_REPORT"
+          ]
+        },
+        "actor_id": {
+          "type": "string"
+        },
+        "actor_role": {
+          "type": "string"
+        },
+        "tool_or_model": {
+          "type": "string"
+        },
+        "input_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "causal_node_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "parent_event_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_class": {
+          "type": "string",
+          "enum": [
+            "INPUT_OBSERVATION",
+            "RETRIEVED_RECORD",
+            "AGENT_GENERATED",
+            "SYSTEM_GENERATED",
+            "UNKNOWN"
+          ]
+        },
+        "model_version": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failed"
+          ]
+        },
+        "prev_hash": {
+          "type": "string",
+          "description": "previous event's event_hash; GENESIS (64 zeros) for the first"
+        },
+        "event_hash": {
+          "type": "string",
+          "description": "sha256 of canonical_json(event minus event_hash)"
+        },
+        "payload": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "GraphDelta": {
+      "type": "object",
+      "required": [
+        "delta_id",
+        "event_id"
+      ],
+      "properties": {
+        "delta_id": {
+          "type": "string"
+        },
+        "event_id": {
+          "type": "string"
+        },
+        "added_nodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "updated_nodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deleted_nodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "added_edges": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": "[src, dst] pairs"
+        },
+        "deleted_edges": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": "[src, dst] pairs"
+        },
+        "before_hash": {
+          "type": "string"
+        },
+        "after_hash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "RetrievalRecord": {
+      "type": "object",
+      "required": [
+        "record_id",
+        "retrieval_event_id",
+        "query",
+        "text",
+        "step_id",
+        "expert"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "pattern": "^rec-case-\\d+-\\d{4}$"
+        },
+        "retrieval_event_id": {
+          "type": "string",
+          "pattern": "^evt-case-\\d+-\\d{5}$"
+        },
+        "query": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "description": "verbatim text returned by evidence_retriever"
+        },
+        "step_id": {
+          "type": "integer"
+        },
+        "expert": {
+          "type": "string"
+        }
+      }
+    },
+    "NodeBinding": {
+      "type": "object",
+      "required": [
+        "node_id",
+        "node_type",
+        "label",
+        "created_by_event",
+        "source_class",
+        "match_tier"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string",
+          "description": "GoS causal-graph node id (node-N)"
+        },
+        "node_type": {
+          "enum": [
+            "Signal",
+            "Evidence",
+            "Hypothesis"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "created_by_event": {
+          "type": "string"
+        },
+        "created_at_step": {
+          "type": "integer"
+        },
+        "source_class": {
+          "enum": [
+            "INPUT_OBSERVATION",
+            "RETRIEVED_RECORD",
+            "AGENT_GENERATED",
+            "SYSTEM_GENERATED",
+            "UNKNOWN"
+          ]
+        },
+        "semantic_kind": {
+          "enum": [
+            "clinical_evidence",
+            "domain_knowledge",
+            "agent_inference",
+            "absence_claim",
+            "recommendation",
+            "hypothesis",
+            "conclusion",
+            ""
+          ]
+        },
+        "match_tier": {
+          "enum": [
+            "verbatim",
+            "paraphrase",
+            "input",
+            "none",
+            "n/a"
+          ]
+        },
+        "matched_record_id": {
+          "type": "string"
+        },
+        "matched_retrieval_event": {
+          "type": "string"
+        },
+        "match_coverage": {
+          "type": "number"
+        }
+      }
+    },
+    "CrossGraphBinding": {
+      "type": "object",
+      "description": "provenance_event_id <-> GoS node_id <-> retrieval record_id",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RetrievalRecord"
+          }
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NodeBinding"
+          }
+        },
+        "grounding_summary": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/definitions/ProvenanceEvent"
+    },
+    {
+      "$ref": "#/definitions/GraphDelta"
+    },
+    {
+      "$ref": "#/definitions/CrossGraphBinding"
+    }
+  ]
+}

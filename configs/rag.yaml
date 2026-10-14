@@ -1,0 +1,67 @@
+# Independent RAG configuration. Core-v1 remains unchanged until a separate,
+# explicitly versioned integration phase is approved.
+rag:
+  patient_evidence:
+    enabled: true
+    store: sqlite
+    database_path: traceevo_runs/rag/patient_evidence.sqlite3
+    vector_search: false
+    default_limit: 20
+    max_limit: 100
+
+  medical_knowledge:
+    enabled: true
+    vector_db: qdrant
+    storage_path: traceevo_runs/rag/qdrant
+    collection: traceevo_medical_knowledge
+    index: hnsw
+    distance: cosine
+    retrieve_k: 30
+    rerank_k: 5
+    final_k: 4
+    ingestion:
+      raw_dir: traceevo_runs/rag/medical_knowledge/raw
+      normalized_dir: traceevo_runs/rag/medical_knowledge/normalized
+      normalized_schema: schema-v2
+      pmc_adapter: ncbi_bioc_json
+      who_adapter: explicit_manifest_only
+      who_manifest: null
+      allow_noncommercial: false
+
+  experience:
+    enabled: false
+    vector_db: qdrant
+    collection: traceevo_experience
+    index: hnsw
+    distance: cosine
+    retrieve_k: 20
+    rerank_k: 5
+    final_k: 2
+
+  embedding:
+    model: Qwen/Qwen3-Embedding-0.6B
+    revision: 97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3
+    dimension: 1024
+    edge_candidate_dimension: 512
+    normalize: true
+    device: auto
+    batch_size: 4
+
+  reranker:
+    model: Qwen/Qwen3-Reranker-0.6B
+
+  chunking:
+    target_tokens: 384
+    max_tokens: 480
+    overlap_tokens: 64
+    min_tokens: 120
+    tokenizer: unicode_lexical_estimate_v1
+
+  query_planning:
+    max_subqueries: 4
+    always_reformulate: true
+
+  integration:
+    core_v1_hook_enabled: false
+    legacy_evidence_retriever_unchanged: true
+    legacy_evidence_retriever_mode: legacy

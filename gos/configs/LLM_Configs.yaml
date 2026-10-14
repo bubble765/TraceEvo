@@ -1,0 +1,48 @@
+# TraceEvo S0 patch: LLM transport config.
+# The official repo hardcodes an API key placeholder and a third-party base_url
+# inside utils/public_function.py. We move those here so the S0 run is
+# reproducible and the backbone can be switched without touching code.
+#
+# NOTE: gos_official/ holds the pristine upstream checkout (commit 0f28c2e).
+#       This working copy only contains S0 infrastructure patches.
+
+transport:
+  # host[:port] used by http.client.HTTPSConnection / HTTPConnection
+  host: "localhost:18080"
+  endpoint: "/v1/chat/completions"
+  scheme: "http"            # "http" or "https"
+  timeout: 300
+  # S1: total wall-clock budget for one request, enforced with SIGALRM. The
+  # socket timeout above is per-operation, so a slow-dribbling response could
+  # otherwise block forever (observed: one request hung for 51 minutes).
+  request_deadline: 900
+  # Header required by the local opencode gateway
+  session_header: "ses_traceevo_s0"
+  # Name of the environment variable holding the bearer token.
+  api_key_env: "TRACEEVO_API_KEY"
+
+# Model used by helper calls that the upstream code hardcodes
+# (evidence_retriever -> "gpt-5.1", BeliefGraph.generate_belief_text -> "gpt-3.5-turbo").
+# Both are forced to the S0 backbone so the whole pipeline runs on one model.
+default_model_path: "deepseek-v4-flash"
+
+# Upstream accepts max_tokens in its signature but never puts it in the request
+# payload. Kept as an explicit switch so S0 reproduces upstream behaviour while
+# documenting the discrepancy (see S0_report.md "deviation" section).
+send_max_tokens: false
+
+# S1: retry decisions are made on exception type / HTTP status / gateway error
+# type (see utils/public_function.py: classify_api_error), NOT on message text.
+#
+#   retry    -> transport errors (reset/timeout/disconnect), HTTP 429, HTTP 5xx
+#   fail fast -> AuthError, ModelError, MissingSessionID, HTTP 4xx
+#
+# Observed gateway behaviour (probed 2026-09-16):
+#   bad model    -> HTTP 401 {"type":"ModelError"}
+#   bad auth     -> HTTP 401 {"type":"AuthError"}
+#   no session   -> HTTP 400 {"type":"MissingSessionID"}
+#   server fault -> HTTP 500 {"type":"error","message":"Internal server error"}
+retry:
+  max_attempts: 5
+  base_delay: 2.0        # seconds, exponential backoff
+  max_delay: 60.0

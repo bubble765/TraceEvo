@@ -1,0 +1,65 @@
+{
+  "rule_file_drift": [],
+  "rule_file_drift_note": "empty means every file that implements a rule — the audit rules, the OutcomeVerifier, the Gate, the P0-P3 thresholds — is byte-identical to the freeze",
+  "driver_script_drift": [
+    {
+      "file": "traceevo/s5b_run.py",
+      "frozen": "238235346dde5a26",
+      "now": "0dacb4b13c191b95",
+      "modified_at": "2026-09-20T04:49:20.168211+00:00",
+      "predates_run": true
+    },
+    {
+      "file": "traceevo/s5b_anomaly.py",
+      "frozen": "f1ca83b05b1acedb",
+      "now": "323f7d7556feac64",
+      "modified_at": "2026-09-20T04:41:11.446579+00:00",
+      "predates_run": true
+    },
+    {
+      "file": "traceevo/s5b_gate.py",
+      "frozen": "3af0c526ca2fafb8",
+      "now": "12a0818f8eeec9d0",
+      "modified_at": "2026-09-20T13:54:53.720247+00:00",
+      "predates_run": false
+    },
+    {
+      "file": "traceevo/s5b_ablation.py",
+      "frozen": "1a0ac75d5ab90a62",
+      "now": "e39b2c98f98e7d82",
+      "modified_at": "2026-09-20T04:41:36.616235+00:00",
+      "predates_run": true
+    },
+    {
+      "file": "traceevo/s5b_overhead.py",
+      "frozen": "cb787594bd344ccd",
+      "now": "426a931a7f7e1089",
+      "modified_at": "2026-09-20T04:36:40.188706+00:00",
+      "predates_run": true
+    },
+    {
+      "file": "traceevo/s5b_tables.py",
+      "frozen": "1277b8a19cdd1c61",
+      "now": "5fb1656b33ef8d21",
+      "modified_at": "2026-09-20T13:55:07.455778+00:00",
+      "predates_run": false
+    },
+    {
+      "file": "traceevo/s5b_figures.py",
+      "frozen": "dd829fe03a2fbff3",
+      "now": "ec74c147526ee973",
+      "modified_at": "2026-09-20T04:52:22.949102+00:00",
+      "predates_run": true
+    },
+    {
+      "file": "traceevo/s5b_finalize.py",
+      "frozen": "c14932b817ee10a6",
+      "now": "4a4d89cd8ceeaf67",
+      "modified_at": "2026-09-20T13:53:58.135688+00:00",
+      "predates_run": false
+    }
+  ],
+  "first_seal_at": "2026-09-20T05:00:27.095+00:00",
+  "interpretation": "`predates_run: true` means the file was edited before the first held-out case was sealed, so the change cannot have been fitted to a held-out result. It does not by itself mean the change was harmless; the reasons are stated in S5B_report.md.",
+  "reasons": "The post-freeze driver edits made no algorithmic change. `s5b_overhead.py` gained the §14 token class, which S5A had reported as TOKEN_UNAVAILABLE; the API does report usage, so the field was a false statement about the instrument. `s5b_anomaly.py`, `s5b_ablation.py` and `s5b_tables.py` gained measured-zero handling so a class that was injected and never detected reports F1 0.0 rather than an em dash. `s5b_finalize.py` split §20 conditions 2 and 7 so that report drift cannot fail a protocol condition. None of the five changes a fraction, a count or a decision."
+}

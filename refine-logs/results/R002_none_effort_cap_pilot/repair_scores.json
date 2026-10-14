@@ -1,0 +1,123 @@
+{
+  "status": "EXPLORATORY_SCORED",
+  "cohort_status": "exposed S5B development data; exploratory only",
+  "selection": "original frozen GoS Match=0 only; Match=1 broad-category cases are excluded",
+  "n_original_failure_cases": 2,
+  "n_with_audit_signal": 2,
+  "n_without_audit_signal": 0,
+  "per_variant": {
+    "baseline": {
+      "n": 2,
+      "score_0": 2,
+      "score_1": 0,
+      "score_2": 0,
+      "unparsed": 0,
+      "exact_rescues_from_original_match0": 0,
+      "conditional_exact_rescue_rate": 0.0
+    },
+    "generic": {
+      "n": 2,
+      "score_0": 2,
+      "score_1": 0,
+      "score_2": 0,
+      "unparsed": 0,
+      "exact_rescues_from_original_match0": 0,
+      "conditional_exact_rescue_rate": 0.0
+    },
+    "audit_policy": {
+      "n": 2,
+      "score_0": 2,
+      "score_1": 0,
+      "score_2": 0,
+      "unparsed": 0,
+      "exact_rescues_from_original_match0": 0,
+      "conditional_exact_rescue_rate": 0.0
+    }
+  },
+  "audit_vs_generic_on_signal_subset": {
+    "tie": 2
+  },
+  "case_variant_results": [
+    {
+      "case": 80,
+      "variant": "baseline",
+      "prediction": "Hypertensive emergency with HF",
+      "report": "Severe hypertension (221/85 mm Hg) with renal insufficiency, markedly elevated BNP (838.6 pg/mL), and echocardiographic left atrial enlargement with mild pulmonary hypertension indicate cardiac target-organ damage, establishing hypertensive emergency. Atrial flutter is best explained as secondary to hypertensive heart disease, not a primary arrhythmia; absence of troponin elevation and ischemic ECG changes reduces acute coronary syndrome, and bradyarrhythmia is refuted by the overall picture. Thus the frontier is sufficiently refined to conclude hypertensive emergency complicated by acute heart failure.",
+      "audit_signal": true,
+      "source_variant": "original_trace",
+      "original_frozen_match_score": 0,
+      "paired_rescore": 0,
+      "rescored_exact": false,
+      "rescored_relevant": false
+    },
+    {
+      "case": 80,
+      "variant": "generic",
+      "prediction": "",
+      "report": "The graph supports hypertensive emergency with heart failure, but the case options focus on arrhythmias. The initial ECG shows sinus bradycardia with prolonged PR and QRS, and follow-up shows atrial flutter, suggesting possible advanced interatrial block (Bayés syndrome) as a cause of atrial flutter. However, the graph does not address this option. The diagnosis of hypertensive emergency is plausible but incomplete relative to the options.",
+      "audit_signal": true,
+      "source_variant": "generic_revision",
+      "original_frozen_match_score": 0,
+      "paired_rescore": 0,
+      "rescored_exact": false,
+      "rescored_relevant": false
+    },
+    {
+      "case": 80,
+      "variant": "audit_policy",
+      "prediction": "",
+      "report": "The case facts show severe hypertension, elevated BNP, left atrial enlargement, and atrial flutter, but no troponin or chest imaging. The graph's conclusion of hypertensive emergency with heart failure is plausible but not fully supported without excluding ACS or confirming pulmonary edema. The audit flags expert analyses lacking causal node references, reducing confidence. Thus, information is insufficient to definitively retain or revise.",
+      "audit_signal": true,
+      "source_variant": "audit_revision",
+      "original_frozen_match_score": 0,
+      "paired_rescore": 0,
+      "rescored_exact": false,
+      "rescored_relevant": false
+    },
+    {
+      "case": 90,
+      "variant": "baseline",
+      "prediction": "Porus acusticus lipoma",
+      "report": "The patient's chronic clumsiness, progressive imbalance, and vertigo-like shaking episodes, with a fall, localize to the vestibulocochlear system. MRI demonstrates a fat-containing enhancing lesion at the porus acusticus, the nerve entry point, directly supporting a peripheral vestibulocochlear disorder. The lesion's fat content with soft-tissue enhancement is most consistent with a lipoma with enhancing component; schwannoma and meningioma are less likely because they are not typically fat-containing. Absence of syncope, palpitations, or loss of consciousness excludes a cardiovascular/syncopal event. However, without audiometry, vestibular function tests, and EEG, central pathology cannot be fully excluded, so confidence remains moderate. Overall, the most probable cause is a lipoma at the porus acusticus causing peripheral vestibulocochlear dysfunction.",
+      "audit_signal": true,
+      "source_variant": "original_trace",
+      "original_frozen_match_score": 0,
+      "paired_rescore": 0,
+      "rescored_exact": false,
+      "rescored_relevant": false
+    },
+    {
+      "case": 90,
+      "variant": "generic",
+      "prediction": "",
+      "report": "The imaging shows a fat-containing lesion at the CPA with soft-tissue enhancement, which is atypical for lipoma. The differential includes lipoma, dermoid, and teratoma. The graph supports lipoma but lacks histopathology and detailed imaging features (e.g., calcifications, fat suppression) to distinguish these. Patient facts are limited to symptoms and imaging; inference of lipoma is plausible but not definitive. Therefore, insufficient information to confirm.",
+      "audit_signal": true,
+      "source_variant": "generic_revision",
+      "original_frozen_match_score": 0,
+      "paired_rescore": 0,
+      "rescored_exact": false,
+      "rescored_relevant": false
+    },
+    {
+      "case": 90,
+      "variant": "audit_policy",
+      "prediction": "",
+      "report": "Imaging shows a fat-containing CPA mass with enhancing soft tissue, consistent with lipoma, but histopathology is absent. The graph's confidence in lipoma (0.65) is moderate, and central pathology cannot be excluded without audiometry, vestibular tests, and EEG. The audit anomaly does not alter these facts. Thus, evidence is insufficient to confirm the diagnosis.",
+      "audit_signal": true,
+      "source_variant": "audit_revision",
+      "original_frozen_match_score": 0,
+      "paired_rescore": 0,
+      "rescored_exact": false,
+      "rescored_relevant": false
+    }
+  ],
+  "evaluator": "frozen gos/evaluate_Medical_scoring.py prompt/parser; same batch rubric for baseline and both repair policies",
+  "judge_request_settings": "deepseek-v4-flash; temperature=1.0; reasoning_effort=none; max_tokens=512; local proxy cap enabled",
+  "gold_isolation": "References are read only by this post-run scorer after repair generation outputs exist.",
+  "limitations": [
+    "This is conditional recovery on cases selected by their original Match=0 outcome; it is not an overall-cohort or deployable-trigger accuracy claim.",
+    "One paired GoS-style scoring pass is exploratory; broad-category Match=1 cases are kept outside the primary failure cohort.",
+    "Audit-clean errors receive no audit intervention in the audit_policy arm; the generic arm is a separate extra-review control.",
+    "S5B cases were already inspected and are development-only."
+  ]
+}

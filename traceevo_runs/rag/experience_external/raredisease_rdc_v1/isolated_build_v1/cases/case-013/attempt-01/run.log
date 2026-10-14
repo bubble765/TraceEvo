@@ -1,0 +1,247 @@
+[S0] Running 1 case(s): [13]
+
+
+===============[RUN] Case 13  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1445 | Output token nums：939 | price(CNY)：0.00000000
+Response: {"symptom_node":"A 5-month-old girl had fever followed by seizure and left-sided body weakness","isolated_evidence":["Patient is a 5-month-old girl, born full-term via vaginal delivery, with no prior history of seizures and age-appropriate motor and language development","Parents reported she was in her usual state of health and behaving normally before developing fever; a few hours after fever onset, she experienced a seizure","She was brought to Gandhi Memorial Hospital (GMH), Rewa, while actively seizing and was administered intravenous midazolam, phenytoin, valproate, and levetiracetam","The seizure lasted approximately 10–15 hours in total; following the seizure she exhibited weakness on the left side of her body","By the third day of hospitalization, her mental status had improved but she still showed left-sided hemiparesis and was not speaking spontaneously; over the next four days her condition began to improve with continued antiepileptic treatment"]}
+=== Nodes ===
+[node-1] Signal[-] | A 5-month-old girl had fever followed by seizure and left-s… | score=1.000
+[node-2] Evidence[-] | Patient is a 5-month-old girl, born full-term via vaginal d… | score=1.000
+[node-3] Evidence[-] | Parents reported she was in her usual state of health and b… | score=1.000
+[node-4] Evidence[-] | She was brought to Gandhi Memorial Hospital (GMH), Rewa, wh… | score=1.000
+[node-5] Evidence[-] | The seizure lasted approximately 10–15 hours in total; foll… | score=1.000
+[node-6] Evidence[-] | By the third day of hospitalization, her mental status had … | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1515 | Output token nums：8632 | price(CNY)：0.00000000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2083 | Output token nums：3211 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Hemiconvulsion-hemiplegia",
+      "confidence": 0.8,
+      "why": "ev003 fever then seizure, ev004 refractory seizure, ev005 prolonged seizure+hemiparesis, ev006 persistent hemiparesis improving on AEDs"
+    },
+    {
+      "id": "h002",
+      "label": "Infectious meningoencephalitis",
+      "confidence": 0.4,
+      "why": "ev003 fever then seizure, ev004 refractory seizure, ev006 mental status change, but ev005 prolonged focal seizure less typical"
+    },
+    {
+      "id": "h003",
+      "label": "Acute ischemic stroke",
+      "confidence": 0.2,
+      "why": "ev005 acute left hemiparesis, ev006 persistent focal deficit; but ev003 fever before seizure and ev005 prolonged seizure favor postictal HHS"
+    }
+  ],
+  "edges": [
+    {"src": "node-2", "dst": "h001", "relation": "support"},
+    {"src": "node-3", "dst": "h001", "relation": "support"},
+    {"src": "node-4", "dst": "h001", "relation": "support"},
+    {"src": "node-5", "dst": "h001", "relation": "support"},
+    {"src": "node-6", "dst": "h001", "relation": "support"},
+    {"src": "node-3", "dst": "h002", "relation": "support"},
+    {"src": "node-4", "dst": "h002", "relation": "support"},
+    {"src": "node-6", "dst": "h002", "relation": "support"},
+    {"src": "node-5", "dst": "h002", "relation": "refute"},
+    {"src": "node-5", "dst": "h003", "relation": "support"},
+    {"src": "node-6", "dst": "h003", "relation": "support"},
+    {"src": "node-3", "dst": "h003", "relation": "refute"}
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | A 5-month-old girl had fever followed by seizure and left-s… | score=1.000
+[node-2] Evidence[-] | Patient is a 5-month-old girl, born full-term via vaginal d… | score=1.000
+[node-3] Evidence[-] | Parents reported she was in her usual state of health and b… | score=1.000
+[node-4] Evidence[-] | She was brought to Gandhi Memorial Hospital (GMH), Rewa, wh… | score=1.000
+[node-5] Evidence[-] | The seizure lasted approximately 10–15 hours in total; foll… | score=1.000
+[node-6] Evidence[-] | By the third day of hospitalization, her mental status had … | score=1.000
+[node-7] Hypothesis[1] | Hemiconvulsion-hemiplegia | score=0.800 | attrs={"why": "ev003 fever then seizure, ev004 refractory seizure, ev005 prolonged se…
+[node-8] Hypothesis[1] | Infectious meningoencephalitis | score=0.400 | attrs={"why": "ev003 fever then seizure, ev004 refractory seizure, ev006 mental statu…
+[node-9] Hypothesis[1] | Acute ischemic stroke | score=0.200 | attrs={"why": "ev005 acute left hemiparesis, ev006 persistent focal deficit; but ev00…
+=== Edges ===
+node-1[A 5-month-old girl had fever followed by seizure and left-s…] -> node-7[Hemiconvulsion-hemiplegia] | refines | conf=0.000
+node-1[A 5-month-old girl had fever followed by seizure and left-s…] -> node-8[Infectious meningoencephalitis] | refines | conf=0.000
+node-1[A 5-month-old girl had fever followed by seizure and left-s…] -> node-9[Acute ischemic stroke] | refines | conf=0.000
+node-2[Patient is a 5-month-old girl, born full-term via vaginal d…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-3[Parents reported she was in her usual state of health and b…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-4[She was brought to Gandhi Memorial Hospital (GMH), Rewa, wh…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-5[The seizure lasted approximately 10–15 hours in total; foll…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-6[By the third day of hospitalization, her mental status had …] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-3[Parents reported she was in her usual state of health and b…] -> node-8[Infectious meningoencephalitis] | support | conf=0.000
+node-4[She was brought to Gandhi Memorial Hospital (GMH), Rewa, wh…] -> node-8[Infectious meningoencephalitis] | support | conf=0.000
+node-6[By the third day of hospitalization, her mental status had …] -> node-8[Infectious meningoencephalitis] | support | conf=0.000
+node-5[The seizure lasted approximately 10–15 hours in total; foll…] -> node-8[Infectious meningoencephalitis] | refute | conf=0.000
+node-5[The seizure lasted approximately 10–15 hours in total; foll…] -> node-9[Acute ischemic stroke] | support | conf=0.000
+node-6[By the third day of hospitalization, her mental status had …] -> node-9[Acute ischemic stroke] | support | conf=0.000
+node-3[Parents reported she was in her usual state of health and b…] -> node-9[Acute ischemic stroke] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1387 | Output token nums：593 | price(CNY)：0.00000000
+Response: {"belief": "In a 5-month-old previously healthy girl, fever followed by a prolonged seizure and subsequent left hemiparesis is best explained by hemiconvulsion-hemiplegia (score 0.8). This hypothesis is supported by normal development, fever-triggered seizure, refractory seizure requiring multiple AEDs, a 10–15 hour seizure, and persistent left hemiparesis that improved with antiepileptic treatment. Infectious meningoencephalitis (0.4) is less likely because the prolonged focal seizure is atypical, despite fever, seizure, and mental status change. Acute ischemic stroke (0.2) is also less likely; although focal deficit supports it, the preceding fever and prolonged seizure favor postictal hemiconvulsion-hemiplegia. Consensus: HHS is the leading diagnosis."}
+{'node_id': 'node-7', 'label': 'Hemiconvulsion-hemiplegia', 'why': 'ev003 fever then seizure, ev004 refractory seizure, ev005 prolonged seizure+hemiparesis, ev006 persistent hemiparesis improving on AEDs', 'score': 0.8, 'level': 1, 'supports': 5, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1348 | Output token nums：2180 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Radiologist", "planning_intent": "seek_discriminating_evidence"},
+  {"expert_name": "Laboratory_Physician", "planning_intent": "seek_discriminating_evidence"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1086 | Output token nums：232 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1240 | Output token nums：538 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's brain MRI with DWI/ADC, FLAIR, MRA/MRV, EEG, and CSF analysis reports (core examinations to confirm hemiconvulsion-hemiplegia by detecting unilateral cytotoxic edema or hemiatrophy and to exclude meningoencephalitis or stroke)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：424 | Output token nums：467 | price(CNY)：0.00000000
+Step 1 Observations: Magnetic resonance imaging (MRI) scans showed diffuse right hemicerebral diffusion restriction, whereas the left cerebral cortex was normal. MR angiography was carried out, which was normal..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1183 | Output token nums：306 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1337 | Output token nums：777 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient’s EEG and CSF analysis reports plus follow-up brain MRI (core to confirm hemiconvulsion-hemiplegia and exclude meningoencephalitis: lateralized epileptiform discharges, CSF inflammatory profile, evolving right hemiatrophy; initial MRI/MRA already showed right diffusion restriction and normal vessels)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：429 | Output token nums：3124 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1267 | Output token nums：70 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1421 | Output token nums：2136 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Fever-triggered prolonged focal seizure with persistent left hemiparesis and improvement on AEDs favors hemiconvulsion-hemiplegia. MRI shows right hemicerebral diffusion restriction and normal left cortex; MRA is normal, arguing against stroke. Meningoencephalitis is less likely. EEG, CSF, and follow-up MRI were unavailable, but evidence supports HHS. All available key data covered."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1200 | Output token nums：128 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1354 | Output token nums：762 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need brain MRI with diffusion-weighted imaging, EEG, CSF analysis, and MR angiography (core studies to confirm hemiconvulsion-hemiplegia via unilateral postictal edema/hemiatrophy and exclude meningoencephalitis and stroke). These missing data are critical because diagnosis currently rests only on clinical sequence; imaging and CSF will verify HHS or identify an alternative."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：438 | Output token nums：444 | price(CNY)：0.00000000
+Step 1 Observations: Magnetic resonance imaging (MRI) scans showed diffuse right hemicerebral diffusion restriction, whereas the left cerebral cortex was normal. MR angiography was carried out, which was normal..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1311 | Output token nums：244 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1465 | Output token nums：1529 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's EEG and CSF analysis results (not included in the prior MRI/MRA report) and a follow-up MRI at 6–12 months, because the MRI shows right hemicerebral diffusion restriction, MRA is normal, and HHS remains the leading hypothesis; EEG and CSF are critical to confirm unilateral seizure onset, exclude meningoencephalitis, and document progression to hemiatrophy."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：446 | Output token nums：405 | price(CNY)：0.00000000
+Step 2 Observations: Magnetic resonance imaging (MRI) scans showed diffuse right hemicerebral diffusion restriction, whereas the left cerebral cortex was normal. MR angiography was carried out, which was normal..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1448 | Output token nums：67 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1602 | Output token nums：1625 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"HHS remains leading (0.8). MRI shows diffuse right hemicerebral diffusion restriction, normal left cortex, normal MRA, supporting unilateral postictal edema and ruling out large-vessel stroke. Fever, refractory prolonged seizure, and persistent left hemiparesis improving on AEDs fit HHS. Meningoencephalitis/stroke less likely. CSF/EEG unretrieved at step limit; available key imaging covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3599 | Output token nums：7799 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-7",
+      "confidence": 0.8,
+      "why": "Original reasoning was based on fever-triggered prolonged refractory seizure and persistent left hemiparesis improving with antiepileptic treatment. New expert analyses report MRI showing right hemicerebral diffusion restriction with normal left cortex and normal MRA, consistent with unilateral postictal edema in hemiconvulsion-hemiplegia and arguing against large-vessel stroke. Meningoencephalitis is considered less likely. These findings support the diagnosis, while EEG, CSF, and follow-up MRI remain unavailable, so confidence remains 0.8."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.3,
+      "why": "Original reasoning was based on fever, seizure, and mental status change. New expert analyses note the prolonged focal seizure is atypical for infectious meningoencephalitis, and MRI shows unilateral right hemispheric diffusion restriction with normal left cortex and normal MRA rather than diffuse or meningeal involvement. No CSF or EEG evidence is available. These points reduce the likelihood, so confidence is decreased from 0.4 to 0.3."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.1,
+      "why": "Original reasoning was based on acute left hemiparesis and persistent focal deficit. New expert analyses report normal MRA, which argues against large-vessel stroke, and MRI diffusion restriction is interpreted as unilateral postictal edema in the setting of fever-triggered prolonged seizure. These findings make stroke much less likely, so confidence is decreased from 0.2 to 0.1."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "MRI shows right hemicerebral diffusion restriction",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "MRI shows normal left cortex",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "MRA is normal",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-7",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-9",
+      "relation": "refute"
+    }
+  ]
+}
+{'node_id': 'node-7', 'label': 'Hemiconvulsion-hemiplegia', 'why': 'Original reasoning was based on fever-triggered prolonged refractory seizure and persistent left hemiparesis improving with antiepileptic treatment. New expert analyses report MRI showing right hemicerebral diffusion restriction with normal left cortex and normal MRA, consistent with unilateral postictal edema in hemiconvulsion-hemiplegia and arguing against large-vessel stroke. Meningoencephalitis is considered less likely. These findings support the diagnosis, while EEG, CSF, and follow-up MRI remain unavailable, so confidence remains 0.8.', 'score': 0.8, 'level': 1, 'supports': 7, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 5-month-old girl had fever followed by seizure and left-s… | score=1.000
+[node-2] Evidence[-] | Patient is a 5-month-old girl, born full-term via vaginal d… | score=1.000
+[node-3] Evidence[-] | Parents reported she was in her usual state of health and b… | score=1.000
+[node-4] Evidence[-] | She was brought to Gandhi Memorial Hospital (GMH), Rewa, wh… | score=1.000
+[node-5] Evidence[-] | The seizure lasted approximately 10–15 hours in total; foll… | score=1.000
+[node-6] Evidence[-] | By the third day of hospitalization, her mental status had … | score=1.000
+[node-7] Hypothesis[1] | Hemiconvulsion-hemiplegia | score=0.800 | attrs={"why": "Original reasoning was based on fever-triggered prolonged refractory s…
+[node-8] Hypothesis[1] | Infectious meningoencephalitis | score=0.300 | attrs={"why": "Original reasoning was based on fever, seizure, and mental status chan…
+[node-9] Hypothesis[1] | Acute ischemic stroke | score=0.100 | attrs={"why": "Original reasoning was based on acute left hemiparesis and persistent …
+[node-1] Evidence[-] | MRI shows right hemicerebral diffusion restriction | score=1.000
+[node-1] Evidence[-] | MRI shows normal left cortex | score=1.000
+[node-1] Evidence[-] | MRA is normal | score=1.000
+=== Edges ===
+node-1[A 5-month-old girl had fever followed by seizure and left-s…] -> node-7[Hemiconvulsion-hemiplegia] | refines | conf=0.000
+node-1[A 5-month-old girl had fever followed by seizure and left-s…] -> node-8[Infectious meningoencephalitis] | refines | conf=0.000
+node-1[A 5-month-old girl had fever followed by seizure and left-s…] -> node-9[Acute ischemic stroke] | refines | conf=0.000
+node-2[Patient is a 5-month-old girl, born full-term via vaginal d…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-3[Parents reported she was in her usual state of health and b…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-4[She was brought to Gandhi Memorial Hospital (GMH), Rewa, wh…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-5[The seizure lasted approximately 10–15 hours in total; foll…] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-6[By the third day of hospitalization, her mental status had …] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-3[Parents reported she was in her usual state of health and b…] -> node-8[Infectious meningoencephalitis] | support | conf=0.000
+node-4[She was brought to Gandhi Memorial Hospital (GMH), Rewa, wh…] -> node-8[Infectious meningoencephalitis] | support | conf=0.000
+node-6[By the third day of hospitalization, her mental status had …] -> node-8[Infectious meningoencephalitis] | support | conf=0.000
+node-5[The seizure lasted approximately 10–15 hours in total; foll…] -> node-8[Infectious meningoencephalitis] | refute | conf=0.000
+node-5[The seizure lasted approximately 10–15 hours in total; foll…] -> node-9[Acute ischemic stroke] | support | conf=0.000
+node-6[By the third day of hospitalization, her mental status had …] -> node-9[Acute ischemic stroke] | support | conf=0.000
+node-3[Parents reported she was in her usual state of health and b…] -> node-9[Acute ischemic stroke] | refute | conf=0.000
+node-1[MRI shows right hemicerebral diffusion restriction] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-1[MRI shows normal left cortex] -> node-7[Hemiconvulsion-hemiplegia] | support | conf=0.000
+node-1[MRA is normal] -> node-9[Acute ischemic stroke] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1798 | Output token nums：606 | price(CNY)：0.00000000
+Response: {"belief": "Core consensus: A 5-month-old girl with fever followed by prolonged seizure and left hemiparesis most likely has hemiconvulsion-hemiplegia (confidence 0.8). Supporting evidence includes normal prior development, fever-triggered refractory seizure lasting 10–15 hours, and persistent left-sided weakness improving with antiepileptic treatment. MRI showing right hemicerebral diffusion restriction with normal left cortex and normal MRA supports unilateral postictal edema and argues against large-vessel stroke. Infectious meningoencephalitis is less likely (0.3) because the prolonged focal seizure and unilateral MRI findings are atypical. Acute ischemic stroke is unlikely (0.1) given normal MRA. EEG, CSF, and follow-up MRI remain unavailable, limiting certainty."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4031 | Output token nums：1752 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Hemiconvulsion-hemiplegia",
+  "report": "A 5-month-old girl with normal prior development developed fever, then a 10–15-hour refractory seizure and persistent left hemiparesis that improved with antiepileptics. MRI right hemicerebral diffusion restriction with normal left cortex and normal MRA indicates unilateral postictal edema, not large-vessel stroke; normal MRA argues against acute ischemic stroke. The prolonged focal seizure is atypical for infectious meningoencephalitis. These features best fit hemiconvulsion-hemiplegia. EEG, CSF, and follow-up MRI are unavailable, so confidence is 0.8."
+}
+Answer: Hemiconvulsion-hemiplegia
+Report: A 5-month-old girl with normal prior development developed fever, then a 10–15-hour refractory seizure and persistent left hemiparesis that improved with antiepileptics. MRI right hemicerebral diffusion restriction with normal left cortex and normal MRA indicates unilateral postictal edema, not large-vessel stroke; normal MRA argues against acute ischemic stroke. The prolonged focal seizure is atypical for infectious meningoencephalitis. These features best fit hemiconvulsion-hemiplegia. EEG, CSF, and follow-up MRI are unavailable, so confidence is 0.8.
+[TraceEvo] case 13: 17 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：24 | Input token nums：34857 | Output token nums：38566 | Total token nums：73423 | price(CNY)：0.00000000

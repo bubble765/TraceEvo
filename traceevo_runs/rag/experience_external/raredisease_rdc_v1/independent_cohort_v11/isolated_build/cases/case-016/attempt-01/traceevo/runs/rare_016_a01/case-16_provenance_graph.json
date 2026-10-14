@@ -1,0 +1,686 @@
+{
+  "task_id": "case-16",
+  "n_nodes": 18,
+  "n_edges": 26,
+  "nodes": [
+    {
+      "event_id": "evt-case-16-00001",
+      "task_id": "case-16",
+      "step_id": 0,
+      "timestamp": "2026-10-08T13:41:16.008+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "bad52258fad3b71e7dbaa4abe2763f8adb5b896d8652dcad63faf9d1358b5d98",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\"symptom_node\":\"49-year-old male had sudden onset of proximal muscle weakness in both upper and lower limbs accompanied by tingling and pain\",\"isolated_evidence\":[\"49-year-old male was admitted in July 2010 due to sudden onset of weakness in the proximal muscles of his limbs, affecting both sensory and motor functions\",\"Clinical examination showed proximal muscle weakness in both upper and lower limbs, tingling and pain, and reduced muscle stretch reflexes in the lower limbs\",\"There were no signs of upper motor neuron involvement\",\"Nerve conduction studies showed normal results\"]}"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00002",
+      "task_id": "case-16",
+      "step_id": 0,
+      "timestamp": "2026-10-08T13:41:38.244+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bad52258fad3b71e7dbaa4abe2763f8adb5b896d8652dcad63faf9d1358b5d98",
+      "event_hash": "9da6326807e5844b390a63bcc03e33690a4af24ace847e2e2b10dee30ddadacb",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\n  \"candidates\": [\n    {\n      \"id\": \"h001\",\n      \"label\": \"Acquired myopathy\",\n      \"confidence\": 0.5,\n      \"why\": \"Proximal weakness and normal NCS support myopathy; no UMN signs support; tingling/pain and hyporeflexia less typical.\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Guillain-Barré syndrome\",\n      \"confidence\": 0.35,\n      \"why\": \"Acute symmetric sensory-motor deficits with hyporeflexia support GBS; normal NCS and proximal pattern argue against.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"NMJ disorder\",\n      \"confidence\": 0.15,\n      \"why\": \"Proximal weakness and normal NCS support NMJ disorder; sensory tingling/pain and hyporeflexia argue against.\"\n    }\n  ],\n  \"edges\": [\n    {\"src\": \"node-2\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-2\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h003\", \"relation\": \"refute\"},\n    {\"src\": \"node-4\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-4\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-4\", \"dst\": \"h003\", \"relation\": \"support\"},\n    {\"src\": \"node-5\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-5\", \"dst\": \"h002\", \"relation\": \"refute\"},\n    {\"src\": \"node-5\", \"dst\": \"h003\", \"relation\": \"support\"}\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00003",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:41:56.857+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "9da6326807e5844b390a63bcc03e33690a4af24ace847e2e2b10dee30ddadacb",
+      "event_hash": "ed3036957d8e11876cfc710fc8eb96f9e5960b08a15c149c7c14e12b2975e046",
+      "payload": {
+        "response": "[\n  {\n    \"expert_name\": \"Laboratory_Physician\",\n    \"planning_intent\": \"assess_hypothesis\"\n  },\n  {\n    \"expert_name\": \"Radiologist\",\n    \"planning_intent\": \"seek_discriminating_evidence\"\n  }\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Acquired myopathy",
+          "why": "Proximal weakness and normal NCS support myopathy; no UMN signs support; tingling/pain and hyporeflexia less typical.",
+          "score": 0.5,
+          "level": 1,
+          "supports": 4,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-16-00004",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:41:56.860+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ed3036957d8e11876cfc710fc8eb96f9e5960b08a15c149c7c14e12b2975e046",
+      "event_hash": "76ad27af83988259e166f4f28c69a0cfc025dc0563f21b96095b0ecb40a5ab5d",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00005",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:42:07.627+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "76ad27af83988259e166f4f28c69a0cfc025dc0563f21b96095b0ecb40a5ab5d",
+      "event_hash": "8af718776f77f8934b5a4b635fdee6a7ba58d6c9eb5ff686d0aae391838be6fd",
+      "payload": {
+        "query": "To verify acquired myopathy, core items are serum CK/aldolase, inflammatory markers, myositis antibody panel, thyroid/electrolytes, and needle EMG; current belief lacks all these, and no prior retrieval exists. Need serum CK and aldolase, needle EMG, and myositis antibody panel results (critical to confirm myopathy and exclude GBS/NMJ).",
+        "hit": true,
+        "retrieval_output": "Needle electromyography showed abnormal spontaneous activity and neurogenic recruitment in weak muscles.",
+        "record_hash": "a557764b9e34abffcae81f31ed52a074cd39b33f65552eae885dec467bab5181",
+        "started_at": "2026-10-08T13:42:04.818+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00006",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:42:07.631+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8af718776f77f8934b5a4b635fdee6a7ba58d6c9eb5ff686d0aae391838be6fd",
+      "event_hash": "002897ae057ed14b6c29d97e323b471731440724c8bbb04be027a8348187f3de",
+      "payload": {
+        "query": "To verify acquired myopathy, core items are serum CK/aldolase, inflammatory markers, myositis antibody panel, thyroid/electrolytes, and needle EMG; current belief lacks all these, and no prior retrieval exists. Need serum CK and aldolase, needle EMG, and myositis antibody panel results (critical to confirm myopathy and exclude GBS/NMJ).",
+        "hit": true,
+        "retrieval_output": "Needle electromyography showed abnormal spontaneous activity and neurogenic recruitment in weak muscles.",
+        "record_hash": "a557764b9e34abffcae81f31ed52a074cd39b33f65552eae885dec467bab5181",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00007",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:42:28.556+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "002897ae057ed14b6c29d97e323b471731440724c8bbb04be027a8348187f3de",
+      "event_hash": "0e19b3b7b5e0c9bff4e4c6d3bfd41150a10ec617b5c45ed3019321700047faa5",
+      "payload": {
+        "query": "Need cerebrospinal fluid analysis (protein, cell count, albuminocytologic dissociation) and serum anti-ganglioside antibodies, plus repeat nerve conduction study with F-waves, to confirm or exclude Guillain-Barré syndrome after needle EMG showed neurogenic recruitment, which argues against acquired myopathy. Serum CK/aldolase and myositis antibody panel also remain essential to definitively rule out myopathy.",
+        "hit": true,
+        "retrieval_output": "Needle electromyography showed abnormal spontaneous activity and neurogenic recruitment in weak muscles.",
+        "record_hash": "ff08c91063a09b29e5be56eb6c8e76171a9dd8becb6f2f5fd4beef2b9b5f3a1f",
+        "started_at": "2026-10-08T13:42:17.380+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00008",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:42:28.560+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0e19b3b7b5e0c9bff4e4c6d3bfd41150a10ec617b5c45ed3019321700047faa5",
+      "event_hash": "190720f734f08f5c2299cfa88a6661fff5364238ddd3103ffc2838140e598df1",
+      "payload": {
+        "query": "Need cerebrospinal fluid analysis (protein, cell count, albuminocytologic dissociation) and serum anti-ganglioside antibodies, plus repeat nerve conduction study with F-waves, to confirm or exclude Guillain-Barré syndrome after needle EMG showed neurogenic recruitment, which argues against acquired myopathy. Serum CK/aldolase and myositis antibody panel also remain essential to definitively rule out myopathy.",
+        "hit": true,
+        "retrieval_output": "Needle electromyography showed abnormal spontaneous activity and neurogenic recruitment in weak muscles.",
+        "record_hash": "ff08c91063a09b29e5be56eb6c8e76171a9dd8becb6f2f5fd4beef2b9b5f3a1f",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00009",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:42:47.355+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-16-0001",
+        "rec-case-16-0002",
+        "rec-case-16-0003",
+        "rec-case-16-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "190720f734f08f5c2299cfa88a6661fff5364238ddd3103ffc2838140e598df1",
+      "event_hash": "8cf6738f2b399a3c0151bdbec0a54b658bea5747cb026a193f9b837ac07e6eed",
+      "payload": {
+        "analysis": "Needle EMG shows abnormal spontaneous activity and neurogenic recruitment, refuting acquired myopathy. This neurogenic pattern with acute symmetric sensory-motor deficits and hyporeflexia, despite normal NCS, favors Guillain-Barré syndrome. CK, myositis antibodies, CSF, and anti-ganglioside data are unavailable due to retrieval limit, but available key data covered; GBS is now leading.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-16-00010",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:42:47.358+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8cf6738f2b399a3c0151bdbec0a54b658bea5747cb026a193f9b837ac07e6eed",
+      "event_hash": "8c9e563bb04ef12cf9bb6140c85198cdb939f4a48c81957df4a09dc040c0f590",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00011",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:43:06.722+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8c9e563bb04ef12cf9bb6140c85198cdb939f4a48c81957df4a09dc040c0f590",
+      "event_hash": "7510cb1ca11e6ea6717c91b8e2fb0bcd382e4d4c7c2a71fc31eb4040be6ccd99",
+      "payload": {
+        "query": "Need serum creatine kinase, needle electromyography, and cerebrospinal fluid protein plus serial nerve conduction studies. These are core to verify acquired myopathy (via myopathic EMG/CK changes) and exclude Guillain-Barré syndrome (via CSF protein and NCS evolution), given proximal weakness, tingling, hyporeflexia, and normal initial NCS.",
+        "hit": true,
+        "retrieval_output": "Needle electromyography showed abnormal spontaneous activity and neurogenic recruitment in weak muscles.",
+        "record_hash": "9cb445efb822a253f46b9e516c6625e14a7d02537ed95f436f6779b7a5236fac",
+        "started_at": "2026-10-08T13:43:01.339+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00012",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:43:06.725+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7510cb1ca11e6ea6717c91b8e2fb0bcd382e4d4c7c2a71fc31eb4040be6ccd99",
+      "event_hash": "c5cb27d989ac0325f913d2500fd6f3d13745eb96de678da4de6ad3be031eaafb",
+      "payload": {
+        "query": "Need serum creatine kinase, needle electromyography, and cerebrospinal fluid protein plus serial nerve conduction studies. These are core to verify acquired myopathy (via myopathic EMG/CK changes) and exclude Guillain-Barré syndrome (via CSF protein and NCS evolution), given proximal weakness, tingling, hyporeflexia, and normal initial NCS.",
+        "hit": true,
+        "retrieval_output": "Needle electromyography showed abnormal spontaneous activity and neurogenic recruitment in weak muscles.",
+        "record_hash": "9cb445efb822a253f46b9e516c6625e14a7d02537ed95f436f6779b7a5236fac",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00013",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:43:39.321+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c5cb27d989ac0325f913d2500fd6f3d13745eb96de678da4de6ad3be031eaafb",
+      "event_hash": "a1197abfb2ffbc9df6cfb341e4720b0de8a49f1739448f4ced37f59f95cd6152",
+      "payload": {
+        "query": "Need muscle biopsy with histochemistry/immunohistochemistry and serum aldolase level (core to confirm or exclude acquired myopathy, given neurogenic recruitment on needle EMG conflicts with myopathic pattern).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "0a8e4ea21bd867aa005b71ef195beb6cb5cb6d8de564ad0cebbe5ac65a2a9632",
+        "started_at": "2026-10-08T13:43:30.470+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00014",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:43:39.325+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "a1197abfb2ffbc9df6cfb341e4720b0de8a49f1739448f4ced37f59f95cd6152",
+      "event_hash": "386beb8facd43d5e2b43b904b4319b04047bc9973aae82beee42c73cde81426f",
+      "payload": {
+        "query": "Need muscle biopsy with histochemistry/immunohistochemistry and serum aldolase level (core to confirm or exclude acquired myopathy, given neurogenic recruitment on needle EMG conflicts with myopathic pattern).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "0a8e4ea21bd867aa005b71ef195beb6cb5cb6d8de564ad0cebbe5ac65a2a9632",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00015",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:43:50.733+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-16-0005",
+        "rec-case-16-0006",
+        "rec-case-16-0007",
+        "rec-case-16-0008"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "386beb8facd43d5e2b43b904b4319b04047bc9973aae82beee42c73cde81426f",
+      "event_hash": "13654e45d3c60b86195709a8c14208d16f4f279c2e53a7012027aed77e276255",
+      "payload": {
+        "analysis": "Needle EMG shows neurogenic recruitment, arguing against acquired myopathy and favoring GBS. Proximal weakness, tingling, hyporeflexia and normal NCS are mixed; serial NCS/CSF protein pending, retrieval exhausted. NMJ unlikely. Muscle biopsy/aldolase unavailable, so myopathy is downgraded but not excluded. Available evidence integrated.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-16-00016",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:44:04.896+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-9"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "13654e45d3c60b86195709a8c14208d16f4f279c2e53a7012027aed77e276255",
+      "event_hash": "bc5814c29ea78e5f3124ae63fd6145f12e730ed461a1d336d3de0e11007d144b",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.2,\n      \"why\": \"New needle EMG shows abnormal spontaneous activity and neurogenic recruitment, which expert analyses interpret as refuting acquired myopathy. The myopathy hypothesis is downgraded, though not fully excluded because muscle biopsy and aldolase data remain unavailable. Confidence decreased from 0.5 to 0.2.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.65,\n      \"why\": \"Needle EMG neurogenic recruitment, together with acute symmetric sensory-motor deficits and hyporeflexia, favors Guillain-Barré syndrome despite normal nerve conduction studies. Experts now regard GBS as the leading diagnosis. Confidence increased from 0.35 to 0.65.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.1,\n      \"why\": \"Needle EMG neurogenic pattern argues against a neuromuscular junction disorder, while sensory tingling/pain and hyporeflexia remain atypical. Expert analyses consider NMJ unlikely. Confidence decreased from 0.15 to 0.1.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"Needle EMG shows abnormal spontaneous activity and neurogenic recruitment\",\n      \"node_type\": \"Evidence\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-6\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-7\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00017",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:44:04.899+00:00",
+      "event_type": "BACKTRACK",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "SYSTEM_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bc5814c29ea78e5f3124ae63fd6145f12e730ed461a1d336d3de0e11007d144b",
+      "event_hash": "0b463191dcaa71f2e40b643100ee029da4a81ffb9c34ee1c069608bc84823599",
+      "payload": {
+        "level_from": 1,
+        "level_to": 1,
+        "deleted_levels": [],
+        "applied": false
+      }
+    },
+    {
+      "event_id": "evt-case-16-00018",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T13:45:16.747+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-6"
+      ],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0b463191dcaa71f2e40b643100ee029da4a81ffb9c34ee1c069608bc84823599",
+      "event_hash": "d58ee0114294ba522977f4af2ee4ac8e4b9742aeb6e5a38b58956e9a997e91cb",
+      "payload": {
+        "prediction": "Guillain-Barré syndrome",
+        "report": "49-year-old male with acute symmetric proximal weakness, sensory tingling/pain, and lower-limb hyporeflexia without upper motor neuron signs. Normal NCS broadened the differential, but needle EMG showing abnormal spontaneous activity and neurogenic recruitment is pivotal: it refutes acquired myopathy and NMJ disorder, supporting a peripheral neurogenic process. These clinical features and hyporeflexia favor Guillain-Barré syndrome; expert consensus raises GBS to 0.65 as the leading diagnosis. Myopathy remains possible at 0.2, NMJ disorder is unlikely at 0.1. Thus the diagnosis is Guillain-Barré syndrome.",
+        "report_chars": 611,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1,
+              1
+            ],
+            "stage_steps": {
+              "1": 1
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 1,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-7",
+            "label": "Guillain-Barré syndrome",
+            "why": "Needle EMG neurogenic recruitment, together with acute symmetric sensory-motor deficits and hyporeflexia, favors Guillain-Barré syndrome despite normal nerve conduction studies. Experts now regard GBS as the leading diagnosis. Confidence increased from 0.35 to 0.65.",
+            "score": 0.65,
+            "level": 1,
+            "supports": 4,
+            "refutes": 1
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-16-00001",
+      "dst": "evt-case-16-00002"
+    },
+    {
+      "src": "evt-case-16-00002",
+      "dst": "evt-case-16-00003"
+    },
+    {
+      "src": "evt-case-16-00003",
+      "dst": "evt-case-16-00004"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00005"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00006"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00007"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00008"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00005",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00006",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00007",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00008",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00003",
+      "dst": "evt-case-16-00010"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00011"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00012"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00013"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00014"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00011",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00012",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00013",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00014",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00009",
+      "dst": "evt-case-16-00016"
+    },
+    {
+      "src": "evt-case-16-00015",
+      "dst": "evt-case-16-00016"
+    },
+    {
+      "src": "evt-case-16-00016",
+      "dst": "evt-case-16-00017"
+    },
+    {
+      "src": "evt-case-16-00016",
+      "dst": "evt-case-16-00018"
+    }
+  ]
+}

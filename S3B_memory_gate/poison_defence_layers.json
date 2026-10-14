@@ -1,0 +1,42 @@
+{
+  "question": "Is the poison result over-determined, or does it rest on one defence that happened to catch all four kinds?",
+  "observed": {
+    "PZ1": {
+      "n": 10,
+      "integrity_fails": 10,
+      "anomalies_found": 10,
+      "counterfactual_failure_experience": 10
+    },
+    "PZ2": {
+      "n": 8,
+      "integrity_fails": 8,
+      "anomalies_found": 8,
+      "counterfactual_failure_experience": 8
+    },
+    "PZ3": {
+      "n": 10,
+      "integrity_fails": 10,
+      "anomalies_found": 10,
+      "counterfactual_failure_experience": 10
+    },
+    "PZ4": {
+      "n": 10,
+      "integrity_fails": 10,
+      "anomalies_found": 10,
+      "counterfactual_failure_experience": 10
+    }
+  },
+  "counterfactual": {
+    "method": "re-run the real gate.evaluate() on each poisoned twin with integrity_ok forced True, i.e. as if the hash chain did not exist",
+    "result": {
+      "failure_experience": 38
+    },
+    "reading": "All 38 poisoned twins are independently flagged by the anomaly detectors as well as by the hash chain (38/38 have both). With integrity ignored, none becomes eligible: every one is classified failure_experience."
+  },
+  "what_this_does_and_does_not_show": [
+    "SHOWS: the rejection is two-layered. Integrity removes poison from the store entirely; the detectors independently classify it as a failure pattern rather than a success.",
+    "SHOWS: the headline '0/38 poison admitted' is not attributable to a single check that might not generalise.",
+    "DOES NOT SHOW: that the detectors alone are sufficient. Under the counterfactual the poisoned traces are still retrievable -- failure_experience is in RETRIEVABLE -- so integrity is the layer that keeps poison out of the store, and the detectors are the layer that would stop it being read as guidance. Both are load-bearing."
+  ],
+  "caveat": "the counterfactual is a constructed scenario, not an observed run: it re-runs the real verdict function with one input changed."
+}

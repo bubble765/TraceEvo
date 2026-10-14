@@ -1,0 +1,457 @@
+[S0] Running 1 case(s): [16]
+
+
+===============[RUN] Case 16  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1614 | Output token nums：2325 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "A 7-year-old boy presented with behavioral issues since infancy.",
+  "isolated_evidence": [
+    "Early developmental history: first child, unplanned pregnancy, oligohydramnios at 36 weeks, possible congenital cardiac defects noted in fetus; delivered preterm at 36 weeks via emergency cesarean section due to fetal bradycardia; birth weight 1.7 kg, delayed cry, and cyanosed at birth; cardiac evaluation at birth identified patent ductus arteriosus, ventricular septal defect, tricuspid regurgitation, and a left atrium to right atrium shunt, and he was started on digitoxin.",
+    "As he grew, he exhibited global developmental delay and was diagnosed with bilateral profound sensorineural hearing loss at 6 months of age; over time he continued to show delayed milestones and developed poor eye contact, poor social and communication skills, repetitive head rocking, hand flapping movements, and a preference for fixed routines.",
+    "From the age of 3, he displayed symptoms of attention deficit hyperkinetic disorder (ADHD), including an inability to sit still for more than 2-3 minutes and difficulty engaging in activities; his insistence on routine and hyperactivity increased over the years, leading to aggressive behaviors such as hitting and biting his mother, which resulted in significant distress and a psychiatry consultation with subsequent admission to a child psychiatry inpatient unit; there was no history of head injury, seizures, frequent diarrhea and vomiting, birthmarks, or failure to thrive.",
+    "Physical examination revealed a small head circumference (49 cm) and bilateral flat feet; mental status examination showed a lack of eye contact, hyperactivity, irritable mood, frequent side-to-side head movements, and hand flapping; his intelligence quotient was evaluated to be 25."
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | A 7-year-old boy presented with behavioral issues since inf… | score=1.000
+[node-2] Evidence[-] | Early developmental history: first child, unplanned pregnan… | score=1.000
+[node-3] Evidence[-] | As he grew, he exhibited global developmental delay and was… | score=1.000
+[node-4] Evidence[-] | From the age of 3, he displayed symptoms of attention defic… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed a small head circumference (4… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1655 | Output token nums：6080 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Autism with profound ID",
+      "confidence": 0.85,
+      "why": "node-3/5: poor eye contact, repetitive movements, hand flapping, IQ 25; node-4: routine insistence, aggression. Supports autism with profound ID."
+    },
+    {
+      "id": "h002",
+      "label": "Genetic syndromic disorder",
+      "confidence": 0.7,
+      "why": "node-2: congenital heart defects, preterm; node-3: global delay, hearing loss; node-5: microcephaly, flat feet, IQ 25. Suggests underlying genetic syndrome."
+    },
+    {
+      "id": "h003",
+      "label": "Congenital infection",
+      "confidence": 0.4,
+      "why": "node-2: cardiac defects, preterm; node-3: hearing loss, developmental delay; node-5: microcephaly. Consistent, but node-4 lacks failure to thrive/birthmarks."
+    },
+    {
+      "id": "h004",
+      "label": "ADHD with comorbidity",
+      "confidence": 0.3,
+      "why": "node-4: ADHD symptoms, hyperactivity, aggression; but node-3 and node-5 show autism features and profound ID, making pure ADHD less likely."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h004",
+      "relation": "refute"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h004",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h003",
+      "relation": "refute"
+    },
+    {
+      "src": "node-5",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-5",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-5",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-5",
+      "dst": "h004",
+      "relation": "refute"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | A 7-year-old boy presented with behavioral issues since inf… | score=1.000
+[node-2] Evidence[-] | Early developmental history: first child, unplanned pregnan… | score=1.000
+[node-3] Evidence[-] | As he grew, he exhibited global developmental delay and was… | score=1.000
+[node-4] Evidence[-] | From the age of 3, he displayed symptoms of attention defic… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed a small head circumference (4… | score=1.000
+[node-6] Hypothesis[1] | Autism with profound ID | score=0.850 | attrs={"why": "node-3/5: poor eye contact, repetitive movements, hand flapping, IQ 25…
+[node-7] Hypothesis[1] | Genetic syndromic disorder | score=0.700 | attrs={"why": "node-2: congenital heart defects, preterm; node-3: global delay, heari…
+[node-8] Hypothesis[1] | Congenital infection | score=0.400 | attrs={"why": "node-2: cardiac defects, preterm; node-3: hearing loss, developmental …
+[node-9] Hypothesis[1] | ADHD with comorbidity | score=0.300 | attrs={"why": "node-4: ADHD symptoms, hyperactivity, aggression; but node-3 and node-…
+=== Edges ===
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-6[Autism with profound ID] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-7[Genetic syndromic disorder] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-8[Congenital infection] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-9[ADHD with comorbidity] | refines | conf=0.000
+node-2[Early developmental history: first child, unplanned pregnan…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-2[Early developmental history: first child, unplanned pregnan…] -> node-8[Congenital infection] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-8[Congenital infection] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-9[ADHD with comorbidity] | refute | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-9[ADHD with comorbidity] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-8[Congenital infection] | refute | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-8[Congenital infection] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-9[ADHD with comorbidity] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1714 | Output token nums：610 | price(CNY)：0.00000000
+Response: {"belief":"The 7-year-old boy with lifelong behavioral issues is best explained by autism with profound intellectual disability (score 0.85), supported by poor eye contact, repetitive head rocking, hand flapping, routine insistence, hyperactivity/aggression, microcephaly, flat feet, and IQ 25. A genetic syndromic disorder (0.70) is also plausible given congenital cardiac defects, preterm birth, global delay, hearing loss, and microcephaly, likely underlying the autism/ID phenotype. Congenital infection (0.40) remains possible from cardiac defects, hearing loss, and microcephaly, but is weakened by absence of failure to thrive/birthmarks. Pure ADHD with comorbidity (0.30) is least likely because autism features and profound ID refute it. Thus, consensus favors autism with profound ID, with a probable genetic syndrome as the unifying etiology."}
+{'node_id': 'node-6', 'label': 'Autism with profound ID', 'why': 'node-3/5: poor eye contact, repetitive movements, hand flapping, IQ 25; node-4: routine insistence, aggression. Supports autism with profound ID.', 'score': 0.85, 'level': 1, 'supports': 3, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1348 | Output token nums：3529 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Laboratory_Physician", "planning_intent": "seek_discriminating_evidence"},
+  {"expert_name": "Radiologist", "planning_intent": "seek_discriminating_evidence"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1214 | Output token nums：281 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1368 | Output token nums：1198 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Given the frontier hypothesis of autism with profound ID and no prior retrievals, key missing evidence are standardized autism diagnostic records, IQ/adaptive testing, chromosomal microarray/fragile X/MECP2 testing, TORCH serology, brain MRI, and cardiology/audiology reports to confirm or exclude genetic syndrome or congenital infection as the unifying etiology."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：435 | Output token nums：2340 | price(CNY)：0.00000000
+Step 1 Observations: Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere.
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1311 | Output token nums：226 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1465 | Output token nums：2416 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"To verify autism with profound ID versus genetic syndrome or congenital infection, retrieve chromosomal microarray, fragile X, MECP2, TORCH serology, EEG, and standardized autism diagnostic (ADOS/ADI-R) results; these are critical to identify a unifying etiology given multifocal MRI hyperintensities and congenital anomalies."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：430 | Output token nums：1741 | price(CNY)：0.00000000
+Step 2 Observations: Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere. Ophthalmological examination showed evidence of pigmentary retinopathy..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1432 | Output token nums：95 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1586 | Output token nums：5076 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"MRI shows multifocal symmetric T2/FLAIR hyperintensities and pigmentary retinopathy, suggesting genetic or congenital infection. Yet poor eye contact, repetitive movements, hand flapping, routine insistence, aggression, microcephaly and IQ 25 best fit autism with profound ID; genetic syndrome likely unifies findings. All retrievable evidence is covered; genetic/TORCH/ADOS remain unavailable."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1100 | Output token nums：163 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1254 | Output token nums：551 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need genetic testing (chromosomal microarray, fragile X, metabolic screen), brain MRI, EEG, and formal autism assessment (ADOS-2/ADI-R) plus cardiac records; these are core to confirm autism with profound ID and exclude a genetic syndrome or congenital infection driving the phenotype."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：421 | Output token nums：497 | price(CNY)：0.00000000
+Step 1 Observations: Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere. Ophthalmological examination showed evidence of pigmentary retinopathy..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1194 | Output token nums：233 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1348 | Output token nums：1547 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Given MRI shows multifocal symmetric T2/FLAIR hyperintensities and ophthalmology reveals pigmentary retinopathy, need remaining genetic/metabolic testing (chromosomal microarray, fragile X, lactate, VLCFA, urine organic acids), EEG, ADOS-2/ADI-R, and cardiology records (critical to confirm autism with profound ID and exclude genetic syndrome/congenital infection)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：444 | Output token nums：1466 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1294 | Output token nums：70 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1448 | Output token nums：8334 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Autism with profound ID (0.85) fits poor eye contact, repetitive movements, IQ 25. MRI: multifocal symmetric T2/FLAIR hyperintensities; ophthalmology: pigmentary retinopathy, suggesting genetic/metabolic syndrome. Genetic testing, EEG, ADOS, cardiac records missing, so congenital infection cannot be excluded, but autism with profound ID remains most likely; retrieved imaging covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3903 | Output token nums：3334 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-6",
+      "confidence": 0.85,
+      "why": "Poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly, flat feet, and IQ 25 continue to be best explained by autism with profound intellectual disability. Both the laboratory physician and radiologist independently affirm this phenotype, and the newly reported MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the autism diagnosis, so confidence is held at 0.85."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.75,
+      "why": "New expert data: brain MRI shows multifocal symmetric T2/FLAIR hyperintensities and ophthalmology reveals pigmentary retinopathy, a pattern the radiologist and laboratory physician both consider suggestive of a genetic/metabolic syndrome. Combined with congenital cardiac defects, preterm birth, global delay, hearing loss, and microcephaly, this unifying pattern raises confidence in a genetic syndromic disorder from 0.70 to 0.75."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.45,
+      "why": "Multifocal symmetric white matter T2/FLAIR hyperintensities and pigmentary retinopathy can also occur in congenital infection, and the experts note that congenital infection cannot be excluded because genetic/TORCH testing is unavailable. However, the absence of failure to thrive and birthmarks keeps it less likely than a genetic cause, so confidence rises only modestly from 0.40 to 0.45."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Brain MRI shows multifocal symmetric T2/FLAIR hyperintensities",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Ophthalmology evaluation reveals pigmentary retinopathy",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Genetic/metabolic disorder with retinal and white matter involvement (possible leukodystrophy)",
+      "node_type": "Hypothesis",
+      "confidence": 0.55,
+      "why": "The combination of symmetric white matter T2/FLAIR hyperintensities and pigmentary retinopathy in a child with global delay, hearing loss, microcephaly, and congenital cardiac defects suggests a genetic/metabolic disorder involving both retina and white matter (such as a leukodystrophy or related metabolic syndrome), which could unify the autism/profound-ID phenotype and the systemic findings. Confidence is moderate pending genetic/metabolic testing."
+    }
+  ],
+  "edges": [
+    {"src": "ev001", "dst": "node-7", "relation": "support"},
+    {"src": "ev001", "dst": "node-8", "relation": "support"},
+    {"src": "ev001", "dst": "h001", "relation": "support"},
+    {"src": "ev002", "dst": "node-7", "relation": "support"},
+    {"src": "ev002", "dst": "node-8", "relation": "support"},
+    {"src": "ev002", "dst": "h001", "relation": "support"}
+  ]
+}
+{'node_id': 'node-6', 'label': 'Autism with profound ID', 'why': 'Poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly, flat feet, and IQ 25 continue to be best explained by autism with profound intellectual disability. Both the laboratory physician and radiologist independently affirm this phenotype, and the newly reported MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the autism diagnosis, so confidence is held at 0.85.', 'score': 0.85, 'level': 1, 'supports': 3, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 7-year-old boy presented with behavioral issues since inf… | score=1.000
+[node-2] Evidence[-] | Early developmental history: first child, unplanned pregnan… | score=1.000
+[node-3] Evidence[-] | As he grew, he exhibited global developmental delay and was… | score=1.000
+[node-4] Evidence[-] | From the age of 3, he displayed symptoms of attention defic… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed a small head circumference (4… | score=1.000
+[node-6] Hypothesis[1] | Autism with profound ID | score=0.850 | attrs={"why": "Poor eye contact, repetitive head rocking, hand flapping, routine insi…
+[node-7] Hypothesis[1] | Genetic syndromic disorder | score=0.750 | attrs={"why": "New expert data: brain MRI shows multifocal symmetric T2/FLAIR hyperin…
+[node-8] Hypothesis[1] | Congenital infection | score=0.450 | attrs={"why": "Multifocal symmetric white matter T2/FLAIR hyperintensities and pigmen…
+[node-9] Hypothesis[1] | ADHD with comorbidity | score=0.300 | attrs={"why": "node-4: ADHD symptoms, hyperactivity, aggression; but node-3 and node-…
+[node-1] Evidence[-] | Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit… | score=1.000
+[node-1] Evidence[-] | Ophthalmology evaluation reveals pigmentary retinopathy | score=1.000
+[node-1] Hypothesis[1] | Genetic/metabolic disorder with retinal and white matter in… | score=0.550 | attrs={"why": "The combination of symmetric white matter T2/FLAIR hyperintensities an…
+=== Edges ===
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-6[Autism with profound ID] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-7[Genetic syndromic disorder] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-8[Congenital infection] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-9[ADHD with comorbidity] | refines | conf=0.000
+node-2[Early developmental history: first child, unplanned pregnan…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-2[Early developmental history: first child, unplanned pregnan…] -> node-8[Congenital infection] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-8[Congenital infection] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-9[ADHD with comorbidity] | refute | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-9[ADHD with comorbidity] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-8[Congenital infection] | refute | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-8[Congenital infection] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-9[ADHD with comorbidity] | refute | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-1[Genetic/metabolic disorder with retinal and white matter in…] | refines | conf=0.000
+node-1[Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-1[Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit…] -> node-8[Congenital infection] | support | conf=0.000
+node-1[Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit…] -> node-1[Genetic/metabolic disorder with retinal and white matter in…] | support | conf=0.000
+node-1[Ophthalmology evaluation reveals pigmentary retinopathy] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-1[Ophthalmology evaluation reveals pigmentary retinopathy] -> node-8[Congenital infection] | support | conf=0.000
+node-1[Ophthalmology evaluation reveals pigmentary retinopathy] -> node-1[Genetic/metabolic disorder with retinal and white matter in…] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2341 | Output token nums：557 | price(CNY)：0.00000000
+Response: {"belief": "Current consensus favors Autism with profound intellectual disability (0.85) as the primary phenotype, supported by poor eye contact, repetitive movements, routine insistence, microcephaly, and IQ 25. A genetic syndromic disorder (0.75) is likely underlying, supported by congenital cardiac defects, preterm birth, global delay, hearing loss, and microcephaly. MRI white matter hyperintensities and pigmentary retinopathy further suggest a genetic/metabolic disorder with retinal and white matter involvement, possibly leukodystrophy (0.55), while congenital infection (0.45) remains possible. ADHD alone (0.30) is unlikely given autism features and profound ID."}
+{'node_id': 'node-6', 'label': 'Autism with profound ID', 'why': 'Poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly, flat feet, and IQ 25 continue to be best explained by autism with profound intellectual disability. Both the laboratory physician and radiologist independently affirm this phenotype, and the newly reported MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the autism diagnosis, so confidence is held at 0.85.', 'score': 0.85, 'level': 1, 'supports': 3, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1398 | Output token nums：3326 | price(CNY)：0.00000000
+Response: [
+  {
+    "expert_name": "Radiologist",
+    "planning_intent": "interpret_existing_evidence"
+  }
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1236 | Output token nums：220 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1440 | Output token nums：1245 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's genetic testing results (chromosomal microarray, fragile X, metabolic screen including lactate, VLCFA, urine organic acids), EEG report, formal autism assessment (ADOS-2/ADI-R), and cardiology records (core to confirm autism with profound ID, exclude genetic syndrome or congenital infection, and clarify the underlying etiologic process given MRI white matter hyperintensities and pigmentary retinopathy)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：450 | Output token nums：691 | price(CNY)：0.00000000
+Step 1 Observations: ""
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1326 | Output token nums：241 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1530 | Output token nums：4540 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need results of prior genetic/metabolic testing (chromosomal microarray, fragile X, VLCFA, arylsulfatase A, lactate, urine organic acids), congenital infection workup (TORCH/CMV PCR), EEG, ADOS-2/ADI-R, and cardiology records, as MRI white matter hyperintensities plus pigmentary retinopathy suggest leukodystrophy; critical to confirm autism with profound ID and exclude treatable causes."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：456 | Output token nums：1866 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1438 | Output token nums：112 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1642 | Output token nums：6762 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Current belief: autism with profound ID (0.85) fits poor eye contact, repetitive movements, microcephaly, and IQ 25. Genetic syndrome likely (0.75); MRI white matter hyperintensities plus pigmentary retinopathy suggest leukodystrophy (0.55). ADHD alone excluded. All retrieved imaging/clinical data covered; genetic/metabolic, EEG, and cardiology remain unavailable due to limit so diagnosis stands."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4320 | Output token nums：6083 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-6",
+      "confidence": 0.85,
+      "why": "The radiologist independently affirms the autism with profound intellectual disability phenotype and notes that the MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the behavioral diagnosis. Together with poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly and IQ 25, the phenotype remains best explained by autism with profound ID, so confidence is held at 0.85."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.77,
+      "why": "The radiologist explicitly endorses that the multifocal symmetric white matter T2/FLAIR hyperintensities combined with pigmentary retinopathy suggest a genetic/metabolic syndrome, reinforcing the unifying picture that also includes congenital cardiac defects, preterm birth, global delay, hearing loss and microcephaly. This strengthens the genetic syndromic hypothesis, raising confidence slightly from 0.75 to 0.77, still limited by unavailable genetic/metabolic testing."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.45,
+      "why": "Congenital infection remains possible and cannot be excluded because TORCH testing is unavailable. The specific constellation of profound sensorineural hearing loss, pigmentary retinopathy and patent ductus arteriosus additionally raises a congenital rubella consideration, but the absence of failure to thrive and birthmarks keeps this less likely than a genetic cause, so confidence is held at 0.45."
+    },
+    {
+      "node_id": "node-12",
+      "confidence": 0.6,
+      "why": "The radiologist endorses that the symmetric white matter T2/FLAIR hyperintensities with pigmentary retinopathy indicate a genetic/metabolic disorder with retinal and white matter involvement, such as a leukodystrophy, that could unify the autism/profound-ID phenotype with the systemic findings. This strengthens the hypothesis, raising confidence from 0.55 to 0.60, though genetic/metabolic testing remains unavailable."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "The patient exhibits the classic congenital rubella triad: sensorineural hearing loss, pigmentary retinopathy, and patent ductus arteriosus",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Congenital rubella syndrome",
+      "node_type": "Hypothesis",
+      "confidence": 0.4,
+      "why": "The patient's combination of profound sensorineural hearing loss, pigmentary retinopathy, and congenital cardiac defects including patent ductus arteriosus and ventricular septal defect matches the classic triad of congenital rubella syndrome, accompanied by microcephaly and global developmental delay. Because the experts note that congenital infection cannot be excluded while TORCH testing is unavailable, and the cardiac, auditory and ocular features co-occur in a syndrome-typical pattern, a specific congenital rubella etiology is proposed with moderate confidence, though it remains unconfirmed."
+    }
+  ],
+  "edges": [
+    {"src": "ev001", "dst": "h001", "relation": "support"},
+    {"src": "node-2", "dst": "h001", "relation": "support"},
+    {"src": "node-3", "dst": "h001", "relation": "support"},
+    {"src": "node-11", "dst": "h001", "relation": "support"},
+    {"src": "node-10", "dst": "h001", "relation": "support"},
+    {"src": "h001", "dst": "node-8", "relation": "support"}
+  ]
+}
+{'node_id': 'node-6', 'label': 'Autism with profound ID', 'why': 'The radiologist independently affirms the autism with profound intellectual disability phenotype and notes that the MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the behavioral diagnosis. Together with poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly and IQ 25, the phenotype remains best explained by autism with profound ID, so confidence is held at 0.85.', 'score': 0.85, 'level': 1, 'supports': 3, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 7-year-old boy presented with behavioral issues since inf… | score=1.000
+[node-2] Evidence[-] | Early developmental history: first child, unplanned pregnan… | score=1.000
+[node-3] Evidence[-] | As he grew, he exhibited global developmental delay and was… | score=1.000
+[node-4] Evidence[-] | From the age of 3, he displayed symptoms of attention defic… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed a small head circumference (4… | score=1.000
+[node-6] Hypothesis[1] | Autism with profound ID | score=0.850 | attrs={"why": "The radiologist independently affirms the autism with profound intelle…
+[node-7] Hypothesis[1] | Genetic syndromic disorder | score=0.770 | attrs={"why": "The radiologist explicitly endorses that the multifocal symmetric whit…
+[node-8] Hypothesis[1] | Congenital infection | score=0.450 | attrs={"why": "Congenital infection remains possible and cannot be excluded because T…
+[node-9] Hypothesis[1] | ADHD with comorbidity | score=0.300 | attrs={"why": "node-4: ADHD symptoms, hyperactivity, aggression; but node-3 and node-…
+[node-1] Evidence[-] | Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit… | score=1.000
+[node-1] Evidence[-] | Ophthalmology evaluation reveals pigmentary retinopathy | score=1.000
+[node-1] Hypothesis[1] | Genetic/metabolic disorder with retinal and white matter in… | score=0.600 | attrs={"why": "The radiologist endorses that the symmetric white matter T2/FLAIR hype…
+[node-1] Evidence[-] | The patient exhibits the classic congenital rubella triad: … | score=1.000
+[node-1] Hypothesis[1] | Congenital rubella syndrome | score=0.400 | attrs={"why": "The patient's combination of profound sensorineural hearing loss, pigm…
+=== Edges ===
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-6[Autism with profound ID] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-7[Genetic syndromic disorder] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-8[Congenital infection] | refines | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-9[ADHD with comorbidity] | refines | conf=0.000
+node-2[Early developmental history: first child, unplanned pregnan…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-2[Early developmental history: first child, unplanned pregnan…] -> node-8[Congenital infection] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-8[Congenital infection] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-9[ADHD with comorbidity] | refute | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-9[ADHD with comorbidity] | support | conf=0.000
+node-4[From the age of 3, he displayed symptoms of attention defic…] -> node-8[Congenital infection] | refute | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-6[Autism with profound ID] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-8[Congenital infection] | support | conf=0.000
+node-5[Physical examination revealed a small head circumference (4…] -> node-9[ADHD with comorbidity] | refute | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-1[Genetic/metabolic disorder with retinal and white matter in…] | refines | conf=0.000
+node-1[Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit…] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-1[Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit…] -> node-8[Congenital infection] | support | conf=0.000
+node-1[Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit…] -> node-1[Genetic/metabolic disorder with retinal and white matter in…] | support | conf=0.000
+node-1[Ophthalmology evaluation reveals pigmentary retinopathy] -> node-7[Genetic syndromic disorder] | support | conf=0.000
+node-1[Ophthalmology evaluation reveals pigmentary retinopathy] -> node-8[Congenital infection] | support | conf=0.000
+node-1[Ophthalmology evaluation reveals pigmentary retinopathy] -> node-1[Genetic/metabolic disorder with retinal and white matter in…] | support | conf=0.000
+node-1[A 7-year-old boy presented with behavioral issues since inf…] -> node-1[Congenital rubella syndrome] | refines | conf=0.000
+node-1[The patient exhibits the classic congenital rubella triad: …] -> node-1[Congenital rubella syndrome] | support | conf=0.000
+node-2[Early developmental history: first child, unplanned pregnan…] -> node-1[Congenital rubella syndrome] | support | conf=0.000
+node-3[As he grew, he exhibited global developmental delay and was…] -> node-1[Congenital rubella syndrome] | support | conf=0.000
+node-1[Ophthalmology evaluation reveals pigmentary retinopathy] -> node-1[Congenital rubella syndrome] | support | conf=0.000
+node-1[Brain MRI shows multifocal symmetric T2/FLAIR hyperintensit…] -> node-1[Congenital rubella syndrome] | support | conf=0.000
+node-1[Congenital rubella syndrome] -> node-8[Congenital infection] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2798 | Output token nums：694 | price(CNY)：0.00000000
+Response: {"belief": "The 7-year-old boy’s behavioral symptoms since infancy, global developmental delay, profound hearing loss, autism-like social/communication deficits, repetitive movements, hyperactivity, aggression, microcephaly, and IQ 25 most strongly support autism with profound intellectual disability (0.85). The same evidence, plus congenital cardiac defects, preterm birth, symmetric white matter T2/FLAIR hyperintensities, and pigmentary retinopathy, supports an underlying genetic syndromic disorder (0.77) and a genetic/metabolic disorder such as leukodystrophy (0.60). Congenital infection (0.45) and congenital rubella syndrome (0.40) remain possible given hearing loss, retinopathy, and patent ductus arteriosus, but are less likely. ADHD with comorbidity (0.30) is less likely because autism features and profound ID better explain the phenotype."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4894 | Output token nums：4699 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Autism with profound ID",
+  "report": "The patient has lifelong autism features: poor eye contact, repetitive movements, routine insistence, aggression, hyperactivity, microcephaly, IQ 25, meeting autism with profound ID criteria. Radiologist affirms this phenotype. MRI white matter changes, retinopathy, and cardiac defects suggest an underlying genetic/metabolic or infectious etiology but do not change the behavioral diagnosis. Thus autism with profound ID is most likely."
+}
+Answer: Autism with profound ID
+Report: The patient has lifelong autism features: poor eye contact, repetitive movements, routine insistence, aggression, hyperactivity, microcephaly, IQ 25, meeting autism with profound ID criteria. Radiologist affirms this phenotype. MRI white matter changes, retinopathy, and cardiac defects suggest an underlying genetic/metabolic or infectious etiology but do not change the behavioral diagnosis. Thus autism with profound ID is most likely.
+[TraceEvo] case 16: 25 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：34 | Input token nums：53247 | Output token nums：73148 | Total token nums：126395 | price(CNY)：0.00000000

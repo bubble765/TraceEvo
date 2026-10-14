@@ -1,0 +1,184 @@
+{
+  "clean": {
+    "n_traces": 58,
+    "n_traces_with_alerts": 16,
+    "detected_type_counts": {
+      "A4": 7,
+      "A1": 12
+    },
+    "note": "§6.3/§12: the Clean group, measured on the held-out block. A genuine audit finding still counts as an alert and nothing was removed from the denominator for looking like a real problem."
+  },
+  "primary_injected": {
+    "denominator_per_class": {
+      "A1": 58,
+      "A2": 54,
+      "A3": 58,
+      "A5": 232
+    },
+    "n": 402,
+    "detected": 395,
+    "missed": 7,
+    "precision": 0.970516,
+    "recall": 0.982587,
+    "f1": 0.976514,
+    "precision_denominator": {
+      "tp": 395,
+      "fp_on_clean": 12
+    },
+    "recall_denominator": {
+      "tp": 395,
+      "fn": 7
+    },
+    "macro_by_class": {
+      "precision": 0.9565,
+      "recall": 0.9679,
+      "f1": 0.9597,
+      "classes_averaged": [
+        "A1",
+        "A2",
+        "A3",
+        "A5"
+      ],
+      "n_classes": 4
+    },
+    "headline": "macro_by_class (§8.1)",
+    "per_class": [
+      {
+        "type": "A1",
+        "n_injected": 58,
+        "tp": 57,
+        "fn": 1,
+        "fp_on_clean": 12,
+        "clean_fp_rate": 0.2069,
+        "precision": 0.8261,
+        "recall": 0.9828,
+        "f1": 0.8976,
+        "secondary_consequence_detections": 40,
+        "precision_strict": 0.5229,
+        "f1_strict": 0.6826
+      },
+      {
+        "type": "A2",
+        "n_injected": 54,
+        "tp": 48,
+        "fn": 6,
+        "fp_on_clean": 0,
+        "clean_fp_rate": 0.0,
+        "precision": 1.0,
+        "recall": 0.8889,
+        "f1": 0.9412,
+        "secondary_consequence_detections": 0,
+        "precision_strict": 1.0,
+        "f1_strict": 0.9412
+      },
+      {
+        "type": "A3",
+        "n_injected": 58,
+        "tp": 58,
+        "fn": 0,
+        "fp_on_clean": 0,
+        "clean_fp_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "secondary_consequence_detections": 0,
+        "precision_strict": 1.0,
+        "f1_strict": 1.0
+      },
+      {
+        "type": "A5",
+        "n_injected": 232,
+        "tp": 232,
+        "fn": 0,
+        "fp_on_clean": 0,
+        "clean_fp_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "secondary_consequence_detections": 0,
+        "precision_strict": 1.0,
+        "f1_strict": 1.0
+      }
+    ],
+    "case_cluster_bootstrap_ci95": {
+      "n_cases": 58,
+      "resamples": 10000,
+      "seed": 20260920,
+      "unit": "case_id (§8.2)",
+      "macro_f1": {
+        "point": 0.9598,
+        "ci95": [
+          0.9432,
+          0.9748
+        ],
+        "n_effective": 10000
+      },
+      "micro_f1": {
+        "point": 0.9766,
+        "ci95": [
+          0.9669,
+          0.9852
+        ],
+        "n_effective": 10000
+      },
+      "macro_precision": {
+        "point": 0.957,
+        "ci95": [
+          0.9392,
+          0.9758
+        ],
+        "n_effective": 10000
+      },
+      "macro_recall": {
+        "point": 0.9681,
+        "ci95": [
+          0.9446,
+          0.9869
+        ],
+        "n_effective": 10000
+      },
+      "note": "§8.2: the sampling unit is the case, not the mutation. Mutations of one case share a trace, so event-level independence would understate the interval."
+    },
+    "note": "§8.1: the headline is the macro average by class, so that a class with more injections cannot dominate. §12: secondary findings are not counted as false positives of the injected class; `precision_strict`, which does count them, is in `per_class` for continuity and is not the headline."
+  },
+  "secondary_findings": {
+    "count": 40,
+    "types": {
+      "A4": 20,
+      "A1": 40
+    },
+    "note": "§8.3: a detection of type T on a trace injected with T' != T. These are real downstream consequences, reported as their own count and type list and not counted as primary-class false positives."
+  },
+  "root": {
+    "n_scored": 402,
+    "observable_root_top1_accuracy": 0.977612,
+    "observable_root_top1_denominator": {
+      "hits": 393,
+      "n": 402
+    },
+    "latent_root_exact_accuracy": 0.968531,
+    "latent_root_denominator": {
+      "hits": 277,
+      "n": 286,
+      "excluded": "delete and truncate variants, where the latent root is an event that no longer exists"
+    },
+    "latent_root_equals_observable": 286,
+    "note": "§9: the headline is observable-root top-1. Latent-root exact accuracy is reported only over the injections whose latent root still exists in the trace — delete and truncate are excluded, because requiring a system to localize an event that was removed measures the ground truth's choice rather than the detector."
+  },
+  "case_study": {
+    "n": 58,
+    "types": [
+      "A4"
+    ],
+    "denominator": {
+      "A4": 58
+    },
+    "note": "§7.1: A4 is reported as an invocation/parser boundary case study and does not enter the headline semantic propagation F1."
+  },
+  "excluded": {
+    "classes": [
+      "A0"
+    ],
+    "note": "§7.1 keeps A0 out of the headline. S4A established that no event in this pipeline carries status=degraded or failed, so the `status_marked` variant would manufacture the instrumentation its own precondition requires; it is refused. `silent` fabricates no status, and is not in the headline either. Nothing in this stage simulates a status the pipeline does not produce."
+  }
+}

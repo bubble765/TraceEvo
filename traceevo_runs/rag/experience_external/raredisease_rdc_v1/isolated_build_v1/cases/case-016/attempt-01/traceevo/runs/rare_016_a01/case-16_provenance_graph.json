@@ -1,0 +1,948 @@
+{
+  "task_id": "case-16",
+  "n_nodes": 25,
+  "n_edges": 37,
+  "nodes": [
+    {
+      "event_id": "evt-case-16-00001",
+      "task_id": "case-16",
+      "step_id": 0,
+      "timestamp": "2026-10-08T07:56:05.258+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "16426cb74b00330ccc639adf62662af3011ffb279186b5dd6576d3eb1c47ed5f",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\n  \"symptom_node\": \"A 7-year-old boy presented with behavioral issues since infancy.\",\n  \"isolated_evidence\": [\n    \"Early developmental history: first child, unplanned pregnancy, oligohydramnios at 36 weeks, possible congenital cardiac defects noted in fetus; delivered preterm at 36 weeks via emergency cesarean section due to fetal bradycardia; birth weight 1.7 kg, delayed cry, and cyanosed at birth; cardiac evaluation at birth identified patent ductus arteriosus, ventricular septal defect, tricuspid regurgitation, and a left atrium to right atrium shunt, and he was started on digitoxin.\",\n    \"As he grew, he exhibited global developmental delay and was diagnosed with bilateral profound sensorineural hearing loss at 6 months of age; over time he continued to show delayed milestones and developed poor eye contact, poor social and communication skills, repetitive head rocking, hand flapping movements, and a preference for fixed routines.\",\n    \"From the age of 3, he displayed symptoms of attention deficit hyperkinetic disorder (ADHD), including an inability to sit still for more than 2-3 minutes and difficulty engaging in activities; his insistence on routine and hyperactivity increased over the years, leading to aggressive behaviors such as hitting and biting his mother, which resulted in significant distress and a psychiatry consultation with subsequent admission to a child psychiatry inpatient unit; there was no history of head injury, seizures, frequent diarrhea and vomiting, birthmarks, or failure to thrive.\",\n    \"Physical examination revealed a small head circumference (49 cm) and bilateral flat feet; mental status examination showed a lack of eye contact, hyperactivity, irritable mood, frequent side-to-side head movements, and hand flapping; his intelligence quotient was evaluated to be 25.\"\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00002",
+      "task_id": "case-16",
+      "step_id": 0,
+      "timestamp": "2026-10-08T07:56:32.808+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8",
+        "node-9"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "16426cb74b00330ccc639adf62662af3011ffb279186b5dd6576d3eb1c47ed5f",
+      "event_hash": "5f3171aa9682a9210da862ed48e6e2dc86bb0e83f7fa58c1d2c524dcb98beb6f",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\n  \"candidates\": [\n    {\n      \"id\": \"h001\",\n      \"label\": \"Autism with profound ID\",\n      \"confidence\": 0.85,\n      \"why\": \"node-3/5: poor eye contact, repetitive movements, hand flapping, IQ 25; node-4: routine insistence, aggression. Supports autism with profound ID.\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Genetic syndromic disorder\",\n      \"confidence\": 0.7,\n      \"why\": \"node-2: congenital heart defects, preterm; node-3: global delay, hearing loss; node-5: microcephaly, flat feet, IQ 25. Suggests underlying genetic syndrome.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"Congenital infection\",\n      \"confidence\": 0.4,\n      \"why\": \"node-2: cardiac defects, preterm; node-3: hearing loss, developmental delay; node-5: microcephaly. Consistent, but node-4 lacks failure to thrive/birthmarks.\"\n    },\n    {\n      \"id\": \"h004\",\n      \"label\": \"ADHD with comorbidity\",\n      \"confidence\": 0.3,\n      \"why\": \"node-4: ADHD symptoms, hyperactivity, aggression; but node-3 and node-5 show autism features and profound ID, making pure ADHD less likely.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h003\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h003\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h004\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h004\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h003\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h003\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h004\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00003",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:56:58.234+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "5f3171aa9682a9210da862ed48e6e2dc86bb0e83f7fa58c1d2c524dcb98beb6f",
+      "event_hash": "b0d5ef4fe7d2da740b646012bb283a85e39d03f1058c5fb472ff3f468dd1c58c",
+      "payload": {
+        "response": "[\n  {\"expert_name\": \"Laboratory_Physician\", \"planning_intent\": \"seek_discriminating_evidence\"},\n  {\"expert_name\": \"Radiologist\", \"planning_intent\": \"seek_discriminating_evidence\"}\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Autism with profound ID",
+          "why": "node-3/5: poor eye contact, repetitive movements, hand flapping, IQ 25; node-4: routine insistence, aggression. Supports autism with profound ID.",
+          "score": 0.85,
+          "level": 1,
+          "supports": 3,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-16-00004",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:56:58.238+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b0d5ef4fe7d2da740b646012bb283a85e39d03f1058c5fb472ff3f468dd1c58c",
+      "event_hash": "19138095472cd49b2c2ed5b0ad8760454c94bbb2c6ab012698df65de786ce101",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00005",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:57:24.584+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "19138095472cd49b2c2ed5b0ad8760454c94bbb2c6ab012698df65de786ce101",
+      "event_hash": "801a58d82ee1f96ea54809e27e55e4d3ced833315c24ab5abb29854d57c4327f",
+      "payload": {
+        "query": "Given the frontier hypothesis of autism with profound ID and no prior retrievals, key missing evidence are standardized autism diagnostic records, IQ/adaptive testing, chromosomal microarray/fragile X/MECP2 testing, TORCH serology, brain MRI, and cardiology/audiology reports to confirm or exclude genetic syndrome or congenital infection as the unifying etiology.",
+        "hit": true,
+        "retrieval_output": "Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere.",
+        "record_hash": "787a59bdb7b6736bf4c55002a459fd5b698241df1165343d0e93b73062b52515",
+        "started_at": "2026-10-08T07:57:10.185+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00006",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:57:24.588+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "801a58d82ee1f96ea54809e27e55e4d3ced833315c24ab5abb29854d57c4327f",
+      "event_hash": "65aa984807f5c212cbb57e340996fd54be09a48380acb9d5819a9b2996e70290",
+      "payload": {
+        "query": "Given the frontier hypothesis of autism with profound ID and no prior retrievals, key missing evidence are standardized autism diagnostic records, IQ/adaptive testing, chromosomal microarray/fragile X/MECP2 testing, TORCH serology, brain MRI, and cardiology/audiology reports to confirm or exclude genetic syndrome or congenital infection as the unifying etiology.",
+        "hit": true,
+        "retrieval_output": "Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere.",
+        "record_hash": "787a59bdb7b6736bf4c55002a459fd5b698241df1165343d0e93b73062b52515",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00007",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:57:51.906+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "65aa984807f5c212cbb57e340996fd54be09a48380acb9d5819a9b2996e70290",
+      "event_hash": "36879a6812dbce2d8eb632212405dee7cc04a08953958b8cfbde1c423362b803",
+      "payload": {
+        "query": "To verify autism with profound ID versus genetic syndrome or congenital infection, retrieve chromosomal microarray, fragile X, MECP2, TORCH serology, EEG, and standardized autism diagnostic (ADOS/ADI-R) results; these are critical to identify a unifying etiology given multifocal MRI hyperintensities and congenital anomalies.",
+        "hit": true,
+        "retrieval_output": "Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere. Ophthalmological examination showed evidence of pigmentary retinopathy..",
+        "record_hash": "41b7536421f219919fc69e1d84c1f31dea8f61c7b623d0716da4339810c6a988",
+        "started_at": "2026-10-08T07:57:39.266+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00008",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:57:51.910+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "36879a6812dbce2d8eb632212405dee7cc04a08953958b8cfbde1c423362b803",
+      "event_hash": "8fff1c4a721f630e0a091718a8c99bd84d6c7efb9e6c106246fd60d6a18848c0",
+      "payload": {
+        "query": "To verify autism with profound ID versus genetic syndrome or congenital infection, retrieve chromosomal microarray, fragile X, MECP2, TORCH serology, EEG, and standardized autism diagnostic (ADOS/ADI-R) results; these are critical to identify a unifying etiology given multifocal MRI hyperintensities and congenital anomalies.",
+        "hit": true,
+        "retrieval_output": "Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere. Ophthalmological examination showed evidence of pigmentary retinopathy..",
+        "record_hash": "41b7536421f219919fc69e1d84c1f31dea8f61c7b623d0716da4339810c6a988",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00009",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:58:16.059+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-16-0001",
+        "rec-case-16-0002",
+        "rec-case-16-0003",
+        "rec-case-16-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8fff1c4a721f630e0a091718a8c99bd84d6c7efb9e6c106246fd60d6a18848c0",
+      "event_hash": "c412ca09589209e625cf163739504b17dd3517b01ffba73c405d8fc5fcebaa42",
+      "payload": {
+        "analysis": "MRI shows multifocal symmetric T2/FLAIR hyperintensities and pigmentary retinopathy, suggesting genetic or congenital infection. Yet poor eye contact, repetitive movements, hand flapping, routine insistence, aggression, microcephaly and IQ 25 best fit autism with profound ID; genetic syndrome likely unifies findings. All retrievable evidence is covered; genetic/TORCH/ADOS remain unavailable.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-16-00010",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:58:16.064+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c412ca09589209e625cf163739504b17dd3517b01ffba73c405d8fc5fcebaa42",
+      "event_hash": "7bd3b62c39b93c82d7c47d50a4e67692bb163dd104ff05e83bf34ab6839d2169",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00011",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:58:28.889+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7bd3b62c39b93c82d7c47d50a4e67692bb163dd104ff05e83bf34ab6839d2169",
+      "event_hash": "d4e002e4fc87dc44d9b26277631eb7e06fa50871f0badf89e7cc65e383a60afc",
+      "payload": {
+        "query": "Need genetic testing (chromosomal microarray, fragile X, metabolic screen), brain MRI, EEG, and formal autism assessment (ADOS-2/ADI-R) plus cardiac records; these are core to confirm autism with profound ID and exclude a genetic syndrome or congenital infection driving the phenotype.",
+        "hit": true,
+        "retrieval_output": "Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere. Ophthalmological examination showed evidence of pigmentary retinopathy..",
+        "record_hash": "98aff7416b7f9a6552763e5eb167da09e53cae22f4fa90628a32274994f8c642",
+        "started_at": "2026-10-08T07:58:24.277+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00012",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:58:28.894+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "d4e002e4fc87dc44d9b26277631eb7e06fa50871f0badf89e7cc65e383a60afc",
+      "event_hash": "c7db64d7578f745117d94598ad7e6677c15a2378f7310bdc4746dbca06d2565e",
+      "payload": {
+        "query": "Need genetic testing (chromosomal microarray, fragile X, metabolic screen), brain MRI, EEG, and formal autism assessment (ADOS-2/ADI-R) plus cardiac records; these are core to confirm autism with profound ID and exclude a genetic syndrome or congenital infection driving the phenotype.",
+        "hit": true,
+        "retrieval_output": "Magnetic resonance imaging showed multifocal symmetrical T2/fluid attenuated inversion recovery hyperintensities in B/L cerebral hemisphere. Ophthalmological examination showed evidence of pigmentary retinopathy..",
+        "record_hash": "98aff7416b7f9a6552763e5eb167da09e53cae22f4fa90628a32274994f8c642",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00013",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:58:50.927+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c7db64d7578f745117d94598ad7e6677c15a2378f7310bdc4746dbca06d2565e",
+      "event_hash": "fedaea0bc682992a0593ae64d39428a459be900fcba341d2f0a38f2675682bc7",
+      "payload": {
+        "query": "Given MRI shows multifocal symmetric T2/FLAIR hyperintensities and ophthalmology reveals pigmentary retinopathy, need remaining genetic/metabolic testing (chromosomal microarray, fragile X, lactate, VLCFA, urine organic acids), EEG, ADOS-2/ADI-R, and cardiology records (critical to confirm autism with profound ID and exclude genetic syndrome/congenital infection).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "5e01de94bdb7d65fca14ed20594fbd8e6147f58f9bb1e78d1076d91a2b5a884d",
+        "started_at": "2026-10-08T07:58:42.400+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00014",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:58:50.930+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "fedaea0bc682992a0593ae64d39428a459be900fcba341d2f0a38f2675682bc7",
+      "event_hash": "3ba178a13bf24ae0cb43a01f3cb21b96f07458fe9f7b4a2d044f63d3aac86293",
+      "payload": {
+        "query": "Given MRI shows multifocal symmetric T2/FLAIR hyperintensities and ophthalmology reveals pigmentary retinopathy, need remaining genetic/metabolic testing (chromosomal microarray, fragile X, lactate, VLCFA, urine organic acids), EEG, ADOS-2/ADI-R, and cardiology records (critical to confirm autism with profound ID and exclude genetic syndrome/congenital infection).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "5e01de94bdb7d65fca14ed20594fbd8e6147f58f9bb1e78d1076d91a2b5a884d",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00015",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:59:23.198+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-16-0005",
+        "rec-case-16-0006",
+        "rec-case-16-0007",
+        "rec-case-16-0008"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "3ba178a13bf24ae0cb43a01f3cb21b96f07458fe9f7b4a2d044f63d3aac86293",
+      "event_hash": "ff235415c9861a07ed5ed6d176cf9b396873370547f84be15506849bde4dde59",
+      "payload": {
+        "analysis": "Autism with profound ID (0.85) fits poor eye contact, repetitive movements, IQ 25. MRI: multifocal symmetric T2/FLAIR hyperintensities; ophthalmology: pigmentary retinopathy, suggesting genetic/metabolic syndrome. Genetic testing, EEG, ADOS, cardiac records missing, so congenital infection cannot be excluded, but autism with profound ID remains most likely; retrieved imaging covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-16-00016",
+      "task_id": "case-16",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:59:39.635+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-10",
+        "node-11",
+        "node-12"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ff235415c9861a07ed5ed6d176cf9b396873370547f84be15506849bde4dde59",
+      "event_hash": "00683132f912c5291dc077983b4bd0e599129b691e6f3b7e059ab978a58cd626",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.85,\n      \"why\": \"Poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly, flat feet, and IQ 25 continue to be best explained by autism with profound intellectual disability. Both the laboratory physician and radiologist independently affirm this phenotype, and the newly reported MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the autism diagnosis, so confidence is held at 0.85.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.75,\n      \"why\": \"New expert data: brain MRI shows multifocal symmetric T2/FLAIR hyperintensities and ophthalmology reveals pigmentary retinopathy, a pattern the radiologist and laboratory physician both consider suggestive of a genetic/metabolic syndrome. Combined with congenital cardiac defects, preterm birth, global delay, hearing loss, and microcephaly, this unifying pattern raises confidence in a genetic syndromic disorder from 0.70 to 0.75.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.45,\n      \"why\": \"Multifocal symmetric white matter T2/FLAIR hyperintensities and pigmentary retinopathy can also occur in congenital infection, and the experts note that congenital infection cannot be excluded because genetic/TORCH testing is unavailable. However, the absence of failure to thrive and birthmarks keeps it less likely than a genetic cause, so confidence rises only modestly from 0.40 to 0.45.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"Brain MRI shows multifocal symmetric T2/FLAIR hyperintensities\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Ophthalmology evaluation reveals pigmentary retinopathy\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Genetic/metabolic disorder with retinal and white matter involvement (possible leukodystrophy)\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.55,\n      \"why\": \"The combination of symmetric white matter T2/FLAIR hyperintensities and pigmentary retinopathy in a child with global delay, hearing loss, microcephaly, and congenital cardiac defects suggests a genetic/metabolic disorder involving both retina and white matter (such as a leukodystrophy or related metabolic syndrome), which could unify the autism/profound-ID phenotype and the systemic findings. Confidence is moderate pending genetic/metabolic testing.\"\n    }\n  ],\n  \"edges\": [\n    {\"src\": \"ev001\", \"dst\": \"node-7\", \"relation\": \"support\"},\n    {\"src\": \"ev001\", \"dst\": \"node-8\", \"relation\": \"support\"},\n    {\"src\": \"ev001\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"ev002\", \"dst\": \"node-7\", \"relation\": \"support\"},\n    {\"src\": \"ev002\", \"dst\": \"node-8\", \"relation\": \"support\"},\n    {\"src\": \"ev002\", \"dst\": \"h001\", \"relation\": \"support\"}\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00017",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:00:01.883+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "00683132f912c5291dc077983b4bd0e599129b691e6f3b7e059ab978a58cd626",
+      "event_hash": "e950e3ecdf8685d570c5b1fd07527bbaea4cd2a63caf040366146d5d3be1b35d",
+      "payload": {
+        "response": "[\n  {\n    \"expert_name\": \"Radiologist\",\n    \"planning_intent\": \"interpret_existing_evidence\"\n  }\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Autism with profound ID",
+          "why": "Poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly, flat feet, and IQ 25 continue to be best explained by autism with profound intellectual disability. Both the laboratory physician and radiologist independently affirm this phenotype, and the newly reported MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the autism diagnosis, so confidence is held at 0.85.",
+          "score": 0.85,
+          "level": 1,
+          "supports": 3,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-16-00018",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:00:01.886+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e950e3ecdf8685d570c5b1fd07527bbaea4cd2a63caf040366146d5d3be1b35d",
+      "event_hash": "67f19893c6745fd23ad56ee87184cf1814f90446d3466f999a7a711bd07004ec",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00019",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:00:16.955+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0009"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "67f19893c6745fd23ad56ee87184cf1814f90446d3466f999a7a711bd07004ec",
+      "event_hash": "7595a6ce6b3f43c513be7be7bd330aff7495e10375ea349b44ce05222e981137",
+      "payload": {
+        "query": "Need the patient's genetic testing results (chromosomal microarray, fragile X, metabolic screen including lactate, VLCFA, urine organic acids), EEG report, formal autism assessment (ADOS-2/ADI-R), and cardiology records (core to confirm autism with profound ID, exclude genetic syndrome or congenital infection, and clarify the underlying etiologic process given MRI white matter hyperintensities and pigmentary retinopathy).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "c19d097347956ac4e76f6886731eb77ff72f82f445fab1965a7d3180c2dd1760",
+        "started_at": "2026-10-08T08:00:11.977+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00020",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:00:16.959+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0010"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7595a6ce6b3f43c513be7be7bd330aff7495e10375ea349b44ce05222e981137",
+      "event_hash": "7ec870c6f91112c36557132073a0f6f05c2978acf96db062564548519c83c8de",
+      "payload": {
+        "query": "Need the patient's genetic testing results (chromosomal microarray, fragile X, metabolic screen including lactate, VLCFA, urine organic acids), EEG report, formal autism assessment (ADOS-2/ADI-R), and cardiology records (core to confirm autism with profound ID, exclude genetic syndrome or congenital infection, and clarify the underlying etiologic process given MRI white matter hyperintensities and pigmentary retinopathy).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "c19d097347956ac4e76f6886731eb77ff72f82f445fab1965a7d3180c2dd1760",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00021",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:00:50.547+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0011"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7ec870c6f91112c36557132073a0f6f05c2978acf96db062564548519c83c8de",
+      "event_hash": "f06add858228429ad9ae11f43e70e9e0223c439b4aa06e75012bf2dde7ed02a7",
+      "payload": {
+        "query": "Need results of prior genetic/metabolic testing (chromosomal microarray, fragile X, VLCFA, arylsulfatase A, lactate, urine organic acids), congenital infection workup (TORCH/CMV PCR), EEG, ADOS-2/ADI-R, and cardiology records, as MRI white matter hyperintensities plus pigmentary retinopathy suggest leukodystrophy; critical to confirm autism with profound ID and exclude treatable causes.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "e4a9196a1f7744dad845307b8f0d07c2a856576d228494ce29648dfb43446c3e",
+        "started_at": "2026-10-08T08:00:39.918+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00022",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:00:50.552+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-16-0012"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f06add858228429ad9ae11f43e70e9e0223c439b4aa06e75012bf2dde7ed02a7",
+      "event_hash": "52191690b233dc918e07f3a3f6d7893f7b1337b0c42e2c2662658c47de4525c8",
+      "payload": {
+        "query": "Need results of prior genetic/metabolic testing (chromosomal microarray, fragile X, VLCFA, arylsulfatase A, lactate, urine organic acids), congenital infection workup (TORCH/CMV PCR), EEG, ADOS-2/ADI-R, and cardiology records, as MRI white matter hyperintensities plus pigmentary retinopathy suggest leukodystrophy; critical to confirm autism with profound ID and exclude treatable causes.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "e4a9196a1f7744dad845307b8f0d07c2a856576d228494ce29648dfb43446c3e",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00023",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:01:18.396+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-16-0009",
+        "rec-case-16-0010",
+        "rec-case-16-0011",
+        "rec-case-16-0012"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "52191690b233dc918e07f3a3f6d7893f7b1337b0c42e2c2662658c47de4525c8",
+      "event_hash": "c84b8c4f058f22605bf7d950bbe297517432bce5ec046fe654b7414be08361af",
+      "payload": {
+        "analysis": "Current belief: autism with profound ID (0.85) fits poor eye contact, repetitive movements, microcephaly, and IQ 25. Genetic syndrome likely (0.75); MRI white matter hyperintensities plus pigmentary retinopathy suggest leukodystrophy (0.55). ADHD alone excluded. All retrieved imaging/clinical data covered; genetic/metabolic, EEG, and cardiology remain unavailable due to limit so diagnosis stands.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-16-00024",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:01:49.264+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-13",
+        "node-14"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c84b8c4f058f22605bf7d950bbe297517432bce5ec046fe654b7414be08361af",
+      "event_hash": "e7d9186adc0715dd30b0fc78197c125c28ce185b19fc79c21a2aa085e2b32d4d",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.85,\n      \"why\": \"The radiologist independently affirms the autism with profound intellectual disability phenotype and notes that the MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the behavioral diagnosis. Together with poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly and IQ 25, the phenotype remains best explained by autism with profound ID, so confidence is held at 0.85.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.77,\n      \"why\": \"The radiologist explicitly endorses that the multifocal symmetric white matter T2/FLAIR hyperintensities combined with pigmentary retinopathy suggest a genetic/metabolic syndrome, reinforcing the unifying picture that also includes congenital cardiac defects, preterm birth, global delay, hearing loss and microcephaly. This strengthens the genetic syndromic hypothesis, raising confidence slightly from 0.75 to 0.77, still limited by unavailable genetic/metabolic testing.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.45,\n      \"why\": \"Congenital infection remains possible and cannot be excluded because TORCH testing is unavailable. The specific constellation of profound sensorineural hearing loss, pigmentary retinopathy and patent ductus arteriosus additionally raises a congenital rubella consideration, but the absence of failure to thrive and birthmarks keeps this less likely than a genetic cause, so confidence is held at 0.45.\"\n    },\n    {\n      \"node_id\": \"node-12\",\n      \"confidence\": 0.6,\n      \"why\": \"The radiologist endorses that the symmetric white matter T2/FLAIR hyperintensities with pigmentary retinopathy indicate a genetic/metabolic disorder with retinal and white matter involvement, such as a leukodystrophy, that could unify the autism/profound-ID phenotype with the systemic findings. This strengthens the hypothesis, raising confidence from 0.55 to 0.60, though genetic/metabolic testing remains unavailable.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"The patient exhibits the classic congenital rubella triad: sensorineural hearing loss, pigmentary retinopathy, and patent ductus arteriosus\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Congenital rubella syndrome\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.4,\n      \"why\": \"The patient's combination of profound sensorineural hearing loss, pigmentary retinopathy, and congenital cardiac defects including patent ductus arteriosus and ventricular septal defect matches the classic triad of congenital rubella syndrome, accompanied by microcephaly and global developmental delay. Because the experts note that congenital infection cannot be excluded while TORCH testing is unavailable, and the cardiac, auditory and ocular features co-occur in a syndrome-typical pattern, a specific congenital rubella etiology is proposed with moderate confidence, though it remains unconfirmed.\"\n    }\n  ],\n  \"edges\": [\n    {\"src\": \"ev001\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-2\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-11\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-10\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"h001\", \"dst\": \"node-8\", \"relation\": \"support\"}\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-16-00025",
+      "task_id": "case-16",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:02:18.727+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-6"
+      ],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e7d9186adc0715dd30b0fc78197c125c28ce185b19fc79c21a2aa085e2b32d4d",
+      "event_hash": "1d82861b0f7e2f3c6dfc6e38b2b3ea277575c7c192511b43a2c7eab952e1efa0",
+      "payload": {
+        "prediction": "Autism with profound ID",
+        "report": "The patient has lifelong autism features: poor eye contact, repetitive movements, routine insistence, aggression, hyperactivity, microcephaly, IQ 25, meeting autism with profound ID criteria. Radiologist affirms this phenotype. MRI white matter changes, retinopathy, and cardiac defects suggest an underlying genetic/metabolic or infectious etiology but do not change the behavioral diagnosis. Thus autism with profound ID is most likely.",
+        "report_chars": 438,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1
+            ],
+            "stage_steps": {
+              "1": 2
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 2,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-6",
+            "label": "Autism with profound ID",
+            "why": "The radiologist independently affirms the autism with profound intellectual disability phenotype and notes that the MRI and ophthalmologic findings reflect the underlying etiologic process rather than altering the behavioral diagnosis. Together with poor eye contact, repetitive head rocking, hand flapping, routine insistence, aggression, microcephaly and IQ 25, the phenotype remains best explained by autism with profound ID, so confidence is held at 0.85.",
+            "score": 0.85,
+            "level": 1,
+            "supports": 3,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-16-00001",
+      "dst": "evt-case-16-00002"
+    },
+    {
+      "src": "evt-case-16-00002",
+      "dst": "evt-case-16-00003"
+    },
+    {
+      "src": "evt-case-16-00003",
+      "dst": "evt-case-16-00004"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00005"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00006"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00007"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00008"
+    },
+    {
+      "src": "evt-case-16-00004",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00005",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00006",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00007",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00008",
+      "dst": "evt-case-16-00009"
+    },
+    {
+      "src": "evt-case-16-00003",
+      "dst": "evt-case-16-00010"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00011"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00012"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00013"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00014"
+    },
+    {
+      "src": "evt-case-16-00010",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00011",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00012",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00013",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00014",
+      "dst": "evt-case-16-00015"
+    },
+    {
+      "src": "evt-case-16-00009",
+      "dst": "evt-case-16-00016"
+    },
+    {
+      "src": "evt-case-16-00015",
+      "dst": "evt-case-16-00016"
+    },
+    {
+      "src": "evt-case-16-00016",
+      "dst": "evt-case-16-00017"
+    },
+    {
+      "src": "evt-case-16-00017",
+      "dst": "evt-case-16-00018"
+    },
+    {
+      "src": "evt-case-16-00018",
+      "dst": "evt-case-16-00019"
+    },
+    {
+      "src": "evt-case-16-00018",
+      "dst": "evt-case-16-00020"
+    },
+    {
+      "src": "evt-case-16-00018",
+      "dst": "evt-case-16-00021"
+    },
+    {
+      "src": "evt-case-16-00018",
+      "dst": "evt-case-16-00022"
+    },
+    {
+      "src": "evt-case-16-00018",
+      "dst": "evt-case-16-00023"
+    },
+    {
+      "src": "evt-case-16-00019",
+      "dst": "evt-case-16-00023"
+    },
+    {
+      "src": "evt-case-16-00020",
+      "dst": "evt-case-16-00023"
+    },
+    {
+      "src": "evt-case-16-00021",
+      "dst": "evt-case-16-00023"
+    },
+    {
+      "src": "evt-case-16-00022",
+      "dst": "evt-case-16-00023"
+    },
+    {
+      "src": "evt-case-16-00023",
+      "dst": "evt-case-16-00024"
+    },
+    {
+      "src": "evt-case-16-00024",
+      "dst": "evt-case-16-00025"
+    }
+  ]
+}

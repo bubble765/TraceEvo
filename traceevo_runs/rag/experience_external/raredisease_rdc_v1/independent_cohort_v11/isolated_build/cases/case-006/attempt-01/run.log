@@ -1,0 +1,369 @@
+[S0] Running 1 case(s): [6]
+
+
+===============[RUN] Case 6  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1323 | Output token nums：2171 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "A 10-year-old female presented with intermittent abdominal pain, anal itching, and restlessness at night for the past 2-3 weeks.",
+  "isolated_evidence": [
+    "Patient is a 10-year-old female from a rural area in Kendrapada district, Odisha.",
+    "Symptoms have persisted for 2-3 weeks.",
+    "Physical examination revealed no notable findings; blood and urine tests showed no abnormalities; height 130 cm, weight 29 kg."
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | A 10-year-old female presented with intermittent abdominal … | score=1.000
+[node-2] Evidence[-] | Patient is a 10-year-old female from a rural area in Kendra… | score=1.000
+[node-3] Evidence[-] | Symptoms have persisted for 2-3 weeks. | score=1.000
+[node-4] Evidence[-] | Physical examination revealed no notable findings; blood an… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1393 | Output token nums：5215 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Parasitic intestinal infection",
+      "confidence": 0.85,
+      "why": "Anal itching/night restlessness, rural residence, chronic course favor parasitic infection (e.g., pinworm); normal exams do not exclude."
+    },
+    {
+      "id": "h002",
+      "label": "Functional abdominal pain",
+      "confidence": 0.1,
+      "why": "Intermittent pain, chronic course (node-3), and normal exam/labs (node-4) support functional pain, but anal itching/night restlessness is atypical."
+    },
+    {
+      "id": "h003",
+      "label": "Local perianal irritation",
+      "confidence": 0.05,
+      "why": "Anal itching could reflect local irritation, but normal perianal exam (node-4) refutes visible dermatitis; nocturnal pattern favors parasitic infection."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h003",
+      "relation": "refute"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | A 10-year-old female presented with intermittent abdominal … | score=1.000
+[node-2] Evidence[-] | Patient is a 10-year-old female from a rural area in Kendra… | score=1.000
+[node-3] Evidence[-] | Symptoms have persisted for 2-3 weeks. | score=1.000
+[node-4] Evidence[-] | Physical examination revealed no notable findings; blood an… | score=1.000
+[node-5] Hypothesis[1] | Parasitic intestinal infection | score=0.850 | attrs={"why": "Anal itching/night restlessness, rural residence, chronic course favor…
+[node-6] Hypothesis[1] | Functional abdominal pain | score=0.100 | attrs={"why": "Intermittent pain, chronic course (node-3), and normal exam/labs (node…
+[node-7] Hypothesis[1] | Local perianal irritation | score=0.050 | attrs={"why": "Anal itching could reflect local irritation, but normal perianal exam …
+=== Edges ===
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-5[Parasitic intestinal infection] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-6[Functional abdominal pain] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-7[Local perianal irritation] | refines | conf=0.000
+node-2[Patient is a 10-year-old female from a rural area in Kendra…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-3[Symptoms have persisted for 2-3 weeks.] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-3[Symptoms have persisted for 2-3 weeks.] -> node-6[Functional abdominal pain] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-6[Functional abdominal pain] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-7[Local perianal irritation] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1002 | Output token nums：794 | price(CNY)：0.00000000
+Response: {"belief": "Consensus centers on parasitic intestinal infection as the leading hypothesis (0.85). A 10-year-old female from rural Kendrapada, Odisha, presents with 2–3 weeks of intermittent abdominal pain, anal itching, and nighttime restlessness—classic for pinworm. Normal physical exam and blood/urine tests do not exclude parasites, and rural residence plus chronic course support this diagnosis. Functional abdominal pain remains possible (0.1) because pain is intermittent and labs are normal, but anal itching and nocturnal restlessness are atypical. Local perianal irritation is unlikely (0.05), as perianal exam is normal and the nocturnal pattern favors parasitic infection."}
+{'node_id': 'node-5', 'label': 'Parasitic intestinal infection', 'why': 'Anal itching/night restlessness, rural residence, chronic course favor parasitic infection (e.g., pinworm); normal exams do not exclude.', 'score': 0.85, 'level': 1, 'supports': 3, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1340 | Output token nums：280 | price(CNY)：0.00000000
+Response: [
+  {"expert_name":"Laboratory_Physician","planning_intent":"seek_discriminating_evidence"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1170 | Output token nums：188 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1316 | Output token nums：2287 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need stool ova and parasite microscopy plus perianal tape test for Enterobius vermicularis, and CBC with eosinophil count. These are core to confirm or exclude parasitic intestinal infection; normal routine labs and exam do not rule out pinworm, while anal itching and nighttime restlessness strongly support it."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：446 | Output token nums：593 | price(CNY)：0.00000000
+Step 1 Observations: Examination of the stool samples revealed spherical eggs 70 µm in diameter, yellow-colored, thick-shelled eggs that contained six central hooklets but no polar filaments. Further confirmation was done by examination of another stool sample by the concentration method. Again, the same findings were noted..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1289 | Output token nums：977 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1435 | Output token nums：1725 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need perianal tape test for Enterobius vermicularis and CBC with eosinophil count; stool O&P already shows 70 µm thick-shelled eggs with six hooklets, suggesting Hymenolepis diminuta, but anal itching/night restlessness strongly point to pinworm, so tape test and eosinophils are critical to confirm or exclude parasitic intestinal infection and guide treatment."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：462 | Output token nums：503 | price(CNY)：0.00000000
+Step 2 Observations: Examination of the stool samples revealed spherical eggs 70 µm in diameter, yellow-colored, thick-shelled eggs that contained six central hooklets but no polar filaments. Further confirmation was done by examination of another stool sample by the concentration method. Again, the same findings were noted..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1442 | Output token nums：69 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1588 | Output token nums：6135 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Stool O&P twice showed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, consistent with Hymenolepis diminuta, confirming parasitic intestinal infection. Egg morphology excludes pinworm despite anal itching and nocturnal restlessness. Tape test/eosinophils were requested but not obtained; positive O&P already confirms the frontier hypothesis. All key data covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3128 | Output token nums：5903 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.98,
+      "why": "Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, and the laboratory physician identified them as Hymenolepis diminuta, directly confirming a parasitic intestinal infection. Rural residence and chronic abdominal symptoms remain supportive, and normal physical exam/blood/urine tests do not contradict the diagnosis. Confidence rises to 0.98 because parasite eggs were visualized on repeated testing."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.02,
+      "why": "The positive stool O&P and expert identification of Hymenolepis diminuta provide an organic explanation for the intermittent abdominal pain, making functional abdominal pain much less likely. Normal labs and exam alone no longer support functional pain once a parasite is confirmed. Confidence drops to 0.02."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.01,
+      "why": "Stool O&P confirming a parasitic intestinal infection, together with a normal perianal exam, makes local perianal irritation an unlikely primary cause. The nocturnal anal itching is better explained by the confirmed intestinal parasite. Confidence drops to 0.01."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Stool O&P twice showed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments.",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Egg morphology is consistent with Hymenolepis diminuta and excludes pinworm.",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Hymenolepis diminuta infection",
+      "node_type": "Hypothesis",
+      "confidence": 0.95,
+      "why": "Stool O&P twice showed characteristic eggs (70 µm, spherical, yellow, thick-shelled, six hooklets, no polar filaments), and the laboratory physician identified them as Hymenolepis diminuta. This specific tapeworm infection explains the confirmed parasitic intestinal infection; the clinical symptoms are compatible though not specific. Confidence is 0.95 because direct egg visualization is strong evidence, although tape test and eosinophils were not obtained."
+    },
+    {
+      "id": "h002",
+      "label": "Pinworm (Enterobius vermicularis) infection",
+      "node_type": "Hypothesis",
+      "confidence": 0.05,
+      "why": "Anal itching and nighttime restlessness initially suggested pinworm, but stool O&P egg morphology excludes Enterobius vermicularis and instead shows Hymenolepis diminuta. No tape test was obtained, so a small residual possibility remains, but confidence is low at 0.05."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h002",
+      "relation": "refute"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-6",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-6",
+      "relation": "refute"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-7",
+      "relation": "refute"
+    }
+  ]
+}
+{'node_id': 'node-5', 'label': 'Parasitic intestinal infection', 'why': 'Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, and the laboratory physician identified them as Hymenolepis diminuta, directly confirming a parasitic intestinal infection. Rural residence and chronic abdominal symptoms remain supportive, and normal physical exam/blood/urine tests do not contradict the diagnosis. Confidence rises to 0.98 because parasite eggs were visualized on repeated testing.', 'score': 0.98, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 10-year-old female presented with intermittent abdominal … | score=1.000
+[node-2] Evidence[-] | Patient is a 10-year-old female from a rural area in Kendra… | score=1.000
+[node-3] Evidence[-] | Symptoms have persisted for 2-3 weeks. | score=1.000
+[node-4] Evidence[-] | Physical examination revealed no notable findings; blood an… | score=1.000
+[node-5] Hypothesis[1] | Parasitic intestinal infection | score=0.980 | attrs={"why": "Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs wit…
+[node-6] Hypothesis[1] | Functional abdominal pain | score=0.020 | attrs={"why": "The positive stool O&P and expert identification of Hymenolepis diminu…
+[node-7] Hypothesis[1] | Local perianal irritation | score=0.010 | attrs={"why": "Stool O&P confirming a parasitic intestinal infection, together with a…
+[node-8] Evidence[-] | Stool O&P twice showed 70 µm spherical yellow thick-shelled… | score=1.000
+[node-9] Evidence[-] | Egg morphology is consistent with Hymenolepis diminuta and … | score=1.000
+[node-1] Hypothesis[1] | Hymenolepis diminuta infection | score=0.950 | attrs={"why": "Stool O&P twice showed characteristic eggs (70 µm, spherical, yellow, …
+[node-1] Hypothesis[1] | Pinworm (Enterobius vermicularis) infection | score=0.050 | attrs={"why": "Anal itching and nighttime restlessness initially suggested pinworm, b…
+=== Edges ===
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-5[Parasitic intestinal infection] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-6[Functional abdominal pain] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-7[Local perianal irritation] | refines | conf=0.000
+node-2[Patient is a 10-year-old female from a rural area in Kendra…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-3[Symptoms have persisted for 2-3 weeks.] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-3[Symptoms have persisted for 2-3 weeks.] -> node-6[Functional abdominal pain] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-6[Functional abdominal pain] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-7[Local perianal irritation] | refute | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-1[Hymenolepis diminuta infection] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-1[Pinworm (Enterobius vermicularis) infection] | refines | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-1[Hymenolepis diminuta infection] | support | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-1[Hymenolepis diminuta infection] | support | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-1[Pinworm (Enterobius vermicularis) infection] | refute | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-6[Functional abdominal pain] | refute | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-6[Functional abdominal pain] | refute | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-7[Local perianal irritation] | refute | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-7[Local perianal irritation] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1858 | Output token nums：604 | price(CNY)：0.00000000
+Response: {"belief": "The patient's intermittent abdominal pain, anal itching, and nighttime restlessness are best explained by a parasitic intestinal infection, specifically Hymenolepis diminuta infection. Stool O&P twice revealed characteristic 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, and these were identified as Hymenolepis diminuta, strongly supporting the parasitic infection and H. diminuta hypotheses. This same egg morphology refutes pinworm infection and makes functional abdominal pain and local perianal irritation unlikely. The rural residence, symptom duration, and normal exam/labs are supportive but less specific. Overall, the consensus is Hymenolepis diminuta infection causing the patient's symptoms."}
+{'node_id': 'node-5', 'label': 'Parasitic intestinal infection', 'why': 'Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, and the laboratory physician identified them as Hymenolepis diminuta, directly confirming a parasitic intestinal infection. Rural residence and chronic abdominal symptoms remain supportive, and normal physical exam/blood/urine tests do not contradict the diagnosis. Confidence rises to 0.98 because parasite eggs were visualized on repeated testing.', 'score': 0.98, 'level': 1, 'supports': 5, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1398 | Output token nums：718 | price(CNY)：0.00000000
+Response: [{"expert_name":"Laboratory_Physician","planning_intent":"interpret_existing_evidence"}]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1429 | Output token nums：1979 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1633 | Output token nums：762 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need CBC with eosinophil count and exposure history (rodent or beetle contact, household members) to confirm H. diminuta parasitic infection and assess burden. These are critical for treatment choice, public health measures, and excluding co-infection. Tape test is unneeded because egg morphology already excludes pinworm and supports H. diminuta."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：452 | Output token nums：666 | price(CNY)：0.00000000
+Step 1 Observations: Examination of the stool samples revealed spherical eggs 70 µm in diameter, yellow-colored, thick-shelled eggs that contained six central hooklets but no polar filaments. Further confirmation was done by examination of another stool sample by the concentration method. Again, the same findings were noted..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1556 | Output token nums：1690 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "analyze"}
+Step 2 parsed result: type=1, decision=analyze
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1760 | Output token nums：6056 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need CBC with eosinophil count and exposure history (rodent/beetle contact, household members) to confirm Hymenolepis diminuta infection, assess burden, and guide treatment/public health measures; these remain the core missing items after stool O&P confirmed the diagnosis."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1572 | Output token nums：71 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1776 | Output token nums：5231 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Confirmed: H. diminuta infection explains abdominal pain, anal itching, and nighttime restlessness. Repeated stool O&P showed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, diagnostic for H. diminuta and ruling out Enterobius. Rural residence, chronic symptoms, and normal labs support it. Eosinophil/exposure absent but non-altering. Key evidence covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3874 | Output token nums：2544 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.99,
+      "why": "Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, and the laboratory physician confirmed this morphology is diagnostic for Hymenolepis diminuta, directly confirming a parasitic intestinal infection. Rural residence and chronic abdominal symptoms remain supportive, and normal physical exam/blood/urine tests do not contradict the diagnosis. Confidence rises from 0.98 to 0.99 because repeated egg visualization plus independent specialist confirmation make the organic parasitic etiology essentially certain."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.97,
+      "why": "Stool O&P twice showed characteristic eggs (70 µm, spherical, yellow, thick-shelled, six hooklets, no polar filaments), and the laboratory physician explicitly identified them as Hymenolepis diminuta, calling the morphology diagnostic and ruling out Enterobius. This specific tapeworm infection explains the confirmed parasitic intestinal infection, and the clinical symptoms are compatible though not specific. Confidence rises from 0.95 to 0.97 because direct egg visualization is reinforced by expert confirmation, although a tape test was not obtained and the absent eosinophilia/exposure history cannot further strengthen the diagnosis."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Peripheral eosinophilia and any specific exposure history (e.g., grain/beetle or rodent contact) were absent.",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-10",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-5', 'label': 'Parasitic intestinal infection', 'why': 'Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, and the laboratory physician confirmed this morphology is diagnostic for Hymenolepis diminuta, directly confirming a parasitic intestinal infection. Rural residence and chronic abdominal symptoms remain supportive, and normal physical exam/blood/urine tests do not contradict the diagnosis. Confidence rises from 0.98 to 0.99 because repeated egg visualization plus independent specialist confirmation make the organic parasitic etiology essentially certain.', 'score': 0.99, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 10-year-old female presented with intermittent abdominal … | score=1.000
+[node-2] Evidence[-] | Patient is a 10-year-old female from a rural area in Kendra… | score=1.000
+[node-3] Evidence[-] | Symptoms have persisted for 2-3 weeks. | score=1.000
+[node-4] Evidence[-] | Physical examination revealed no notable findings; blood an… | score=1.000
+[node-5] Hypothesis[1] | Parasitic intestinal infection | score=0.990 | attrs={"why": "Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs wit…
+[node-6] Hypothesis[1] | Functional abdominal pain | score=0.020 | attrs={"why": "The positive stool O&P and expert identification of Hymenolepis diminu…
+[node-7] Hypothesis[1] | Local perianal irritation | score=0.010 | attrs={"why": "Stool O&P confirming a parasitic intestinal infection, together with a…
+[node-8] Evidence[-] | Stool O&P twice showed 70 µm spherical yellow thick-shelled… | score=1.000
+[node-9] Evidence[-] | Egg morphology is consistent with Hymenolepis diminuta and … | score=1.000
+[node-1] Hypothesis[1] | Hymenolepis diminuta infection | score=0.970 | attrs={"why": "Stool O&P twice showed characteristic eggs (70 µm, spherical, yellow, …
+[node-1] Hypothesis[1] | Pinworm (Enterobius vermicularis) infection | score=0.050 | attrs={"why": "Anal itching and nighttime restlessness initially suggested pinworm, b…
+[node-1] Evidence[-] | Peripheral eosinophilia and any specific exposure history (… | score=1.000
+=== Edges ===
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-5[Parasitic intestinal infection] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-6[Functional abdominal pain] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-7[Local perianal irritation] | refines | conf=0.000
+node-2[Patient is a 10-year-old female from a rural area in Kendra…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-3[Symptoms have persisted for 2-3 weeks.] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-3[Symptoms have persisted for 2-3 weeks.] -> node-6[Functional abdominal pain] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-6[Functional abdominal pain] | support | conf=0.000
+node-4[Physical examination revealed no notable findings; blood an…] -> node-7[Local perianal irritation] | refute | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-1[Hymenolepis diminuta infection] | refines | conf=0.000
+node-1[A 10-year-old female presented with intermittent abdominal …] -> node-1[Pinworm (Enterobius vermicularis) infection] | refines | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-5[Parasitic intestinal infection] | support | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-1[Hymenolepis diminuta infection] | support | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-1[Hymenolepis diminuta infection] | support | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-1[Pinworm (Enterobius vermicularis) infection] | refute | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-6[Functional abdominal pain] | refute | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-6[Functional abdominal pain] | refute | conf=0.000
+node-8[Stool O&P twice showed 70 µm spherical yellow thick-shelled…] -> node-7[Local perianal irritation] | refute | conf=0.000
+node-9[Egg morphology is consistent with Hymenolepis diminuta and …] -> node-7[Local perianal irritation] | refute | conf=0.000
+node-1[Peripheral eosinophilia and any specific exposure history (…] -> node-1[Hymenolepis diminuta infection] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1998 | Output token nums：682 | price(CNY)：0.00000000
+Response: {"belief": "The 10-year-old female presents with intermittent abdominal pain, anal itching, and nighttime restlessness, with rural residence and 2-3 weeks of symptoms. The core consensus is a parasitic intestinal infection (0.99), specifically Hymenolepis diminuta infection (0.97). This is strongly supported by stool O&P twice showing 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments, confirmed as H. diminuta and excluding pinworm. Normal physical exam, blood/urine tests, and absent eosinophilia/exposure history do not contradict this diagnosis. Functional abdominal pain (0.02), local perianal irritation (0.01), and pinworm infection (0.05) are refuted or made unlikely by the positive stool findings."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4187 | Output token nums：2978 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Hymenolepis diminuta infection",
+  "report": "The 10-year-old rural patient has intermittent abdominal pain, anal itching, and nighttime restlessness for 2-3 weeks. Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments. The laboratory physician confirmed this morphology is diagnostic for Hymenolepis diminuta and excludes Enterobius vermicularis. This directly confirms a parasitic intestinal infection, specifically H. diminuta. Normal physical exam, blood/urine tests, and absent eosinophilia do not contradict the diagnosis. Therefore, the diagnosis is Hymenolepis diminuta infection."
+}
+Answer: Hymenolepis diminuta infection
+Report: The 10-year-old rural patient has intermittent abdominal pain, anal itching, and nighttime restlessness for 2-3 weeks. Stool O&P twice revealed 70 µm spherical yellow thick-shelled eggs with six hooklets and no polar filaments. The laboratory physician confirmed this morphology is diagnostic for Hymenolepis diminuta and excludes Enterobius vermicularis. This directly confirms a parasitic intestinal infection, specifically H. diminuta. Normal physical exam, blood/urine tests, and absent eosinophilia do not contradict the diagnosis. Therefore, the diagnosis is Hymenolepis diminuta infection.
+[TraceEvo] case 6: 17 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：25 | Input token nums：40827 | Output token nums：50821 | Total token nums：91648 | price(CNY)：0.00000000

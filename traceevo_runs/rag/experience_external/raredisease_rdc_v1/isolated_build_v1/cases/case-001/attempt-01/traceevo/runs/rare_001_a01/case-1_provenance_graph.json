@@ -1,0 +1,480 @@
+{
+  "task_id": "case-1",
+  "n_nodes": 13,
+  "n_edges": 14,
+  "nodes": [
+    {
+      "event_id": "evt-case-1-00001",
+      "task_id": "case-1",
+      "step_id": 0,
+      "timestamp": "2026-10-08T06:11:39.121+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "05365beebc66d2e45fdc587242f447ede72bd4214fa5c99ad000f0bf75f33bb4",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\n  \"symptom_node\": \"Patient experienced sudden paralysis beginning in both lower limbs that spread to the trunk and both upper limbs\",\n  \"isolated_evidence\": [\n    \"25-year-old male of Hispanic and Caucasian descent with no significant past medical history arrived at the emergency department from another facility due to sudden paralysis beginning in both lower limbs\",\n    \"He received an intraarticular corticosteroid injection in his right knee less than 24 hours before symptoms began and consumed a high carbohydrate meal within five hours before onset\",\n    \"Weakness in the lower limbs spread to the trunk and both upper limbs; at the other facility vital signs were normal, and by the time of evaluation he had no symptoms following intravenous correction of low potassium levels\",\n    \"Physical examination revealed paralysis in his limbs, but his sensation remained intact\"\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00002",
+      "task_id": "case-1",
+      "step_id": 0,
+      "timestamp": "2026-10-08T06:11:54.217+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "05365beebc66d2e45fdc587242f447ede72bd4214fa5c99ad000f0bf75f33bb4",
+      "event_hash": "30914aeeaf03431c3a0189c3d7e46da4cdc3ac749f5f7a6647bcbc96d5d1cb0d",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\"candidates\":[{\"id\":\"h001\",\"label\":\"Hypokalemic periodic paralysis\",\"confidence\":0.9,\"why\":\"node-3 triggers (steroid, high-carb) and node-4 resolution after IV potassium correction support hypokalemia-induced paralysis; node-5 intact sensation.\"},{\"id\":\"h002\",\"label\":\"Guillain-Barré syndrome\",\"confidence\":0.07,\"why\":\"node-2 acute ascending paralysis supports, but node-4 rapid resolution with potassium refutes; no sensory/autonomic evidence.\"},{\"id\":\"h003\",\"label\":\"Acute myelopathy/spinal cord\",\"confidence\":0.03,\"why\":\"node-2 sudden paralysis could fit, but node-4 potassium correction resolution and node-5 intact sensation refute.\"}],\"edges\":[{\"src\":\"node-2\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-2\",\"dst\":\"h002\",\"relation\":\"support\"},{\"src\":\"node-2\",\"dst\":\"h003\",\"relation\":\"support\"},{\"src\":\"node-3\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-4\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-4\",\"dst\":\"h002\",\"relation\":\"refute\"},{\"src\":\"node-4\",\"dst\":\"h003\",\"relation\":\"refute\"},{\"src\":\"node-5\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-5\",\"dst\":\"h003\",\"relation\":\"refute\"}]}"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00003",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T06:12:04.733+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "30914aeeaf03431c3a0189c3d7e46da4cdc3ac749f5f7a6647bcbc96d5d1cb0d",
+      "event_hash": "32f513ed97b602bbe117d13d4e9c5c8237422e166d5f1072da9b52a877163a87",
+      "payload": {
+        "response": "[\n  {\n    \"expert_name\": \"Laboratory_Physician\",\n    \"planning_intent\": \"interpret_existing_evidence\"\n  }\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Hypokalemic periodic paralysis",
+          "why": "node-3 triggers (steroid, high-carb) and node-4 resolution after IV potassium correction support hypokalemia-induced paralysis; node-5 intact sensation.",
+          "score": 0.9,
+          "level": 1,
+          "supports": 4,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-1-00004",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T06:12:04.738+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "32f513ed97b602bbe117d13d4e9c5c8237422e166d5f1072da9b52a877163a87",
+      "event_hash": "30f953afb859d6727509dd5b2df610b178dacf8d05d09f0b41dd91bd352e3666",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00005",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T06:12:36.587+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "30f953afb859d6727509dd5b2df610b178dacf8d05d09f0b41dd91bd352e3666",
+      "event_hash": "cbbaa5cfda1914acdb51193bf112ff59e4b78a3a3eaee4770ab840a53eebe0c3",
+      "payload": {
+        "query": "Need the serum potassium level measured during the acute paralysis episode, thyroid function tests, and family history of periodic paralysis (core data to confirm hypokalemic periodic paralysis and exclude thyrotoxic periodic paralysis/other electrolyte causes). These are critical because the diagnosis rests on documented hypokalemia during weakness and exclusion of alternative etiologies.",
+        "hit": true,
+        "retrieval_output": "Initial labs were remarkable for severe hypokalemia of 1.9 mmol/L (rr 3.6-5.2) and TSH less than 0.01 (rr 0.42-5.47).\nPertinent lab values during his hospital admission include elevated free thyroxine (T4) level at 3.73 ng/dL (rr 0.59-1.17), elevated TSH binding inhibitory immunoglobulin 8.60 IU/L (rr 0.00-1.75)",
+        "record_hash": "0da942685ba3c836218d9158ef9e083c5ef0ce0213c61f2b4a337a77bf757faf",
+        "started_at": "2026-10-08T06:12:26.628+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00006",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T06:12:36.591+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "cbbaa5cfda1914acdb51193bf112ff59e4b78a3a3eaee4770ab840a53eebe0c3",
+      "event_hash": "e7c37242094840b8c8a8c0c701fb03d35e5bd41a2348fd0759e8d85b9a7cbff6",
+      "payload": {
+        "query": "Need the serum potassium level measured during the acute paralysis episode, thyroid function tests, and family history of periodic paralysis (core data to confirm hypokalemic periodic paralysis and exclude thyrotoxic periodic paralysis/other electrolyte causes). These are critical because the diagnosis rests on documented hypokalemia during weakness and exclusion of alternative etiologies.",
+        "hit": true,
+        "retrieval_output": "Initial labs were remarkable for severe hypokalemia of 1.9 mmol/L (rr 3.6-5.2) and TSH less than 0.01 (rr 0.42-5.47).\nPertinent lab values during his hospital admission include elevated free thyroxine (T4) level at 3.73 ng/dL (rr 0.59-1.17), elevated TSH binding inhibitory immunoglobulin 8.60 IU/L (rr 0.00-1.75)",
+        "record_hash": "0da942685ba3c836218d9158ef9e083c5ef0ce0213c61f2b4a337a77bf757faf",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00007",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T06:13:51.220+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-1-0001",
+        "rec-case-1-0002"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e7c37242094840b8c8a8c0c701fb03d35e5bd41a2348fd0759e8d85b9a7cbff6",
+      "event_hash": "7abaaa5bcc4898f4d4f6922626f2f8e3ac40c6ef54f1fae67b9fcf76eb348856",
+      "payload": {
+        "analysis": "Labs: K 1.9, TSH <0.01, free T4 3.73, TSH receptor antibody 8.60. This confirms thyrotoxic periodic paralysis, a hypokalemic periodic paralysis subtype. Steroid/high-carb trigger and IV potassium response fit. Sensation intact argues against GBS/myelopathy. All key data covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-1-00008",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T06:14:06.766+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-9",
+        "node-10",
+        "node-11",
+        "node-12"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7abaaa5bcc4898f4d4f6922626f2f8e3ac40c6ef54f1fae67b9fcf76eb348856",
+      "event_hash": "3ce737ba2997062ae8dacac94ae950bae42c9c5ad2b2d2c339a498b08a53e1cb",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.98,\n      \"why\": \"New laboratory data confirm a hypokalemic periodic paralysis subtype: serum potassium 1.9 mmol/L, suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60. The laboratory physician interprets this as thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis. Together with the prior corticosteroid/high-carbohydrate triggers and rapid resolution after intravenous potassium, this increases confidence from 0.9 to 0.98.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"Laboratory test shows serum potassium 1.9 mmol/L\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Laboratory test shows TSH <0.01 and free T4 3.73, consistent with thyrotoxicosis\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev003\",\n      \"label\": \"Laboratory test shows TSH receptor antibody 8.60\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Thyrotoxic periodic paralysis\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.95,\n      \"why\": \"Serum potassium 1.9 mmol/L demonstrates hypokalemia, while suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60 indicate thyrotoxicosis/autoimmune thyroid disease. The laboratory physician confirms these findings as thyrotoxic periodic paralysis, and the prior corticosteroid/high-carbohydrate trigger with rapid intravenous potassium response fits this subtype. Confidence is 0.95 because this specific subtype explains the full clinical picture.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-6\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev003\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"h001\",\n      \"dst\": \"node-6\",\n      \"relation\": \"support\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00009",
+      "task_id": "case-1",
+      "step_id": 2,
+      "timestamp": "2026-10-08T06:14:19.391+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "3ce737ba2997062ae8dacac94ae950bae42c9c5ad2b2d2c339a498b08a53e1cb",
+      "event_hash": "646df481f81765fb521b6335afe3846f7dd48bff89a7344ed66e64eff3b827c3",
+      "payload": {
+        "response": "[\n  {\"expert_name\":\"Laboratory_Physician\",\"planning_intent\":\"assess_hypothesis\"}\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Hypokalemic periodic paralysis",
+          "why": "New laboratory data confirm a hypokalemic periodic paralysis subtype: serum potassium 1.9 mmol/L, suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60. The laboratory physician interprets this as thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis. Together with the prior corticosteroid/high-carbohydrate triggers and rapid resolution after intravenous potassium, this increases confidence from 0.9 to 0.98.",
+          "score": 0.98,
+          "level": 1,
+          "supports": 6,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-1-00010",
+      "task_id": "case-1",
+      "step_id": 2,
+      "timestamp": "2026-10-08T06:14:19.396+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "646df481f81765fb521b6335afe3846f7dd48bff89a7344ed66e64eff3b827c3",
+      "event_hash": "faca0d62db81335b838b50e2079432810330ba14e223b631cd03c8a7b9443e48",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00011",
+      "task_id": "case-1",
+      "step_id": 2,
+      "timestamp": "2026-10-08T06:15:08.697+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "faca0d62db81335b838b50e2079432810330ba14e223b631cd03c8a7b9443e48",
+      "event_hash": "005c0c5794c14be2fab5c05199e5f53bc562d938be77e65293ce4cfea1095b80",
+      "payload": {
+        "analysis": "结合当前信念与全部史据，患者突发上行性瘫痪、感觉保留，近期糖皮质激素及高碳水餐后发作，静脉补钾后迅速缓解，血钾1.9 mmol/L、TSH<0.01、游离T4 3.73、TSH受体抗体8.60，均指向甲状腺毒性周期性麻痹，属低钾性周期性麻痹亚型；吉兰-巴雷综合征和急性脊髓病被感觉保留及补钾速效强烈否定。所有关键信息已覆盖。",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-1-00012",
+      "task_id": "case-1",
+      "step_id": 2,
+      "timestamp": "2026-10-08T06:15:32.915+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "005c0c5794c14be2fab5c05199e5f53bc562d938be77e65293ce4cfea1095b80",
+      "event_hash": "fa913ea8a41285b378625157459ee2b01cd2cdeb5992629cc9d6626617014889",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\"edit\": [], \"nodes\": [], \"edges\": []}"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00013",
+      "task_id": "case-1",
+      "step_id": 2,
+      "timestamp": "2026-10-08T06:15:48.582+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-6"
+      ],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "fa913ea8a41285b378625157459ee2b01cd2cdeb5992629cc9d6626617014889",
+      "event_hash": "5051e004d62326f5a961be8a39311ad6582e523283dc11a2e0cb2c0f32055ea0",
+      "payload": {
+        "prediction": "Thyrotoxic periodic paralysis",
+        "report": "Patient has sudden ascending paralysis with intact sensation, triggered by corticosteroid injection and high-carbohydrate meal. Labs show potassium 1.9 mmol/L, suppressed TSH, elevated free T4, and elevated TSH receptor antibody, confirming thyrotoxicosis. Rapid resolution after IV potassium and preserved sensation rule out Guillain-Barré syndrome and acute myelopathy. The graph links these findings to thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis, diagnostic.",
+        "report_chars": 493,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1
+            ],
+            "stage_steps": {
+              "1": 2
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 2,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-6",
+            "label": "Hypokalemic periodic paralysis",
+            "why": "New laboratory data confirm a hypokalemic periodic paralysis subtype: serum potassium 1.9 mmol/L, suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60. The laboratory physician interprets this as thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis. Together with the prior corticosteroid/high-carbohydrate triggers and rapid resolution after intravenous potassium, this increases confidence from 0.9 to 0.98.",
+            "score": 0.98,
+            "level": 1,
+            "supports": 6,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-1-00001",
+      "dst": "evt-case-1-00002"
+    },
+    {
+      "src": "evt-case-1-00002",
+      "dst": "evt-case-1-00003"
+    },
+    {
+      "src": "evt-case-1-00003",
+      "dst": "evt-case-1-00004"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00005"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00006"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00007"
+    },
+    {
+      "src": "evt-case-1-00005",
+      "dst": "evt-case-1-00007"
+    },
+    {
+      "src": "evt-case-1-00006",
+      "dst": "evt-case-1-00007"
+    },
+    {
+      "src": "evt-case-1-00007",
+      "dst": "evt-case-1-00008"
+    },
+    {
+      "src": "evt-case-1-00008",
+      "dst": "evt-case-1-00009"
+    },
+    {
+      "src": "evt-case-1-00009",
+      "dst": "evt-case-1-00010"
+    },
+    {
+      "src": "evt-case-1-00010",
+      "dst": "evt-case-1-00011"
+    },
+    {
+      "src": "evt-case-1-00011",
+      "dst": "evt-case-1-00012"
+    },
+    {
+      "src": "evt-case-1-00012",
+      "dst": "evt-case-1-00013"
+    }
+  ]
+}

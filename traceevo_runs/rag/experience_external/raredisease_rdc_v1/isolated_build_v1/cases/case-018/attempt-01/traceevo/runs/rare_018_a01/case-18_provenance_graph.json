@@ -1,0 +1,1092 @@
+{
+  "task_id": "case-18",
+  "n_nodes": 29,
+  "n_edges": 44,
+  "nodes": [
+    {
+      "event_id": "evt-case-18-00001",
+      "task_id": "case-18",
+      "step_id": 0,
+      "timestamp": "2026-10-08T08:14:11.852+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5",
+        "node-6"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "050ad8b263c554bf5c22538c5998944e75c911c3c4e299ceed07f70d82001b20",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\n  \"symptom_node\": \"Patient experienced chest pain and shortness of breath for 2 months\",\n  \"isolated_evidence\": [\n    \"32-year-old male with no cough, expectoration, or hemoptysis; no limb swelling or lump; no abdominal pain or weight loss; no history of tobacco smoking or other addictions\",\n    \"Vital signs: pulse rate 92 beats per minute, respiratory rate 20 per minute, blood pressure 116/78 mmHg, oxygen saturation 95%\",\n    \"Chest examination showed a dull note on percussion and absent breath sounds in the entire right hemithorax, except for normal breath sounds in the right infraclavicular area\",\n    \"Chest radiograph revealed a large, nonhomogeneous opacity in the right hemithorax, denser in the middle and lower lung zones, with mild displacement of the mediastinum toward the left\",\n    \"Ultrasonography identified a large, heterogeneous, hypoechoic mass lesion in the right hemithorax with intratumoral vessels on Doppler; abdominal ultrasonography showed no evidence of abdominal mass or metastasis\"\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00002",
+      "task_id": "case-18",
+      "step_id": 0,
+      "timestamp": "2026-10-08T08:14:40.958+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-7",
+        "node-8",
+        "node-9"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "050ad8b263c554bf5c22538c5998944e75c911c3c4e299ceed07f70d82001b20",
+      "event_hash": "ffd87e5b2f75eee28db98e4208be0ce76edf7ee68c3b3de5b1c60e1604299248",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\n  \"candidates\": [\n    {\n      \"id\": \"h001\",\n      \"label\": \"Right intrathoracic mass/tumor\",\n      \"confidence\": 0.85,\n      \"why\": \"node-4/5/6 show right thoracic mass with intratumoral vessels and mediastinal shift; node-3 stable chronic course; supports neoplastic mass.\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Right pleural effusion/empyema\",\n      \"confidence\": 0.2,\n      \"why\": \"node-4/5 suggest effusion/opacity, but node-6 shows solid vascular mass and node-2/3 lack infectious signs; refutes simple effusion/empyema.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"Right lung parenchymal disease\",\n      \"confidence\": 0.1,\n      \"why\": \"node-5 opacity suggests lung involvement, but node-4 absent breath sounds, node-5 leftward shift, and node-6 mass refute consolidation/atelectasis.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h002\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h003\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h002\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h003\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h003\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-6\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-6\",\n      \"dst\": \"h002\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-6\",\n      \"dst\": \"h003\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00003",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:14:56.770+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-7"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-7"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ffd87e5b2f75eee28db98e4208be0ce76edf7ee68c3b3de5b1c60e1604299248",
+      "event_hash": "e7012656552b8e216f1eef3d456cf5b9e9bc9f068adfbcde45c54a3ba3216043",
+      "payload": {
+        "response": "[{\"expert_name\":\"Radiologist\",\"planning_intent\":\"interpret_existing_evidence\"},{\"expert_name\":\"Pathologist\",\"planning_intent\":\"seek_discriminating_evidence\"}]",
+        "focus": {
+          "node_id": "node-7",
+          "label": "Right intrathoracic mass/tumor",
+          "why": "node-4/5/6 show right thoracic mass with intratumoral vessels and mediastinal shift; node-3 stable chronic course; supports neoplastic mass.",
+          "score": 0.85,
+          "level": 1,
+          "supports": 4,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-18-00004",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:14:56.772+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-7"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e7012656552b8e216f1eef3d456cf5b9e9bc9f068adfbcde45c54a3ba3216043",
+      "event_hash": "bd926691fc4c2ace21b4f4580d6a778503caf9884e9cd4168723ecb356d8e283",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00005",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:15:12.900+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bd926691fc4c2ace21b4f4580d6a778503caf9884e9cd4168723ecb356d8e283",
+      "event_hash": "8691c1e27aa730d4f073bb5c8266054e7c0c125b96bfd8ba46a313d494a28f05",
+      "payload": {
+        "query": "Need contrast-enhanced chest CT, chest MRI, FDG PET-CT, and histopathological biopsy results for the right thoracic mass. These are missing core items to confirm neoplastic nature, intratumoral vascularity, local invasion, and metastasis, thereby verifying or excluding the leading hypothesis of right intrathoracic tumor.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background.",
+        "record_hash": "0d5ed82230d95559cc05939cc2663d201e5687916c1806c0d6c3ba36b5c35b5a",
+        "started_at": "2026-10-08T08:15:08.705+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00006",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:15:12.903+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8691c1e27aa730d4f073bb5c8266054e7c0c125b96bfd8ba46a313d494a28f05",
+      "event_hash": "2802ee0e51713bface2ab89438c4a8e86c56027f2c5181ceeea41988323ab0d1",
+      "payload": {
+        "query": "Need contrast-enhanced chest CT, chest MRI, FDG PET-CT, and histopathological biopsy results for the right thoracic mass. These are missing core items to confirm neoplastic nature, intratumoral vascularity, local invasion, and metastasis, thereby verifying or excluding the leading hypothesis of right intrathoracic tumor.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background.",
+        "record_hash": "0d5ed82230d95559cc05939cc2663d201e5687916c1806c0d6c3ba36b5c35b5a",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00007",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:15:50.304+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2802ee0e51713bface2ab89438c4a8e86c56027f2c5181ceeea41988323ab0d1",
+      "event_hash": "e42185b7f2d47b923b6bbaa1cf73a2aec4b89d06c75b2771b057c299439deb03",
+      "payload": {
+        "query": "Request molecular pathology (MDM2/CDK4, DDIT3 rearrangement) and extended immunohistochemistry on the biopsy, plus FDG PET-CT and chest MRI for staging and local invasion assessment. These are missing core items to confirm subtype/grade, exclude metastasis, and verify the right intrathoracic neoplastic mass hypothesis.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b542eba60acee04f88e9aee824793371650207eaf62bd7555987c2aa79d97996",
+        "started_at": "2026-10-08T08:15:43.704+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00008",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:15:50.308+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e42185b7f2d47b923b6bbaa1cf73a2aec4b89d06c75b2771b057c299439deb03",
+      "event_hash": "feb60cda18dddf3091468afe3ec93cfd6325982cd542215cc2dc61ccb23206eb",
+      "payload": {
+        "query": "Request molecular pathology (MDM2/CDK4, DDIT3 rearrangement) and extended immunohistochemistry on the biopsy, plus FDG PET-CT and chest MRI for staging and local invasion assessment. These are missing core items to confirm subtype/grade, exclude metastasis, and verify the right intrathoracic neoplastic mass hypothesis.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b542eba60acee04f88e9aee824793371650207eaf62bd7555987c2aa79d97996",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00009",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:16:15.113+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-18-0001",
+        "rec-case-18-0002",
+        "rec-case-18-0003",
+        "rec-case-18-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "feb60cda18dddf3091468afe3ec93cfd6325982cd542215cc2dc61ccb23206eb",
+      "event_hash": "4d34a3c27cfcbf49de669e70c5d801e19dee4c193ebc5488ad54df6838d570e5",
+      "payload": {
+        "analysis": "CECT shows large right heterogeneous hypodense mass with fat/calcification, compressive atelectasis without invasion; biopsy shows myxoid tissue, atypical cells, lipoblasts, S100+, Alcian blue+, supporting myxoid lipomatous tumor. This verifies right intrathoracic neoplastic mass and refutes effusion/empyema. Molecular/PET/MRI data absent, so subtype/grade unconfirmed; all available keys covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-18-00010",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:16:15.117+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-7"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "4d34a3c27cfcbf49de669e70c5d801e19dee4c193ebc5488ad54df6838d570e5",
+      "event_hash": "e1692fdeb5da3dea2bb8e83df330dfedfff391eb57385283c5352a2a5a9411fa",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00011",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:16:42.383+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e1692fdeb5da3dea2bb8e83df330dfedfff391eb57385283c5352a2a5a9411fa",
+      "event_hash": "0f3865ba04b63a3741fa392dcb6c53ead019d80df0b8d9510e74efb963166b9c",
+      "payload": {
+        "query": "Need contrast-enhanced chest CT/MRI and pathology biopsy with immunohistochemistry (core evidence to confirm or exclude a right intrathoracic neoplastic mass, define its origin, and rule out infection/effusion). Current ultrasound and radiograph show a vascular mass but lack tissue diagnosis and staging; prior imaging and tumor markers are missing. Retrieve these to verify the hypothesis.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "3747303461fa9b9bc827dc5f297ec814b0f2fa56226880af3ebd401b600787e6",
+        "started_at": "2026-10-08T08:16:37.494+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00012",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:16:42.386+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0f3865ba04b63a3741fa392dcb6c53ead019d80df0b8d9510e74efb963166b9c",
+      "event_hash": "2a1de8dd82fe8cf0fd106736a0bf1a24716d9c7a9f06f3d156293681d2e9b297",
+      "payload": {
+        "query": "Need contrast-enhanced chest CT/MRI and pathology biopsy with immunohistochemistry (core evidence to confirm or exclude a right intrathoracic neoplastic mass, define its origin, and rule out infection/effusion). Current ultrasound and radiograph show a vascular mass but lack tissue diagnosis and staging; prior imaging and tumor markers are missing. Retrieve these to verify the hypothesis.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "3747303461fa9b9bc827dc5f297ec814b0f2fa56226880af3ebd401b600787e6",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00013",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:17:20.505+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-18-0005",
+        "rec-case-18-0006"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2a1de8dd82fe8cf0fd106736a0bf1a24716d9c7a9f06f3d156293681d2e9b297",
+      "event_hash": "066873dc934abeece08fba2f6ba1a735e5b449d0439f69bbb7a854a6669cf344",
+      "payload": {
+        "analysis": "Right intrathoracic neoplastic mass hypothesis is confirmed: CECT shows 20.8×13.6×13 cm heterogeneous right hemithoracic mass, pleural base, compressive atelectasis, 10 HU, focal fat/calcification. Biopsy reveals myxoid tissue, atypical cells, lipoblasts, S100+, Alcian blue mucin, favoring myxoid liposarcoma. Infection/effusion are refuted. All key imaging and pathology data covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-18-00014",
+      "task_id": "case-18",
+      "step_id": 1,
+      "timestamp": "2026-10-08T08:17:42.973+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-10",
+        "node-11",
+        "node-12"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "066873dc934abeece08fba2f6ba1a735e5b449d0439f69bbb7a854a6669cf344",
+      "event_hash": "8ce8a550fc44632c0853ae096a297c7822b19a499997f6ba1f705aeabbdb1ce4",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.98,\n      \"why\": \"New expert analyses confirm the right intrathoracic neoplastic mass: CECT shows a 20.8×13.6×13 cm heterogeneous mass with fat/calcification and compressive atelectasis, and biopsy reveals myxoid tissue, atypical cells, lipoblasts, S100+, and Alcian blue+ mucin. The pathologist confirms the mass and favors myxoid liposarcoma. These definitive imaging and pathologic findings increase confidence from 0.85 to 0.98; although molecular/PET/MRI data are absent for subtype/grade, the existence of a neoplastic mass is secure.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.05,\n      \"why\": \"New CECT demonstrates a solid heterogeneous mass with fat/calcification and biopsy shows myxoid tumor tissue with lipoblasts; expert analyses explicitly refute pleural effusion/empyema. Combined with the absence of infectious symptoms and stable vitals, these findings make effusion/empyema highly unlikely, reducing confidence from 0.2 to 0.05.\"\n    },\n    {\n      \"node_id\": \"node-9\",\n      \"confidence\": 0.05,\n      \"why\": \"CECT shows a pleural-based mass causing compressive atelectasis without invasion, and biopsy confirms myxoid lipomatous tumor. These findings indicate the lung parenchymal changes are secondary to the mass rather than primary lung parenchymal disease, reducing confidence from 0.1 to 0.05.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"CECT shows a 20.8×13.6×13 cm heterogeneous right hemithoracic mass with fat/calcification, pleural base, 10 HU, and compressive atelectasis without invasion\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Biopsy reveals myxoid tissue, atypical cells, lipoblasts, S100 positivity, and Alcian blue-positive mucin\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Right intrathoracic myxoid liposarcoma\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.8,\n      \"why\": \"CECT demonstrates a large heterogeneous mass with fat/calcification and pleural base, and biopsy shows myxoid tissue, atypical cells, lipoblasts, S100+, and Alcian blue+ mucin. The pathologist favors myxoid liposarcoma, which is the gold standard for tumor nature. Confidence is 0.8 because molecular/PET/MRI data are absent and subtype/grade remains unconfirmed.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-7\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-7\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-9\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-9\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00015",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:18:01.447+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-7"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-7"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8ce8a550fc44632c0853ae096a297c7822b19a499997f6ba1f705aeabbdb1ce4",
+      "event_hash": "c39ecfcc9834fdc8a564b9b251d533e1a781661ed798db834da54ba7f5f3884f",
+      "payload": {
+        "response": "[\n  {\n    \"expert_name\": \"Pathologist\",\n    \"planning_intent\": \"assess_hypothesis\"\n  },\n  {\n    \"expert_name\": \"Radiologist\",\n    \"planning_intent\": \"seek_discriminating_evidence\"\n  }\n]",
+        "focus": {
+          "node_id": "node-7",
+          "label": "Right intrathoracic mass/tumor",
+          "why": "New expert analyses confirm the right intrathoracic neoplastic mass: CECT shows a 20.8×13.6×13 cm heterogeneous mass with fat/calcification and compressive atelectasis, and biopsy reveals myxoid tissue, atypical cells, lipoblasts, S100+, and Alcian blue+ mucin. The pathologist confirms the mass and favors myxoid liposarcoma. These definitive imaging and pathologic findings increase confidence from 0.85 to 0.98; although molecular/PET/MRI data are absent for subtype/grade, the existence of a neoplastic mass is secure.",
+          "score": 0.98,
+          "level": 1,
+          "supports": 6,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-18-00016",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:18:01.451+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-7"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c39ecfcc9834fdc8a564b9b251d533e1a781661ed798db834da54ba7f5f3884f",
+      "event_hash": "0d3033860f47ede611bc6ce4af9fc16b4066d4250161cd213abbaef63173709b",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00017",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:18:20.100+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0d3033860f47ede611bc6ce4af9fc16b4066d4250161cd213abbaef63173709b",
+      "event_hash": "898d911757e1560c047d72f75550c65b2748d92711ef5389fc2508968d0ff52a",
+      "payload": {
+        "query": "Need molecular pathology results (FUS-DDIT3/TLS-CHOP fusion, MDM2/CDK4 amplification) and PET-CT/chest MRI for subtype, grade, and staging of the right intrathoracic mass, as current CECT and biopsy favor myxoid liposarcoma but cannot confirm subtype or exclude dedifferentiated liposarcoma/metastasis.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "82777dd3e6a6fe44b37f99134b0f73525b87d8cf3e5f8dabf849155fc37ef1a7",
+        "started_at": "2026-10-08T08:18:08.893+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00018",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:18:20.102+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "898d911757e1560c047d72f75550c65b2748d92711ef5389fc2508968d0ff52a",
+      "event_hash": "96ab22fb7e42761771c8622ae0b20d6a918fc2d9c19c1c303eaf65449b4a8807",
+      "payload": {
+        "query": "Need molecular pathology results (FUS-DDIT3/TLS-CHOP fusion, MDM2/CDK4 amplification) and PET-CT/chest MRI for subtype, grade, and staging of the right intrathoracic mass, as current CECT and biopsy favor myxoid liposarcoma but cannot confirm subtype or exclude dedifferentiated liposarcoma/metastasis.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "82777dd3e6a6fe44b37f99134b0f73525b87d8cf3e5f8dabf849155fc37ef1a7",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00019",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:18:40.666+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0009"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "96ab22fb7e42761771c8622ae0b20d6a918fc2d9c19c1c303eaf65449b4a8807",
+      "event_hash": "07efb620ab9b361061d39a0ea66413dc516b137a5bb2b2158f333f1f49ae5356",
+      "payload": {
+        "query": "Need the still-missing molecular pathology (FUS-DDIT3/TLS-CHOP fusion, MDM2/CDK4 amplification), PET-CT/chest MRI, and serum LDH/prior chest imaging to confirm myxoid liposarcoma subtype, grade, and staging of the right intrathoracic mass; these are critical because CECT and biopsy already establish a neoplastic mass but cannot exclude dedifferentiated liposarcoma or metastasis.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "b578efa743773263da8499f79f6fe1360ca0da564ca7c895aa470b59d397364f",
+        "started_at": "2026-10-08T08:18:32.287+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00020",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:18:40.669+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0010"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "07efb620ab9b361061d39a0ea66413dc516b137a5bb2b2158f333f1f49ae5356",
+      "event_hash": "b007ad8e91a9ae3b62fb97d697f918aa44a6efc252c64e76a9776a34c5f244ab",
+      "payload": {
+        "query": "Need the still-missing molecular pathology (FUS-DDIT3/TLS-CHOP fusion, MDM2/CDK4 amplification), PET-CT/chest MRI, and serum LDH/prior chest imaging to confirm myxoid liposarcoma subtype, grade, and staging of the right intrathoracic mass; these are critical because CECT and biopsy already establish a neoplastic mass but cannot exclude dedifferentiated liposarcoma or metastasis.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "b578efa743773263da8499f79f6fe1360ca0da564ca7c895aa470b59d397364f",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00021",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:19:22.617+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-18-0007",
+        "rec-case-18-0008",
+        "rec-case-18-0009",
+        "rec-case-18-0010"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b007ad8e91a9ae3b62fb97d697f918aa44a6efc252c64e76a9776a34c5f244ab",
+      "event_hash": "05ae6df28e25d4ba57d7983492f2779bbf3033fc00bfc80de9911f8eeb6c61af",
+      "payload": {
+        "analysis": "CECT: 20.8×13.6×13 cm heterogeneous right hemithoracic mass, fat/calcification, pleural base, compressive atelectasis. Biopsy: myxoid tissue, atypical cells, lipoblasts, S100+, Alcian blue+ mucin. Confirms intrathoracic neoplastic mass, favors myxoid liposarcoma; refutes effusion/empyema, lung primary. Missing FUS-DDIT3, MDM2/CDK4, PET/MRI, LDH for subtype/grade/staging. All key info covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-18-00022",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:19:22.621+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-7"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "05ae6df28e25d4ba57d7983492f2779bbf3033fc00bfc80de9911f8eeb6c61af",
+      "event_hash": "6b67126172febd8f5b5b93c1a4c7d16c1502235df975a299b14d75d5af7301fb",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00023",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:19:48.430+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0011"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "6b67126172febd8f5b5b93c1a4c7d16c1502235df975a299b14d75d5af7301fb",
+      "event_hash": "1a805379c3947e0c8e1b76d17a5b5f47aacbc2c97f3f140c47a0f815e2416048",
+      "payload": {
+        "query": "Need molecular pathology on biopsy (MDM2/CDK4, DDIT3 rearrangement) and extended immunohistochemistry, plus FDG PET-CT and chest MRI (core missing items to confirm myxoid liposarcoma subtype/grade, exclude metastasis, and assess local invasion; critical for verifying the high-confidence right intrathoracic mass hypothesis).",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "704bdd9b2cae4fff1cc79512f89b2df48a81425eed6e750b7e56efa0563c9e4a",
+        "started_at": "2026-10-08T08:19:30.010+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00024",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:19:48.436+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0012"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "1a805379c3947e0c8e1b76d17a5b5f47aacbc2c97f3f140c47a0f815e2416048",
+      "event_hash": "4d47b1b6ab1bc43b764e0d7c952659dcd897c05de5318f1ca32e6d783950907c",
+      "payload": {
+        "query": "Need molecular pathology on biopsy (MDM2/CDK4, DDIT3 rearrangement) and extended immunohistochemistry, plus FDG PET-CT and chest MRI (core missing items to confirm myxoid liposarcoma subtype/grade, exclude metastasis, and assess local invasion; critical for verifying the high-confidence right intrathoracic mass hypothesis).",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "704bdd9b2cae4fff1cc79512f89b2df48a81425eed6e750b7e56efa0563c9e4a",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00025",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:20:17.297+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0013"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "4d47b1b6ab1bc43b764e0d7c952659dcd897c05de5318f1ca32e6d783950907c",
+      "event_hash": "95f5dffb5302f366a267363c31c5611c5b394b46d810a7722426d38b150fb1ed",
+      "payload": {
+        "query": "Need the completed molecular pathology report (MDM2/CDK4, DDIT3 rearrangement) plus FDG PET-CT and chest MRI reports, as prior requests returned no new data; these are core missing items to confirm myxoid liposarcoma subtype/grade, exclude metastasis, and assess local invasion, critical for verifying the high-confidence right intrathoracic mass hypothesis.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "9e367611f468aacd9dc62df39134471617adb1c9098cfa8a63ab5a914465c222",
+        "started_at": "2026-10-08T08:20:00.810+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00026",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:20:17.301+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-18-0014"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "95f5dffb5302f366a267363c31c5611c5b394b46d810a7722426d38b150fb1ed",
+      "event_hash": "af2dd8f475060bf4c0045d87b48a7cf2422e1657a7783fa4f8886649dd79e50f",
+      "payload": {
+        "query": "Need the completed molecular pathology report (MDM2/CDK4, DDIT3 rearrangement) plus FDG PET-CT and chest MRI reports, as prior requests returned no new data; these are core missing items to confirm myxoid liposarcoma subtype/grade, exclude metastasis, and assess local invasion, critical for verifying the high-confidence right intrathoracic mass hypothesis.",
+        "hit": true,
+        "retrieval_output": "Contrast-enhanced computed tomography (CECT) scan of the chest showed a large, heterogeneous mass measuring 20.8 cm × 13.6 cm × 13 cm in size in the right hemithorax. The mass was broad based toward the pleura and compressing medially onto the right lung, leading to its compressive atelectasis. However, there was no invasion of the collapsed lung, which was showing a uniform, homogeneous enhancement. The chest wall muscles also showed normal attenuation, and no erosion or lytic destruction of the ribs was seen. The mass was predominantly hypodense with an average attenuation of 10 Hounsfield units (HUs). There were small peripheral fat attenuation areas (−70–−90 HU) and few calcific foci (+650–+900 HU) within the mass. An USG-guided biopsy was performed, which showed predominantly myxoid tissue with scattered atypical cells and lipoblasts in a myxoid background. Immunohistochemistry revealed that the tumor cells were positive for S100, whereas the stroma stained well with Alcian blue, suggesting an abundant mucinous background..",
+        "record_hash": "9e367611f468aacd9dc62df39134471617adb1c9098cfa8a63ab5a914465c222",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00027",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:20:34.810+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-18-0011",
+        "rec-case-18-0012",
+        "rec-case-18-0013",
+        "rec-case-18-0014"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "af2dd8f475060bf4c0045d87b48a7cf2422e1657a7783fa4f8886649dd79e50f",
+      "event_hash": "41c943ee4b44df00c6dc5b7379c50658a8dce97af3ef275cc012d831ed670aaf",
+      "payload": {
+        "analysis": "All retrieved evidence confirms a high-confidence right intrathoracic neoplastic mass: CECT shows a large heterogeneous mass with fat/calcification and compressive atelectasis, biopsy shows myxoid tissue, lipoblasts, S100+, and Alcian blue+ mucin, favoring myxoid liposarcoma. Molecular, PET, and MRI remain unavailable, so subtype/grade are unconfirmed. Key available data covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-18-00028",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:21:28.219+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-13",
+        "node-14"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "41c943ee4b44df00c6dc5b7379c50658a8dce97af3ef275cc012d831ed670aaf",
+      "event_hash": "7aa88036328d728a864960b040d82068ffa27ba33b39c625caf10a84389159bc",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"Pathologist and radiologist expert analyses concur that the right hemithoracic mass is neoplastic and favor myxoid liposarcoma\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev002\",\n      \"label\": \"FUS-DDIT3 and MDM2/CDK4 molecular testing, PET/MRI, and LDH results are unavailable, leaving subtype, grade, and staging unconfirmed\",\n      \"node_type\": \"Evidence\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-7\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-12\",\n      \"relation\": \"support\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-18-00029",
+      "task_id": "case-18",
+      "step_id": 2,
+      "timestamp": "2026-10-08T08:21:48.156+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-7"
+      ],
+      "causal_node_refs": [
+        "node-7"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7aa88036328d728a864960b040d82068ffa27ba33b39c625caf10a84389159bc",
+      "event_hash": "33d8aa0f740bd21d8d92b638d3721b8e6492682705ed69e7a5ba68c6952526ca",
+      "payload": {
+        "prediction": "Right chest myxoid liposarcoma",
+        "report": "Two months of chest pain and dyspnea with right hemithoracic dullness suggested a right thoracic process. Imaging showed a 20.8×13.6×13 cm heterogeneous pleural-based mass with fat/calcification and atelectasis. Biopsy revealed myxoid tissue, atypical cells, lipoblasts, S100 positivity and Alcian blue-positive mucin; the pathologist favors myxoid liposarcoma, the gold standard for tumor nature, refuting empyema and primary lung disease. Molecular, PET/MRI and LDH data are lacking, leaving subtype, grade and staging unconfirmed.",
+        "report_chars": 533,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1
+            ],
+            "stage_steps": {
+              "1": 2
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 2,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-7",
+            "label": "Right intrathoracic mass/tumor",
+            "why": "New expert analyses confirm the right intrathoracic neoplastic mass: CECT shows a 20.8×13.6×13 cm heterogeneous mass with fat/calcification and compressive atelectasis, and biopsy reveals myxoid tissue, atypical cells, lipoblasts, S100+, and Alcian blue+ mucin. The pathologist confirms the mass and favors myxoid liposarcoma. These definitive imaging and pathologic findings increase confidence from 0.85 to 0.98; although molecular/PET/MRI data are absent for subtype/grade, the existence of a neoplastic mass is secure.",
+            "score": 0.98,
+            "level": 1,
+            "supports": 7,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-18-00001",
+      "dst": "evt-case-18-00002"
+    },
+    {
+      "src": "evt-case-18-00002",
+      "dst": "evt-case-18-00003"
+    },
+    {
+      "src": "evt-case-18-00003",
+      "dst": "evt-case-18-00004"
+    },
+    {
+      "src": "evt-case-18-00004",
+      "dst": "evt-case-18-00005"
+    },
+    {
+      "src": "evt-case-18-00004",
+      "dst": "evt-case-18-00006"
+    },
+    {
+      "src": "evt-case-18-00004",
+      "dst": "evt-case-18-00007"
+    },
+    {
+      "src": "evt-case-18-00004",
+      "dst": "evt-case-18-00008"
+    },
+    {
+      "src": "evt-case-18-00004",
+      "dst": "evt-case-18-00009"
+    },
+    {
+      "src": "evt-case-18-00005",
+      "dst": "evt-case-18-00009"
+    },
+    {
+      "src": "evt-case-18-00006",
+      "dst": "evt-case-18-00009"
+    },
+    {
+      "src": "evt-case-18-00007",
+      "dst": "evt-case-18-00009"
+    },
+    {
+      "src": "evt-case-18-00008",
+      "dst": "evt-case-18-00009"
+    },
+    {
+      "src": "evt-case-18-00003",
+      "dst": "evt-case-18-00010"
+    },
+    {
+      "src": "evt-case-18-00010",
+      "dst": "evt-case-18-00011"
+    },
+    {
+      "src": "evt-case-18-00010",
+      "dst": "evt-case-18-00012"
+    },
+    {
+      "src": "evt-case-18-00010",
+      "dst": "evt-case-18-00013"
+    },
+    {
+      "src": "evt-case-18-00011",
+      "dst": "evt-case-18-00013"
+    },
+    {
+      "src": "evt-case-18-00012",
+      "dst": "evt-case-18-00013"
+    },
+    {
+      "src": "evt-case-18-00009",
+      "dst": "evt-case-18-00014"
+    },
+    {
+      "src": "evt-case-18-00013",
+      "dst": "evt-case-18-00014"
+    },
+    {
+      "src": "evt-case-18-00014",
+      "dst": "evt-case-18-00015"
+    },
+    {
+      "src": "evt-case-18-00015",
+      "dst": "evt-case-18-00016"
+    },
+    {
+      "src": "evt-case-18-00016",
+      "dst": "evt-case-18-00017"
+    },
+    {
+      "src": "evt-case-18-00016",
+      "dst": "evt-case-18-00018"
+    },
+    {
+      "src": "evt-case-18-00016",
+      "dst": "evt-case-18-00019"
+    },
+    {
+      "src": "evt-case-18-00016",
+      "dst": "evt-case-18-00020"
+    },
+    {
+      "src": "evt-case-18-00016",
+      "dst": "evt-case-18-00021"
+    },
+    {
+      "src": "evt-case-18-00017",
+      "dst": "evt-case-18-00021"
+    },
+    {
+      "src": "evt-case-18-00018",
+      "dst": "evt-case-18-00021"
+    },
+    {
+      "src": "evt-case-18-00019",
+      "dst": "evt-case-18-00021"
+    },
+    {
+      "src": "evt-case-18-00020",
+      "dst": "evt-case-18-00021"
+    },
+    {
+      "src": "evt-case-18-00015",
+      "dst": "evt-case-18-00022"
+    },
+    {
+      "src": "evt-case-18-00022",
+      "dst": "evt-case-18-00023"
+    },
+    {
+      "src": "evt-case-18-00022",
+      "dst": "evt-case-18-00024"
+    },
+    {
+      "src": "evt-case-18-00022",
+      "dst": "evt-case-18-00025"
+    },
+    {
+      "src": "evt-case-18-00022",
+      "dst": "evt-case-18-00026"
+    },
+    {
+      "src": "evt-case-18-00022",
+      "dst": "evt-case-18-00027"
+    },
+    {
+      "src": "evt-case-18-00023",
+      "dst": "evt-case-18-00027"
+    },
+    {
+      "src": "evt-case-18-00024",
+      "dst": "evt-case-18-00027"
+    },
+    {
+      "src": "evt-case-18-00025",
+      "dst": "evt-case-18-00027"
+    },
+    {
+      "src": "evt-case-18-00026",
+      "dst": "evt-case-18-00027"
+    },
+    {
+      "src": "evt-case-18-00021",
+      "dst": "evt-case-18-00028"
+    },
+    {
+      "src": "evt-case-18-00027",
+      "dst": "evt-case-18-00028"
+    },
+    {
+      "src": "evt-case-18-00028",
+      "dst": "evt-case-18-00029"
+    }
+  ]
+}

@@ -1,0 +1,658 @@
+{
+  "task_id": "case-3",
+  "n_nodes": 17,
+  "n_edges": 25,
+  "nodes": [
+    {
+      "event_id": "evt-case-3-00001",
+      "task_id": "case-3",
+      "step_id": 0,
+      "timestamp": "2026-10-08T12:03:37.161+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "081c377b2329df4742543bd1c07362b333e816aa3209c97b28e713ab0564aa5a",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\n  \"symptom_node\": \"A 53-year-old male has had multiple dusky reddish nodules on the trunk for 7 years\",\n  \"isolated_evidence\": [\n    \"The nodules are bilaterally distributed along the lateral sides of the trunk and have shown slight progression\",\n    \"The patient has a medical history of arterial hypertension and type 2 diabetes mellitus\",\n    \"There were no systemic symptoms indicating involvement of other organs, and no specific triggers causing induction or exacerbation were reported\",\n    \"Stroking the lesions resulted in swelling, itching, and redness of the skin\"\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00002",
+      "task_id": "case-3",
+      "step_id": 0,
+      "timestamp": "2026-10-08T12:03:58.271+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8",
+        "node-9"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "081c377b2329df4742543bd1c07362b333e816aa3209c97b28e713ab0564aa5a",
+      "event_hash": "953370982810563e6e7ef01405c6e327c5618c89b8d32a232e8938c5fbc25261",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\n  \"candidates\": [\n    {\n      \"id\": \"h001\",\n      \"label\": \"Cutaneous mastocytosis\",\n      \"confidence\": 0.9,\n      \"why\": \"node-5 Darier sign supports mast cell disorder; node-2 chronic truncal nodules fit urticaria pigmentosa; node-4 no systemic symptoms favors skin-limited.\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Systemic mastocytosis\",\n      \"confidence\": 0.2,\n      \"why\": \"node-5 supports mast cell disorder; node-4 absence of systemic symptoms and node-3 nonspecific comorbidities argue against systemic involvement.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"Chronic urticarial dermatosis\",\n      \"confidence\": 0.2,\n      \"why\": \"node-5 itching/swelling/redness suggests urticarial reaction; node-2 chronic nodules and node-4 no triggers make this less likely than mastocytosis.\"\n    },\n    {\n      \"id\": \"h004\",\n      \"label\": \"Metabolic dermatosis\",\n      \"confidence\": 0.05,\n      \"why\": \"node-3 hypertension and type 2 diabetes are comorbidities; node-5 Darier sign and node-4 no triggers refute metabolic cause.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h003\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h004\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h002\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h003\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h004\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00003",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:04:09.119+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "953370982810563e6e7ef01405c6e327c5618c89b8d32a232e8938c5fbc25261",
+      "event_hash": "10887f49aa455f03011301fedf31d0608df50549ee73322d11dbc05e31892123",
+      "payload": {
+        "response": "[\n  {\"expert_name\":\"Pathologist\",\"planning_intent\":\"interpret_existing_evidence\"},\n  {\"expert_name\":\"Laboratory_Physician\",\"planning_intent\":\"seek_discriminating_evidence\"}\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Cutaneous mastocytosis",
+          "why": "node-5 Darier sign supports mast cell disorder; node-2 chronic truncal nodules fit urticaria pigmentosa; node-4 no systemic symptoms favors skin-limited.",
+          "score": 0.9,
+          "level": 1,
+          "supports": 3,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-3-00004",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:04:09.124+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "10887f49aa455f03011301fedf31d0608df50549ee73322d11dbc05e31892123",
+      "event_hash": "f97c09a91c1a68fd3490fe0f42d35da19a8edcaf096750fd925af21e61bec373",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00005",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:04:22.306+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f97c09a91c1a68fd3490fe0f42d35da19a8edcaf096750fd925af21e61bec373",
+      "event_hash": "1139ae7b868f2055fd1819205f06124df30ce004747937ae6a1c1a874a45b079",
+      "payload": {
+        "query": "当前最可信假设为皮肤肥大细胞增生症，需获取血清类胰蛋白酶水平、皮损组织病理及Giemsa/甲苯胺蓝或CD117免疫组化染色、KIT D816V突变检测（核心依据：证实肥大细胞浸润并鉴别系统性肥大细胞增生症）；同时需追问有无潮红、瘙痒、低血压、骨痛及肝脾淋巴结肿大等系统受累表现，以完善验证或排除。",
+        "hit": true,
+        "retrieval_output": "Histological findings of the biopsy specimen showed nodular to diffuse dermal infiltration of lymphocytes with irregular nuclei, eosinophils, plasma cells, and mast cells.\nToluidine blue and CD117 staining showed positivity, and several mast cells were confirmed.",
+        "record_hash": "6404ad2bf951c39cf0610f2eb9b307a93ee535b4061b13f587a0705c528eae93",
+        "started_at": "2026-10-08T12:04:16.389+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00006",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:04:22.313+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "1139ae7b868f2055fd1819205f06124df30ce004747937ae6a1c1a874a45b079",
+      "event_hash": "6bff68965c58223a75f8b09f05b64aad052d1cf66e51a39561a9c6b1e25fc611",
+      "payload": {
+        "query": "当前最可信假设为皮肤肥大细胞增生症，需获取血清类胰蛋白酶水平、皮损组织病理及Giemsa/甲苯胺蓝或CD117免疫组化染色、KIT D816V突变检测（核心依据：证实肥大细胞浸润并鉴别系统性肥大细胞增生症）；同时需追问有无潮红、瘙痒、低血压、骨痛及肝脾淋巴结肿大等系统受累表现，以完善验证或排除。",
+        "hit": true,
+        "retrieval_output": "Histological findings of the biopsy specimen showed nodular to diffuse dermal infiltration of lymphocytes with irregular nuclei, eosinophils, plasma cells, and mast cells.\nToluidine blue and CD117 staining showed positivity, and several mast cells were confirmed.",
+        "record_hash": "6404ad2bf951c39cf0610f2eb9b307a93ee535b4061b13f587a0705c528eae93",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00007",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:05:01.180+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "6bff68965c58223a75f8b09f05b64aad052d1cf66e51a39561a9c6b1e25fc611",
+      "event_hash": "f9bc545550296cc598d432253600b224435e381d9b9716b6ac57923eafd4dff9",
+      "payload": {
+        "query": "上一轮已申请但尚未返回的关键结果包括血清类胰蛋白酶、KIT D816V突变及系统受累症状评估（潮红、低血压、骨痛、肝脾淋巴结肿大）。现有组织学显示真皮内淋巴、嗜酸、浆细胞及肥大细胞浸润，甲苯胺蓝和CD117阳性，支持肥大细胞增生症。仍需上述结果以区分皮肤局限性与系统性肥大细胞增生症；若异常淋巴细胞持续存在，可加做CD25/CD2/CD30免疫组化明确克隆性。",
+        "hit": true,
+        "retrieval_output": "Histological findings of the biopsy specimen showed nodular to diffuse dermal infiltration of lymphocytes with irregular nuclei, eosinophils, plasma cells, and mast cells. Kappa light chain restriction was suggested in the immunostaining results of the immunoglobulin (Ig) light chain. CD20 staining, a B-cell marker, revealed reactive lymphoid follicles with patch positivity. Periphery of lymphoid follicles showed BCL-2 positivity and BCL-6 positivity focally at the center. Toluidine blue and CD117 staining showed positivity, and several mast cells were confirmed. MUM1 and CD138 showed diffuse positivity and confirmed positive reaction in plasma cells. The Ig heavy chain gene rearrangement result showed B-cell monoclonality. Of the Igs measured in serum, only the IgG level was elevated to 1905.80 mg/dL. Peripheral blood smear and immunofixation electrophoresis results in serum and urine showed no abnormality. The patient did not show any evidence of hypermetabolic metastasis on whole body positron emission tomography (PET)/computed tomography (CT).",
+        "record_hash": "b4d17f911a4cb85c76d271a404980fb89c6d8788d18bf75b39041883c0feb1c7",
+        "started_at": "2026-10-08T12:04:37.349+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00008",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:05:01.183+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f9bc545550296cc598d432253600b224435e381d9b9716b6ac57923eafd4dff9",
+      "event_hash": "b583470199a274861a3f85acc980ca20c04d0b5a1f65a07ba511417311145841",
+      "payload": {
+        "query": "上一轮已申请但尚未返回的关键结果包括血清类胰蛋白酶、KIT D816V突变及系统受累症状评估（潮红、低血压、骨痛、肝脾淋巴结肿大）。现有组织学显示真皮内淋巴、嗜酸、浆细胞及肥大细胞浸润，甲苯胺蓝和CD117阳性，支持肥大细胞增生症。仍需上述结果以区分皮肤局限性与系统性肥大细胞增生症；若异常淋巴细胞持续存在，可加做CD25/CD2/CD30免疫组化明确克隆性。",
+        "hit": true,
+        "retrieval_output": "Histological findings of the biopsy specimen showed nodular to diffuse dermal infiltration of lymphocytes with irregular nuclei, eosinophils, plasma cells, and mast cells. Kappa light chain restriction was suggested in the immunostaining results of the immunoglobulin (Ig) light chain. CD20 staining, a B-cell marker, revealed reactive lymphoid follicles with patch positivity. Periphery of lymphoid follicles showed BCL-2 positivity and BCL-6 positivity focally at the center. Toluidine blue and CD117 staining showed positivity, and several mast cells were confirmed. MUM1 and CD138 showed diffuse positivity and confirmed positive reaction in plasma cells. The Ig heavy chain gene rearrangement result showed B-cell monoclonality. Of the Igs measured in serum, only the IgG level was elevated to 1905.80 mg/dL. Peripheral blood smear and immunofixation electrophoresis results in serum and urine showed no abnormality. The patient did not show any evidence of hypermetabolic metastasis on whole body positron emission tomography (PET)/computed tomography (CT).",
+        "record_hash": "b4d17f911a4cb85c76d271a404980fb89c6d8788d18bf75b39041883c0feb1c7",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00009",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:05:10.831+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-3-0001",
+        "rec-case-3-0002",
+        "rec-case-3-0003",
+        "rec-case-3-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b583470199a274861a3f85acc980ca20c04d0b5a1f65a07ba511417311145841",
+      "event_hash": "fb8e525c1cbab45fd49bf215c0d53d0ef1cf3d0ce1061ac079cd49db0bcab30e",
+      "payload": {
+        "analysis": "结合Darier征、慢性躯干结节及真皮肥大细胞甲苯胺蓝/CD117阳性，皮肤肥大细胞增生症（色素性荨麻疹）仍为最可信假设。现有组织学还见非典型淋巴细胞、嗜酸粒细胞、浆细胞浸润，Ig重链重排示B细胞单克隆，IgG 1905.80 mg/dL升高，PET/CT无高代谢转移，提示可能合并皮肤B细胞淋巴增殖性疾病；系统症状、类胰蛋白酶及KIT D816V未返回，故系统性肥大细胞增生症未完全排除。核心临床、病理及分子信息已覆盖，建议结合血液科评估并随访。",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-3-00010",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:05:10.836+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "fb8e525c1cbab45fd49bf215c0d53d0ef1cf3d0ce1061ac079cd49db0bcab30e",
+      "event_hash": "85bb82c9e5921a2f06028198ff42db744e9904056a744e9286d2b5044e1d26ea",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00011",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:05:42.038+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "85bb82c9e5921a2f06028198ff42db744e9904056a744e9286d2b5044e1d26ea",
+      "event_hash": "789f041b27ea114bb7b4c30fe7f9600c16f60acc087b36f34bf8ecda7ddedbf3",
+      "payload": {
+        "query": "Need skin biopsy with toluidine blue/CD117 and serum tryptase, plus KIT D816V mutation and bone marrow/organomegaly assessment if tryptase elevated. These are core to confirm cutaneous mastocytosis and exclude systemic disease; the Darier sign and chronic truncal nodules support a mast cell disorder but cannot distinguish skin-limited from systemic involvement.",
+        "hit": true,
+        "retrieval_output": "Histological findings of the biopsy specimen showed nodular to diffuse dermal infiltration of lymphocytes with irregular nuclei, eosinophils, plasma cells, and mast cells.\nToluidine blue and CD117 staining showed positivity, and several mast cells were confirmed.",
+        "record_hash": "38983b5ec22cb0861018d35f475c6d52065d3a058025ae25fc56388ed1836a38",
+        "started_at": "2026-10-08T12:05:22.829+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00012",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:05:42.043+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "789f041b27ea114bb7b4c30fe7f9600c16f60acc087b36f34bf8ecda7ddedbf3",
+      "event_hash": "15caeab5609bf42c593e258201f9f4c0fed916bfc52461c437db4b3b1eda0aa1",
+      "payload": {
+        "query": "Need skin biopsy with toluidine blue/CD117 and serum tryptase, plus KIT D816V mutation and bone marrow/organomegaly assessment if tryptase elevated. These are core to confirm cutaneous mastocytosis and exclude systemic disease; the Darier sign and chronic truncal nodules support a mast cell disorder but cannot distinguish skin-limited from systemic involvement.",
+        "hit": true,
+        "retrieval_output": "Histological findings of the biopsy specimen showed nodular to diffuse dermal infiltration of lymphocytes with irregular nuclei, eosinophils, plasma cells, and mast cells.\nToluidine blue and CD117 staining showed positivity, and several mast cells were confirmed.",
+        "record_hash": "38983b5ec22cb0861018d35f475c6d52065d3a058025ae25fc56388ed1836a38",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00013",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:06:06.032+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "15caeab5609bf42c593e258201f9f4c0fed916bfc52461c437db4b3b1eda0aa1",
+      "event_hash": "07e9b781e39d56a7736971dbdc42018a232293e39fe5fdb4bf3fcc265620c75d",
+      "payload": {
+        "query": "Need serum tryptase and KIT D816V mutation results, plus bone marrow/organomegaly assessment if tryptase >20 ng/mL; these are critical to distinguish skin-limited cutaneous mastocytosis from systemic disease after biopsy already confirmed CD117/toluidine-blue-positive mast cells.",
+        "hit": true,
+        "retrieval_output": "Toluidine blue and CD117 staining showed positivity, and several mast cells were confirmed.",
+        "record_hash": "e7a9cdee7547826fff0cef7a04d873df8cbf5bf9a3a95c558f3ad2a994d4ab72",
+        "started_at": "2026-10-08T12:05:52.596+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00014",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:06:06.037+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-3-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "07e9b781e39d56a7736971dbdc42018a232293e39fe5fdb4bf3fcc265620c75d",
+      "event_hash": "c1c23cd4c1d89dbfb99f3eed8610f8a646c1ad00ba1295e4e4ed123c418c9f4f",
+      "payload": {
+        "query": "Need serum tryptase and KIT D816V mutation results, plus bone marrow/organomegaly assessment if tryptase >20 ng/mL; these are critical to distinguish skin-limited cutaneous mastocytosis from systemic disease after biopsy already confirmed CD117/toluidine-blue-positive mast cells.",
+        "hit": true,
+        "retrieval_output": "Toluidine blue and CD117 staining showed positivity, and several mast cells were confirmed.",
+        "record_hash": "e7a9cdee7547826fff0cef7a04d873df8cbf5bf9a3a95c558f3ad2a994d4ab72",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00015",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:06:16.701+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-3-0005",
+        "rec-case-3-0006",
+        "rec-case-3-0007",
+        "rec-case-3-0008"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c1c23cd4c1d89dbfb99f3eed8610f8a646c1ad00ba1295e4e4ed123c418c9f4f",
+      "event_hash": "bdaa94b365ab850f92282a35ce6c50c2e4a2e79c63b2ce955875a4fcd3af57f6",
+      "payload": {
+        "analysis": "Cutaneous mastocytosis (urticaria pigmentosa) remains most likely (0.9) with chronic truncal nodules and Darier sign. Biopsy shows CD117/toluidine-blue-positive mast cells, supporting mast cell disorder; mixed lymphocytes/eosinophils/plasma cells are nonspecific. Tryptase, KIT D816V, and organomegaly data are absent, so systemic disease cannot be fully excluded. All retrieved evidence covered; test tryptase/KIT if feasible.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-3-00016",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:06:52.930+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-10",
+        "node-11",
+        "node-12",
+        "node-13",
+        "node-14",
+        "node-15"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bdaa94b365ab850f92282a35ce6c50c2e4a2e79c63b2ce955875a4fcd3af57f6",
+      "event_hash": "09033a7c7fe9aa566485c56bf73382743bf82d346348fa1bad0f24bd90657c15",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.9,\n      \"why\": \"New biopsy shows CD117/toluidine-blue-positive dermal mast cells, confirming a mast cell disorder and strongly supporting cutaneous mastocytosis. The chronic bilateral truncal nodules with a Darier sign and absence of systemic symptoms favor skin-limited urticaria pigmentosa, consistent with expert pathologist and laboratory opinion. The additional mixed B-cell infiltrate does not negate this diagnosis.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.2,\n      \"why\": \"Darier sign and skin mast cells support a mast cell disorder, but no systemic symptoms, no organomegaly data showing involvement, and PET/CT without hypermetabolic lesions argue against extracutaneous disease. However, tryptase and KIT D816V results are not yet available, so systemic mastocytosis is not fully excluded; confidence remains low.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.1,\n      \"why\": \"Darier sign with itching, swelling, and redness could suggest an urticarial reaction, but the chronic truncal nodules and biopsy findings of CD117/toluidine-blue-positive mast cells favor cutaneous mastocytosis rather than isolated chronic urticarial dermatosis. No specific triggers are reported, so the likelihood of chronic urticarial dermatosis is reduced.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"Skin biopsy shows dermal mast cells positive for CD117 and toluidine blue\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Skin biopsy shows infiltration by atypical lymphocytes, eosinophils, and plasma cells\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev003\",\n      \"label\": \"Ig heavy chain rearrangement demonstrates B-cell monoclonality\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev004\",\n      \"label\": \"Serum IgG is elevated at 1905.80 mg/dL\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev005\",\n      \"label\": \"PET/CT shows no hypermetabolic metastatic lesions\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Concurrent cutaneous B-cell lymphoproliferative disorder with mast cell disorder\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.45,\n      \"why\": \"Pathologist reports atypical lymphocytes, eosinophils, and plasma cells on biopsy, Ig heavy chain rearrangement showing B-cell monoclonality, elevated serum IgG, and PET/CT without hypermetabolic metastasis, suggesting a possible concurrent cutaneous B-cell lymphoproliferative process. The finding is not definitive and may be reactive, so confidence is moderate.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-6\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev003\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev004\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev005\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-3-00017",
+      "task_id": "case-3",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:07:13.087+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-6"
+      ],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "09033a7c7fe9aa566485c56bf73382743bf82d346348fa1bad0f24bd90657c15",
+      "event_hash": "3fd7472b60c89b69f6361dd551e124c9c8d205e7901e0e75b1da71d2770777c4",
+      "payload": {
+        "prediction": "Cutaneous mastocytosis",
+        "report": "53-year-old man with 7-year bilateral truncal nodules and positive Darier sign. Biopsy shows CD117/toluidine-blue-positive dermal mast cells, confirming mast cell disorder. Chronic skin-limited distribution, no systemic symptoms, and negative PET/CT favor cutaneous mastocytosis. Atypical B-cell infiltrate may be reactive and does not negate diagnosis. Final diagnosis: cutaneous mastocytosis.",
+        "report_chars": 394,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1
+            ],
+            "stage_steps": {
+              "1": 1
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 1,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-6",
+            "label": "Cutaneous mastocytosis",
+            "why": "New biopsy shows CD117/toluidine-blue-positive dermal mast cells, confirming a mast cell disorder and strongly supporting cutaneous mastocytosis. The chronic bilateral truncal nodules with a Darier sign and absence of systemic symptoms favor skin-limited urticaria pigmentosa, consistent with expert pathologist and laboratory opinion. The additional mixed B-cell infiltrate does not negate this diagnosis.",
+            "score": 0.9,
+            "level": 1,
+            "supports": 4,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-3-00001",
+      "dst": "evt-case-3-00002"
+    },
+    {
+      "src": "evt-case-3-00002",
+      "dst": "evt-case-3-00003"
+    },
+    {
+      "src": "evt-case-3-00003",
+      "dst": "evt-case-3-00004"
+    },
+    {
+      "src": "evt-case-3-00004",
+      "dst": "evt-case-3-00005"
+    },
+    {
+      "src": "evt-case-3-00004",
+      "dst": "evt-case-3-00006"
+    },
+    {
+      "src": "evt-case-3-00004",
+      "dst": "evt-case-3-00007"
+    },
+    {
+      "src": "evt-case-3-00004",
+      "dst": "evt-case-3-00008"
+    },
+    {
+      "src": "evt-case-3-00004",
+      "dst": "evt-case-3-00009"
+    },
+    {
+      "src": "evt-case-3-00005",
+      "dst": "evt-case-3-00009"
+    },
+    {
+      "src": "evt-case-3-00006",
+      "dst": "evt-case-3-00009"
+    },
+    {
+      "src": "evt-case-3-00007",
+      "dst": "evt-case-3-00009"
+    },
+    {
+      "src": "evt-case-3-00008",
+      "dst": "evt-case-3-00009"
+    },
+    {
+      "src": "evt-case-3-00003",
+      "dst": "evt-case-3-00010"
+    },
+    {
+      "src": "evt-case-3-00010",
+      "dst": "evt-case-3-00011"
+    },
+    {
+      "src": "evt-case-3-00010",
+      "dst": "evt-case-3-00012"
+    },
+    {
+      "src": "evt-case-3-00010",
+      "dst": "evt-case-3-00013"
+    },
+    {
+      "src": "evt-case-3-00010",
+      "dst": "evt-case-3-00014"
+    },
+    {
+      "src": "evt-case-3-00010",
+      "dst": "evt-case-3-00015"
+    },
+    {
+      "src": "evt-case-3-00011",
+      "dst": "evt-case-3-00015"
+    },
+    {
+      "src": "evt-case-3-00012",
+      "dst": "evt-case-3-00015"
+    },
+    {
+      "src": "evt-case-3-00013",
+      "dst": "evt-case-3-00015"
+    },
+    {
+      "src": "evt-case-3-00014",
+      "dst": "evt-case-3-00015"
+    },
+    {
+      "src": "evt-case-3-00009",
+      "dst": "evt-case-3-00016"
+    },
+    {
+      "src": "evt-case-3-00015",
+      "dst": "evt-case-3-00016"
+    },
+    {
+      "src": "evt-case-3-00016",
+      "dst": "evt-case-3-00017"
+    }
+  ]
+}

@@ -1,0 +1,651 @@
+{
+  "task_id": "case-1",
+  "n_nodes": 17,
+  "n_edges": 25,
+  "nodes": [
+    {
+      "event_id": "evt-case-1-00001",
+      "task_id": "case-1",
+      "step_id": 0,
+      "timestamp": "2026-10-08T11:51:16.840+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "2ad46682a021e2121a0c9faef2d18fede92360c71d70e1be71f7fc020ed6450d",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\n  \"symptom_node\": \"Patient presented with abdominal pain and bloating\",\n  \"isolated_evidence\": [\n    \"54-year-old Caucasian male with history of hypertension, Raynaud’s syndrome, rectal cancer in remission post-surgical resection and radiation therapy, and ongoing radiation-induced cystitis; he had been using nonsteroidal anti-inflammatory drugs (NSAIDs) for abdominal pain and bloating\",\n    \"Two months prior, diagnosed with strongly positive anti-RNA polymerase III systemic sclerosis following onset of dysphagia; prescribed methotrexate (MTX) up to 20 mg weekly; had not taken MTX for 14 days due to feeling unwell\",\n    \"Examination revealed a small bladder rupture attributed to cystitis, which did not necessitate surgical intervention\",\n    \"During bladder evaluation, abnormal serum sodium and creatinine levels were detected, leading to further cardiac assessment\"\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00002",
+      "task_id": "case-1",
+      "step_id": 0,
+      "timestamp": "2026-10-08T11:51:43.965+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8",
+        "node-9"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2ad46682a021e2121a0c9faef2d18fede92360c71d70e1be71f7fc020ed6450d",
+      "event_hash": "5f0c8240bfaf3bb0817f1abc82b55a5020f5521361e0a71f59af5b9752c3b18b",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\"candidates\":[{\"id\":\"h001\",\"label\":\"Scleroderma renal crisis\",\"confidence\":0.6,\"why\":\"Node-3: systemic sclerosis (anti-RNA pol III); node-5: renal dysfunction/cardiac assessment; node-2: NSAIDs/hypertension may precipitate.\"},{\"id\":\"h002\",\"label\":\"NSAID-induced GI/renal injury\",\"confidence\":0.15,\"why\":\"Node-2 NSAID use for abdominal pain/bloating suggests drug-related GI/renal injury; node-5 abnormal creatinine supports renal toxicity.\"},{\"id\":\"h003\",\"label\":\"Radiation-induced cystitis\",\"confidence\":0.1,\"why\":\"Node-2 radiation therapy/ cystitis and node-4 bladder rupture from cystitis support this; node-5 bladder evaluation led to labs.\"},{\"id\":\"h004\",\"label\":\"Scleroderma GI involvement\",\"confidence\":0.15,\"why\":\"Node-3 systemic sclerosis with dysphagia supports GI involvement; node-2 abdominal pain/bloating may reflect dysmotility; NSAIDs confound.\"}],\"edges\":[{\"src\":\"node-2\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-2\",\"dst\":\"h002\",\"relation\":\"support\"},{\"src\":\"node-2\",\"dst\":\"h003\",\"relation\":\"support\"},{\"src\":\"node-2\",\"dst\":\"h004\",\"relation\":\"support\"},{\"src\":\"node-3\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-3\",\"dst\":\"h004\",\"relation\":\"support\"},{\"src\":\"node-4\",\"dst\":\"h003\",\"relation\":\"support\"},{\"src\":\"node-5\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-5\",\"dst\":\"h002\",\"relation\":\"support\"},{\"src\":\"node-5\",\"dst\":\"h003\",\"relation\":\"support\"}]}"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00003",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:51:58.264+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "5f0c8240bfaf3bb0817f1abc82b55a5020f5521361e0a71f59af5b9752c3b18b",
+      "event_hash": "374e117ce39a23eb9830e8e1d7c70fad0e18d2854f7026f69a2bf98466b5f9c9",
+      "payload": {
+        "response": "[\n  {\"expert_name\":\"Laboratory_Physician\",\"planning_intent\":\"interpret_existing_evidence\"},\n  {\"expert_name\":\"Radiologist\",\"planning_intent\":\"seek_discriminating_evidence\"}\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Scleroderma renal crisis",
+          "why": "Node-3: systemic sclerosis (anti-RNA pol III); node-5: renal dysfunction/cardiac assessment; node-2: NSAIDs/hypertension may precipitate.",
+          "score": 0.6,
+          "level": 1,
+          "supports": 3,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-1-00004",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:51:58.267+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "374e117ce39a23eb9830e8e1d7c70fad0e18d2854f7026f69a2bf98466b5f9c9",
+      "event_hash": "0ca284b6c756576d5b00102a17401665fb885972440d7569b4200d7afd232b29",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00005",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:52:10.735+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0ca284b6c756576d5b00102a17401665fb885972440d7569b4200d7afd232b29",
+      "event_hash": "66891bfa49f536ecc958836f81475238eedf088015bd098edd812d30b2dbe5b6",
+      "payload": {
+        "query": "Need the latest serum creatinine trend, urinalysis with protein/red cells, peripheral smear for schistocytes, LDH/haptoglobin/platelet count, blood pressure logs, renal ultrasound with Doppler, and ACE inhibitor treatment response (core tests to confirm or exclude scleroderma renal crisis given anti-RNA polymerase III systemic sclerosis, dysphagia, renal dysfunction and NSAID/hypertension precipitants).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b4127c3143cf56d1f1845f5f55589a5acee2e7568927e51af4513c5d94e6ef10",
+        "started_at": "2026-10-08T11:52:07.682+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00006",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:52:10.738+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "66891bfa49f536ecc958836f81475238eedf088015bd098edd812d30b2dbe5b6",
+      "event_hash": "0b88b67e38059f0a6782f66495e31e32c991905d1f8bbd367ae7a5a9d0290931",
+      "payload": {
+        "query": "Need the latest serum creatinine trend, urinalysis with protein/red cells, peripheral smear for schistocytes, LDH/haptoglobin/platelet count, blood pressure logs, renal ultrasound with Doppler, and ACE inhibitor treatment response (core tests to confirm or exclude scleroderma renal crisis given anti-RNA polymerase III systemic sclerosis, dysphagia, renal dysfunction and NSAID/hypertension precipitants).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b4127c3143cf56d1f1845f5f55589a5acee2e7568927e51af4513c5d94e6ef10",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00007",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:52:25.312+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0b88b67e38059f0a6782f66495e31e32c991905d1f8bbd367ae7a5a9d0290931",
+      "event_hash": "b5b6d3fbe55957add9d633f4e1baebe69b4811706c5a9aa77fcfa420b9c796e6",
+      "payload": {
+        "query": "Need serum potassium, plasma renin activity, ADAMTS13 activity, direct Coombs, stool Shiga toxin, and renal biopsy histopathology (core to differentiate scleroderma renal crisis from TTP/HUS/immune hemolysis and confirm renal microangiopathy; prior creatinine/urinalysis/smear/BP/ACE response retrieval is insufficient alone).",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "722550c565726c52229229f4cb34904dacdcc619aa4b2601cc69447684edf9f3",
+        "started_at": "2026-10-08T11:52:22.551+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00008",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:52:25.315+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b5b6d3fbe55957add9d633f4e1baebe69b4811706c5a9aa77fcfa420b9c796e6",
+      "event_hash": "04b58a659792caa8867f6556d77413fb6997350a7d136ef3b3c10712e9ccfb70",
+      "payload": {
+        "query": "Need serum potassium, plasma renin activity, ADAMTS13 activity, direct Coombs, stool Shiga toxin, and renal biopsy histopathology (core to differentiate scleroderma renal crisis from TTP/HUS/immune hemolysis and confirm renal microangiopathy; prior creatinine/urinalysis/smear/BP/ACE response retrieval is insufficient alone).",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "722550c565726c52229229f4cb34904dacdcc619aa4b2601cc69447684edf9f3",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00009",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:52:49.864+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-1-0001",
+        "rec-case-1-0002",
+        "rec-case-1-0003",
+        "rec-case-1-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "04b58a659792caa8867f6556d77413fb6997350a7d136ef3b3c10712e9ccfb70",
+      "event_hash": "17572a7d7491021f084c8d9e0dc29769adb1ff9457fc5caffbf028291e709543",
+      "payload": {
+        "analysis": "SRC remains leading (0.6): anti-RNA pol III SSc, dysphagia, renal dysfunction, NSAID/hypertension precipitants; alternatives lower. Core confirmatory tests (creatinine trend, urinalysis, schistocytes, LDH/haptoglobin/platelets, BP/Doppler, ACEi response, ADAMTS13, biopsy) were requested but results missing. Max retrieval reached; no further tool. All belief/history integrated; SRC not confirmed.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-1-00010",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:52:49.866+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "17572a7d7491021f084c8d9e0dc29769adb1ff9457fc5caffbf028291e709543",
+      "event_hash": "856e58d4c27566570fceb386c5d5e4150b9c670b5419952ba75f52fa14fe9de4",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00011",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:53:01.775+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "856e58d4c27566570fceb386c5d5e4150b9c670b5419952ba75f52fa14fe9de4",
+      "event_hash": "7d7ac3403fcaf03a1bcdf4f89625dc3a859f6ef664108787a29d765973bf00ef",
+      "payload": {
+        "query": "Need serum creatinine/BUN trend, urinalysis, CBC with peripheral smear, LDH/haptoglobin, and renal Doppler ultrasound (core to confirm scleroderma renal crisis versus NSAID/radiation injury; these determine thrombotic microangiopathy and renal vascular involvement).",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "53ab2994e8db017f0dba23b38e4edcc7f493577ae340db45efe0894cf443be57",
+        "started_at": "2026-10-08T11:52:58.272+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00012",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:53:01.779+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7d7ac3403fcaf03a1bcdf4f89625dc3a859f6ef664108787a29d765973bf00ef",
+      "event_hash": "69a5f90361ffd46be3212f3600cb7457b6021f6a26edf2335897fb7b2cdce73f",
+      "payload": {
+        "query": "Need serum creatinine/BUN trend, urinalysis, CBC with peripheral smear, LDH/haptoglobin, and renal Doppler ultrasound (core to confirm scleroderma renal crisis versus NSAID/radiation injury; these determine thrombotic microangiopathy and renal vascular involvement).",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "53ab2994e8db017f0dba23b38e4edcc7f493577ae340db45efe0894cf443be57",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00013",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:53:15.847+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "69a5f90361ffd46be3212f3600cb7457b6021f6a26edf2335897fb7b2cdce73f",
+      "event_hash": "700523a6c9e9b6022bb2f41b873c26ffff4783374ca6cec9e6c7cb7d067efec1",
+      "payload": {
+        "query": "Given prior labs/Doppler requested, the remaining critical gap is renal biopsy histopathology, ADAMTS13 activity, complement levels, and serial blood pressure/urine output records; these confirm scleroderma renal crisis via thrombotic microangiopathy and exclude TTP or NSAID/radiation renal injury before treatment decisions.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "f3cca1b880e13428e4baef6052b6c74579e0ab71bf6d3c2f1ada9bc977c42e35",
+        "started_at": "2026-10-08T11:53:12.047+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00014",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:53:15.851+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-1-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "700523a6c9e9b6022bb2f41b873c26ffff4783374ca6cec9e6c7cb7d067efec1",
+      "event_hash": "4eca74f710f16452ec2e057d2ef73af2d36134d68b12cbc5773ac4c0ce26dd8f",
+      "payload": {
+        "query": "Given prior labs/Doppler requested, the remaining critical gap is renal biopsy histopathology, ADAMTS13 activity, complement levels, and serial blood pressure/urine output records; these confirm scleroderma renal crisis via thrombotic microangiopathy and exclude TTP or NSAID/radiation renal injury before treatment decisions.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "f3cca1b880e13428e4baef6052b6c74579e0ab71bf6d3c2f1ada9bc977c42e35",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00015",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:53:47.747+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-1-0005",
+        "rec-case-1-0006",
+        "rec-case-1-0007",
+        "rec-case-1-0008"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "4eca74f710f16452ec2e057d2ef73af2d36134d68b12cbc5773ac4c0ce26dd8f",
+      "event_hash": "ec09cc10c434dcc08478233fa5aabe8c40e5fd3b9a3ea750ac9b1869ebb54b0e",
+      "payload": {
+        "analysis": "Leading hypothesis: scleroderma renal crisis (0.6), supported by anti-RNA pol III SSc with dysphagia, renal dysfunction, NSAID/hypertension precipitants; alternatives are less likely. Abnormal Na/Cr and cardiac assessment support renal involvement. Requested labs/Doppler/biopsy/ADAMTS13/complement/BP/urine output remain unretrieved; key confirmatory items. Key items addressed.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-1-00016",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:54:21.374+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ec09cc10c434dcc08478233fa5aabe8c40e5fd3b9a3ea750ac9b1869ebb54b0e",
+      "event_hash": "f883ada358c4db0bdd14d29c70da4b250bd7237d541a82f57f8bd54032adfbfb",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.6,\n      \"why\": \"Laboratory and radiology expert analyses both concur that scleroderma renal crisis remains the leading hypothesis (0.6), supported by strongly positive anti-RNA polymerase III systemic sclerosis with dysphagia, renal dysfunction reflected by abnormal sodium/creatinine and cardiac assessment, and NSAID/hypertension as possible precipitants. However, core confirmatory tests (creatinine trend, urinalysis, schistocytes, LDH/haptoglobin/platelets, BP/Doppler, ACEi response, ADAMTS13, biopsy) have been requested and results are still missing, so the diagnosis remains unconfirmed and confidence is unchanged at 0.6.\"\n    }\n  ],\n  \"nodes\": [],\n  \"edges\": []\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-1-00017",
+      "task_id": "case-1",
+      "step_id": 1,
+      "timestamp": "2026-10-08T11:54:47.878+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-6"
+      ],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f883ada358c4db0bdd14d29c70da4b250bd7237d541a82f57f8bd54032adfbfb",
+      "event_hash": "41087bf9d85f22b19ea1444e4c85995d54cc66c15bb0d1e0927403c0fe5e3726",
+      "payload": {
+        "prediction": "Scleroderma renal crisis",
+        "report": "Anti-RNA polymerase III systemic sclerosis with dysphagia, recent methotrexate cessation, hypertension, Raynaud’s, NSAID use, abdominal pain/bloating, and abnormal sodium/creatinine during bladder evaluation for radiation cystitis with rupture support scleroderma renal crisis as the leading diagnosis (0.6). NSAIDs/hypertension may precipitate it. Alternatives: NSAID-induced injury, scleroderma GI involvement, and radiation cystitis are less likely. Confirmatory tests pending; SRC remains most likely.",
+        "report_chars": 505,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1
+            ],
+            "stage_steps": {
+              "1": 1
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 1,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-6",
+            "label": "Scleroderma renal crisis",
+            "why": "Laboratory and radiology expert analyses both concur that scleroderma renal crisis remains the leading hypothesis (0.6), supported by strongly positive anti-RNA polymerase III systemic sclerosis with dysphagia, renal dysfunction reflected by abnormal sodium/creatinine and cardiac assessment, and NSAID/hypertension as possible precipitants. However, core confirmatory tests (creatinine trend, urinalysis, schistocytes, LDH/haptoglobin/platelets, BP/Doppler, ACEi response, ADAMTS13, biopsy) have been requested and results are still missing, so the diagnosis remains unconfirmed and confidence is unchanged at 0.6.",
+            "score": 0.6,
+            "level": 1,
+            "supports": 3,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-1-00001",
+      "dst": "evt-case-1-00002"
+    },
+    {
+      "src": "evt-case-1-00002",
+      "dst": "evt-case-1-00003"
+    },
+    {
+      "src": "evt-case-1-00003",
+      "dst": "evt-case-1-00004"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00005"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00006"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00007"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00008"
+    },
+    {
+      "src": "evt-case-1-00004",
+      "dst": "evt-case-1-00009"
+    },
+    {
+      "src": "evt-case-1-00005",
+      "dst": "evt-case-1-00009"
+    },
+    {
+      "src": "evt-case-1-00006",
+      "dst": "evt-case-1-00009"
+    },
+    {
+      "src": "evt-case-1-00007",
+      "dst": "evt-case-1-00009"
+    },
+    {
+      "src": "evt-case-1-00008",
+      "dst": "evt-case-1-00009"
+    },
+    {
+      "src": "evt-case-1-00003",
+      "dst": "evt-case-1-00010"
+    },
+    {
+      "src": "evt-case-1-00010",
+      "dst": "evt-case-1-00011"
+    },
+    {
+      "src": "evt-case-1-00010",
+      "dst": "evt-case-1-00012"
+    },
+    {
+      "src": "evt-case-1-00010",
+      "dst": "evt-case-1-00013"
+    },
+    {
+      "src": "evt-case-1-00010",
+      "dst": "evt-case-1-00014"
+    },
+    {
+      "src": "evt-case-1-00010",
+      "dst": "evt-case-1-00015"
+    },
+    {
+      "src": "evt-case-1-00011",
+      "dst": "evt-case-1-00015"
+    },
+    {
+      "src": "evt-case-1-00012",
+      "dst": "evt-case-1-00015"
+    },
+    {
+      "src": "evt-case-1-00013",
+      "dst": "evt-case-1-00015"
+    },
+    {
+      "src": "evt-case-1-00014",
+      "dst": "evt-case-1-00015"
+    },
+    {
+      "src": "evt-case-1-00009",
+      "dst": "evt-case-1-00016"
+    },
+    {
+      "src": "evt-case-1-00015",
+      "dst": "evt-case-1-00016"
+    },
+    {
+      "src": "evt-case-1-00016",
+      "dst": "evt-case-1-00017"
+    }
+  ]
+}

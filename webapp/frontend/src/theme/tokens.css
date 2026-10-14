@@ -1,0 +1,130 @@
+/**
+ * 主题变量。
+ *
+ * 配色体系对齐 `医疗溯因智能体/gos_repo/viz/story_template.html` —— 同一套
+ * GoS 流水线的展示层，两个项目的用色应当一致，评审在两处看到同一个绿色时
+ * 应该理解为同一件事。
+ *
+ * **节点填充色 = 节点类型，不是证据等级。** 参考项目就是这么用的，而且
+ * 这样更对：类型是节点「是什么」，一眼要能分辨；等级是它「有多可信」，
+ * 用徽章与描边表达更合适 —— 让填充色同时承担两件事，两件都会读不清。
+ * P3 的告警靠**红色虚线圈 + ⚠ 徽章**，不靠填充色。
+ *
+ * 红（#ef4444）只用于两处：起始信号节点、异常与 P3。屏幕上每一处红
+ * 都必须能回答「为什么红」。
+ */
+:root {
+  /* ---------- 版面（对齐参考项目） ---------- */
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --text: #1e293b;
+  --text-2: #475569;
+  --text-3: #64748b;
+  --text-4: #94a3b8;
+
+  --accent: #0ea5e9;
+  --accent-dark: #0284c7;
+  --accent-soft: #e0f2fe;
+
+  /* 顶栏 */
+  --header-bg: #0f172a;
+  --header-text: #e2e8f0;
+  --header-tag-bg: #1e293b;
+  --header-tag-border: #334155;
+  --header-tag-text: #94a3b8;
+  --header-tag-hit: #fbbf24;
+  --header-tag-hit-border: #78350f;
+
+  /* ---------- 推理图节点类型 ---------- */
+  --n-signal: #ef4444;          /* 起始信号 */
+  --n-evidence: #22c55e;        /* 医学证据 */
+  --n-hypothesis: #f97316;      /* 诊断假设 */
+  --n-conclusion: #0f172a;      /* 最终结论 */
+
+  /* ---------- 执行图节点类型 ---------- */
+  --p-plan: #64748b;            /* 规划 */
+  --p-agent: #8b5cf6;           /* 专家调用 */
+  --p-tool: #06b6d4;            /* 工具调用 */
+  --p-read: #14b8a6;            /* 证据读取 */
+  --p-analysis: #0d9488;        /* 专家分析 */
+  --p-graph: #2563eb;           /* 推理图更新 */
+  --p-report: #0f172a;          /* 最终报告 */
+  --p-object: #94a3b8;          /* 智能体 / 工具 / 记录等实体节点 */
+
+  /* ---------- 关系边 ---------- */
+  --e-support: #22c55e;
+  --e-refute: #ef4444;
+  --e-refines: #94a3b8;
+  --e-dep: #cbd5e1;
+  --e-invoke: #a5b4fc;
+
+  /* ---------- 证据等级（徽章与描边） ---------- */
+  --t-p0: #15803d;  --t-p0-bg: #dcfce7;
+  --t-p1: #0369a1;  --t-p1-bg: #e0f2fe;
+  --t-p2: #b45309;  --t-p2-bg: #fef3c7;
+  --t-p3: #dc2626;  --t-p3-bg: #fee2e2;
+
+  /* ---------- 异常与增量 ---------- */
+  --anomaly: #dc2626;
+  --anomaly-bg: #fef2f2;
+  --anomaly-line: #fecaca;
+  --add: #16a34a;
+  --add-bg: #dcfce7;
+  --update: #f59e0b;
+  --update-bg: #fef3c7;
+  --remove: #dc2626;
+
+  /* ---------- 高亮 ---------- */
+  --hl: #f59e0b;
+  --hl-bg: #fffbeb;
+  --dim: 0.2;
+
+  /* ---------- 排版 ---------- */
+  --font-sans: -apple-system, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", system-ui,
+    "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 14px;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.10);
+  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.16);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; margin: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+code, .mono { font-family: var(--font-mono); font-size: 12px; }
+
+button { font-family: inherit; font-size: inherit; color: inherit; cursor: pointer; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* 卡片：参考项目的统一容器语言 —— 白底、细边、圆角、极浅阴影 */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}

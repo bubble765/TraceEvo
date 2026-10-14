@@ -1,0 +1,141 @@
+[S0] Running 1 case(s): [1]
+
+
+===============[RUN] Case 1  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1443 | Output token nums：1195 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla with severe pruritus",
+  "isolated_evidence": [
+    "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other skin or mucous membrane lesions were noted, and Wood lamp examination was negative",
+    "He endorsed severe pruritus at the lesions that would wake him at night; he denied associated pain, blisters, systemic symptoms, recent trauma, history of similar lesions, environmental triggers, or new medications, and his medical history was unremarkable",
+    "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Man in his 40s presented with a 3-month history of discrete… | score=1.000
+[node-2] Evidence[-] | Physical examination revealed 3 well-circumscribed, violace… | score=1.000
+[node-3] Evidence[-] | He endorsed severe pruritus at the lesions that would wake … | score=1.000
+[node-4] Evidence[-] | Treatment with over-the-counter hydrocortisone cream, ketoc… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1494 | Output token nums：5342 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Contact/eczematous dermatitis",
+      "confidence": 0.1,
+      "why": "Violaceous non-scaly patches, denied triggers/new medications, and no response to hydrocortisone or deodorant cessation refute eczematous/contact dermatitis."
+    },
+    {
+      "id": "h002",
+      "label": "Fungal skin infection (tinea)",
+      "confidence": 0.1,
+      "why": "Annular shape is suggestive, but absence of scale, negative Wood lamp, and ketoconazole failure argue strongly against fungal infection."
+    },
+    {
+      "id": "h003",
+      "label": "Cutaneous lymphoma/malignancy",
+      "confidence": 0.45,
+      "why": "Violaceous annular patches with severe pruritus and no response to topical steroids/antifungals support a possible lymphoproliferative/malignant skin process."
+    },
+    {
+      "id": "h004",
+      "label": "Annular lichenoid dermatosis",
+      "confidence": 0.35,
+      "why": "Violaceous annular patches and severe pruritus support lichenoid dermatosis; lack of response to low-potency hydrocortisone is compatible."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "refute"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "refute"
+    },
+    {
+      "src": "node-2",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h004",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h004",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "refute"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "refute"
+    },
+    {
+      "src": "node-4",
+      "dst": "h003",
+      "relation": "support"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Man in his 40s presented with a 3-month history of discrete… | score=1.000
+[node-2] Evidence[-] | Physical examination revealed 3 well-circumscribed, violace… | score=1.000
+[node-3] Evidence[-] | He endorsed severe pruritus at the lesions that would wake … | score=1.000
+[node-4] Evidence[-] | Treatment with over-the-counter hydrocortisone cream, ketoc… | score=1.000
+[node-5] Hypothesis[1] | Contact/eczematous dermatitis | score=0.100 | attrs={"why": "Violaceous non-scaly patches, denied triggers/new medications, and no …
+[node-6] Hypothesis[1] | Fungal skin infection (tinea) | score=0.100 | attrs={"why": "Annular shape is suggestive, but absence of scale, negative Wood lamp,…
+[node-7] Hypothesis[1] | Cutaneous lymphoma/malignancy | score=0.450 | attrs={"why": "Violaceous annular patches with severe pruritus and no response to top…
+[node-8] Hypothesis[1] | Annular lichenoid dermatosis | score=0.350 | attrs={"why": "Violaceous annular patches and severe pruritus support lichenoid derma…
+=== Edges ===
+node-1[Man in his 40s presented with a 3-month history of discrete…] -> node-5[Contact/eczematous dermatitis] | refines | conf=0.000
+node-1[Man in his 40s presented with a 3-month history of discrete…] -> node-6[Fungal skin infection (tinea)] | refines | conf=0.000
+node-1[Man in his 40s presented with a 3-month history of discrete…] -> node-7[Cutaneous lymphoma/malignancy] | refines | conf=0.000
+node-1[Man in his 40s presented with a 3-month history of discrete…] -> node-8[Annular lichenoid dermatosis] | refines | conf=0.000
+node-2[Physical examination revealed 3 well-circumscribed, violace…] -> node-5[Contact/eczematous dermatitis] | refute | conf=0.000
+node-2[Physical examination revealed 3 well-circumscribed, violace…] -> node-6[Fungal skin infection (tinea)] | refute | conf=0.000
+node-2[Physical examination revealed 3 well-circumscribed, violace…] -> node-7[Cutaneous lymphoma/malignancy] | support | conf=0.000
+node-2[Physical examination revealed 3 well-circumscribed, violace…] -> node-8[Annular lichenoid dermatosis] | support | conf=0.000
+node-3[He endorsed severe pruritus at the lesions that would wake …] -> node-5[Contact/eczematous dermatitis] | refute | conf=0.000
+node-3[He endorsed severe pruritus at the lesions that would wake …] -> node-7[Cutaneous lymphoma/malignancy] | support | conf=0.000
+node-3[He endorsed severe pruritus at the lesions that would wake …] -> node-8[Annular lichenoid dermatosis] | support | conf=0.000
+node-4[Treatment with over-the-counter hydrocortisone cream, ketoc…] -> node-5[Contact/eczematous dermatitis] | refute | conf=0.000
+node-4[Treatment with over-the-counter hydrocortisone cream, ketoc…] -> node-6[Fungal skin infection (tinea)] | refute | conf=0.000
+node-4[Treatment with over-the-counter hydrocortisone cream, ketoc…] -> node-7[Cutaneous lymphoma/malignancy] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1396 | Output token nums：621 | price(CNY)：0.00000000
+Response: {"belief": "The clinical presentation of violaceous annular pruritic patches in the right axilla, with negative Wood lamp examination, absence of scale, and no response to hydrocortisone, ketoconazole, or deodorant cessation, effectively rules out contact/eczematous dermatitis and fungal infection. The evidence supports a lymphoproliferative/malignant cutaneous process as the leading hypothesis, with annular lichenoid dermatosis as a plausible alternative. Severe nocturnal pruritus, lack of triggers, and treatment resistance further favor cutaneous lymphoma/malignancy over benign inflammatory dermatoses; biopsy would be needed for confirmation."}
+{'node_id': 'node-7', 'label': 'Cutaneous lymphoma/malignancy', 'why': 'Violaceous annular patches with severe pruritus and no response to topical steroids/antifungals support a possible lymphoproliferative/malignant skin process.', 'score': 0.45, 'level': 1, 'supports': 3, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1342 | Output token nums：259 | price(CNY)：0.00000000
+Response: [{"expert_name": "Laboratory Physician"}]
+Traceback (most recent call last):
+  File "/Users/bubble/Desktop/TraceEvo/gos/main.py", line 255, in <module>
+    main()
+    ~~~~^^
+  File "/Users/bubble/Desktop/TraceEvo/gos/main.py", line 169, in main
+    answer, report = central_agent.run()
+                     ~~~~~~~~~~~~~~~~~^^
+  File "/Users/bubble/Desktop/TraceEvo/gos/agents/central_agent.py", line 133, in run
+    analyses = self.act(plan)
+  File "/Users/bubble/Desktop/TraceEvo/gos/agents/central_agent.py", line 393, in act
+    raise ValueError(f"Not founded, current list：{[a.name for a in self.experts]}")
+ValueError: Not founded, current list：['Laboratory_Physician', 'Pathologist', 'Radiologist']

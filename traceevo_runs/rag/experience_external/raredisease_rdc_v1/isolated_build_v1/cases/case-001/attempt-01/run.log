@@ -1,0 +1,263 @@
+[S0] Running 1 case(s): [1]
+
+
+===============[RUN] Case 1  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1383 | Output token nums：1193 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Patient experienced sudden paralysis beginning in both lower limbs that spread to the trunk and both upper limbs",
+  "isolated_evidence": [
+    "25-year-old male of Hispanic and Caucasian descent with no significant past medical history arrived at the emergency department from another facility due to sudden paralysis beginning in both lower limbs",
+    "He received an intraarticular corticosteroid injection in his right knee less than 24 hours before symptoms began and consumed a high carbohydrate meal within five hours before onset",
+    "Weakness in the lower limbs spread to the trunk and both upper limbs; at the other facility vital signs were normal, and by the time of evaluation he had no symptoms following intravenous correction of low potassium levels",
+    "Physical examination revealed paralysis in his limbs, but his sensation remained intact"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced sudden paralysis beginning in both lowe… | score=1.000
+[node-2] Evidence[-] | 25-year-old male of Hispanic and Caucasian descent with no … | score=1.000
+[node-3] Evidence[-] | He received an intraarticular corticosteroid injection in h… | score=1.000
+[node-4] Evidence[-] | Weakness in the lower limbs spread to the trunk and both up… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed paralysis in his limbs, but h… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1458 | Output token nums：3145 | price(CNY)：0.00000000
+Response: {"candidates":[{"id":"h001","label":"Hypokalemic periodic paralysis","confidence":0.9,"why":"node-3 triggers (steroid, high-carb) and node-4 resolution after IV potassium correction support hypokalemia-induced paralysis; node-5 intact sensation."},{"id":"h002","label":"Guillain-Barré syndrome","confidence":0.07,"why":"node-2 acute ascending paralysis supports, but node-4 rapid resolution with potassium refutes; no sensory/autonomic evidence."},{"id":"h003","label":"Acute myelopathy/spinal cord","confidence":0.03,"why":"node-2 sudden paralysis could fit, but node-4 potassium correction resolution and node-5 intact sensation refute."}],"edges":[{"src":"node-2","dst":"h001","relation":"support"},{"src":"node-2","dst":"h002","relation":"support"},{"src":"node-2","dst":"h003","relation":"support"},{"src":"node-3","dst":"h001","relation":"support"},{"src":"node-4","dst":"h001","relation":"support"},{"src":"node-4","dst":"h002","relation":"refute"},{"src":"node-4","dst":"h003","relation":"refute"},{"src":"node-5","dst":"h001","relation":"support"},{"src":"node-5","dst":"h003","relation":"refute"}]}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced sudden paralysis beginning in both lowe… | score=1.000
+[node-2] Evidence[-] | 25-year-old male of Hispanic and Caucasian descent with no … | score=1.000
+[node-3] Evidence[-] | He received an intraarticular corticosteroid injection in h… | score=1.000
+[node-4] Evidence[-] | Weakness in the lower limbs spread to the trunk and both up… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed paralysis in his limbs, but h… | score=1.000
+[node-6] Hypothesis[1] | Hypokalemic periodic paralysis | score=0.900 | attrs={"why": "node-3 triggers (steroid, high-carb) and node-4 resolution after IV po…
+[node-7] Hypothesis[1] | Guillain-Barré syndrome | score=0.070 | attrs={"why": "node-2 acute ascending paralysis supports, but node-4 rapid resolution…
+[node-8] Hypothesis[1] | Acute myelopathy/spinal cord | score=0.030 | attrs={"why": "node-2 sudden paralysis could fit, but node-4 potassium correction res…
+=== Edges ===
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-6[Hypokalemic periodic paralysis] | refines | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-7[Guillain-Barré syndrome] | refines | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-8[Acute myelopathy/spinal cord] | refines | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-7[Guillain-Barré syndrome] | support | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-8[Acute myelopathy/spinal cord] | support | conf=0.000
+node-3[He received an intraarticular corticosteroid injection in h…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-7[Guillain-Barré syndrome] | refute | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-8[Acute myelopathy/spinal cord] | refute | conf=0.000
+node-5[Physical examination revealed paralysis in his limbs, but h…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-5[Physical examination revealed paralysis in his limbs, but h…] -> node-8[Acute myelopathy/spinal cord] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1192 | Output token nums：353 | price(CNY)：0.00000000
+Response: {"belief": "The patient presented with sudden paralysis beginning in both lower limbs and ascending to the trunk and upper limbs. The leading hypothesis is hypokalemic periodic paralysis, strongly supported by recent corticosteroid injection, high-carbohydrate meal, and rapid resolution after intravenous potassium correction. Intact sensation further supports this diagnosis. Guillain-Barré syndrome and acute myelopathy/spinal cord are unlikely because the rapid resolution after potassium correction refutes them, and intact sensation also argues against myelopathy. Thus, the consensus favors hypokalemic periodic paralysis as the cause of the acute ascending paralysis."}
+{'node_id': 'node-6', 'label': 'Hypokalemic periodic paralysis', 'why': 'node-3 triggers (steroid, high-carb) and node-4 resolution after IV potassium correction support hypokalemia-induced paralysis; node-5 intact sensation.', 'score': 0.9, 'level': 1, 'supports': 4, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1345 | Output token nums：455 | price(CNY)：0.00000000
+Response: [
+  {
+    "expert_name": "Laboratory_Physician",
+    "planning_intent": "interpret_existing_evidence"
+  }
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1148 | Output token nums：734 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1299 | Output token nums：1331 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the serum potassium level measured during the acute paralysis episode, thyroid function tests, and family history of periodic paralysis (core data to confirm hypokalemic periodic paralysis and exclude thyrotoxic periodic paralysis/other electrolyte causes). These are critical because the diagnosis rests on documented hypokalemia during weakness and exclusion of alternative etiologies."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：604 | Output token nums：1417 | price(CNY)：0.00000000
+Step 1 Observations: Initial labs were remarkable for severe hypokalemia of 1.9 mmol/L (rr 3.6-5.2) and TSH less than 0.01 (rr 0.42-5.47).
+Pertinent lab values during his hospital admission include elevated free thyroxine (T4) level at 3.73 ng/dL (rr 0.59-1.17), elevated TSH binding inhibitory immunoglobulin 8.60 IU/L (rr 0.00-1.75)
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1323 | Output token nums：6527 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "analyze"}
+Step 2 parsed result: type=1, decision=analyze
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1474 | Output token nums：2559 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need family history of periodic paralysis and genetic testing for CACNA1S/SCN4A mutations (core to confirm hypokalemic periodic paralysis and distinguish thyrotoxic periodic paralysis, as current labs show hyperthyroidism with positive TSH receptor antibodies)."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1339 | Output token nums：77 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1490 | Output token nums：2284 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Labs: K 1.9, TSH <0.01, free T4 3.73, TSH receptor antibody 8.60. This confirms thyrotoxic periodic paralysis, a hypokalemic periodic paralysis subtype. Steroid/high-carb trigger and IV potassium response fit. Sensation intact argues against GBS/myelopathy. All key data covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3265 | Output token nums：2930 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-6",
+      "confidence": 0.98,
+      "why": "New laboratory data confirm a hypokalemic periodic paralysis subtype: serum potassium 1.9 mmol/L, suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60. The laboratory physician interprets this as thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis. Together with the prior corticosteroid/high-carbohydrate triggers and rapid resolution after intravenous potassium, this increases confidence from 0.9 to 0.98."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Laboratory test shows serum potassium 1.9 mmol/L",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Laboratory test shows TSH <0.01 and free T4 3.73, consistent with thyrotoxicosis",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "Laboratory test shows TSH receptor antibody 8.60",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Thyrotoxic periodic paralysis",
+      "node_type": "Hypothesis",
+      "confidence": 0.95,
+      "why": "Serum potassium 1.9 mmol/L demonstrates hypokalemia, while suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60 indicate thyrotoxicosis/autoimmune thyroid disease. The laboratory physician confirms these findings as thyrotoxic periodic paralysis, and the prior corticosteroid/high-carbohydrate trigger with rapid intravenous potassium response fits this subtype. Confidence is 0.95 because this specific subtype explains the full clinical picture."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-6",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-6",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-6', 'label': 'Hypokalemic periodic paralysis', 'why': 'New laboratory data confirm a hypokalemic periodic paralysis subtype: serum potassium 1.9 mmol/L, suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60. The laboratory physician interprets this as thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis. Together with the prior corticosteroid/high-carbohydrate triggers and rapid resolution after intravenous potassium, this increases confidence from 0.9 to 0.98.', 'score': 0.98, 'level': 1, 'supports': 6, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced sudden paralysis beginning in both lowe… | score=1.000
+[node-2] Evidence[-] | 25-year-old male of Hispanic and Caucasian descent with no … | score=1.000
+[node-3] Evidence[-] | He received an intraarticular corticosteroid injection in h… | score=1.000
+[node-4] Evidence[-] | Weakness in the lower limbs spread to the trunk and both up… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed paralysis in his limbs, but h… | score=1.000
+[node-6] Hypothesis[1] | Hypokalemic periodic paralysis | score=0.980 | attrs={"why": "New laboratory data confirm a hypokalemic periodic paralysis subtype: …
+[node-7] Hypothesis[1] | Guillain-Barré syndrome | score=0.070 | attrs={"why": "node-2 acute ascending paralysis supports, but node-4 rapid resolution…
+[node-8] Hypothesis[1] | Acute myelopathy/spinal cord | score=0.030 | attrs={"why": "node-2 sudden paralysis could fit, but node-4 potassium correction res…
+[node-9] Evidence[-] | Laboratory test shows serum potassium 1.9 mmol/L | score=1.000
+[node-1] Evidence[-] | Laboratory test shows TSH <0.01 and free T4 3.73, consisten… | score=1.000
+[node-1] Evidence[-] | Laboratory test shows TSH receptor antibody 8.60 | score=1.000
+[node-1] Hypothesis[1] | Thyrotoxic periodic paralysis | score=0.950 | attrs={"why": "Serum potassium 1.9 mmol/L demonstrates hypokalemia, while suppressed …
+=== Edges ===
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-6[Hypokalemic periodic paralysis] | refines | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-7[Guillain-Barré syndrome] | refines | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-8[Acute myelopathy/spinal cord] | refines | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-7[Guillain-Barré syndrome] | support | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-8[Acute myelopathy/spinal cord] | support | conf=0.000
+node-3[He received an intraarticular corticosteroid injection in h…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-7[Guillain-Barré syndrome] | refute | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-8[Acute myelopathy/spinal cord] | refute | conf=0.000
+node-5[Physical examination revealed paralysis in his limbs, but h…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-5[Physical examination revealed paralysis in his limbs, but h…] -> node-8[Acute myelopathy/spinal cord] | refute | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-1[Thyrotoxic periodic paralysis] | refines | conf=0.000
+node-9[Laboratory test shows serum potassium 1.9 mmol/L] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-9[Laboratory test shows serum potassium 1.9 mmol/L] -> node-1[Thyrotoxic periodic paralysis] | support | conf=0.000
+node-1[Laboratory test shows TSH <0.01 and free T4 3.73, consisten…] -> node-1[Thyrotoxic periodic paralysis] | support | conf=0.000
+node-1[Laboratory test shows TSH receptor antibody 8.60] -> node-1[Thyrotoxic periodic paralysis] | support | conf=0.000
+node-1[Thyrotoxic periodic paralysis] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1776 | Output token nums：491 | price(CNY)：0.00000000
+Response: {"belief": "The reasoning consensus is that the patient's sudden ascending paralysis, intact sensation, recent corticosteroid injection and high-carbohydrate meal, and rapid resolution after intravenous potassium correction point to hypokalemic periodic paralysis. Laboratory evidence of serum potassium 1.9 mmol/L, suppressed TSH, elevated free T4, and elevated TSH receptor antibody further specifies thyrotoxic periodic paralysis, which supports the broader hypokalemic periodic paralysis hypothesis. Guillain-Barré syndrome and acute myelopathy are strongly refuted by the rapid potassium-responsive resolution and preserved sensation. Overall, thyrotoxic periodic paralysis is the leading diagnosis, with hypokalemic periodic paralysis as its broader category."}
+{'node_id': 'node-6', 'label': 'Hypokalemic periodic paralysis', 'why': 'New laboratory data confirm a hypokalemic periodic paralysis subtype: serum potassium 1.9 mmol/L, suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60. The laboratory physician interprets this as thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis. Together with the prior corticosteroid/high-carbohydrate triggers and rapid resolution after intravenous potassium, this increases confidence from 0.9 to 0.98.', 'score': 0.98, 'level': 1, 'supports': 6, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1413 | Output token nums：1031 | price(CNY)：0.00000000
+Response: [
+  {"expert_name":"Laboratory_Physician","planning_intent":"assess_hypothesis"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1341 | Output token nums：1268 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "analyze"}
+Step 1 parsed result: type=1, decision=analyze
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1560 | Output token nums：946 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need family history of periodic paralysis and genetic testing for CACNA1S, SCN4A, KCNJ2 mutations, plus urine potassium, magnesium, and acid-base status from the acute episode (core data to confirm the hypokalemic periodic paralysis subtype and exclude renal or mixed electrolyte causes)."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1341 | Output token nums：1367 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"analyze"}
+Step 2 parsed result: type=1, decision=analyze
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1560 | Output token nums：1210 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need urine potassium/creatinine, arterial blood gas, serum magnesium, renin/aldosterone, and CACNA1S/SCN4A genetic results (core data to distinguish thyrotoxic periodic paralysis from renal or extrarenal potassium loss and confirm the channelopathy). Serum potassium, TSH, free T4, and TRAb already support the diagnosis; these missing items are critical for full verification."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1357 | Output token nums：83 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1576 | Output token nums：663 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"结合当前信念与全部史据，患者突发上行性瘫痪、感觉保留，近期糖皮质激素及高碳水餐后发作，静脉补钾后迅速缓解，血钾1.9 mmol/L、TSH<0.01、游离T4 3.73、TSH受体抗体8.60，均指向甲状腺毒性周期性麻痹，属低钾性周期性麻痹亚型；吉兰-巴雷综合征和急性脊髓病被感觉保留及补钾速效强烈否定。所有关键信息已覆盖。"}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3824 | Output token nums：4583 | price(CNY)：0.00000000
+Response: {"edit": [], "nodes": [], "edges": []}
+{'node_id': 'node-6', 'label': 'Hypokalemic periodic paralysis', 'why': 'New laboratory data confirm a hypokalemic periodic paralysis subtype: serum potassium 1.9 mmol/L, suppressed TSH <0.01, elevated free T4 3.73, and elevated TSH receptor antibody 8.60. The laboratory physician interprets this as thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis. Together with the prior corticosteroid/high-carbohydrate triggers and rapid resolution after intravenous potassium, this increases confidence from 0.9 to 0.98.', 'score': 0.98, 'level': 1, 'supports': 6, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced sudden paralysis beginning in both lowe… | score=1.000
+[node-2] Evidence[-] | 25-year-old male of Hispanic and Caucasian descent with no … | score=1.000
+[node-3] Evidence[-] | He received an intraarticular corticosteroid injection in h… | score=1.000
+[node-4] Evidence[-] | Weakness in the lower limbs spread to the trunk and both up… | score=1.000
+[node-5] Evidence[-] | Physical examination revealed paralysis in his limbs, but h… | score=1.000
+[node-6] Hypothesis[1] | Hypokalemic periodic paralysis | score=0.980 | attrs={"why": "New laboratory data confirm a hypokalemic periodic paralysis subtype: …
+[node-7] Hypothesis[1] | Guillain-Barré syndrome | score=0.070 | attrs={"why": "node-2 acute ascending paralysis supports, but node-4 rapid resolution…
+[node-8] Hypothesis[1] | Acute myelopathy/spinal cord | score=0.030 | attrs={"why": "node-2 sudden paralysis could fit, but node-4 potassium correction res…
+[node-9] Evidence[-] | Laboratory test shows serum potassium 1.9 mmol/L | score=1.000
+[node-1] Evidence[-] | Laboratory test shows TSH <0.01 and free T4 3.73, consisten… | score=1.000
+[node-1] Evidence[-] | Laboratory test shows TSH receptor antibody 8.60 | score=1.000
+[node-1] Hypothesis[1] | Thyrotoxic periodic paralysis | score=0.950 | attrs={"why": "Serum potassium 1.9 mmol/L demonstrates hypokalemia, while suppressed …
+=== Edges ===
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-6[Hypokalemic periodic paralysis] | refines | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-7[Guillain-Barré syndrome] | refines | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-8[Acute myelopathy/spinal cord] | refines | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-7[Guillain-Barré syndrome] | support | conf=0.000
+node-2[25-year-old male of Hispanic and Caucasian descent with no …] -> node-8[Acute myelopathy/spinal cord] | support | conf=0.000
+node-3[He received an intraarticular corticosteroid injection in h…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-7[Guillain-Barré syndrome] | refute | conf=0.000
+node-4[Weakness in the lower limbs spread to the trunk and both up…] -> node-8[Acute myelopathy/spinal cord] | refute | conf=0.000
+node-5[Physical examination revealed paralysis in his limbs, but h…] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-5[Physical examination revealed paralysis in his limbs, but h…] -> node-8[Acute myelopathy/spinal cord] | refute | conf=0.000
+node-1[Patient experienced sudden paralysis beginning in both lowe…] -> node-1[Thyrotoxic periodic paralysis] | refines | conf=0.000
+node-9[Laboratory test shows serum potassium 1.9 mmol/L] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+node-9[Laboratory test shows serum potassium 1.9 mmol/L] -> node-1[Thyrotoxic periodic paralysis] | support | conf=0.000
+node-1[Laboratory test shows TSH <0.01 and free T4 3.73, consisten…] -> node-1[Thyrotoxic periodic paralysis] | support | conf=0.000
+node-1[Laboratory test shows TSH receptor antibody 8.60] -> node-1[Thyrotoxic periodic paralysis] | support | conf=0.000
+node-1[Thyrotoxic periodic paralysis] -> node-6[Hypokalemic periodic paralysis] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1776 | Output token nums：548 | price(CNY)：0.00000000
+Response: {"belief": "The consensus is that the patient most likely has hypokalemic periodic paralysis, specifically thyrotoxic periodic paralysis. Sudden ascending paralysis with intact sensation, recent corticosteroid injection, and a high-carbohydrate meal are consistent triggers. Laboratory evidence of serum potassium 1.9 mmol/L, suppressed TSH, elevated free T4, and elevated TSH receptor antibody supports thyrotoxic periodic paralysis, which in turn supports hypokalemic periodic paralysis. Rapid resolution after intravenous potassium correction further supports this diagnosis. Alternative hypotheses, Guillain-Barré syndrome and acute myelopathy/spinal cord, are refuted by the rapid potassium response and preserved sensation, leaving them very unlikely."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3966 | Output token nums：2429 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Thyrotoxic periodic paralysis",
+  "report": "Patient has sudden ascending paralysis with intact sensation, triggered by corticosteroid injection and high-carbohydrate meal. Labs show potassium 1.9 mmol/L, suppressed TSH, elevated free T4, and elevated TSH receptor antibody, confirming thyrotoxicosis. Rapid resolution after IV potassium and preserved sensation rule out Guillain-Barré syndrome and acute myelopathy. The graph links these findings to thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis, diagnostic."
+}
+Answer: Thyrotoxic periodic paralysis
+Report: Patient has sudden ascending paralysis with intact sensation, triggered by corticosteroid injection and high-carbohydrate meal. Labs show potassium 1.9 mmol/L, suppressed TSH, elevated free T4, and elevated TSH receptor antibody, confirming thyrotoxicosis. Rapid resolution after IV potassium and preserved sensation rule out Guillain-Barré syndrome and acute myelopathy. The graph links these findings to thyrotoxic periodic paralysis, a subtype of hypokalemic periodic paralysis, diagnostic.
+[TraceEvo] case 1: 13 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：23 | Input token nums：38810 | Output token nums：37624 | Total token nums：76434 | price(CNY)：0.00000000

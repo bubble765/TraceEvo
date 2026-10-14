@@ -1,0 +1,73 @@
+[2026-09-18 22:45:19] | #### Here are the reponse of ingest function -- generating basic symptom and evidence nodes:
+
+ {
+  "symptom_node": "Tender, enlarging scalp lesion of 6 months' duration",
+  "isolated_evidence": [
+    "74-year-old man with history of multiple squamous cell carcinomas treated with Mohs micrographic surgery",
+    "Skin examination revealed a 5-mm bright pink, dome-shaped papule with overlying vessels located at the crown of the scalp; no purulent discharge or overlying skin changes"
+  ]
+}
+[2026-09-18 22:45:46] | #### Here are the reponse of ingest function -- generating L1 hypos and corresponding relationship between evidence and hypos:
+
+ {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Malignant skin neoplasm",
+      "confidence": 0.65,
+      "why": "node-2 supports this hypothesis due to history of multiple squamous cell carcinomas; node-3 supports a malignant lesion with an enlarging, vascular, dome-shaped papule."
+    },
+    {
+      "id": "h002",
+      "label": "Benign vascular lesion",
+      "confidence": 0.25,
+      "why": "node-3 supports a benign vascular etiology such as pyogenic granuloma with bright pink color and overlying vessels; node-2 refutes this by increasing the prior probability of malignancy."
+    },
+    {
+      "id": "h003",
+      "label": "Inflamed cyst or follicular lesion",
+      "confidence": 0.10,
+      "why": "Tenderness supports an inflammatory process, but node-3 refutes infection with no purulent discharge; node-2 provides no direct support for this hypothesis."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "refute"
+    }
+  ]
+}
+[2026-09-18 22:46:11] | #### Step1: Finding the current frontier 
+
+ {'node_id': 'node-4', 'label': 'Malignant skin neoplasm', 'why': 'node-2 supports this hypothesis due to history of multiple squamous cell carcinomas; node-3 supports a malignant lesion with an enlarging, vascular, dome-shaped papule.', 'score': 0.65, 'level': 1, 'supports': 2, 'refutes': 0}
+[2026-09-18 22:46:50] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name": "Pathologist"},
+  {"expert_name": "Radiologist"}
+]
+[2026-09-18 22:46:50] | Step 1 - Decision Making
+[2026-09-18 22:46:54] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-09-18 22:46:54] | Step 1 parsed result: type=1, decision=retrieve
+[2026-09-18 22:46:54] | Step 1 - Content Generation

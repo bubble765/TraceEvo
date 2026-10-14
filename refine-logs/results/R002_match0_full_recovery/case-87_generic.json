@@ -1,0 +1,62 @@
+{
+  "case_id": 87,
+  "variant": "generic",
+  "cohort_status": "exposed S5B development data; exploratory only",
+  "gold_access": "none in this generation process",
+  "model": "deepseek-v4-flash",
+  "temperature": 0.0,
+  "max_tokens": 2048,
+  "max_tokens_sent": true,
+  "reasoning_effort": "none",
+  "gateway_output_cap": 2048,
+  "baseline_prediction": "Iron-deficiency secondary RLS",
+  "baseline_report": "Characteristic nocturnal limb discomfort relieved by movement, severe iron deficiency (ferritin 2.0 ng/mL, iron 2.0 μmol/L), and anemia (Hb 63 g/L) strongly support secondary restless legs syndrome (RLS). Normal exam and therapeutic olanzapine level with dose-related worsening indicate medication contributes rather than primarily causes it. This refutes drug-induced movement disorder and psychiatric sleep disturbance. Final: iron-deficiency-driven secondary RLS, olanzapine contributing.",
+  "audit_signal": false,
+  "audit_alerts": 0,
+  "anomaly_types": [],
+  "p3_used": 0,
+  "prompt_sha256": "1f8f086ed427c8bdfc160ca9448709c44e3c29daf87f699bf6b63c4bf0a58fde",
+  "source_sha256": {
+    "S5B_final_heldout/heldout_original/traceevo/runs/core_v1_final/case-80_events.jsonl": "165fc98b257368c9d1cb602f161d418eae246783fa55c9f669f670996f08ca26",
+    "S5B_final_heldout/heldout_original/graphs/case80_graphs.json": "3ace4385b44122506967847806c15ee62d670b45c6b280c3941ca24a37ec3600",
+    "S5B_final_heldout/natural_audit_summary.csv": "a517352bf4e8490b83d2aab56ce3846e7b28e3b79937a8ddedc8d0f73f8393f2",
+    "S5B_final_heldout/dataset_blinded_80_137.csv": "868bc830391128ccb8c2c6ed5b094044ba1898df36752fc44f672c775b51ab96",
+    "S5B_final_heldout/diagnostic_metrics.csv": "7bc6dfa1c86a5c18d5a02c6a0dc65d4b84d09918f7f1d88be840b03635cac18c",
+    "gos/configs/LLM_Configs.yaml": "e262a251800637874dcf013d597e74a7b981e7b8d6709a80c877a28e3f6d0f02",
+    "S5B_final_heldout/heldout_original/traceevo/runs/core_v1_final/case-82_events.jsonl": "127947248e4ed8f679522088cfbee30d03b0cc391ddf0c2e1307d5095b1b922e",
+    "S5B_final_heldout/heldout_original/graphs/case82_graphs.json": "124a75aa731e0bf4c8adca5784e5e7b4173c021a091bf0875a715b90efe029a0",
+    "S5B_final_heldout/heldout_original/traceevo/runs/core_v1_final/case-87_events.jsonl": "c6cbde0fa8fa1198189e1b1884fabd2c1c24a60d1d9c0e04d57aa2f8280bb3ff",
+    "S5B_final_heldout/heldout_original/graphs/case87_graphs.json": "f874c1bf1abd0ab43225f9d62128c5ff4b3c8ca3f236fd763a664035c4a5fc3e"
+  },
+  "system_prompt": "You are a cautious clinical decision-support reviewer in a research evaluation. Reassess the proposed diagnosis using the patient facts and the supplied reasoning graph. Do not assume the original diagnosis is wrong. Do not invent patient findings, test results, retrieved records, or citations. Separate documented facts from medical inference. If the available information is insufficient, preserve uncertainty rather than guessing. Do not provide hidden chain-of-thought; return a concise rationale only. Return one JSON object matching the requested schema.",
+  "user_prompt": "Case index: 87\nReview the GoS diagnosis using only the case facts and supplied causal reasoning graph.\n\nReturn JSON with exactly these top-level fields:\n{\n  \"decision\": \"revise\" | \"retain\" | \"insufficient_information\",\n  \"final_diagnosis\": \"short diagnosis or empty string if insufficient\",\n  \"rationale\": \"at most 80 words; distinguish patient facts from inference\",\n  \"graph_patch\": {\n    \"confidence_updates\": [{\"node_id\": \"existing id\", \"confidence\": 0.0, \"why\": \"...\"}],\n    \"remove_node_ids\": [\"existing id\"],\n    \"remove_edges\": [{\"src\": \"existing id\", \"dst\": \"existing id\", \"type\": \"existing relation\"}],\n    \"add_nodes\": [],\n    \"add_edges\": []\n  },\n  \"additional_information_needed\": [\"...\"],\n  \"evidence_refs\": [\"case field, graph node id, or event id actually supplied above\"]\n}\n\nKeep the complete JSON under 300 words. Only cite ids/fields present in this request. Do not claim that a proposed graph patch was applied; this is a repair proposal for evaluation, not an automatic graph mutation.\n\n\n## Patient case input\n{\"Case Information\": \"A 48-year-old female with a 14-year history of auditory hallucinations and persecutory delusions. Medical history includes hypertension for 7 years, uterine fibroid disease for 3 years and iron deficiency anaemia for many years. Patient was previously treated with olanzapine 20mg/day in 2019. Current presentation includes lethargy, delayed sleep, and uncomfortable sensations in arms that appear at night/during rest and are partially relieved by movement. Symptoms emerged after starting olanzapine and worsened with increased nighttime dosing.\", \"Diagnostic Tests\": \"- Laboratory Tests:    - Hemoglobin: 63 g/L (reference: 115-150 g/L)    - Iron: 2.0 μmol/L (reference: 7.8-32.2 umol/L)     - Ferritin: 2.0 ng/mL (reference: 4.6-204.0 ng/mL)    - Serum olanzapine: 53.5 ng/mL (reference: 20-80 ng/mL)    - Other blood biochemistry and liver/kidney function tests were normal      - Imaging Studies:    - MRI: Normal findings      - Other Assessments:    - PANSS score: 88 points    - RAS self-rating scale score: 34 points (Very Severe)\", \"Options\": \"{'A': 'Olanzapine-induced movement disorder', 'B': 'Restless Legs Syndrome (RLS)', 'C': 'Antipsychotic-Induced Restless Legs Syndrome', 'D': 'Olanzapine-induced Restless Arms Syndrome (RAS)'}\", \"Physical Examination\": \"Physical examination on admission was unremarkable.\", \"id\": \"695\"}\n\n## Original GoS output\n{\"prediction\": \"Iron-deficiency secondary RLS\", \"report\": \"Characteristic nocturnal limb discomfort relieved by movement, severe iron deficiency (ferritin 2.0 ng/mL, iron 2.0 μmol/L), and anemia (Hb 63 g/L) strongly support secondary restless legs syndrome (RLS). Normal exam and therapeutic olanzapine level with dose-related worsening indicate medication contributes rather than primarily causes it. This refutes drug-induced movement disorder and psychiatric sleep disturbance. Final: iron-deficiency-driven secondary RLS, olanzapine contributing.\"}\n\n## Final causal reasoning graph\n{\"edges\": [{\"attrs\": {}, \"dst\": \"node-5\", \"src\": \"node-1\", \"type\": \"refines\"}, {\"attrs\": {}, \"dst\": \"node-6\", \"src\": \"node-1\", \"type\": \"refines\"}, {\"attrs\": {}, \"dst\": \"node-7\", \"src\": \"node-1\", \"type\": \"refines\"}, {\"attrs\": {}, \"dst\": \"node-5\", \"src\": \"node-2\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-6\", \"src\": \"node-2\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-7\", \"src\": \"node-2\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-5\", \"src\": \"node-3\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-6\", \"src\": \"node-3\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-7\", \"src\": \"node-3\", \"type\": \"refute\"}, {\"attrs\": {}, \"dst\": \"node-5\", \"src\": \"node-4\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-6\", \"src\": \"node-4\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-5\", \"src\": \"node-8\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-5\", \"src\": \"node-9\", \"type\": \"support\"}, {\"attrs\": {}, \"dst\": \"node-6\", \"src\": \"node-8\", \"type\": \"refute\"}, {\"attrs\": {}, \"dst\": \"node-7\", \"src\": \"node-8\", \"type\": \"refute\"}], \"nodes\": {\"node-1\": {\"attrs\": {}, \"label\": \"Patient currently has lethargy, delayed sleep, and uncomfortable sensations in arms that appear at night/during rest and are partially relieved by movement\", \"score\": 1.0, \"type\": \"Signal\"}, \"node-2\": {\"attrs\": {}, \"label\": \"Patient is a 48-year-old female with a 14-year history of auditory hallucinations and persecutory delusions; medical history includes hypertension for 7 years, uterine fibroid disease for 3 years, and iron deficiency anaemia for many years\", \"score\": 1.0, \"type\": \"Evidence\"}, \"node-3\": {\"attrs\": {}, \"label\": \"Patient was previously treated with olanzapine 20mg/day in 2019; current symptoms emerged after starting olanzapine and worsened with increased nighttime dosing\", \"score\": 1.0, \"type\": \"Evidence\"}, \"node-4\": {\"attrs\": {}, \"label\": \"Physical examination on admission was unremarkable\", \"score\": 1.0, \"type\": \"Evidence\"}, \"node-5\": {\"attrs\": {\"level\": 1, \"why\": {\"why\": \"Laboratory results show severe iron deficiency (ferritin 2.0 ng/mL, iron 2.0 μmol/L) and anemia (Hb 63 g/L), which directly support iron-deficiency-driven secondary restless legs syndrome. A therapeutic olanzapine level (53.5 ng/mL) with reported dose-related worsening further implicates medication as a contributing or exacerbating factor. Normal physical examination excludes focal neurological causes, and the characteristic nocturnal limb discomfort with movement relief fits secondary RLS. Confidence is therefore increased from 0.75 to 0.92.\"}}, \"label\": \"Restless legs syndrome (secondary)\", \"score\": 0.92, \"type\": \"Hypothesis\"}, \"node-6\": {\"attrs\": {\"level\": 1, \"why\": {\"why\": \"New laboratory evidence of severe iron deficiency and anemia provides a more parsimonious organic explanation for the nocturnal sensory-motor symptoms, reducing the likelihood that this is primarily a drug-induced movement disorder. Although olanzapine exposure and therapeutic levels may contribute to or worsen symptoms, the characteristic night-time limb discomfort relieved by movement and the iron-deficiency state are more consistent with secondary RLS. Confidence is decreased from 0.3 to 0.2.\"}}, \"label\": \"Drug-induced movement disorder\", \"score\": 0.2, \"type\": \"Hypothesis\"}, \"node-7\": {\"attrs\": {\"level\": 1, \"why\": {\"why\": \"The presence of severe iron deficiency and anemia, along with characteristic nocturnal limb discomfort partially relieved by movement, indicates an organic sensorimotor disorder rather than a primary psychiatric sleep disturbance. The emergence and worsening of symptoms after olanzapine use also argues against primary psychiatric sleep disturbance. Confidence is decreased from 0.2 to 0.1.\"}}, \"label\": \"Psychiatric sleep disturbance\", \"score\": 0.1, \"type\": \"Hypothesis\"}, \"node-8\": {\"attrs\": {}, \"label\": \"Laboratory results show ferritin 2.0 ng/mL, iron 2.0 μmol/L, and hemoglobin 63 g/L (severe iron deficiency and anemia)\", \"score\": 1.0, \"type\": \"Evidence\"}, \"node-9\": {\"attrs\": {}, \"label\": \"Therapeutic olanzapine blood level is 53.5 ng/mL\", \"score\": 1.0, \"type\": \"Evidence\"}}, \"start_signal_id\": null}",
+  "raw_response": "{\n  \"decision\": \"retain\",\n  \"final_diagnosis\": \"Iron-deficiency secondary RLS\",\n  \"rationale\": \"Patient facts: severe iron deficiency (ferritin 2.0, iron 2.0), anemia (Hb 63), nocturnal arm discomfort relieved by movement, olanzapine use. Inference: these support secondary RLS; olanzapine may contribute but is not primary. Graph supports this with high confidence for secondary RLS and lower for alternatives.\",\n  \"graph_patch\": {\n    \"confidence_updates\": [],\n    \"remove_node_ids\": [],\n    \"remove_edges\": [],\n    \"add_nodes\": [],\n    \"add_edges\": []\n  },\n  \"additional_information_needed\": [],\n  \"evidence_refs\": [\"node-1\", \"node-8\", \"node-3\"]\n}",
+  "usage": {
+    "prompt_tokens": 2010,
+    "completion_tokens": 179,
+    "total_tokens": 2189,
+    "price_rmb": null,
+    "model": "deepseek-v4-flash"
+  },
+  "completion_budget_status": "within_cap",
+  "parsed_repair": {
+    "decision": "retain",
+    "final_diagnosis": "Iron-deficiency secondary RLS",
+    "rationale": "Patient facts: severe iron deficiency (ferritin 2.0, iron 2.0), anemia (Hb 63), nocturnal arm discomfort relieved by movement, olanzapine use. Inference: these support secondary RLS; olanzapine may contribute but is not primary. Graph supports this with high confidence for secondary RLS and lower for alternatives.",
+    "graph_patch": {
+      "confidence_updates": [],
+      "remove_node_ids": [],
+      "remove_edges": [],
+      "add_nodes": [],
+      "add_edges": []
+    },
+    "additional_information_needed": [],
+    "evidence_refs": [
+      "node-1",
+      "node-8",
+      "node-3"
+    ]
+  },
+  "parse_ok": true,
+  "response_sha256": "63691492d00f358359d8dca9c86d85646f468fd65e9a3650ea0eb2c19a743329"
+}

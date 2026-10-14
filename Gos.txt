@@ -1,0 +1,1400 @@
+                                                 Graph of States: Solving Abductive Tasks with Large Language Models
+
+
+                                                Yu Luo 1 Rongchen Gao 1 Lu Teng 2 Xidao Wen 3 Jiamin Jiang 1 Qingliang Zhang 1 Yongqian Sun * 1
+                                                              Shenglin Zhang 1 Jiasong Feng 4 Tong Liu 4 Wenjie Zhang 4 Dan Pei 5
+
+
+                                                                  Abstract                                   abductive reasoning infers the most probable hypotheses
+                                                Logical reasoning encompasses deduction, in-                 from incomplete observations. In the era of LLMs, induc-
+                                                duction, and abduction. However, while Large                 tion is an inherent capability established through extensive
+
+
+
+
+arXiv:2603.21250v2 [cs.AI] 14 May 2026
+                                                Language Models (LLMs) have effectively mas-                 pre-training (Olsson et al., 2022). Meanwhile, deductive
+                                                tered the former two, abductive reasoning remains            tasks (e.g., mathmatics, game of 24) has been substantially
+                                                significantly underexplored. Existing frame-                 advanced by general reasoning frameworks such as Chain-
+                                                works, predominantly designed for static deduc-              of-Thought (CoT) (Wei et al., 2022) and Tree-of-Thought
+                                                tive tasks, fail to generalize to abductive rea-             (ToT) (Yao et al., 2023), with strong performance already
+                                                soning due to unstructured state representation              reported on representative deductive benchmarks. For ex-
+                                                and lack of explicit state control. Consequently,            ample, GPT-5.1 with standard CoT achieves 99.1% on
+                                                they are inevitably prone to Evidence Fabrica-               MATH500 (Lightman et al., 2023), 95.7% on AIME2025,
+                                                tion, Context Drift, Failed Backtracking, and                and 87.3% on GPQA (Rein et al., 2024). In contrast, the do-
+                                                Early Stopping. To bridge this gap, we intro-                main of abductive reasoning remains underexplored. Given
+                                                duce Graph of States (GoS), a general-purpose                that abduction serves as the bedrock for decision-making
+                                                neuro-symbolic framework tailored for abduc-                 in high-stakes, real-world scenarios (e.g., medical diagno-
+                                                tive tasks. GoS grounds multi-agent collabo-                 sis, criminal investigation, failure diagnosis in distributed
+                                                ration in a structured belief states, utilizing a            systems), this neglect represents a critical gap. Therefore,
+                                                causal graph to explicitly encode logical depen-             we aim to establish a general-purpose reasoning framework
+                                                dencies and a state machine to govern the valid              tailored for the dynamic and non-monotonic nature of ab-
+                                                transitions of the reasoning process. By dynam-              ductive tasks.
+                                                ically aligning the reasoning focus with these               As abductive tasks are characterized by incomplete initial
+                                                symbolic constraints, our approach transforms                information, requiring dynamic evidence investigation to
+                                                aimless, unconstrained exploration into a con-               progressively converge the hypothesis space and infer the
+                                                vergent, directed search. Extensive evaluations              most plausible cause, directly transposing existing deduc-
+                                                on two real-world datasets demonstrate that GoS              tive frameworks to these scenarios proves ineffective. To
+                                                significantly outperforms all baselines, provid-             empirically validate this gap, we applied four deductive
+                                                ing a robust solution for complex abductive tasks.           frameworks (i.e., CoT, ToT, GoT (Besta et al., 2024), FoT
+                                                Code repo and all prompts: https://github.                   (Bi et al., 2025)) to abductive scenarios and conducted a
+                                                com/gaorch85/Graph-of-States.                                granular analysis of their reasoning trajectories (detailed
+                                                                                                             in Appendix D). As visualized in Figure 1, we identified
+                                                                                                             four deficiencies: (1) Evidence Fabrication: In an attempt
+                                         1. Introduction                                                     to maintain logical consistency, the model tends to hallu-
+                                         Logical reasoning constitutes the cognitive cornerstone of          cinate non-existent evidence to support biased hypotheses,
+                                         artificial intelligence, fundamentally categorized into three       corrupting the ground truth. (2) Context Drift (Dongre
+                                         paradigms: deduction, induction, and abduction. While de-           et al., 2025): The model tends to forget the current investi-
+                                         duction derives definitive conclusions from general premises        gation progress during long-horizon tasks (Liu et al., 2024),
+                                         and induction generalizes rules from specific observations,         trapping the agent in redundant loops where it repetitively in-
+                                                                                                             vokes the same tools or revisits hypotheses that were already
+                                            1
+                                             Nankai University 2 Wenzhou Medical University 3 Alibaba        falsified by prior evidence. (3) Failed Backtracking: Un-
+                                         Cloud 4 Lenovo 5 Tsinghua University. Correspondence to:            like deductive tasks where objective validity criteria (e.g., 7
+                                         Yongqian Sun <sunyongqian@nankai.edu.cn>.
+                                                                                                             and 9 cannot make it to 24 through +, −, ×, ÷) trigger im-
+                                         Proceedings of the 43 rd International Conference on Machine        mediate pruning, abductive scenarios present ambiguous
+                                         Learning, Seoul, South Korea. PMLR 306, 2026. Copyright 2026        intermediate results. Lacking explicit hard constraints, mod-
+                                         by the author(s).
+
+                                                                                                         1
+                                            Graph of States: Solving Abductive Tasks with Large Language Models
+
+         Deductive Tasks                                                                                         Abductive Tasks
+      (game of 24, mathmatics)                                                                           (medical diagnosis, failure diagnosis in
+                                                                                                      distributed systems, criminal investigation)
+  Input: 4, 9, 10, 13; Reach 24
+                                          Deficiency 1 & 3: Evidence Fabrication + Failed Backtracking                             Deficiency 4: Early Stopping
+  using “+, -, ×,÷” only.
+                                                                Input: Ankle injury, severe swelling, unable to walk.               Input:“Alert: Host01 memory usage > 95%”
+
+
+     10-4=6                                Fabricated:          Ankle Fracture                     Soft Tissue Injury                 Run: ``free -h`` → “Total: 32G, Used:
+                             ......
+                                                                                         ?Expect: Backtracking
+  (left: 6,9,13)                           Bone Crepitus                                                                                    31.5G, Free: 0.1G (<1%).”
+                           Backtracking
+                                                                 Perform X-ray                                                                                                Early Stopping leads to
+                                                               Imaging → normal                                                          System Out of Memory (OOM)           premature diagnosis, which is
+                                                                                                                                                                              correct but not useful
+     13-9=4                  13-6=7
+                                                             Occult micro-fracture in ankle
+
+                    ×
+   (left: 4, 6)            (left: 7, 9)
+                                          Deficiency 2: Context Drift                                                                     Run: ``top -o %MEM`` → PID
+                                                                                                                                         2048 (Java) consumes 85% MEM
+                       Evaluator:         Input: The patient has chest pain.
+                       7 and 9 cannot
+     4×6=24            make it to 24                                                                                                     Run: ``jmap -histo:live 2048`` →     Expect: Drill down via further
+    (left: 24)
+                       through“+, -,
+                                          Step 1:                  Step 2:                      ....           Step n:                   GlobalCache objects occupy 90%       actions to pinpoint the specific
+                       ×,÷”                                                                                                                          of Heap                  root cause (Memory Leak in
+                                          Is it Myocardial         Check Troponin        (long sequence        Is it Myocardial
+                                          Infarction?              →normal                  of actions)        Infarction?                                                    GlobalCache).
+                                                                                                                                          Memory Leak in GlobalCache
+  Output:
+                                                                        Unstructured context history                                           (True Diagnosis)
+  (13 - 9)×(10 - 4) = 24
+
+
+Figure 1. Illustration of reasoning frameworks applied to Deductive tasks (Left) versus Abductive tasks (Right). While deductive
+frameworks succeed in static logic (e.g., Game of 24), applying them to abductive tasks exposes four deficiencies: (1) Evidence
+Fabrication, (2) Context Drift, (3) Failed Backtracking, and (4) Early Stopping.
+
+
+
+
+els often fail to trigger necessary backtracking, persisting                                                    general-purpose reasoning framework tailored for abductive
+on erroneous paths. (4) Early Stopping: Models frequently                                                       tasks. Our approach employs a dual-layer neuro-symbolic
+terminate the investigation prematurely upon identifying                                                        architecture to unify human-aligned collaboration with rigor-
+a superficial symptom, failing to drill down to the fine-                                                       ous logic. In the cognitive layer, we implement a role-based
+grained root cause required for actionable decision-making.                                                     collaborative framework, orchestrating agents aligned with
+We attribute these failures to two fundamental structural                                                       real-world professional roles to ensure a coherent division
+limitations in current frameworks. First, the implicit encod-                                                   of labor. Crucially, in the symbolic layer, we introduce two
+ing of the reasoning state (i.e., subjective hypotheses and                                                     core mechanisms to resolve the aforementioned structural
+objective facts) within the unstructured context history fails                                                  limitations: First, we construct a causal graph as the sys-
+to provide a clear structural representation, directly precipi-                                                 tem’s memory, which explicitly structures the belief state by
+tating Evidence Fabrication and Context Drift. Second, the                                                      mapping the causal relationships among hypotheses and col-
+lack of state control mechanism relegates backtracking and                                                      lected evidence, effectively mitigating Evidence Fabrication
+drill-down decisions to the model’s unconstrained autonomy,                                                     and Context Drift. Second, we employ a state machine as the
+resulting in Failed Backtracking and Early Stopping.                                                            navigation to govern the reasoning trajectory, enforcing rig-
+                                                                                                                orous logical transitions for backtracking and drill-down to
+While a unified reasoning framework tailored for abduc-
+                                                                                                                prevent Failed Backtracking and Early Stopping. Quantita-
+tive tasks remains absent, researchers have leveraged LLMs
+                                                                                                                tive analysis in Appendix D confirms that these mechanisms
+in specialized domains such as medical diagnosis (Kim
+                                                                                                                significantly reduce the frequency of such deficiencies. By
+et al., 2024; Zhou et al., 2025) and failure diagnosis in
+                                                                                                                dynamically aligning the reasoning focus with these sym-
+distributed systems (Zhou et al., 2024; Zhang et al., 2024;
+                                                                                                                bolic constraints, GoS transforms aimless, unconstrained
+Sun et al., 2025; Pei et al., 2025; Luo et al., 2026). To
+                                                                                                                exploration into a convergent, directed search, ensuring the
+mitigate the aforementioned deficiencies, these approaches
+                                                                                                                system steadily approximates the truth.
+incorporate extensive domain-specific adaptations, such as
+integrating external knowledge bases to curb Evidence Fab-                                                      Our contributions are summarized below: (1) We propose
+rication or imposing rule-based heuristics to prevent Early                                                     GoS, and to the best of our knowledge, GoS is the first
+Stopping. However, these systems fundamentally rely on                                                          general-purpose multi-agent reasoning framework tailored
+conventional deductive reasoning frameworks (e.g., CoT,                                                         for abductive reasoning tasks. (2) We introduce a neuro-
+ToT), attributing their performance gains primarily to heavy                                                    symbolic architecture that leverages causal graph and state
+domain engineering rather than intrinsic reasoning capa-                                                        machine to construct explicit belief states, thereby trans-
+bilities. Consequently, such adaptations serve as engineer-                                                     forming unconstrained exploration into directed, convergent
+ing workarounds that alleviate immediate symptoms while                                                         search. (3) We conduct extensive evaluations on two real-
+leaving the intrinsic structural deficiencies of the deductive                                                  world datasets, demonstrating that GoS significantly outper-
+paradigm unaddressed.                                                                                           forms existing baselines. (4) We make all code and prompts
+                                                                                                                publicly available.
+To bridge this gap, we introduce Graph of States (GoS), a
+
+
+                                                                                                          2
+                           Graph of States: Solving Abductive Tasks with Large Language Models
+
+2. Related Work                                                      Disk) to perform collaborative cross-reviews. (2) Retrieval-
+                                                                     Augmented Generation (RAG): To ground reasoning in ex-
+Reasoning frameworks for general deductive tasks. A                  ternal knowledge, MDAgents (Kim et al., 2024) augments
+significant body of research has emerged to unlock the po-           its diagnostic process with specialized retrieval tools like
+tential of LLMs as general problem solvers, though these             MedRAG (Xiong et al., 2024). FlowXpert (Shi et al., 2025)
+efforts have predominantly focused on deductive tasks such           employs a hybrid retrieval mechanism querying both vector
+as the game of 24, mathematical problems, and crossword              and graph databases, while Flow-of-Action (Pei et al., 2025)
+puzzles. The foundational CoT (Wei et al., 2022) paradigm            targets the retrieval and matching of high-quality Standard
+decomposes complex problems into sequential intermediate             Operating Procedures (SOPs). (3) Supervised Fine-Tuning
+steps, where each step forms a coherent natural language se-         (SFT): Data-centric approaches prioritize internalizing do-
+quence contributing to the final solution. Building upon this,       main knowledge. Med-PaLM 2 (Singhal et al., 2025) and
+subsequent studies have introduced refinements to enhance            PMC-LLaMA (Wu et al., 2024) prove that fine-tuning on
+reliability, including Self-Consistency with CoT (CoT-SC)            vast biomedical corpora significantly enhances diagnostic
+(Wang et al., 2023), VerifyCoT (Zhao et al., 2023), and              capability, a strategy similarly adopted by LogLM (Liu et al.,
+Chain of Continuous Thought (Coconut) (Hao et al., 2024).            2025) using massive log instruction datasets in AIOps. (4)
+To transcend the limitations of linear reasoning, ToT (Yao           Data Preprocessing: Conversely, approaches like TrioXpert
+et al., 2023) structures the reasoning process as a search           (Sun et al., 2025) and OpsAgent (Luo et al., 2026) focus on
+over a tree, typically employing algorithms like Depth-First         input abstraction, implementing dedicated pipelines to trans-
+Search (DFS) or Breadth-First Search (BFS) to explore di-            form heterogeneous telemetry (i.e., metrics, logs, traces)
+verse reasoning paths. This non-linear topology is further           into structured contexts before feeding them into reasoning
+generalized by frameworks such as Graph of Thought (GoT)             modules. To summarize, the efficacy of these approaches
+(Besta et al., 2024) and Forest of Thought (FoT) (Bi et al.,         is predominantly derived from such domain-specific engi-
+2025), which extend the structure into graphs and forests to         neering rather than generalized reasoning capabilities.
+model more complex, non-sequential dependencies.
+Neuro-symbolic reasoning with Large Language Mod-                    3. Methodology
+els. Recent studies have explored combining LLMs with
+symbolic representations or logic-guided procedures to im-           We propose GoS, a novel dual-layer neuro-symbolic frame-
+prove reasoning reliability and faithfulness. For example,           work designed to address complex abductive reasoning tasks
+LINC (Olausson et al., 2023) translates natural language             by explicitly maintaining reasoning states through causal
+statements into first-order logic and performs inference with        graphs and state machines (shown in Figure 2). Addition-
+a theorem prover, while LOGIC-LM (Pan et al., 2023) com-             ally, we introduce a reasoning focus to concentrate inves-
+bines symbolic formalization, solver-based reasoning, and            tigative resources on the most plausible hypothesis, thereby
+self-refinement to improve logical consistency. Aristotle            preventing wasteful exploration. This section is organized
+(Xu et al., 2025a) further integrates symbolic logic into de-        as follows: Section 3.1 provides the formal definition of
+composition, search, and inference through a logic-complete          the dual-layer framework. Section 3.2 elucidates the bi-
+framework. These methods demonstrate the value of sym-               directional interaction mechanism between the cognitive
+bolic grounding for improving LLM reasoning. However,                and symbolic layers. Finally, Section 3.3 details the state
+they mainly focus on symbolic answer derivation under                conversions, governing the hierarchical backtracking and
+relatively fixed problem settings, rather than long-horizon          drill-down of the inference process.
+interactive investigation that requires iterative evidence ac-
+quisition, hypothesis revision, and progressive root-cause           3.1. Dual-layer Framework
+refinement.
+                                                                     Task Formulation. We define the abductive reasoning task
+Large Language Models for specialized abductive tasks.               as an probabilistic inference problem aimed at identifying
+Current approaches for specialized abductive tasks mainly            the most plausible root cause from incomplete information.
+employ four categories of domain-specific adaptations de-            Let O = {o1 , o2 , ..., on } denote the set of observations,
+signed to mitigate intrinsic reasoning deficiencies and              which consists of easily accessible surface symptoms Osurf
+thereby enhance performance: (1) Multi-Agent Customiza-              (e.g., chest pain) and costly-to-acquire deep evidence Odeep
+tion: Frameworks often design specific topological struc-            (e.g., CT scans, ECGs). Given a domain-specific knowledge
+tures to mimic human workflows. For instance, MAM (Zhou              context K (e.g., medical guidelines), the objective is to find
+et al., 2025) employs a static collaborative topology mim-           the optimal H ∗ from the hypothesis space H (e.g., myocar-
+icking a fixed team of specialists to reach consensus, par-          dial infarction) that maximizes the posterior probability:
+alleling D-Bot (Zhou et al., 2024), which decomposes the
+diagnosis process into atomic functional units (e.g., CPU,                    H ∗ = arg max P (H | Osurf , Odeep , K)          (1)
+                                                                                       H∈H
+
+
+                                                                 3
+                                                                   Graph of States: Solving Abductive Tasks with Large Language Models
+
+                                                                                                                                     Causal Graph (G): We define a directed graph G =
+ a      Dual-layer Framework                                                  Step 1: User input query & Initialization
+                                                                                                                                     (V, E) to map the logical topology. The node set V
+                Ugh! My chest is hurting badly. What’s
+                wrong with me?                                                Step 2: Symbolic layer instruct cognitive
+                                                                                                                                     comprises three distinct types: symptom (vsym ), ev-
+                                                                              layer to investigate
+                                                                                                                                     idence (vevi ), and hypothesis (vhyp ), where each hy-
+                             ��                                  V2evi                                                               pothesis node is associated with a score P (vhyp ) rep-
+                                     Vsym             V2hyp                   Step 3: Cognitive layer ground evidence and
+     Central Agent          V1evi                                             analyses to symbolic layer
+                                     V1hyp    V3hyp           V4hyp
+                                                                                                                                     resenting its confidence. The edge set E encodes three
+            ···
+     Expert Agents             : focus                                V5hyp   Step 4: Invoke state conversions                       logical primitives: derive (vsym → vhyp ) representing
+                               : support     : refute
+        ReAct                                                                                                                                                                coarse    f ine
+                                                                                                                                     initial hypothesis generation, refine (vhyp    → vhyp   )
+                                    �� = 3      Belief States ��
+  1. Tool descriptions                                                                      Check
+  2. Tool APIs
+
+  Cognitive Layer                      Symbolic Layer                                        fine-grained            No              representing granularity evolution of hypothesis, and
+                                                                                             hypothesis?
+                                                                                                                                     support/refute (vevi → vhyp ) representing evidential
+     Prediction: You have a myocardial infarction.                                           Yes
+     Report: Because your ECGs exhibits ST-segment
+                                                                              Step 5: Output prediction and report
+                                                                                                                                     confirmation or negation.
+     elevation in anterior leads, inverted T-waves, and ......
+
+
+                                                                                                                                     State Machine (S): To capture the hierarchical na-
+Figure 2. Overview of GoS. Left: Schematic of the dual-layer                                                                         ture of abductive reasoning, we assign a distinct level
+architecture. Right: The iterative inference workflow.                                                                               L(vhyp ) to each hypothesis node, representing its se-
+                                                                                                                                     mantic granularity. Accordingly, we define a state
+                                                                                                                                     machine where the state St ∈ N+ as the level of the
+                                                                                                                                     hypothesis currently under investigation at step t. This
+In contrast to passive inference tasks, Odeep is not given as a                                                                      state variable governs the overall inference trajectory,
+comprehensive input prior. Instead, it necessitates on-the-fly                                                                       facilitating drill-down to finer granularities or back-
+acquisition, where we employ ReAct (Yao et al., 2022) to                                                                             tracking upon contradiction (see Section 3.3).
+execute tool calls for dynamic retrieval.
+                                                                                                                                     The Reasoning Focus (h∗ ): Formally, at state St , the
+Dual-Layer System Definition. Following are the concrete
+                                                                                                                                     reasoning focus h∗t is defined as the hypothesis with
+definition of our system:
+                                                                                                                                     the highest confidence at the current level:
+
+  1. The Cognitive Layer (Lcog ): This layer functions
+     as the domain-adaptive execution interface of GoS,                                                                                          h∗t =      arg max         P (h | Gt )     (2)
+                                                                                                                                                         h∈Vhyp , L(h)=St
+     orchestrating a multi-agent system aligned with real-
+     world professional roles to ground the universal reason-
+     ing logic into concrete, domain-specific actions. We                                                                            This formulation enforces a depth-first investigation
+     define the agent system as A = {Acentral } ∪ Aexperts ,                                                                         strategy on the most promising trajectory, thereby facil-
+     where one central agent Acentral acts as orchestrator                                                                           itating either rapid confirmation or early backtracking
+     and several expert agents Aexperts act as executors. To                                                                         to minimize overall investigative costs.
+     avoid the reasoning fragmentation caused by atomized
+     functional units, we explicitly design these experts to                                                                    Initialization. Upon receiving surface symptoms Osurf ,
+     map coherent real-world professional roles. The ratio-                                                                     the central agent Acentral constructs the initial graph G0 by
+     nale is drawn from the division of labor in effective                                                                      deriving preliminary L(1) hypotheses from the root symp-
+     human organizations. Specifically, (1) complex ab-                                                                         tom. This establishes the initial belief state B0 and sets
+     ductive reasoning inherently requires a central orches-                                                                    the state machine to S0 = 1, preparing the system for the
+     trator for global planning and final decision-making,                                                                      iterative loop.
+     supported by specialized experts for domain-specific
+     execution; and (2) adopting these role divisions, which                                                                    Workflow. As illustrated in Figure 2, the process begins
+     have persisted through long-term evolution due to their                                                                    with user input query and initialization (Step 1). Subse-
+     structural robustness, not only enhances collaboration                                                                     quently, GoS enters an iterative reasoning loop: The sym-
+     effectiveness but also guarantees a transparent process                                                                    bolic layer first identifies the current reasoning focus h∗t and
+     that is easily understood by humans.                                                                                       instructs the cognitive layer to investigate (Step 2). Acting
+                                                                                                                                on this directive, the cognitive layer orchestrates agents to
+  2. The Symbolic Layer (Lsym ): Acting as the GoS’s                                                                            gather evidence and updates the causal graph Gt in sym-
+     explicit navigational anchor, Lsym formalizes the rea-                                                                     bolic layer with new findings (Step 3). Based on the up-
+     soning status into a structured belief states B = (G, S),                                                                  dated graph, the system invokes state conversions (Step 4)
+     thereby grounding cognitive processes in a transpar-                                                                       to determine the next reasoning depth (e.g., drill down or
+     ent and traceable manner distinct from unstructured                                                                        backtracking). This cycle repeats until a fine-grained hy-
+     context history. We formalize the components of the                                                                        pothesis adequately resolves the input query, producing the
+     symbolic layer as follows:                                                                                                 final prediction (Step 5).
+
+                                                                                                                            4
+                                                Graph of States: Solving Abductive Tasks with Large Language Models
+
+b   Bi-Directional Neuro-Symbolic Interaction
+                                                                                                             V5evi
+                                                                                                                                       tributed investigations, the central agent Acentral synthe-
+             Plan                                                                                                                      sizes the returned observations and analytical results to up-
+                                                                                                                      V6evi
+                                   FindFocus ℎ∗�                                                    V5hyp
+                                                                                 V2evi
+                                                                  Vsym                                                                 date the symbolic layer. This aggregation drives the evo-
+                                       V4hyp
+                                                                                                            V7evi
+                                                                         V2hyp
+                                                                                                                                       lution of the causal graph from Gt to Gt+1 through three
+                                                             V1hyp                          V4hyp
+
+
+                                                                                    V3hyp
+                                                                                                               : new hypothesis        key topological operations: (1) Confidence recalibration,
+                                                          V1evi
+                                                                                                                : new evidence
+                                                                         V3evi
+                                                                                                    V4evi       : new focus            where the plausibility of existing hypotheses is adjusted by
+              ···                Central Agent
+                                                                                                                : new edge
+                                                                                                                                       reinforcing confirmed conjectures or diminishing refuted
+                                                                     1. Confidence recalibration
+     1. Tool descriptions
+     2. Tool APIs                                                    2. Node instantiation                                             ones based on new evidence; (2) Node instantiation, which
+                                                                     3. Edge formulation                             UpdateGraph
+           ReAct            Deep Evidence      Analyses                                                                                registers newly discovered evidence and hypotheses into
+                                                                                                                                       the node set; and (3) Edge formation, which establishes the
+    Figure 3. Bi-Directional Neuro-Symbolic Interaction.                                                                               requisite logical dependencies to integrate these new ele-
+                                                                                                                                       ments into the global reasoning structure. This mechanism
+                                                                                                                                       ensures that the symbolic layer remains a faithful, real-time
+                                                                                                                                       reflection of the reasoning progress.
+3.2. Bi-Directional Neuro-Symbolic Interaction
+                                                                                                                                       3.3. State Conversions: Backtracking and Drill-Down
+The core reasoning capability of GoS emerges from the
+bi-directional interaction between the symbolic and cogni-                                                                             While the causal graph Gt explicitly maps the structural
+tive layers. Rather than functioning as isolated modules,                                                                              topology of belief, it acts primarily as a static representation
+these two layers operate within a closed-loop mechanism                                                                                lacking the inherent control logic to drive the progressive
+where explicit state representations and dynamic collabora-                                                                            deepening of the investigation. Consequently, the state ma-
+tive reasoning reciprocally inform one another. We detail                                                                              chine St is essential to function as the executive controller,
+this bi-directional process through two phases:                                                                                        regulating the reasoning trajectory through strictly defined
+                                                                                                                                       transition rules. Drawing inspiration from cognitive models
+Symbolic-to-Cognitive: Reasoning Focus-Guided Inves-                                                                                   of human abductive reasoning (Elstein et al., 1978; Joseph-
+tigation. In this phase, the symbolic layer transforms the                                                                             son & Josephson, 1996; Magnani, 2011), which characterize
+static belief states Bt into actionable instructions, ensur-                                                                           abductive reasoning as an iterative process of hierarchical
+ing that agentic exploration in cognitive layer remains fo-                                                                            specification and non-monotonic belief revision, we propose
+cused and coherent. Unlike XoT frameworks (e.g., CoT,                                                                                  two distinct conversion moves: backtracking and drill-down
+ToT, GoT, FoT), where reasoning states are represented                                                                                 (detailed in Algorithm 2).
+as disordered thought nodes, our symbolic layer explic-
+itly maintains a structured causal graph Gt and identifies                                                                                                                                                                                          V1evi
+
+a reasoning focus h∗t . This focus represents the most plau-
+                                                                                                                                         c        State Conversions                                                         Vsym
+                                                                                                                                                                                                                                                                V1evi
+
+                                                                                                                                                               Vsym               edit
+                                                                                                                                                                                                      V1evi         V1hyp                  V2hyp                        V1evi
+                                                                                                                                       V8evi       V1hyp                  V2hyp              V7evi
+sible direction of inquiry at the current step, serving as                                                                                                                                                                                              V1evi
+
+a navigational compass for the cognitive layer. The rea-                                                                               Condition:                 V3hyp           V4hyp                       �� = 1 → 2           V3hyp           V4hyp
+soning focus h∗t and the belief states Bt are injected into                                                                            P(V2hyp ) < P(V1hyp )
+                                                                                                                                                                                                     Condition:                      2. |E(V2hyp )| > η;
+the central agent Acentral to formulate executable plans:                                                                                                                   V5hyp         V6hyp
+                                                                                                                                               �� = 3 → 1
+                                                                                                                                                                                                     1. P(V2hyp ) - P(V1hyp ) > δ; 3. V2hyp not fine enough;
+
+Instructions ← P lan(Acentral , h∗t , Bt ). These instruc-                                                                                                 Backtracking                                                            Drill-Down
+
+tions are then dispatched to the corresponding expert agents
+Aexperts alongside the global context (h∗t , Bt ), triggering                                                                                  Figure 4. State Conversions: Backtracking & Drill-Down.
+targeted tool invocation and analysis.
+Therefore, anchoring the investigation to focus h∗t enforces
+                                                                                                                                       Backtracking. The system incorporates a backtracking
+directional stability, effectively mitigating the aimless ex-
+                                                                                                                                       mechanism to address the non-monotonic nature of abduc-
+ploration typical of unstructured reasoning strategies. This
+                                                                                                                                       tive reasoning, where initially plausible conjectures are re-
+focus ensures that computational resources are concentrated
+                                                                                                                                       futed by emerging contradictory evidence. Since the validity
+on refining the most promising hypothesis. Simultaneously,
+                                                                                                                                       of a fine-grained hypothesis strictly relies on the correct-
+the shared propagation of (h∗t , Bt ) establishes a unified
+                                                                                                                                       ness of its precursors, the system continuously monitors
+cognitive consensus across the multi-agent system. This
+                                                                                                                                       the ancestral lineage of the current reasoning focus during
+mechanism prevents expert agents from operating in silos,
+                                                                                                                                       confidence recalibration (mentioned in Section 3.2). A re-
+guaranteeing that distributed reasoning advances coherently
+                                                                                                                                       gression is triggered if any ancestor node at level l < St
+without contradicting the global state.
+                                                                                                                                       ceases to be the highest-confidence hypothesis among its
+Cognitive-to-Symbolic: Evidence-Based Grounding. Fol-                                                                                  siblings due to contradictory evidence. To be specific, the
+lowing the guidance, expert agents Aexperts execute ReAct-                                                                             state machine identifies the shallowest level l∗ containing
+based tool invocations and analysis. To ground these dis-                                                                              the demoted ancestor and executes a pruning operation: all
+
+                                                                                                                                   5
+                            Graph of States: Solving Abductive Tasks with Large Language Models
+
+hypothesis nodes with level L(vhyp ) > l∗ are discarded,               pendix C.1). For failure diagnosis in distributed systems,
+enforcing the principle that inferences founded on a flawed            we constructed a dataset comprising 150 incidents from
+premise are inherently invalid. Consequently, the state ma-            a large-scale production microservice systems of a global
+chine St+1 is reset to l∗ , compelling cognitive agents to             leading IT company Lenovo. Comprehensive descriptions
+pivot toward previously dormant alternative branches. This             of both datasets are provided in Appendix C.
+self-correction ensures that the system remains resilient to
+                                                                       Baselines. Given the absence of established frameworks
+early-stage misconceptions caused by information scarcity,
+                                                                       tailored for general abductive reasoning, we synthesize eight
+preventing premature closure on incorrect hypotheses.
+                                                                       baselines derived from the intersection of two dimensions:
+Drill-Down. Beyond the backward regression, the drill-                 agent architecture (Single-Agent vs. Multi-Agent) and rea-
+down transition embodies the system’s progressive approxi-             soning topology (CoT (Wei et al., 2022) vs. ToT (Yao et al.,
+mation toward fine-grained ground truths, enabling the tran-           2023) vs. GoT (Besta et al., 2024) vs. FoT (Bi et al., 2025)).
+sition from high-level conjectures to specific root causes.            To ensure a fair comparison, we standardize the atomic
+Following the belief updates in the causal graph, the state            reasoning unit across all baselines by adopting the ReAct
+machine evaluates whether the current belief states warrants           (Yao et al., 2022) paradigm, wherein each node encapsulates
+a deeper investigation based on a rigorous dual-threshold              an interleaved triplet of thought, action, and observation.
+mechanism, governed by a confidence gap δ and a minimum                Thereby, this configuration ensures a rigorous evaluation
+support evidence count η. Specifically, to trigger a state tran-       covering the full spectrum from solitary linear reasoning
+                                                      (1)
+sition, the hypothesis with the highest confidence vhyp must           to collaborative hierarchical search strategies. And we use
+satisfy two simultaneous conditions. First, a confidence               GPT-5.1-2025-11-13 as the backbone of the agents
+gap is enforced: the probability difference between the top-           for all baselines methods and GoS.
+ranked hypothesis and the second-ranked must exceed a pre-             Evaluation. To rigorously assess diagnostic performance,
+                                    (1)         (2)
+defined threshold, denoted as P (vhyp ) − P (vhyp ) > δ. This          we primarily employ LLM-as-a-Judge utilizing a standard-
+criterion ensures that the current direction is unambiguously          ized 3-point scale: 2 (Exact Match), 1 (Relevant), and 0
+superior to competing alternatives. Second, reflecting the             (Otherwise). Accordingly, we report two metrics: Match
+prudent nature required for high-stakes abductive tasks, we            (scoring 2) and Relevant (scoring 1 or 2). For evaluation
+                                                    (1)
+impose an evidential support constraint |Esup (vhyp )| ≥ η,            prompts, we utilize the official benchmark prompt for medi-
+where Esup denotes the set of supporting evidence nodes                cal diagnosis scenario and construct a parallel prompt for
+linked to the hypothesis. This prevents the system from pre-           failure diagnosis in distributed systems. However, unlike
+maturely narrowing the search space based solely on prior              the deterministic nature of distributed system failures, medi-
+probabilities without sufficient empirical grounding.                  cal diagnosis entails subtle semantic nuances prone to au-
+Upon satisfying these criteria, the central agent assesses the         tomated misinterpretation. Consequently, we specifically
+                          (1)                                          incorporate Human-as-a-Judge for the medical domain to
+semantic granularity of vhyp . If the hypothesis is sufficiently
+                                                                       ensure reliability, conducted by a researcher with extensive
+concrete to resolve the query, the inference terminates, yield-
+                                                                       clinical and academic experience.
+ing the final prediction accompanied by a comprehensive
+reasoning report; otherwise, the agent generates the next              Parameter settings. We maintain identical hyperparameter
+                                    (1)                                configurations across all scenarios to facilitate fair compari-
+level of sub-hypotheses to refine vhyp , and the state machine
+increments the reasoning depth St+1 ← St + 1. Conversely,              son. We impose strict retrieval budgets: each expert agent
+if thresholds are not met, the system maintains the current            in GoS and the Multi-Agent baselines is limited to 3 re-
+state St+1 ← St to conduct further evidence retrieval in the           trieval actions, while the Single-Agent baselines are capped
+subsequent iteration.                                                  at 5. We also set the maximum number of neuro-symbolic
+                                                                       interaction iterations in GoS to 3.
+4. Experiments
+                                                                       4.1. Medical Diagnosis
+We empirically validate the proposed GoS framework on
+                                                                       Medical diagnosis serves as a quintessential high-stakes
+two distinct abductive reasoning tasks: medical diagnosis
+                                                                       abductive task, requiring the inference of diseases from
+and failure diagnosis in distributed systems.
+                                                                       clinical observations through rigorous evidence discovery
+Datasets. For medical diagnosis, we utilize DiagnosisArena             and cautious reasoning.
+(Zhu et al., 2025), which curates real-world pathological
+                                                                       Task Setup. We reframe the task as a dynamic investiga-
+cases reported in top-tier medical journals (e.g., Lancet,
+                                                                       tion process: Initially provided only with surface symp-
+NEJM, JAMA). Specifically, we utilized 150 cases, exclud-
+                                                                       toms (i.e., chief complaints and physical examinations), the
+ing 12 cases for containing factual errors or logical flaws
+                                                                       model must explicitly issue auxiliary examination to re-
+that make the ground truth unreachable (detailed in Ap-
+
+                                                                   6
+                           Graph of States: Solving Abductive Tasks with Large Language Models
+
+trieve corresponding records from an external repository             Ablation Study. As presented in Table 2, every component
+to formulate an accurate diagnosis. In GoS, we align the             of GoS is essential, with their removal leading to perfor-
+cognitive layer with real-world clinical roles, designating          mance degradation and higher cost. Initially, removing the
+the Primary Physician as the central agent Acentral                  reasoning focus h∗t results in a decline in the Match (31.88%
+and the Laboratory Physician, Pathologist,                           → 19.57%) alongside a slightly cost increase. This under-
+Radiologist as expert agents Aexperts . Given that                   scores its role in enforcing a depth-first investigation strat-
+MDAgents (Kim et al., 2024) has already mapped agents to             egy, constraining the agents to scrutinize the most promising
+real-world roles, we apply this identical agent configuration        hypotheses rather than engaging in stochastic exploration.
+to the Multi-Agent baselines to ensure consistency.                  We additionally compare GoS with a simpler structured state
+                                                                     management variant that maintains hypotheses, evidence,
+        Table 1. Performance of Medical Diagnosis (%)
+                                                                     and their support/refute status in structured text, but with-
+                                                                     out an explicit causal graph. While this organized external
+               LLM-as-a-Judge     Human-as-a-Judge                   state improves over w/o causal graph (Match: 18.12% vs.
+ Methods                                                $/case
+               Match Relevant     Match Relevant                     12.32%), it still remains well below full GoS. This suggests
+ GoS           31.88     74.64    39.86      78.99      0.12         that the gains are not explained by generic context manage-
+ Single/CoT    21.01     47.83    24.64      48.55      0.03         ment alone; rather, the explicit causal graph provides more
+ Single/ToT    18.84     47.10    19.57      45.65      0.08
+ Single/GoT    21.01     50.00    22.46      52.90      0.07
+                                                                     effective support/refute/refine modeling, enabling more con-
+ Single/FoT    21.74     58.70    21.01      61.59      0.32         sistent hypothesis updates and better backtracking and drill-
+ Multi/CoT     21.01     49.28    23.19      50.72      0.07         down. Furthermore, removing the causal graph or state
+ Multi/ToT     20.29     50.72    23.91      53.62      0.17         machine causes a catastrophic drop in performance, with
+ Multi/GoT     21.74     52.17    23.91      55.07      0.15         Match rates falling to 12.32%. This validates that construct-
+ Multi/FoT     23.19     63.04    26.09      65.94      0.73
+                                                                     ing and maintaining belief states are indispensable in com-
+                                                                     plex abductive reasoning tasks. Notably, we observe a cost
+Results. As shown in Table 1, GoS significantly outper-              spike when removing the state machine ($0.17/case). We
+forms all baseline methods under both LLM-as-a-Judge and             attribute this increase to the absence of valid state transition
+Human-as-a-Judge evaluation settings. Specifically, under            protocols, as without a mechanism to explicitly manage the
+Human-as-a-Judge evaluation, the Match metric of GoS                 reasoning lifecycle and termination, the system tends to ex-
+reaches 39.86%, and the Relevant metric reaches 78.99%.              haust the full reasoning budget before forcing a conclusion,
+Regarding reasoning topology, we observe distinct patterns           thereby incurring unnecessary computational overhead.
+among baselines. The CoT often achieves higher Match met-                   Table 2. Ablation Study of Medical Diagnosis (%)
+rics than ToT, as ToT tends to deviate due to ineffective node
+evaluation mechanisms. However, extending the topology                                                  LLM-as-a-Judge
+                                                                       Methods                                              $/case
+from trees (ToT) to graphs (GoT) and forests (FoT) yields                                               Match Relevant
+performance gains, particularly in the Relevant metric. FoT            GoS                              31.88     74.64        0.12
+emerges as the strongest baseline, suggesting that a broader           w/o reasoning focus              19.57     67.39        0.14
+search space helps capture comprehensive information. Yet,             w/ structured state management   18.12     59.42        0.15
+this comes at a steep price: Multi/FoT incurs the highest cost         w/o causal graph                 12.32     48.55        0.12
+                                                                       w/o state machine                12.32     50.00        0.17
+($0.73/case), whereas GoS achieves superior accuracy at a
+fraction of the cost ($0.12), validating the efficiency of our
+directed search. In terms of agent architecture, Multi-Agent         Sensitivity Analysis. Figure 5 presents a sensitivity analysis
+baselines consistently outperform Single-Agent baselines.            of GoS under varying configurations. Regarding reasoning
+This advantage stems from the effective division of labor            budget (Upper-Left/Right), increasing both interaction iter-
+among multiple expert agents, which enables the model to             ations and retrieval steps generally enhances performance.
+focus on more information sources and thus provide more              Notably, comparisons with the best-performing baseline
+comprehensive information support for diagnosis. Addition-           (dashed line) reveal that GoS achieves superior efficiency,
+ally, we observe that Human-as-a-Judge consistently yields           surpassing the baseline’s peak performance even with a
+higher scores than LLM-as-a-Judge. This is because LLM-              restricted budget. Regarding the dual-thresholds (η, δ) in-
+as-a-Judge prioritizes superficial textual similarity while          troduced in Section 3.3 (Lower-Left/Right), we observe a
+neglecting deep semantic information, whereas professional           distinct trade-off between precision and conservatism. Rais-
+researchers can comprehend diverse expressions of the same           ing these thresholds imposes stricter criteria for drill-down
+diagnosis and assign rational scores. We further provide a           transitions, compelling the model to accumulate more sup-
+granular error analysis in Appendix D, dissecting distinct           porting evidence and ensure higher confidence in the top-
+failure modes to shed light on current limitations and future        ranked hypothesis. While moderate thresholds improve
+directions.                                                          correctness by curbing hasty reasoning, excessively high
+
+                                                                 7
+                           Graph of States: Solving Abductive Tasks with Large Language Models
+                                                                Table 3. Performance of Failure Diagnosis in Distributed Systems
+ thresholds force the model to adopt a conservative strategy:   (%)
+it tends to terminate at superficial diagnosis (boosting Rele-
+vant) rather than risking a fine-grained root cause prediction                                                                         LLM-as-a-Judge
+                                                                                                                          Methods                          $/case
+without overwhelming evidence (lowering Match). This be-                                                                               Match Relevant
+havior validates that these thresholds act as effective control                                                           GoS           70.67     88.00     0.10
+knobs, allowing users to tune the system’s risk tolerance                                                                 Single/CoT    26.67     81.33     0.03
+based on deployment needs.                                                                                                Single/ToT    25.33     78.00     0.14
+                                                                                                                          Single/GoT    27.33     80.00     0.11
+                                                                                                                          Single/FoT    28.67     84.00     0.45
+                                                                                                                          Multi/CoT     34.00     82.67     0.05
+                    Match           Relevant                GoS                 Best Baseline                             Multi/ToT     25.33     81.33     0.13
+Match/Relevant(%)                               Match/Relevant(%)                                                         Multi/GoT     28.00     80.67     0.18
+    100                                               100                                                                 Multi/FoT     28.00     86.67     0.94
+    80                                                80
+
+
+    60                                                60
+
+
+    40                                                40
+
+
+    20                                                20
+                                                                                                               Results. As detailed in Table 3, GoS establishes a new
+           1        3       5   7 Maximum Iteration           1     3     5          7 Maximum Retrieval
+                                                                                                               SOTA under the LLM-as-a-Judge setting. Specifically, GoS
+Match/Relevant(%)                               Match/Relevant(%)                                              achieves 70.67% in Match and 88.00% in Relevant, sur-
+    100                                               100
+
+    80                                                80
+                                                                                                               passing the respective best-performing baselines by margins
+                                                                                                               of 36.67% and 1.33%. We observe that the performance
+    60                                                60
+                                                                                                               trends regarding reasoning topology and agent architectures
+    40                                                40
+                                                                                                               largely mirror those in the medical diagnosis task. Notably,
+    20                                                20                                                       among baselines, Multi/CoT yields the highest Match score
+           1        3       5   7    η                       0.1    0.3   0.5       0.7    δ                   (34.00%), whereas Multi/FoT attains the highest Relevant
+Figure 5. Sensitivity Analysis. Solid line stands for GoS, dashed                                              score (86.67%) but incurs the highest cost ($0.94/case). De-
+line stands for best baseline (Multi/FoT). (1) upper-left: maximum                                             spite the competitive Relevant scores across baselines, a
+number of neuro-symbolic interaction iterations; (2) upper-right:                                              distinct pattern emerges: they significantly underperform in
+maximum number of retrieval actions of expert agent; (3) lower-                                                Match compared to GoS. We attribute this to the structured
+left: minimum support evidence for drill-down transition; (4)
+                                                                                                               nature of system alerts, which contain explicit metadata that
+lower-right: confidence gap for drill-down transition.
+                                                                                                               easily guides models to the correct failure domain (high
+                                                                                                               Relevant). Yet, distinguishing the precise root cause from
+                                                                                                               superficial symptoms requires in-depth investigation. The
+ 4.2. Failure Diagnosis in Distributed Systems
+                                                                                                               superior Match performance of GoS stems from its state
+ Failure diagnosis in distributed systems is a critical opera-                                                 machine, which enforces a coarse-to-fine reasoning process.
+ tional task to mitigate substantial economic losses, requiring                                                This mechanism effectively refines coarse hypotheses into
+ the joint analysis of heterogeneous observability data and                                                    fine-grained root causes, whereas baselines often stagnate
+ system commands to pinpoint root causes.                                                                      at superficial diagnoses (low Match). Regarding cost, GoS
+                                                                                                               delivers superior accuracy at a fraction of Multi/FoT’s ex-
+Task Setup. For each case, the model is provided with the
+                                                                                                               pense ($0.10 vs. $0.94, ∼ 8x cost reduction), validating the
+initial alert, specifying the alert type, affected components,
+                                                                                                               economic efficiency of GoS.
+timestamps, and overall failure descriptions. Crucially, de-
+tailed diagnostic evidence is hidden within the massive raw                                                    Example Case. Figure 6 presents a real incident from a
+observability data, requiring the model to actively investi-                                                   production host where multiple alerts are triggered. Un-
+gate to reconstruct the failure context. To execute this inves-                                                der the GoS framework, the ApplicationOperator
+tigation, GoS instantiates an ApplicationOperator as                                                           first aggregates these alerts to initialize several hypotheses
+the central agent (Acentral ) orchestrating three expert agents                                                and selects “Filesystem Read-Only” as the reasoning focus
+(Aexperts ): LinuxOperator, NetworkOperator,                                                                   due to its highest confidence. Then it coordinates the in-
+and DatabaseOperator. These experts encapsulate                                                                vestigation by instructing the LinuxOperator to inspect
+specialized capabilities, such as querying historical logs, re-                                                the filesystem status. Through restricted shell inspections,
+trieving system metrics, and executing restricted shell com-                                                   including mount state verification and XFS-related kernel
+mands. For Multi-Agent baselines, we adopt the domain-                                                         log analysis, the LinuxOperator observes that the root
+oriented design of D-Bot (Zhou et al., 2024), instantiating                                                    filesystem (XFS on dm-0) has been remounted in read-only
+resource-centric experts (e.g., CPU, Memory, and Disk ex-                                                      mode, with kernel logs explicitly reporting XFS metadata
+perts), each with access limited to their respective domain-                                                   corruption. Based on this evidence, GoS updates the causal
+relevant observability data.                                                                                   graph by increasing the confidence of the current reasoning
+
+                                                                                                           8
+                                                       Graph of States: Solving Abductive Tasks with Large Language Models
+
+                                                                                                                             and the Fundamental Research Funds for the Central Uni-
+                                                                                                                             versities (XXX-63253249).
+         2025-12-12 07:31:00 P2 Linux 10.195.19.39 Filesystem Read Only (Trigger Value:1)
+         2025-12-12 07:32:25 P1 Linux 10.195.19.39 Memory Usage > 90% (Trigger Value:92.34%)
+         2025-12-12 07:31:10 P1 Linux 10.195.19.39 System Health Score < 90% (Trigger Value:36.59%)
+                                                                                                                             Impact Statement
+  ApplicationOperator
+                                                                                                                             This paper introduces GoS, a dual-layer neuro-symbolic
+  Initialization: Aggregating surface alerts to construct initial diagnostic hypotheses.
+                                                                                                                             framework that fills a critical blank regarding the absence
+  Hypothesis-1: Filesystem Read-Only           conf = 0.75     Hypothesis-2: High Memory Pressure        conf = 0.60         of general reasoning framework for abductive tasks. By
+  FindFocus: Find the highest-confidence hypothesis (id = Hypothesis-1, conf = 0.75)                                         orchestrating a synergy where the symbolic layer maintains
+  Plan: Call LinuxOperator to inspect filesystem read-only state.                                                            explicit reasoning states to guide the cognitive layer’s dy-
+  LinuxOperator                                                                                                              namic investigation and execution, our work offers theoreti-
+ Think: I need to check filesystem           Shell: mount | grep ro,            Obs: /dev/mapper/rl-root on …                cal and practical guidance for complex real-world abductive
+  Think: I need to check XFS                 Shell: dmesg | grep XFS            Obs: 15.368219] XFS (dm-0) …                 scenarios such as medical diagnosis, failure diagnosis in
+  Analysis: Existing shell evidence confirms the root mount point “/” (XFS on dm-0) is mounted read-only and …               distributed systems, and criminal investigation. Importantly,
+  ApplicationOperator                                                                                                        our framework does not negate existing efforts in special-
+  UpdateGraph: Update the causal graph based on LinuxOperator Analysis.                                                      ized domains but rather seeks to upgrade the underlying rea-
+  Hypothesis-1: Filesystem Read-Only      conf: 0.75   0.95    Hypothesis-2: High Memory Pressure conf: 0.60      0.40       soning paradigm. Established domain-specific adaptations,
+  BackTracking: No                                             Drill-Down: Yes             :1   2
+                                                                                                                             including RAG and input preprocessing, can be seamlessly
+  RefineHypo: Hypothesis-1: Filesystem Read-Only           Hypothesis-3: XFS metadata corruption    conf = 0.90
+                                                                                                                             integrated into GoS to further enhance their effectiveness.
+  CheckReport: The hypothesis is sufficiently concrete to resolve the query — report now.
+                                                                                                                             Given that reliable abductive reasoning is fundamental to
+  Prediction: XFS metadata corruption on host 10.195.19.39 forced root filesystem read-only.
+  Report: On host Linux 10.195.19.39, the root filesystem (XFS on dm-0) experienced metadata corruption,
+                                                                                                                             decision-making across diverse high-stakes environments,
+  as explicitly reported in the dmesg output, which caused the kernel to remount the filesystem in read-only
+  mode. This directly …                                                                                                      a generalizable framework that enhances the robustness of
+                                                                                                                             such systems holds significant potential for positive societal
+Figure 6. An example of failure diagnosis in distributed systems                                                             impact.
+
+                                                                                                                             References
+focus while suppressing competing alternatives, and enables
+                                                                                                                             Besta, M., Blach, N., Kubicek, A., Gerstenberger, R., Pod-
+a drill-down transition to a finer-grained root cause. The
+                                                                                                                               stawski, M., Gianinazzi, L., Gajda, J., Lehmann, T.,
+system finally reports XFS metadata corruption as the root
+                                                                                                                               Niewiadomski, H., Nyczyk, P., et al. Graph of thoughts:
+cause, which remounted the root filesystem in read-only
+                                                                                                                               Solving elaborate problems with large language models.
+mode.
+                                                                                                                               In Proceedings of the AAAI conference on artificial intel-
+                                                                                                                               ligence, volume 38, pp. 17682–17690, 2024.
+5. Conclusion
+                                                                                                                             Bi, Z., Han, K., Liu, C., Tang, Y., and Wang, Y. Forest-
+In this work, we presented GoS, a general-purpose neuro-                                                                       of-thought: Scaling test-time compute for enhancing llm
+symbolic framework tailored for abductive reasoning.                                                                           reasoning. In Forty-second International Conference on
+Addressing the structural limitations where deductive                                                                          Machine Learning, 2025.
+paradigms fail, we introduced a dual-layer architecture that
+grounds collaborative investigation in explicit belief states                                                                Dongre, V., Rossi, R. A., Lai, V. D., Yoon, D. S., Hakkani-
+via a causal graph and a state machine. This design trans-                                                                    Tür, D., and Bui, T. Drift no more? context equi-
+forms aimless, unconstrained exploration into a directed,                                                                      libria in multi-turn llm interactions. arXiv preprint
+convergent search, effectively navigating incomplete infor-                                                                    arXiv:2510.07777, 2025.
+mation to identify fine-grained root causes. Looking for-
+ward, we envision GoS serving as a robust reasoning back-                                                                    Elstein, A. S., Shulman, L. S., and Sprafka, S. A. Medi-
+bone that, when coupled with domain-specific adaptations,                                                                      cal problem solving: An analysis of clinical reasoning.
+paves the way for reliable decision-making across complex,                                                                     Harvard University Press, 1978.
+high-stakes real-world domains.                                                                                              Hao, S., Sukhbaatar, S., Su, D., Li, X., Hu, Z., Weston,
+                                                                                                                               J., and Tian, Y. Training large language models to
+Acknowledgement                                                                                                                reason in a continuous latent space. arXiv preprint
+                                                                                                                               arXiv:2412.06769, 2024.
+This work is supported by the CCF-Lenovo Blue Ocean
+Research Fund, the National Natural Science Foundation                                                                       Ikram, A., Chakraborty, S., Mitra, S., Saini, S., Bagchi,
+of China (62272249, 62302244), the Tianjin Key Research                                                                        S., and Kocaoglu, M. Root cause analysis of failures
+and Development Program (Grant No. 25YFYFFG00690),                                                                             in microservices through causal discovery. Advances
+
+                                                                                                                         9
+                            Graph of States: Solving Abductive Tasks with Large Language Models
+
+  in Neural Information Processing Systems, 35:31158–                  Magnani, L. Abduction, reason and science: Processes of
+  31170, 2022.                                                          discovery and explanation. Springer Science & Business
+                                                                        Media, 2011.
+Jin, D., Pan, E., Oufattole, N., Weng, W.-H., Fang, H., and
+   Szolovits, P. What disease does this patient have? a                Olausson, T., Gu, A., Lipkin, B., Zhang, C., Solar-Lezama,
+   large-scale open domain question answering dataset from               A., Tenenbaum, J., and Levy, R. Linc: A neurosymbolic
+   medical exams. Applied Sciences, 11(14):6421, 2021.                   approach for logical reasoning by combining language
+Josephson, J. R. and Josephson, S. G. Abductive inference:               models with first-order logic provers. In Proceedings of
+  Computation, philosophy, technology. Cambridge Uni-                    the 2023 Conference on Empirical Methods in Natural
+  versity Press, 1996.                                                   Language Processing, pp. 5153–5176, 2023.
+
+Kim, Y., Park, C., Jeong, H., Chan, Y. S., Xu, X., McDuff,             Olsson, C., Elhage, N., Nanda, N., Joseph, N., DasSarma,
+  D., Lee, H., Ghassemi, M., Breazeal, C., and Park, H. W.               N., Henighan, T., Mann, B., Askell, A., Bai, Y., Chen,
+  Mdagents: An adaptive collaboration of llms for medi-                  A., et al. In-context learning and induction heads. arXiv
+  cal decision-making. Advances in Neural Information                    preprint arXiv:2209.11895, 2022.
+  Processing Systems, 37:79410–79452, 2024.
+                                                                       Pal, A., Umapathi, L. K., and Sankarasubbu, M. Medmcqa:
+Lee, C., Yang, T., Chen, Z., Su, Y., and Lyu, M. R. Eadro:               A large-scale multi-subject multi-choice dataset for medi-
+  An end-to-end troubleshooting framework for microser-                  cal domain question answering. In Conference on health,
+  vices on multi-source data. In 2023 IEEE/ACM 45th In-                  inference, and learning, pp. 248–260. PMLR, 2022.
+  ternational Conference on Software Engineering (ICSE),
+  pp. 1750–1762. IEEE, 2023.                                           Pan, L., Albalak, A., Wang, X., and Wang, W. Logic-
+Li, M., Li, Z., Yin, K., Nie, X., Zhang, W., Sui, K., and                lm: Empowering large language models with symbolic
+  Pei, D. Causal inference-based root cause analysis for                 solvers for faithful logical reasoning. In Findings of
+  online service systems with intervention recognition. In               the Association for Computational Linguistics: EMNLP
+  Proceedings of the 28th ACM SIGKDD Conference on                       2023, pp. 3806–3824, 2023.
+  Knowledge Discovery and Data Mining, pp. 3230–3240,                  Pei, C., Wang, Z., Liu, F., Li, Z., Liu, Y., He, X., Kang, R.,
+  2022a.                                                                 Zhang, T., Chen, J., Li, J., et al. Flow-of-action: Sop
+Li, Z., Zhao, N., Zhang, S., Sun, Y., Chen, P., Wen, X., Ma,             enhanced llm-based multi-agent system for root cause
+  M., and Pei, D. Constructing large-scale real-world bench-             analysis. In Companion Proceedings of the ACM on Web
+  mark datasets for aiops. arXiv preprint arXiv:2208.03938,              Conference 2025, pp. 422–431, 2025.
+  2022b.
+                                                                       Rein, D., Hou, B. L., Stickland, A. C., Petty, J., Pang, R. Y.,
+Lightman, H., Kosaraju, V., Burda, Y., Edwards, H., Baker,               Dirani, J., Michael, J., and Bowman, S. R. GPQA: A
+  B., Lee, T., Leike, J., Schulman, J., Sutskever, I., and               graduate-level google-proof q&a benchmark. In First
+  Cobbe, K. Let’s verify step by step. arXiv preprint                    Conference on Language Modeling, 2024. URL https:
+  arXiv:2305.20050, 2023.                                                //openreview.net/forum?id=Ti67584b98.
+Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua,
+                                                                       Shi, B., Luo, Y., Wang, J., Zhao, Y., Zhang, S., Hao, B.,
+  M., Petroni, F., and Liang, P. Lost in the middle: How
+                                                                         Zhao, C., Sun, Y., Zhang, Z., Sun, R., et al. Flowxpert:
+  language models use long contexts. Transactions of the
+                                                                         Expertizing troubleshooting workflow orchestration with
+  Association for Computational Linguistics, 12:157–173,
+                                                                         knowledge base and multi-agent coevolution. In Proceed-
+  2024.
+                                                                         ings of the 31st ACM SIGKDD Conference on Knowledge
+Liu, Y., Ji, Y., Tao, S., He, M., Meng, W., Zhang, S., Sun, Y.,          Discovery and Data Mining V. 2, pp. 4839–4850, 2025.
+  Xie, Y., Chen, B., and Yang, H. Loglm: From task-based
+  to instruction-based automated log analysis. In 2025                 Singhal, K., Tu, T., Gottweis, J., Sayres, R., Wulczyn, E.,
+  IEEE/ACM 47th International Conference on Software                     Amin, M., Hou, L., Clark, K., Pfohl, S. R., Cole-Lewis,
+  Engineering: Software Engineering in Practice (ICSE-                   H., et al. Toward expert-level medical question answering
+  SEIP), pp. 401–412. IEEE, 2025.                                        with large language models. Nature Medicine, 31(3):943–
+                                                                         950, 2025.
+Luo, Y., Jiang, J., Feng, J., Tao, L., Zhang, Q., Wen,
+  X., Sun, Y., Zhang, S., and Pei, D. Opsagent: An                     Sun, Y., Luo, Y., Wen, X., Yuan, Y., Nie, X., Zhang, S.,
+  evolving multi-agent system for incident management                    Liu, T., and Luo, X. Trioxpert: An automated incident
+  in microservices, 2026. URL https://arxiv.org/                         management framework for microservice system. arXiv
+  abs/2510.24145.                                                        preprint arXiv:2506.10043, 2025.
+
+                                                                  10
+                            Graph of States: Solving Abductive Tasks with Large Language Models
+
+Wang, X., Wei, J., Schuurmans, D., Le, Q. V., Chi,                       the Association for Computational Linguistics: EMNLP
+ E. H., Narang, S., Chowdhery, A., and Zhou, D. Self-                    2024, pp. 4017–4033, 2024.
+ consistency improves chain of thought reasoning in lan-
+ guage models. In The Eleventh International Conference                Zhao, R., Li, X., Joty, S., Qin, C., and Bing, L. Verify-
+ on Learning Representations, 2023.                                      and-edit: A knowledge-enhanced chain-of-thought frame-
+                                                                         work. In Proceedings of the 61st Annual Meeting of
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Xia, F., Chi,              the Association for Computational Linguistics (Volume 1:
+ E., Le, Q. V., Zhou, D., et al. Chain-of-thought prompting              Long Papers), pp. 5823–5840, 2023.
+ elicits reasoning in large language models. Advances in
+ neural information processing systems, 35:24824–24837,                Zhou, X., Li, G., Sun, Z., Liu, Z., Chen, W., Wu, J., Liu, J.,
+ 2022.                                                                   Feng, R., and Zeng, G. D-bot: Database diagnosis system
+                                                                         using large language models. Proceedings of the VLDB
+Wu, C., Lin, W., Zhang, X., Zhang, Y., Xie, W., and Wang,                Endowment, 17(10):2514–2527, 2024.
+ Y. Pmc-llama: toward building open-source language
+ models for medicine. Journal of the American Medical                  Zhou, Y., Song, L., and Shen, J. MAM: Modular multi-
+ Informatics Association, 31(9):1833–1843, 2024.                         agent framework for multi-modal medical diagnosis via
+                                                                         role-specialized collaboration. In Che, W., Nabende,
+Xiong, G., Jin, Q., Lu, Z., and Zhang, A. Benchmarking                   J., Shutova, E., and Pilehvar, M. T. (eds.), Findings
+  retrieval-augmented generation for medicine. In Findings               of the Association for Computational Linguistics: ACL
+  of the Association for Computational Linguistics ACL                   2025, pp. 25319–25333, Vienna, Austria, July 2025. As-
+  2024, pp. 6233–6251, 2024.                                             sociation for Computational Linguistics. ISBN 979-
+                                                                         8-89176-256-5. doi: 10.18653/v1/2025.findings-acl.
+Xu, J., Fei, H., Luo, M., Liu, Q., Pan, L., Wang, W. Y.,                 1298. URL https://aclanthology.org/2025.
+  Nakov, P., Lee, M.-L., and Hsu, W. Aristotle: Master-                  findings-acl.1298/.
+  ing logical reasoning with a logic-complete decompose-
+  search-resolve framework. In Proceedings of the 63rd                 Zhu, Y., Huang, Z., Mu, L., Huang, Y., Nie, W., Liu, J.,
+ Annual Meeting of the Association for Computational                     Zhang, S., Liu, P., and Zhang, X. Diagnosisarena: Bench-
+ Linguistics (Volume 1: Long Papers), pp. 3052–3075,                     marking diagnostic reasoning for large language models.
+  2025a.                                                                 arXiv preprint arXiv:2505.14107, 2025.
+
+Xu, J., Zhang, Q., Zhong, Z., He, S., Zhang, C., Lin, Q.,
+  Pei, D., He, P., Zhang, D., and Zhang, Q. Openrca: Can
+  large language models locate the root cause of software
+  failures? In The Thirteenth International Conference on
+ Learning Representations, 2025b.
+
+Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan,
+  K. R., and Cao, Y. React: Synergizing reasoning and
+  acting in language models. In The eleventh international
+  conference on learning representations, 2022.
+
+Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T., Cao, Y.,
+  and Narasimhan, K. Tree of thoughts: Deliberate problem
+  solving with large language models. Advances in neural
+  information processing systems, 36:11809–11822, 2023.
+
+Yu, G., Chen, P., Li, Y., Chen, H., Li, X., and Zheng, Z.
+  Nezha: Interpretable fine-grained root causes analysis
+  for microservices on multi-modal observability data. In
+  Proceedings of the 31st ACM Joint European Software
+  Engineering Conference and Symposium on the Founda-
+  tions of Software Engineering, pp. 553–565, 2023.
+
+Zhang, W., Guo, H., Yang, J., Tian, Z., Zhang, Y., Chaoran,
+  Y., Li, Z., Li, T., Shi, X., Zheng, L., et al. mabc: multi-
+  agent blockchain-inspired collaboration for root cause
+  analysis in micro-services architecture. In Findings of
+
+                                                                  11
+                           Graph of States: Solving Abductive Tasks with Large Language Models
+
+A. Algorithm
+Here we present the pesudo code of the overall workflow of GoS in Algorithm 1, and the state conversion mechanism in
+Algorithm 2.
+
+Algorithm 1 Graph of States
+ 1: Input: surface symptoms Osurf , central agent Acentral , expert agents Aexperts
+ 2: ReportF lag = f alse
+ 3: B0 , G0 , S0 = Initialization(Acentral , Osurf )
+ 4: repeat
+ 5:   // Symbolic-to-Cognitive
+ 6:   h∗t = FindFocus(Gt )
+ 7:   Instructions = Plan(Acentral ,h∗t , Bt )
+ 8:   Odeep , analyses = ReAct(Aexperts , Instructions, h∗t , Bt )
+ 9:   // Cognitive-to-Symbolic
+10:   Gt+1 = UpdateGraph(Acentral , analyses, Gt )
+11:   // State Conversions, detailed in Algorithm 2
+12:   St+1 , G∗t+1 = StateConversion(Acentral , Gt+1 , St )
+13:   ReportF lag = CheckReport(G∗t+1 )
+14: until ReportF lag is true
+15: prediction, report = Report(Acentral , Bt+1 )
+16: Return: prediction, report
+
+
+
+Algorithm 2 State Conversions
+ 1: Input: graph Gt+1 , gap delta δ, min support η
+ 2: // Backtracking
+ 3: BacktrackF lag = f alse
+ 4: BacktrackF lag, l∗ = CheckBacktrack(Gt+1 )
+ 5: if BacktrackF lag is true then
+ 6:             i
+       for L(vhyp  ) > l∗ do
+                   i
+ 7:       Delete(vhyp )
+ 8:    end for
+ 9: end if
+10: // Drill-down
+           (1)          (2)                    (1)
+11: if P (vhyp ) − P (vhyp ) > δ and |Esup (vhyp )| ≥ η then
+12:    // No drill-down if granularity is fine enough
+13:    if CheckGranularity(Acentral , Gt+1 ) is true then
+14:       Return: St , Gt+1
+15:    end if
+16:    St+1 = St + 1
+17:    // Generate fine-grained hypothesis
+18:    G∗t+1 = RefineHypo(Acentral , Gt+1 )
+19: else
+20:    St+1 = St
+21: end if
+22: Return: St+1 , G∗t+1
+
+
+
+B. Limitations
+While our experiments demonstrate the efficacy of GoS across diverse domains, we acknowledge certain limitations regarding
+the breadth of our evaluation. Currently, our experimental scope is confined to medical diagnosis and failure diagnosis in
+distributed systems. Although abductive reasoning is critical in other high-stakes fields such as criminal investigation, the
+
+                                                               12
+                                  Graph of States: Solving Abductive Tasks with Large Language Models
+
+acquisition of high-quality benchmarks in these domains remains a significant challenge due to strict privacy regulations and
+data protection laws, which limit access to the detailed evidential data required to construct authentic abductive scenarios.
+Nevertheless, the datasets employed in this study are of exceptional quality—sourced from top-tier medical journals and
+real-world production environments of leading technology companies—thereby ensuring that our findings regarding the
+model’s reasoning capabilities remain robust and representative (see Appendix C for more detail).
+
+C. Descriptions of datasets
+C.1. Dataset for Medical Diagnosis
+
+
+
+                 Comprehensive Patient Data
+                                                       A 36-year-old man, previously well, became dizzy and started vomiting,
+                             在此处键入公式。                                                 在此处键入公式。
+                                                       then couldn’t walk steadily within hours—after an exaggerated head or
+                                                       neck turn.
+
+
+
+                  Input               Input
+                                                                                             Imaging Studies
+                                                                                       - Emergency brain CT: No hemorrhage found
+                                                                                       - Head and neck CTA: Fenestration deformity of V2–V3 segment
+                                                                                       of left vertebral artery, duplication shape type
+
+                             在此处键入公式。
+                                                                                            Laboratory Tests
+                                                                                       - Blood routine: No increase in eosinophils
+                                                                                       - CSF: Normal red blood cell and white blood cell counts
+                  Output              Output                             Examination
+                                                                                            Other Tests
+                             LLM Reasoning                                             - Transcranial Doppler foam test: No abnormal embolism
+
+
+
+
+                           Prediction: Acute                 Prediction: Acute posterior circulation ischemic stroke
+                           posterior stroke.                 associated with left vertebral artery fenestration.
+                           Report:   The 36-year-old
+                              在此处键入公式。                       Report: The 36-year-old man developed acute dizziness,
+                           man developed acute               vomiting, gait instability, and positive Romberg sign, and MRI
+                           dizziness, vomiting, gait         shows multiple subacute infarcts in the left thalamus, occipital
+                           instability …                     lobe, and cerebellar hemisphere, directly confirming …
+
+                    Original DiagnosisArena                            Our interactive reformulation
+
+
+Figure 7. Reformulating DiagnosisArena as an interactive diagnostic task. In the original setting, all auxiliary examination records are
+revealed upfront. In contrast, our reformulation restricts the initial input to the chief complaint and basic physical examination, and
+requires the model to explicitly request auxiliary examinations from an external repository before making the final diagnosis.
+
+
+Why do we use DiagnosisArena? We utilize DiagnosisArena (Zhu et al., 2025), a benchmark curated from case reports
+published in top-tier medical journals (e.g., Lancet, NEJM, JAMA) to evaluate diagnostic reasoning capability. Benchmarks
+derived from medical licensing examinations, such as MedQA (Jin et al., 2021) and MedMCQA (Pal et al., 2022), primarily
+focus on evaluating the retention of standardized medical knowledge rather than the reasoning capabilities required for
+diagnosis. In contrast, DiagnosisArena simulates complex abductive reasoning scenarios over multidimensional patient
+records, and it is subjected to rigorous human verification to guarantee high data quality and clinical fidelity.
+How do we reframe the task? As illustrated in Figure 7, the original DiagnosisArena benchmark presents models with
+comprehensive patient data upfront, including all critical auxiliary examination records (e.g., laboratory tests and imaging)
+alongside the initial symptoms. This setting significantly trivializes the diagnostic challenge, as in real-world clinical
+practice, auxiliary examinations incur substantial temporal and financial costs. Consequently, the core difficulty lies in
+identifying the necessary examinations to accumulate evidence, which is eliminated in its original setting. To simulate
+this realistic constraint, we reframe the task as a dynamic investigation process. We restrict the initial input strictly to the
+patient’s chief complaint and basic physical examination, encapsulating all auxiliary examination results within an external
+information repository. The model must explicitly issue precise auxiliary examination commands to retrieve corresponding
+records; otherwise, no information is revealed. This formulation effectively restores the inference difficulty and faithfully
+
+                                                                    13
+                             Graph of States: Solving Abductive Tasks with Large Language Models
+
+mirrors the active, evidence-seeking nature of medical diagnosis.
+
+                                                              LLM-as-a-Judge
+                                                    I        II        III     IV        V
+
+                                       Case 1       1        1         1        1        1
+
+                                       Case 2       0        0         0        0        0
+
+                                       Case 3       0        1         1        1        1
+
+                                       Case 4       2        2         2        2        2
+
+                                       Case 5       1        1         1        1        1
+
+                                       Case 6       2        2         1        2        2
+
+                                       Case 7       0        1         1        0        0
+
+                                       Case 8       1        1         1        1        1
+
+                                       Case 9       0        0         0        0        0
+
+                                       Case 10      2        1         2        1        0
+
+
+Figure 8. Scoring consistency of LLM-as-a-Judge across five repetitions for ten medical diagnostic cases (green: 6 consistent; red: 4
+inconsistent).
+
+Why do we incorporate Human-as-a-Judge? Although LLM-as-a-Judge demonstrates strong alignment with human
+evaluations in general domains due to large-scale Reinforcement Learning from Human Feedback (RLHF), its instability
+in medical diagnosis necessitates human oversight. Empirical analysis reveals that identical diagnostic outputs receive
+inconsistent scores across repeated LLM assessments (as shown in Figure 8), with unresolved ambiguities persisting even
+after majority voting. Crucially, LLMs exhibit a pronounced bias toward longer responses, prioritizing length over diagnostic
+accuracy—a direct consequence of the high domain specificity and insufficient medical expertise in current language models.
+To ensure robust evaluation, we introduce Human-as-a-Judge: a clinical researcher with extensive academic and clinical
+experience performed 110+ hours of manual assessment, strictly prioritizing diagnostic correctness against ground truth.
+This approach enables granular error analysis, uncovering systematic model failures that directly inform targeted model
+refinement and future clinical deployment.
+Why do we need to remove several cases? Following manual verification, we excluded 12 cases containing critical
+information gaps or logical contradictions that render the labeled diagnosis impossible to derive from the provided evidence.
+To substantiate the necessity of this filtration and strictly maintain the integrity of our benchmark, we provide a detailed
+analysis of three representative examples below. These instances illustrate specifically how such intrinsic defects obstruct
+the valid diagnostic reasoning process.
+
+    Case#1: Labeled answer is a secondary diagnosis unrelated to the chief complaint
+
+    Brief description: A man in his 90s with a history of hypertension, hypercholesterolemia, sinus node dysfunction,
+    and prior dual-chamber pacemaker implantation presented with 1 month of abdominal pain radiating to his back.
+    Labeled Answer: Pacemaker pseudofusion.
+    Why: In this case, the patient presented primarily with abdominal pain radiating to the back for 1 month. Auxiliary
+    examinations identified a highly likely cause of the abdominal pain: a 5.3 × 5.3-cm infrarenal abdominal aortic
+    aneurysm with thrombus. Both the chief complaint and auxiliary examinations indicate that the patient’s abdominal
+    pain is caused by the abdominal aortic aneurysm, which is highly consistent with the answer generated by GoS. The
+    labeled answer provided by the dataset is “Pacemaker pseudofusion”, which may be inferred from the absence of
+    atrial or ventricular pacing signals on the electrocardiogram. However, this diagnosis cannot explain the patient’s
+    abdominal pain radiating to the back and thus cannot serve as the primary diagnosis. Therefore, the reason for
+    excluding this case is that the labeled answer cannot serve as the patient’s primary diagnosis but only as a secondary
+
+
+                                                                  14
+                          Graph of States: Solving Abductive Tasks with Large Language Models
+
+
+    one, which deviates from the core issue addressed by the chief complaint.
+
+
+    Case#2: Incorrect labeled answer
+   Brief description: A 36-year-old woman (gravida 2, para 2) presented with right lower pelvic pain. The patient had
+   been previously diagnosed with presumed progressive uterine fibroids 6 months earlier and sought a second opinion.
+   Labeled Answer: Tubal angiomyofibroblastoma
+   Why: The reason for excluding this case is that the labeled answer provided by the dataset is incorrect. The answer
+   given is “Tubal angiomyofibroblastoma”, while we confirm the diagnosis as uterine leiomyoma. Firstly, based on
+   the chief complaint and imaging findings, this case can be identified as a tumor-related disease; therefore, the gold
+   standard for diagnosis should be pathological examination. Subsequently, we focused on the information from the
+   pathological examination and presented three pieces of evidence inconsistent with “Tubal angiomyofibroblastoma”:
+     1. Mismatched immunohistochemical (IHC) profile: The pathological examination demonstrated “Desmin
+        (desmin) positive + ER/PR positive + CD34 negative” — whereas the typical IHC features of angiomyofi-
+        broblastoma are “Desmin negative/weakly positive + CD34 positive + ER/PR mostly negative”. Immuno-
+        histochemistry serves as the “identity code” for tumor differentiation. The reverse expression of Desmin (a
+        smooth muscle-specific marker, positive) and CD34 (positive in angiomyofibroblastoma) constitutes the core
+        differential basis between the two entities. A discrepancy in a single key indicator is sufficient for exclusion.
+     2. Mismatched morphological characteristics: The pathological examination revealed “spindle cells and cords of
+        epithelioid cells surrounding numerous blood vessels + loose fibromyxoid stroma + well-demarcated border”
+        — while the typical morphological hallmarks of angiomyofibroblastoma include “angiocentric clustered/nested
+        arrangement (cells densely surrounding blood vessels to form nodules) + alternating dense and sparse cellular
+        areas + stroma may be myxoid but not the typical loose fibromyxoid type”. Although both tumors exhibit
+        “perivascular growth”, the “angiocentric clustering” of angiomyofibroblastoma is a signature feature. The report
+        only describes cellular cords around blood vessels without dense clustering/nesting, and the stroma is typically
+        loose fibromyxoid, which is inconsistent with the structural characteristics of angiomyofibroblastoma.
+
+     3. Hormone correlation: The report indicates ER/PR positivity, suggesting the tumor is hormonally regulated.
+         In contrast, angiomyofibroblastoma has no association with hormones (both ER and PR are negative), further
+         supporting the exclusion of this diagnosis.
+
+
+    Case#3: Insufficient clinical data to derive the labeled answer
+   Brief description: A 57-year-old male patient was admitted with breathlessness, cough and weakness from the day
+   before. He had a history of a head injury 20 years ago which resulted in cerebral atrophy, quadriplegia and aphasia.
+   The patient had a history of pulmonary thromboembolism in the past year which was under treatment. He also had a
+   history of hypertension and several hospitalizations.
+   Labeled Answer: NDM-positive Burkholderia cepacia complex (Bcc) lower respiratory tract infection
+   Why: The main reason for excluding this case is the insufficient information provided, which is inadequate to
+   support a complete answer and thereby affects the accuracy of the response generated by the model. The labeled
+   answer specifies the multidrug-resistant (MDR) bacterium as Burkholderia cepacia complex (Bcc) — a result that
+   requires specific bacterial species identification to confirm. However, the available data only supports the diagnosis
+   of “multidrug-resistant Gram-negative bacteria,” so GoS solely provided the answer: “MDR Gram-negative bacterial
+   aspiration pneumonia causing acute lower respiratory infection.”
+
+
+C.2. Dataset for Failure Diagnosis in Distributed Systems
+Why do we construct a real-world distributed systems incident dataset? Existing RCA/AIOps benchmarks have
+enabled important progress, but the prevailing evaluation setups still differ from live incident response in two key ways:
+(1) some benchmarks are evaluated under synthetic or limited-scale settings, which may not reflect the complexity and
+heterogeneity of production incidents (Li et al., 2022a; Ikram et al., 2022); and (2) many benchmarks define diagnosis
+
+                                                            15
+                               Graph of States: Solving Abductive Tasks with Large Language Models
+
+around a narrow target (e.g., predicting only one type of root-cause element), which can encourage goal-specific solutions
+and limit transferability across incident objectives (Li et al., 2022b; Lee et al., 2023; Yu et al., 2023). OpenRCA (Xu et al.,
+2025b) takes a meaningful step toward realism by providing multi-source telemetry from production systems and adopting
+a goal-driven task formulation, yet it still largely treats diagnosis as an offline problem where evidence is assumed to be
+pre-materialized at inference time (and, when first-hand incident reports are unavailable, queries are approximated via
+synthesis). In contrast, real-world failure diagnosis is inherently interactive under partial and evolving observability: on-call
+engineers iteratively probe the system by issuing shell-level commands, inspecting live states, and acquiring additional
+signals on demand (Figure 9), rather than passively analyzing a fixed telemetry corpus. To faithfully evaluate diagnostic
+reasoning in this evidence-seeking setting, we construct a dataset directly from authentic production incidents, explicitly
+capturing intermediate shell snapshots and on-demand observations along the investigation trajectory.
+
+
+
+                           2025-12-12 07:31:00 P2 Linux 10.195.19.39 Filesystem Read Only (Trigger Value:1)
+                                                             在此处键入公式。
+                           2025-12-12 07:32:25 P1 Linux 10.195.19.39 Memory Usage > 90% (Trigger Value:92.34%)
+                           2025-12-12 07:31:10 P1 Linux 10.195.19.39 System Health Score < 90% (Trigger Value:36.59%)
+
+
+
+
+                                                               cpu_usage
+
+
+                                                      Metric   health_score
+
+
+                                                               memory_usage
+                                                               2025-12-12 15:21:06 ERROR User-service Failed to append application log file
+                                                      Log      2025-12-12 15:22:15 WARN User-service In-memory queue size exceeds threshold
+                                                               2025-12-12 15:22:15 ERROR Chronyd can't open file /var/lib/chrony/drift for writing (Read-only file system)
+                                                                   > dmesg | grep xfs | tail –n 4
+                                      Investigation
+                                                      Shell
+                                                               [ 15.368219] XFS (dm-0): Metadata corruption at xfs_inode_buf_verify+0x5e/0x100 [xfs], block 0x2d18b30
+                                                               [ 15.368225] XFS (dm-0): Unmount and run xfs_repair
+                                                               [ 15.368228] XFS (dm-0): First 128 bytes of corrupted metadata buffer:
+                                                               [ 15.369521] XFS (dm-0): Remounting filesystem read-only
+
+
+
+
+                           Prediction: XFS metadata corruption on host Linux 10.195.19.39 forced root filesystem read-only.
+
+                            Report: On host Linux 10.195.19.39, the root filesystem (XFS on dm-0) experienced metadata
+                            corruption, as explicitly reported in the dmesg output, which caused the kernel to remount the
+                            filesystem in read-only mode. This directly …
+
+
+Figure 9. An example of an interactive failure diagnosis process in distributed systems. Given an initial alarm summary, the agent
+iteratively investigates the incident by querying heterogeneous signals, including time-series metrics, system logs, and shell-level snapshots.
+Through progressive evidence collection and interpretation, the system converges to the final root cause.
+
+Dataset characteristics. We collect 150 production incidents and represent each as an incident-centric investigation
+trajectory, spanning from the first alert to the postmortem-confirmed root cause. Each incident records heterogeneous
+diagnostic signals observed during live response, including time-series metrics, system logs, and shell-level snapshots. The
+root cause labels are derived from post-incident analyses conducted by experienced on-call engineers. Importantly, shell
+snapshots capture intermediate probing actions and raw system states (i.e., command outputs) during troubleshooting, rather
+than curated summaries or oracle evidence. Consequently, the root cause is not explicitly revealed unless the collected
+evidence is correctly interpreted and integrated over the investigation over time.
+Scale and coverage. The incidents are drawn from an industrial observability platform monitoring on the order of 2.5 × 104
+infrastructure instances, spanning multiple layers of modern stacks: data-center facilities (e.g., temperature/humidity
+sensors, precision cooling, backup power), infrastructure hardware (mainstream server families), virtualization and cloud
+(e.g., VMware/OpenStack and major public clouds), hosts (e.g., Linux/Windows/AIX), middleware (e.g., Kafka/RabbitMQ),
+databases (e.g., PostgreSQL/MySQL/MongoDB/Redis), and application/service-level end-to-end monitoring (including
+
+                                                                                     16
+                           Graph of States: Solving Abductive Tasks with Large Language Models
+
+enterprise analytics workloads such as HANA). The platform ingests network log streams at the order of 1010 entries per
+day (e.g., ∼12B/day) and retains PB-scale historical observability data, which makes root-cause localization depend on
+efficient, targeted evidence seeking rather than exhaustive log inspection.
+Data availability. The incident dataset used in this work is collected from a real-world production distributed system
+and contains sensitive operational information (e.g., logs/metrics/traces) and proprietary identifiers. Due to company
+confidentiality, privacy, and compliance requirements, we cannot publicly release the raw data or interaction traces. All case
+examples shown in this paper are sanitized and anonymized, and do not correspond to real asset identities.
+
+D. Error Analysis
+To gain a deeper understanding of the limitations of current neuro-symbolic approaches and the inherent challenges of
+abductive reasoning tasks. We conducted a manual inspection over failure cases (score smaller than 2) from both GoS and
+all baseline methods across the domains of medical diagnosis and failure diagnosis in distributed systems. This analysis
+identifies common pitfalls and offers guidance for future architecture optimization.
+
+D.1. Taxonomy of Error Types
+To systematically dissect the limitations of GoS and understand the underlying causes of diagnostic failures, we synthesized
+the observed failures into five primary error types based on empirical frequency. Note that this taxonomy highlights the
+most prevalent error types rather than being exhaustive, with negligible outliers omitted. Furthermore, these categories
+are not mutually exclusive, as a single failure case may exhibit compound errors spanning multiple types. This taxonomy
+ranges from low-level operational missteps to high-level strategic deficiencies in abductive reasoning. The definitions and
+representative examples for each error type are detailed below:
+
+ 1. Wrong Action Selection.
+    This error occurs at the operational level when the agent invokes tools that are logically irrelevant to the current
+    hypothesis. It reflects a disconnect between the reasoning intent and the executed action, resulting in resource wastage
+    without yielding valid evidence.
+    Example: The model suspects a CPU saturation issue but erroneously invokes tools to retrieve memory-related metrics,
+    failing to verify the initial suspicion.
+
+ 2. Evidence Fabrication.
+    This refers to the hallucination phenomenon where the model generates non-existent evidence to support a biased
+    hypothesis. Unlike logical errors, this involves the corruption of the ground truth, where the model explicitly asserts
+    the presence of specific observational details that are entirely absent from the provided context.
+    Example: To support a “Database Connection Failure” hypothesis, the model claims to find a specific “Connection
+    Refused” error entry in the application logs, even though the retrieved log file is actually normal.
+
+ 3. Context Drift.
+    This error manifests as a failure in long-term state maintenance. The model loses track of the historical reasoning
+    trajectory, leading to the redundant execution of previously used tools or the resurrection of hypotheses that were
+    already falsified in earlier turns.
+    Example: The agent queries the database latency again in Turn 10, ignoring that the same query in Turn 3 had already
+    ruled out database issues.
+
+ 4. Failed Backtracking.
+    This represents a critical strategic flaw in non-monotonic reasoning. When encountering evidence that refutes the
+    current deduction, the model fails to revert to a prior state to explore alternative branches. Instead, it exhibits “logical
+    stubbornness” by proposing ad-hoc, low-probability auxiliary hypotheses to force compatibility with the contradictory
+    evidence.
+    Example: When an X-ray result rules out an “ankle fracture,” instead of pivoting to soft tissue damage, the model
+    doubles down with “occult micro-fracture,” a rare condition undetectable by X-ray, to defend its initial guess.
+
+ 5. Early Stopping.
+    This error occurs when the reasoning process halts at a coarse-grained symptom level rather than drilling down to the
+
+                                                              17
+                           Graph of States: Solving Abductive Tasks with Large Language Models
+
+     root cause. While the diagnosis is directionally correct (yielding high Relevant scores), it lacks the granularity required
+     for actionable mitigation (resulting in low Match scores).
+     Example: The model correctly identifies a “Memory Fault” and terminates, failing to investigate further to pinpoint
+     the specific “Memory Exhaustion” caused by a memory leak, which is necessary to trigger the correct scaling action.
+
+D.2. Quantitative Distribution Analysis
+To rigorously quantify the failure mechanisms, we conducted a statistical analysis over failure cases, dissecting the error
+distributions from two distinct perspectives: (1) a methodological comparison between GoS and the aggregated baselines,
+where error prevalence is calculated over the pooled failure cases of all baseline models across both scenarios, and (2) a
+cross-domain comparison analyzing failure cases exclusively within GoS. It is important to note that these error types are
+neither mutually exclusive nor do they cover every potential error type. A single reasoning trajectory may exhibit compound
+failures (e.g., an “Evidence Fabrication” leading to a subsequent “Failed Backtracking”), and minor anomalies outside our
+primary taxonomy are not included. Consequently, the reported statistics reflect the prevalence of each error type relative to
+the total number of failure cases, and the cumulative percentages may not strictly sum to 100%. The detailed distributions
+are presented in Table 4 and Table 5.
+
+                                   Table 4. Error Distribution Comparison across Methods (%).
+
+                                                                     Error Types
+      Methods
+                      Wrong Action Selection    Evidence Fabrication     Context Drift   Failed Backtracking   Early Stopping
+ Baselines (Pooled)            47.22                    22.22               41.32               52.78              63.89
+        GoS                    55.90                      0                 9.70                30.90              18.75
+
+Methodological Comparison. Table 4 reveals a fundamental shift in error dynamics between GoS and baselines. We
+analyze these variations through two distinct lenses: architectural constraints and domain knowledge dependency.
+
+  1. Architectural Advantages. The most significant improvement lies in the elimination of Evidence Fabrication in GoS
+     (0% vs. 22.22%). This is a direct consequence of our neuro-symbolic architecture, which imposes strict grounding
+     constraints: the construction of nodes and edges in the causal graph must be derived from actual tool execution returns.
+     Unlike baselines, which generate unconstrained text and are prone to hallucinating non-existent evidence, GoS cannot
+     “invent” evidence without interaction. Similarly, the explicit maintenance of the causal graph acts as a structured
+     external memory, significantly suppressing Context Drift (9.70% vs. 41.32%) by preventing the model from losing
+     context during long-horizon reasoning. Furthermore, the introduction of the state machine enforces a hierarchical,
+     coarse-to-fine reasoning process. This mechanism compels the agent to drill down into fine-grained root causes,
+     effectively mitigating Early Stopping (18.75% vs. 63.89%), whereas baselines often stagnate at coarse diagnosis.
+  2. The Challenge of Domain Knowledge. It is notable that Wrong Action Selection constitutes a higher proportion of
+     failures in GoS (55.90%) compared to baselines (47.22%). However, this increase is a statistical artifact resulting from
+     GoS’s success in eliminating structural failure modes. By effectively curbing Evidence Fabrication and Context Drift,
+     GoS significantly shrinks the total volume of failures, causing the remaining errors to appear proportionally larger
+     within the smaller failure set. Our in-depth analysis suggests that these persistent failures stem primarily from a deficit
+     in domain-specific knowledge rather than reasoning logic, particularly in the complex medical domain. For baselines,
+     Failed Backtracking is often compounded by fabricated evidence, leading the agent further down incorrect paths instead
+     of self-correction. In contrast, while GoS avoids fabrication, it still incurs a 30.90% error rate in backtracking. This
+     is largely attributed to the limited clinical expertise of pre-trained LLMs, given that the medical diagnosis domain
+     contributes the most significant portion of failure cases in GoS. In specialized medical diagnosis scenario, even when
+     the agent successfully retrieves critical evidence, it may fail to recognize that this evidence inherently contradicts the
+     current hypothesis due to a lack of expert experience, thus missing the opportunity to backtrack. Consequently, the high
+     prevalence of Wrong Action Selection across all methods reflects the inherent difficulty of selecting precise diagnostic
+     tools without deep domain understanding. This observation points to a critical direction for future research: integrating
+     RAG with specialized domain knowledge bases is essential to complement the general reasoning capabilities of our
+     proposed framework.
+
+Cross-Domain Comparison. Table 5 dissects the error distributions of GoS specifically across the two domains. The distinct
+
+                                                                18
+                           Graph of States: Solving Abductive Tasks with Large Language Models
+
+                                  Table 5. Error Distribution Comparison across Domains (%).
+
+                                                                    Error Types
+      Domains
+                       Wrong Action Selection    Evidence Fabrication   Context Drift   Failed Backtracking   Early Stopping
+       Medical                  35.76                     0                 7.29               23.26              5.90
+ Distributed Systems            20.14                     0                 2.41                7.64              12.85
+
+
+error distributions reveal that while abductive reasoning serves as the unifying task formulation, the specific challenges are
+intrinsically shaped by unique domain characteristics.
+
+  1. Knowledge Barrier for Medical Diagnosis. The medical diagnosis domain presents a knowledge-intensive challenge,
+     evidenced by the dominance of Wrong Action Selection (35.76%) and Failed Backtracking (23.26%). This aligns with
+     the analysis of our methodological comparison: the lack of specialized clinical knowledge prevents the agent from
+     selecting precise auxiliary examinations or identifying valid alternative hypotheses when a lead fails. The pre-trained
+     LLM, lacking expert intuition, struggles to navigate the medical decision tree effectively, confirming that the primary
+     bottleneck here is domain expertise rather than reasoning depth.
+
+  2. Efficiency-Budget Trade-off for Distributed System. In contrast, the distributed system domain exhibits a higher
+     prevalence of Early Stopping (12.85%). Our analysis reveals that this is not merely a failure of drill-down, but a
+     consequence of inefficient exploration under resource constraints. Given the immense volume of telemetry data
+     (metrics, logs) and the complexity of constrained shell commands, the agent often wastes the predefined search budget
+     on low-value queries (i.e., Wrong Action Selection, 20.14%). Once the budget is exhausted, the agent is forced to halt
+     the investigation and output a premature conclusion, manifesting as an “Early Stopping” error. While increasing the
+     search budget could mitigate this, it would incur prohibitive resource costs, highlighting the critical need for search
+     efficiency in high-dimensional system data.
+
+  3. Synergy with Domain-Specific Adaptations. These observations illuminate a complementary relationship between
+     GoS and existing approaches specialized for different domains. Current frameworks in AIOps, such as OpsAgent (Luo
+     et al., 2026) and TrioXpert (Sun et al., 2025), focus on domain-specific adaptation, utilizing multimodal preprocessing to
+     condense massive telemetry data. Similarly, methods like Flow-of-Action (Pei et al., 2025) leverage Standard Operating
+     Procedures (SOPs) to guide operational workflows. Our analysis suggests that these techniques are not competitors
+     but necessary enhancers to GoS. While GoS provides a general-purpose abductive reasoning backbone, domain
+     adaptations act as the specialized components encapsulating distilled domain knowledge that improve information
+     retrieval efficiency. Integrating such domain-specific preprocessing or SOPs into GoS constitutes a promising future
+     direction, promising to reduce budget consumption and enable deeper drill-down capabilities in complex environments.
+
+To summarize, our quantitative analysis empirically validates the architectural superiority of GoS in enforcing strict
+grounding and maintaining reasoning consistency. Simultaneously, the results underscore a critical bottleneck: the
+framework’s effectiveness in specialized tasks remains bounded by the availability of domain knowledge. Consequently, we
+conclude that the strategic integration of existing domain-specific adaptations with GoS’s general-purpose abductive
+reasoning mechanism constitutes the pivotal key to effectively deploying this framework across diverse vertical
+domains.
+
+D.3. Qualitative Case Study
+To complement the quantitative statistics with tangible insights, we present a curated case study that visualizes the concrete
+manifestations of the identified error types. Rather than displaying exhaustive reasoning trajectories, we focus on critical
+decision pivots—specific moments where the agent’s logic diverges from the ground truth or the baseline’s path. These
+scenarios are selected to intuitively demonstrate the behavioral trade-offs discussed in Methodological Comparison:
+specifically, highlighting how GoS’s structural constraints successfully suppress Evidence Fabrication and Context Drift,
+while simultaneously exposing the challenges of Wrong Action Selection and Failed Backtracking in complex, domain-
+specific environments.
+As illustrated in the left panel of Figure 10, the SingleAgentCoT baseline demonstrates a critical failure in grounding
+when confronting contradictory evidence. Upon receiving a negative MRI report that conflicts with the strong clinical
+
+                                                              19
+                                      Graph of States: Solving Abductive Tasks with Large Language Models
+
+
+
+
+                             Shared Context:
+                             •   Patient: 53-year-old male.
+                             •   Symptoms: High fever (40.2℃), severe focal lumbar tenderness.
+                             •   Current Hypothesis: Vertebral Osteomyelitis (Spinal Infection).
+                             •   Current Event: The action to retrieve MRI returns "Normal".
+
+                                   Trajectory of SingleAgentCoT                                                   Trajectory of GoS
+                             [Step t]                                                          [Step t]
+  (The model fabricated      - Thought: The clinical presentation of high fever and            - Primary_Physician: The Radiologist reports a Normal
+  evidence in its thought)   severe focal lumbar tenderness is pathognomonic for               MRI. I must update the causal graph.
+   Error 1: Evidence         vertebral osteomyelitis. Consistent with these symptoms,          Action: Update Graph
+   Fabrication               the imaging findings of localized marrow signal                   "edit": [
+                             abnormalities and endplate erosion confirm the presence              {
+                             of an acute infectious process in the lumbar spine.                    "node_id": "Spinal_Infection",
+                                                                                                                                                                 (GoS decrease the refuted
+                             - Action: Analyze Diagnostic Criteria.                                 "confidence": 0.15,
+                                                                                                                                                                 hypothesis’s confidence)
+                             - Observation: Criteria for Vertebral Osteomyelitis are                "why": "While high fever and tenderness are present,
+                             met based on clinical symptoms and the assumed                    the retrieved MRI explicitly reports no bone marrow                  Successful
+                             imaging abnormalities.                                            edema or abscess. This structural evidence strongly                  Backtracing
+                                                                                               refutes the infection hypothesis, outweighing the clinical
+   Error 2: Failed           [Step t+1]                                                        presentation."
+   Backtracking              - Thought: Since the diagnosis of Vertebral                          }
+                             Osteomyelitis is confirmed by both the specific clinical           ]
+
+                                                                                               [Current Reasoning Focus ℎ∗
+                             symptoms and the corresponding MRI bone destruction,
+             X               further investigation into alternative causes is
+                             unnecessary.
+                                                                                                                           � ]: {"node_id": "Systemic
+                                                                                               Autoimmune Vasculitis", "confidence": 0.65, "why":....}           (Find new reasoning focus)
+                             - Action: Finalize Diagnostic Conclusion.
+                             - Observation: Differential diagnosis skipped; Primary            (..............Assigning different expert agents..............)
+                             hypothesis confirmed.
+  (The model decide to                                                                                                                                           (While GoS correctly identifies
+                                                                                               [Step t+1]
+  generate report instead                                                                                                                                        the need for evidence, it selects
+                             [Step t+2]                                                        - Laboratory_Physician: To verify the hypothesis of
+  of backtracking)                                                                                                                                               an ineffective diagnostic test.)
+                             - Thought: I have sufficient evidence to support the              Systemic Autoimmune Vasculitis, I need to screen for
+                             diagnosis. I will now generate the final report for the           common autoantibodies associated with autoimmune
+                             user.                                                             vasculitis.
+                                                                                                                                                                  Error 3: Wrong
+                             - Action: Generate Report.                                        - Action: retrieve_lab_result
+                             - Report: "Diagnosis: Confirmed Vertebral                         (test_name="ANA_Screening_Panel")
+                                                                                                                                                                  Action Selection
+                             Osteomyelitis. Rationale: The patient presents with high          - Observation: Negative
+   Wrong Answer !            fever and severe lumbar tenderness. The diagnosis is
+                             supported by clinical signs consistent with early-stage           (..............Investigation.........)
+                             vertebral infection and marrow involvement."
+                                                                                               [Step t+n]
+                                                                                               - Primary_Physician: We run out of budget, and are
+                                                                                               forced to generate report.
+                                                                                                                                                                 (Reasoning budget is exhausted)
+                                                                                               - Action: Generate Report
+                                                                                               -Prediction: Systemic Autoimmune Vasculitis                        Error 4: Early
+                                                                                               - Report: Spinal infection was definitively refuted by             Stopping
+                                                                                               negative MRI. However, specific confirmatory
+                                                                                               immunologic markers (e.g., ANCA) are missing,
+                                                                                               preventing a definitive diagnosis
+
+
+Figure 10. Case Study of Error Types. Visualizing the divergence in reasoning trajectories under contradictory evidence. Left
+(SingleAgentCoT): The baseline ignores negative findings, succumbing to Evidence Fabrication and Failed Backtracking, which leads to
+a confident misdiagnosis. Right (GoS): Our method enforces Successful Backtracking via causal graph but subsequently encounters
+Wrong Action Selection due to domain knowledge deficits, resulting in Early Stopping after reasoning budget exhaustion.
+
+
+
+
+                                                                                          20
+                            Graph of States: Solving Abductive Tasks with Large Language Models
+
+suspicion of “vertebral osteomyelitis”, the agent refuses to discard its initial hypothesis. Instead, it succumbs to Evidence
+Fabrication by explicitly hallucinating the presence of localized marrow edema to justify its stance. This hallucination
+creates a self-reinforcing loop that prevents the agent from re-evaluating earlier assumptions, resulting in Failed Backtracking.
+Consequently, the agent proceeds to issue a confident but incorrect diagnosis, illustrating the danger of unconstrained
+reasoning in safety-critical domains.
+In contrast, the right panel depicts how GoS leverages structural constraints to maintain logical consistency. When presented
+with the same negative MRI findings, the agent strictly adheres to the evidence by refuting the “Spinal Infection” node
+in its causal graph. This mechanism enforces Successful Backtracking and prompts the agent to pivot towards a new
+reasoning focus regarding “systemic autoimmune vasculitis”. However, the subsequent exploration reveals a different
+challenge. Constrained by a lack of specialized clinical knowledge, the agent correctly identifies the necessary investigative
+direction but struggles to select the optimal confirmatory tests. Multiple iterations of such Wrong Action Selection deplete
+the reasoning budget and force an Early Stopping. Consequently, the system produces only a coarse-grained diagnostic
+category rather than a fine-grained specific pathology, reflecting a safe but incomplete diagnostic conclusion.
+
+
+
+
+                                                               21
+

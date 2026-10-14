@@ -1,0 +1,603 @@
+[S0] Running 1 case(s): [12]
+
+
+===============[RUN] Case 12  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1423 | Output token nums：1250 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "One-day-old male infant has not passed stool since birth and has increased bilious vomiting and abdominal swelling",
+  "isolated_evidence": [
+    "Born at term, birth weight 3.1 kg, no significant prenatal history, uncomplicated delivery",
+    "Since birth, no stool passage, increased bilious vomiting, abdominal swelling; anus in normal position with well-developed gluteal muscles and skin folds; normal male genitalia with no visible fistula; clear urine without meconium contamination",
+    "Catheter could not be inserted more than half an inch into the anal opening",
+    "Abdominal X-ray showed multiple dilated bowel loops, including an S-shaped dilated bowel loop extending downward toward the pelvis, indicative of the sigmoid colon; echocardiogram, renal ultrasound, and vertebral X-ray were normal with no indications of VACTERL association"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | One-day-old male infant has not passed stool since birth an… | score=1.000
+[node-2] Evidence[-] | Born at term, birth weight 3.1 kg, no significant prenatal … | score=1.000
+[node-3] Evidence[-] | Since birth, no stool passage, increased bilious vomiting, … | score=1.000
+[node-4] Evidence[-] | Catheter could not be inserted more than half an inch into … | score=1.000
+[node-5] Evidence[-] | Abdominal X-ray showed multiple dilated bowel loops, includ… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1474 | Output token nums：13590 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {"id":"h001","label":"Anorectal malformation","confidence":0.85,"why":"node-4 catheter blocked at anal opening suggests anal/rectal obstruction; node-3 no meconium, bilious vomiting, distension; node-5 dilated loops; term"},
+    {"id":"h002","label":"Hirschsprung disease","confidence":0.3,"why":"node-3 delayed meconium, bilious vomiting, distension, normal anus; node-5 dilated loops support; node-4 catheter obstruction refutes"},
+    {"id":"h003","label":"Meconium ileus/atresia","confidence":0.15,"why":"node-3 no stool, bilious vomiting, distension; node-5 dilated loops support obstruction; node-4 catheter blocked at anus refutes ileal obstruction"},
+    {"id":"h004","label":"VACTERL association","confidence":0.05,"why":"node-5 normal echo, renal ultrasound, vertebral X-ray refute VACTERL"}
+  ],
+  "edges": [
+    {"src":"node-2","dst":"h001","relation":"support"},
+    {"src":"node-3","dst":"h001","relation":"support"},
+    {"src":"node-3","dst":"h002","relation":"support"},
+    {"src":"node-3","dst":"h003","relation":"support"},
+    {"src":"node-4","dst":"h001","relation":"support"},
+    {"src":"node-4","dst":"h002","relation":"refute"},
+    {"src":"node-4","dst":"h003","relation":"refute"},
+    {"src":"node-5","dst":"h001","relation":"support"},
+    {"src":"node-5","dst":"h002","relation":"support"},
+    {"src":"node-5","dst":"h003","relation":"support"},
+    {"src":"node-5","dst":"h004","relation":"refute"}
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | One-day-old male infant has not passed stool since birth an… | score=1.000
+[node-2] Evidence[-] | Born at term, birth weight 3.1 kg, no significant prenatal … | score=1.000
+[node-3] Evidence[-] | Since birth, no stool passage, increased bilious vomiting, … | score=1.000
+[node-4] Evidence[-] | Catheter could not be inserted more than half an inch into … | score=1.000
+[node-5] Evidence[-] | Abdominal X-ray showed multiple dilated bowel loops, includ… | score=1.000
+[node-6] Hypothesis[1] | Anorectal malformation | score=0.850 | attrs={"why": "node-4 catheter blocked at anal opening suggests anal/rectal obstructi…
+[node-7] Hypothesis[1] | Hirschsprung disease | score=0.300 | attrs={"why": "node-3 delayed meconium, bilious vomiting, distension, normal anus; no…
+[node-8] Hypothesis[1] | Meconium ileus/atresia | score=0.150 | attrs={"why": "node-3 no stool, bilious vomiting, distension; node-5 dilated loops su…
+[node-9] Hypothesis[1] | VACTERL association | score=0.050 | attrs={"why": "node-5 normal echo, renal ultrasound, vertebral X-ray refute VACTERL",…
+=== Edges ===
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-6[Anorectal malformation] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-7[Hirschsprung disease] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-8[Meconium ileus/atresia] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-9[VACTERL association] | refines | conf=0.000
+node-2[Born at term, birth weight 3.1 kg, no significant prenatal …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-9[VACTERL association] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1409 | Output token nums：605 | price(CNY)：0.00000000
+Response: {"belief": "In a one-day-old male infant with no stool since birth, bilious vomiting, and abdominal swelling, the leading consensus is anorectal malformation (score 0.85). Key evidence includes inability to insert a catheter more than half an inch into the anal opening, normal anus position, no meconium in urine, and abdominal X-ray showing multiple dilated bowel loops with an S-shaped sigmoid loop extending toward the pelvis. Term birth and normal prenatal history support this presentation. The catheter obstruction strongly supports anorectal malformation while refuting Hirschsprung disease and meconium ileus/atresia, which remain lower-probability alternatives (0.3 and 0.15). VACTERL association is unlikely (0.05) because echocardiogram, renal ultrasound, and vertebral X-ray are normal. Thus, the consensus favors anorectal malformation as the primary diagnosis."}
+{'node_id': 'node-6', 'label': 'Anorectal malformation', 'why': 'node-4 catheter blocked at anal opening suggests anal/rectal obstruction; node-3 no meconium, bilious vomiting, distension; node-5 dilated loops; term', 'score': 0.85, 'level': 1, 'supports': 4, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1349 | Output token nums：1669 | price(CNY)：0.00000000
+Response: [{"expert_name":"Radiologist","planning_intent":"seek_discriminating_evidence"}]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1101 | Output token nums：5728 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1256 | Output token nums：646 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's detailed perineal examination record (anal opening appearance, dimple, fistula, meconium staining) and any cross-table lateral radiograph or invertogram results (core data to confirm anorectal malformation and define its level/type, guiding surgical planning)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：413 | Output token nums：639 | price(CNY)：0.00000000
+Step 1 Observations: Lower gastrointestinal fluoroscopy showed no contrast passage through the rectum, and the catheter tip met resistance at half an inch from the anal orifice.
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1186 | Output token nums：285 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1341 | Output token nums：1124 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the complete lower gastrointestinal fluoroscopy report with images and any invertogram measurement of distal rectal pouch to perineal skin distance, plus perineal examination findings for fistula or meconium staining. These are critical to confirm anorectal malformation and classify low versus high type for surgical planning."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：415 | Output token nums：452 | price(CNY)：0.00000000
+Step 2 Observations: Lower gastrointestinal fluoroscopy showed no contrast passage through the rectum, and the catheter tip met resistance at half an inch from the anal orifice..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1291 | Output token nums：64 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1446 | Output token nums：5629 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"One-day-old male with no stool, bilious vomiting, distension, catheter blocked half inch at anus, normal anal position, no meconium in urine, X-ray showing dilated loops with S-shaped sigmoid toward pelvis, lower GI confirming no rectal contrast passage strongly supports anorectal malformation. Hirschsprung and meconium ileus are less likely; VACTERL unlikely. All key retrievable data covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3524 | Output token nums：2805 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-6",
+      "confidence": 0.88,
+      "why": "The radiologist's new finding of a lower gastrointestinal contrast study showing no passage of rectal contrast beyond the anal canal directly reinforces the anal/rectal obstruction already suggested by the catheter that could not be advanced more than half an inch. Combined with absent meconium, bilious vomiting, abdominal distension, multiple dilated bowel loops with an S-shaped sigmoid extending toward the pelvis, term birth, and a normally positioned anus, anorectal malformation is strongly supported. Confidence is raised from 0.85 to 0.88."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.2,
+      "why": "The new lower gastrointestinal contrast study showing no rectal contrast passage argues further against Hirschsprung disease, which would typically demonstrate a transition zone with proximal dilation and a narrowed distal segment rather than complete blockage. Together with the catheter obstruction at the anal opening, this reduces the likelihood of Hirschsprung disease from 0.3 to 0.2."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.12,
+      "why": "The new lower gastrointestinal contrast finding of no passage of rectal contrast is inconsistent with meconium ileus/atresia, in which contrast would typically outline a microcolon and dilated proximal bowel rather than being blocked at the anorectal level. Combined with the catheter obstruction located at the anus rather than at an ileal level, confidence decreases from 0.15 to 0.12."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Lower gastrointestinal contrast study confirms no passage of rectal contrast beyond the anal canal (obstruction at the anorectal level)",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Low-type anorectal malformation with partial proctodeal/anal canal patency (e.g., anal stenosis or membranous atresia)",
+      "node_type": "Hypothesis",
+      "confidence": 0.5,
+      "why": "The catheter could be inserted half an inch before becoming blocked, suggesting some proximal anal canal patency rather than a completely blind imperforate anus, while the new lower GI contrast study confirms a distal anorectal-level obstruction and the anus sits in a normal position with well-developed gluteal folds. These features favor a low-type anorectal malformation with a partially patent anal canal. Confidence is moderate (0.5) because the exact anatomical subtype has not been directly demonstrated."
+    }
+  ],
+  "edges": [
+    {"src": "ev001", "dst": "node-6", "relation": "support"},
+    {"src": "ev001", "dst": "node-7", "relation": "refute"},
+    {"src": "ev001", "dst": "node-8", "relation": "refute"},
+    {"src": "ev001", "dst": "h001", "relation": "support"},
+    {"src": "node-4", "dst": "h001", "relation": "support"}
+  ]
+}
+{'node_id': 'node-6', 'label': 'Anorectal malformation', 'why': "The radiologist's new finding of a lower gastrointestinal contrast study showing no passage of rectal contrast beyond the anal canal directly reinforces the anal/rectal obstruction already suggested by the catheter that could not be advanced more than half an inch. Combined with absent meconium, bilious vomiting, abdominal distension, multiple dilated bowel loops with an S-shaped sigmoid extending toward the pelvis, term birth, and a normally positioned anus, anorectal malformation is strongly supported. Confidence is raised from 0.85 to 0.88.", 'score': 0.88, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | One-day-old male infant has not passed stool since birth an… | score=1.000
+[node-2] Evidence[-] | Born at term, birth weight 3.1 kg, no significant prenatal … | score=1.000
+[node-3] Evidence[-] | Since birth, no stool passage, increased bilious vomiting, … | score=1.000
+[node-4] Evidence[-] | Catheter could not be inserted more than half an inch into … | score=1.000
+[node-5] Evidence[-] | Abdominal X-ray showed multiple dilated bowel loops, includ… | score=1.000
+[node-6] Hypothesis[1] | Anorectal malformation | score=0.880 | attrs={"why": "The radiologist's new finding of a lower gastrointestinal contrast stu…
+[node-7] Hypothesis[1] | Hirschsprung disease | score=0.200 | attrs={"why": "The new lower gastrointestinal contrast study showing no rectal contra…
+[node-8] Hypothesis[1] | Meconium ileus/atresia | score=0.120 | attrs={"why": "The new lower gastrointestinal contrast finding of no passage of recta…
+[node-9] Hypothesis[1] | VACTERL association | score=0.050 | attrs={"why": "node-5 normal echo, renal ultrasound, vertebral X-ray refute VACTERL",…
+[node-1] Evidence[-] | Lower gastrointestinal contrast study confirms no passage o… | score=1.000
+[node-1] Hypothesis[1] | Low-type anorectal malformation with partial proctodeal/ana… | score=0.500 | attrs={"why": "The catheter could be inserted half an inch before becoming blocked, s…
+=== Edges ===
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-6[Anorectal malformation] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-7[Hirschsprung disease] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-8[Meconium ileus/atresia] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-9[VACTERL association] | refines | conf=0.000
+node-2[Born at term, birth weight 3.1 kg, no significant prenatal …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-9[VACTERL association] | refute | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | refines | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2001 | Output token nums：629 | price(CNY)：0.00000000
+Response: {"belief": "The infant’s failure to pass stool, bilious vomiting, and abdominal distension, together with a catheter that cannot be advanced more than half an inch through a normally positioned anus, point to distal bowel obstruction at the anorectal level. Abdominal X-ray showing dilated loops and an S-shaped pelvic sigmoid, plus lower GI contrast confirming no rectal contrast beyond the anal canal, support anorectal malformation as the leading diagnosis (0.88). This evidence also favors a low-type anorectal malformation with partial anal canal patency (0.5). It argues against Hirschsprung disease (0.2), meconium ileus/atresia (0.12), and VACTERL association (0.05), since the obstruction is anorectal and normal echocardiogram, renal ultrasound, and vertebral X-ray refute VACTERL."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4218 | Output token nums：2972 | price(CNY)：0.00000000
+Response: {
+  "type": 2,
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Low-type anorectal malformation with partial anal canal patency (e.g., anal stenosis or membranous atresia)",
+      "confidence": 0.55,
+      "why": "Current frontier is the broad diagnosis 'Anorectal malformation'. The catheter inserted half an inch (node-4) and normal anus position (node-3) suggest some anal canal patency, while lower GI contrast confirms distal anorectal obstruction (node-10). This is a more specific subtype consistent with the belief favoring a low-type malformation with partial patency (0.5)."
+    },
+    {
+      "id": "h002",
+      "label": "Intermediate/high-type anorectal malformation with rectourethral fistula",
+      "confidence": 0.15,
+      "why": "Current frontier is broad 'Anorectal malformation'. In male infants, rectourethral fistula is a common subtype, but clear urine without meconium (node-3) and a normally positioned anus with catheter passage of half an inch (node-4) argue against this higher obstruction."
+    },
+    {
+      "id": "h003",
+      "label": "Imperforate anus without fistula",
+      "confidence": 0.15,
+      "why": "Current frontier is broad 'Anorectal malformation'. No visible fistula and clear urine (node-3) fit this subtype, but the catheter could be advanced half an inch (node-4), suggesting partial anal canal patency rather than a complete blind imperforate anus."
+    },
+    {
+      "id": "h004",
+      "label": "Anorectal malformation with rectoperineal fistula",
+      "confidence": 0.10,
+      "why": "Current frontier is broad 'Anorectal malformation'. A low-type ARM with perineal fistula can cause distal obstruction, but the perineal exam showed no visible fistula and clear urine (node-3), reducing its likelihood compared with partial anal canal patency."
+    },
+    {
+      "id": "h005",
+      "label": "Anorectal malformation with rectovesical fistula",
+      "confidence": 0.05,
+      "why": "Current frontier is broad 'Anorectal malformation'. This high-type ARM is possible but strongly argued against by clear urine without meconium (node-3) and a normally positioned anus with partial catheter passage (node-4)."
+    }
+  ]
+}
+{'node_id': 'node-12', 'label': 'Low-type anorectal malformation with partial anal canal patency (e.g., anal stenosis or membranous atresia)', 'why': "Current frontier is the broad diagnosis 'Anorectal malformation'. The catheter inserted half an inch (node-4) and normal anus position (node-3) suggest some anal canal patency, while lower GI contrast confirms distal anorectal obstruction (node-10). This is a more specific subtype consistent with the belief favoring a low-type malformation with partial patency (0.5).", 'score': 0.55, 'level': 2, 'supports': 0, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1411 | Output token nums：330 | price(CNY)：0.00000000
+Response: [
+  {
+    "expert_name": "Radiologist",
+    "planning_intent": "interpret_existing_evidence"
+  }
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1268 | Output token nums：590 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1485 | Output token nums：1456 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the pediatric surgical consultation note and any pelvic MRI or perineal ultrasound report (to precisely measure the distal rectal pouch-to-perineal skin distance and assess sphincter integrity, the key to confirming low-type anorectal malformation with partial anal canal patency and excluding high-type or other distal obstruction)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：419 | Output token nums：4069 | price(CNY)：0.00000000
+Step 1 Observations: Lower gastrointestinal fluoroscopy showed no contrast passage through the rectum, and the catheter tip met resistance at half an inch from the anal orifice..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1361 | Output token nums：217 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1578 | Output token nums：1143 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need examination under anesthesia with anal probing/calibration findings and any distal colostogram or pelvic MRI measurement of rectal pouch-to-perineal skin distance; these directly define low-type anorectal malformation with partial anal canal patency versus high type and guide surgical planning."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：410 | Output token nums：858 | price(CNY)：0.00000000
+Step 2 Observations: Lower gastrointestinal fluoroscopy showed no contrast passage through the rectum, and the catheter tip met resistance at half an inch from the anal orifice..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1461 | Output token nums：63 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1678 | Output token nums：11943 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Catheter resistance half an inch, normal anus, X-ray dilated loops with S-shaped pelvic sigmoid, and lower GI contrast no rectal passage support anorectal malformation. Best fit is low-type with partial anal canal patency (anal stenosis/membranous atresia), over high type or Hirschsprung. VACTERL refuted. Perineal exam/invertogram/pelvic imaging missing; retrieval limit reached. Imaging covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4743 | Output token nums：9643 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-6",
+      "confidence": 0.9,
+      "why": "Radiologist analysis supports anorectal malformation as the best fit, reinforcing the existing evidence of catheter resistance at half an inch, normal anus position, dilated loops with S-shaped pelvic sigmoid, and lower GI contrast showing no rectal passage beyond the anal canal. Confidence is raised from 0.88 to 0.90."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.15,
+      "why": "Radiologist explicitly favors low-type anorectal malformation over Hirschsprung disease. The anorectal-level obstruction without a transition zone on lower GI contrast makes Hirschsprung less likely. Confidence is lowered from 0.20 to 0.15."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.03,
+      "why": "Radiologist states VACTERL is refuted. Normal echocardiogram, renal ultrasound, and vertebral X-ray already argue against it. Confidence is lowered from 0.05 to 0.03."
+    },
+    {
+      "node_id": "node-11",
+      "confidence": 0.6,
+      "why": "Radiologist identifies low-type anorectal malformation with partial anal canal patency (anal stenosis/membranous atresia) as the best fit. This supports the existing evidence of a catheter advanced half an inch and a normally positioned anus with no fistula. Confidence is raised from 0.50 to 0.60, though direct anatomic confirmation is still missing."
+    },
+    {
+      "node_id": "node-12",
+      "confidence": 0.65,
+      "why": "Radiologist's conclusion that the best fit is low-type with partial anal canal patency (anal stenosis/membranous atresia) directly supports this subtype. The catheter passage of half an inch and distal anorectal obstruction on contrast study favor it. Confidence is raised from 0.55 to 0.65, limited by absent perineal examination, invertogram, and pelvic imaging."
+    },
+    {
+      "node_id": "node-13",
+      "confidence": 0.1,
+      "why": "Radiologist favors low-type over high-type anorectal malformation. Clear urine without meconium and a normally positioned anus with partial catheter passage argue against a rectourethral fistula. Confidence is lowered from 0.15 to 0.10."
+    },
+    {
+      "node_id": "node-14",
+      "confidence": 0.12,
+      "why": "Radiologist favors partial anal canal patency over a completely blind imperforate anus. The catheter advanced half an inch, suggesting some patency. Confidence is lowered from 0.15 to 0.12."
+    },
+    {
+      "node_id": "node-15",
+      "confidence": 0.08,
+      "why": "Radiologist favors low-type with partial anal canal patency, but no visible perineal fistula was found. Confidence is slightly lowered from 0.10 to 0.08."
+    },
+    {
+      "node_id": "node-16",
+      "confidence": 0.03,
+      "why": "Radiologist favors low-type over high-type anorectal malformation. Clear urine without meconium and normal anus position with partial catheter passage argue strongly against a rectovesical fistula. Confidence is lowered from 0.05 to 0.03."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Radiologist notes perineal examination, invertogram, and pelvic imaging were not performed due to retrieval limit",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Anal stenosis (low-type anorectal malformation)",
+      "node_type": "Hypothesis",
+      "confidence": 0.45,
+      "why": "Radiologist identifies low-type anorectal malformation with partial anal canal patency (anal stenosis/membranous atresia) as the best fit. The catheter could be advanced half an inch, indicating partial patency, and the anus is normally positioned without fistula. Confidence is 0.45 because direct perineal examination, invertogram, and pelvic imaging are missing."
+    },
+    {
+      "id": "h002",
+      "label": "Membranous anal atresia (low-type anorectal malformation)",
+      "node_type": "Hypothesis",
+      "confidence": 0.4,
+      "why": "Radiologist identifies low-type anorectal malformation with partial anal canal patency (anal stenosis/membranous atresia) as the best fit. The catheter advanced half an inch and no rectal contrast passed beyond the anal canal, consistent with a membranous distal obstruction. Confidence is 0.40 because the exact anatomy has not been directly visualized."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-10",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-10",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-12', 'label': 'Low-type anorectal malformation with partial anal canal patency (e.g., anal stenosis or membranous atresia)', 'why': "Radiologist's conclusion that the best fit is low-type with partial anal canal patency (anal stenosis/membranous atresia) directly supports this subtype. The catheter passage of half an inch and distal anorectal obstruction on contrast study favor it. Confidence is raised from 0.55 to 0.65, limited by absent perineal examination, invertogram, and pelvic imaging.", 'score': 0.65, 'level': 2, 'supports': 0, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | One-day-old male infant has not passed stool since birth an… | score=1.000
+[node-2] Evidence[-] | Born at term, birth weight 3.1 kg, no significant prenatal … | score=1.000
+[node-3] Evidence[-] | Since birth, no stool passage, increased bilious vomiting, … | score=1.000
+[node-4] Evidence[-] | Catheter could not be inserted more than half an inch into … | score=1.000
+[node-5] Evidence[-] | Abdominal X-ray showed multiple dilated bowel loops, includ… | score=1.000
+[node-6] Hypothesis[1] | Anorectal malformation | score=0.900 | attrs={"why": "Radiologist analysis supports anorectal malformation as the best fit, …
+[node-7] Hypothesis[1] | Hirschsprung disease | score=0.150 | attrs={"why": "Radiologist explicitly favors low-type anorectal malformation over Hir…
+[node-8] Hypothesis[1] | Meconium ileus/atresia | score=0.120 | attrs={"why": "The new lower gastrointestinal contrast finding of no passage of recta…
+[node-9] Hypothesis[1] | VACTERL association | score=0.030 | attrs={"why": "Radiologist states VACTERL is refuted. Normal echocardiogram, renal ul…
+[node-1] Evidence[-] | Lower gastrointestinal contrast study confirms no passage o… | score=1.000
+[node-1] Hypothesis[1] | Low-type anorectal malformation with partial proctodeal/ana… | score=0.600 | attrs={"why": "Radiologist identifies low-type anorectal malformation with partial an…
+[node-1] Hypothesis[2] | Low-type anorectal malformation with partial anal canal pat… | score=0.650 | attrs={"why": "Radiologist's conclusion that the best fit is low-type with partial an…
+[node-1] Hypothesis[2] | Intermediate/high-type anorectal malformation with rectoure… | score=0.100 | attrs={"why": "Radiologist favors low-type over high-type anorectal malformation. Cle…
+[node-1] Hypothesis[2] | Imperforate anus without fistula | score=0.120 | attrs={"why": "Radiologist favors partial anal canal patency over a completely blind …
+[node-1] Hypothesis[2] | Anorectal malformation with rectoperineal fistula | score=0.080 | attrs={"why": "Radiologist favors low-type with partial anal canal patency, but no vi…
+[node-1] Hypothesis[2] | Anorectal malformation with rectovesical fistula | score=0.030 | attrs={"why": "Radiologist favors low-type over high-type anorectal malformation. Cle…
+[node-1] Evidence[-] | Radiologist notes perineal examination, invertogram, and pe… | score=1.000
+[node-1] Hypothesis[2] | Anal stenosis (low-type anorectal malformation) | score=0.450 | attrs={"why": "Radiologist identifies low-type anorectal malformation with partial an…
+[node-1] Hypothesis[2] | Membranous anal atresia (low-type anorectal malformation) | score=0.400 | attrs={"why": "Radiologist identifies low-type anorectal malformation with partial an…
+=== Edges ===
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-6[Anorectal malformation] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-7[Hirschsprung disease] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-8[Meconium ileus/atresia] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-9[VACTERL association] | refines | conf=0.000
+node-2[Born at term, birth weight 3.1 kg, no significant prenatal …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-9[VACTERL association] | refute | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | refines | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | support | conf=0.000
+node-6[Anorectal malformation] -> node-1[Low-type anorectal malformation with partial anal canal pat…] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Intermediate/high-type anorectal malformation with rectoure…] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Imperforate anus without fistula] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Anorectal malformation with rectoperineal fistula] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Anorectal malformation with rectovesical fistula] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-1[Anal stenosis (low-type anorectal malformation)] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | refines | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Anal stenosis (low-type anorectal malformation)] | support | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-1[Anal stenosis (low-type anorectal malformation)] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Anal stenosis (low-type anorectal malformation)] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | support | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3316 | Output token nums：811 | price(CNY)：0.00000000
+Response: {"belief": "The infant's failure to pass stool since birth, bilious vomiting, abdominal swelling, and catheter resistance at the anal opening indicate a distal anorectal obstruction. Lower GI contrast showing no passage beyond the anal canal strongly supports anorectal malformation, specifically a low-type with partial anal canal patency such as anal stenosis or membranous atresia. A normally positioned anus, clear urine without meconium, and no fistula argue against high-type malformations with rectourethral or rectovesical fistulas. Normal echocardiogram, renal ultrasound, and vertebral X-ray refute VACTERL association. Hirschsprung disease and meconium ileus/atresia are less likely because the obstruction is at the anorectal level without a transition zone or microcolon pattern. Missing perineal examination, invertogram, and pelvic imaging limit exact subtype confirmation."}
+{'node_id': 'node-12', 'label': 'Low-type anorectal malformation with partial anal canal patency (e.g., anal stenosis or membranous atresia)', 'why': "Radiologist's conclusion that the best fit is low-type with partial anal canal patency (anal stenosis/membranous atresia) directly supports this subtype. The catheter passage of half an inch and distal anorectal obstruction on contrast study favor it. Confidence is raised from 0.55 to 0.65, limited by absent perineal examination, invertogram, and pelvic imaging.", 'score': 0.65, 'level': 2, 'supports': 0, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1412 | Output token nums：399 | price(CNY)：0.00000000
+Response: [{"expert_name":"Radiologist","planning_intent":"seek_discriminating_evidence"}]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1445 | Output token nums：205 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1663 | Output token nums：2997 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the actual perineal examination record and invertogram or cross-table lateral radiograph images, not just the lower GI report, to measure distal rectal pouch-to-perineal skin distance and confirm anal canal patency. These remain the core missing data to verify low-type anorectal malformation with partial patency and exclude high-type before surgical planning."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：426 | Output token nums：1739 | price(CNY)：0.00000000
+Step 1 Observations: Lower gastrointestinal fluoroscopy showed no contrast passage through the rectum, and the catheter tip met resistance at half an inch from the anal orifice..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1545 | Output token nums：111 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1763 | Output token nums：3475 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the lower GI fluoroscopy spot images and catheter depth measurements, especially during contrast injection and withdrawal, to see if any anal canal opacification occurs beyond the half-inch resistance. This is core to confirm low-type anorectal malformation with partial patency and differentiate anal stenosis from membranous atresia."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：418 | Output token nums：444 | price(CNY)：0.00000000
+Step 2 Observations: Lower gastrointestinal fluoroscopy showed no contrast passage through the rectum, and the catheter tip met resistance at half an inch from the anal orifice..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1653 | Output token nums：67 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1871 | Output token nums：649 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"结合患儿出生后未排便、胆汁性呕吐、腹胀及肛口半英寸处置管受阻，下消化道造影示对比剂未通过肛管，最支持低位肛门直肠畸形伴部分肛管通畅，如肛门狭窄或膜性闭锁。正常心脏、肾脏及脊柱影像不支持VACTERL。现有可及关键证据已覆盖，但缺乏会阴检查、倒立位及盆腔影像，限制精确分型，建议小儿外科评估并手术规划。"}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：5186 | Output token nums：7081 | price(CNY)：0.00000000
+Response: {
+  "edit": [],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Lower GI contrast shows no transition zone or microcolon pattern",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-6",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-8",
+      "relation": "refute"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-11",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-12",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-18",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-19",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "node-13",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "node-16",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "node-14",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "node-15",
+      "relation": "refute"
+    },
+    {
+      "src": "node-4",
+      "dst": "node-14",
+      "relation": "refute"
+    }
+  ]
+}
+{'node_id': 'node-12', 'label': 'Low-type anorectal malformation with partial anal canal patency (e.g., anal stenosis or membranous atresia)', 'why': "Radiologist's conclusion that the best fit is low-type with partial anal canal patency (anal stenosis/membranous atresia) directly supports this subtype. The catheter passage of half an inch and distal anorectal obstruction on contrast study favor it. Confidence is raised from 0.55 to 0.65, limited by absent perineal examination, invertogram, and pelvic imaging.", 'score': 0.65, 'level': 2, 'supports': 1, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | One-day-old male infant has not passed stool since birth an… | score=1.000
+[node-2] Evidence[-] | Born at term, birth weight 3.1 kg, no significant prenatal … | score=1.000
+[node-3] Evidence[-] | Since birth, no stool passage, increased bilious vomiting, … | score=1.000
+[node-4] Evidence[-] | Catheter could not be inserted more than half an inch into … | score=1.000
+[node-5] Evidence[-] | Abdominal X-ray showed multiple dilated bowel loops, includ… | score=1.000
+[node-6] Hypothesis[1] | Anorectal malformation | score=0.900 | attrs={"why": "Radiologist analysis supports anorectal malformation as the best fit, …
+[node-7] Hypothesis[1] | Hirschsprung disease | score=0.150 | attrs={"why": "Radiologist explicitly favors low-type anorectal malformation over Hir…
+[node-8] Hypothesis[1] | Meconium ileus/atresia | score=0.120 | attrs={"why": "The new lower gastrointestinal contrast finding of no passage of recta…
+[node-9] Hypothesis[1] | VACTERL association | score=0.030 | attrs={"why": "Radiologist states VACTERL is refuted. Normal echocardiogram, renal ul…
+[node-1] Evidence[-] | Lower gastrointestinal contrast study confirms no passage o… | score=1.000
+[node-1] Hypothesis[1] | Low-type anorectal malformation with partial proctodeal/ana… | score=0.600 | attrs={"why": "Radiologist identifies low-type anorectal malformation with partial an…
+[node-1] Hypothesis[2] | Low-type anorectal malformation with partial anal canal pat… | score=0.650 | attrs={"why": "Radiologist's conclusion that the best fit is low-type with partial an…
+[node-1] Hypothesis[2] | Intermediate/high-type anorectal malformation with rectoure… | score=0.100 | attrs={"why": "Radiologist favors low-type over high-type anorectal malformation. Cle…
+[node-1] Hypothesis[2] | Imperforate anus without fistula | score=0.120 | attrs={"why": "Radiologist favors partial anal canal patency over a completely blind …
+[node-1] Hypothesis[2] | Anorectal malformation with rectoperineal fistula | score=0.080 | attrs={"why": "Radiologist favors low-type with partial anal canal patency, but no vi…
+[node-1] Hypothesis[2] | Anorectal malformation with rectovesical fistula | score=0.030 | attrs={"why": "Radiologist favors low-type over high-type anorectal malformation. Cle…
+[node-1] Evidence[-] | Radiologist notes perineal examination, invertogram, and pe… | score=1.000
+[node-1] Hypothesis[2] | Anal stenosis (low-type anorectal malformation) | score=0.450 | attrs={"why": "Radiologist identifies low-type anorectal malformation with partial an…
+[node-1] Hypothesis[2] | Membranous anal atresia (low-type anorectal malformation) | score=0.400 | attrs={"why": "Radiologist identifies low-type anorectal malformation with partial an…
+[node-2] Evidence[-] | Lower GI contrast shows no transition zone or microcolon pa… | score=1.000
+=== Edges ===
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-6[Anorectal malformation] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-7[Hirschsprung disease] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-8[Meconium ileus/atresia] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-9[VACTERL association] | refines | conf=0.000
+node-2[Born at term, birth weight 3.1 kg, no significant prenatal …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-6[Anorectal malformation] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-7[Hirschsprung disease] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-8[Meconium ileus/atresia] | support | conf=0.000
+node-5[Abdominal X-ray showed multiple dilated bowel loops, includ…] -> node-9[VACTERL association] | refute | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | refines | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | support | conf=0.000
+node-6[Anorectal malformation] -> node-1[Low-type anorectal malformation with partial anal canal pat…] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Intermediate/high-type anorectal malformation with rectoure…] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Imperforate anus without fistula] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Anorectal malformation with rectoperineal fistula] | refines | conf=0.000
+node-6[Anorectal malformation] -> node-1[Anorectal malformation with rectovesical fistula] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-1[Anal stenosis (low-type anorectal malformation)] | refines | conf=0.000
+node-1[One-day-old male infant has not passed stool since birth an…] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | refines | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Anal stenosis (low-type anorectal malformation)] | support | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-1[Anal stenosis (low-type anorectal malformation)] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Anal stenosis (low-type anorectal malformation)] | support | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | support | conf=0.000
+node-1[Lower gastrointestinal contrast study confirms no passage o…] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | support | conf=0.000
+node-2[Lower GI contrast shows no transition zone or microcolon pa…] -> node-6[Anorectal malformation] | support | conf=0.000
+node-2[Lower GI contrast shows no transition zone or microcolon pa…] -> node-7[Hirschsprung disease] | refute | conf=0.000
+node-2[Lower GI contrast shows no transition zone or microcolon pa…] -> node-8[Meconium ileus/atresia] | refute | conf=0.000
+node-2[Lower GI contrast shows no transition zone or microcolon pa…] -> node-1[Low-type anorectal malformation with partial proctodeal/ana…] | support | conf=0.000
+node-2[Lower GI contrast shows no transition zone or microcolon pa…] -> node-1[Low-type anorectal malformation with partial anal canal pat…] | support | conf=0.000
+node-2[Lower GI contrast shows no transition zone or microcolon pa…] -> node-1[Anal stenosis (low-type anorectal malformation)] | support | conf=0.000
+node-2[Lower GI contrast shows no transition zone or microcolon pa…] -> node-1[Membranous anal atresia (low-type anorectal malformation)] | support | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Intermediate/high-type anorectal malformation with rectoure…] | refute | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Anorectal malformation with rectovesical fistula] | refute | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Imperforate anus without fistula] | refute | conf=0.000
+node-3[Since birth, no stool passage, increased bilious vomiting, …] -> node-1[Anorectal malformation with rectoperineal fistula] | refute | conf=0.000
+node-4[Catheter could not be inserted more than half an inch into …] -> node-1[Imperforate anus without fistula] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3778 | Output token nums：998 | price(CNY)：0.00000000
+Response: {"belief": "The consensus is that this newborn has a low-type anorectal malformation with partial anal canal patency, such as anal stenosis or membranous atresia. The key signal—no meconium, bilious vomiting, abdominal distension—is supported by inability to pass a catheter beyond half an inch, normal anus position, and lower GI contrast showing obstruction at the anorectal level with no transition zone or microcolon. These findings favor anorectal malformation (0.90) and specifically low-type partial patency over Hirschsprung (0.15), meconium ileus/atresia (0.12), or VACTERL (0.03). Direct perineal/invertogram/pelvic imaging is lacking, so subtype confidence remains moderate."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：5691 | Output token nums：852 | price(CNY)：0.00000000
+Response: {"type":1,"answer":"低位肛门直肠畸形伴肛管部分通畅（肛门狭窄或膜性闭锁）","report":"患儿出生后无胎便，伴胆汁性呕吐和腹胀；导尿管仅能插入肛门口半英寸，肛门位置正常；下消化道造影显示直肠对比剂不能通过肛管，梗阻位于肛门直肠水平，无移行带或微结肠。这些表现符合低位肛门直肠畸形伴肛管部分通畅，如肛门狭窄或膜性闭锁；可排除Hirschsprung病、胎粪性肠梗阻/闭锁及VACTERL。因未行会阴检查、倒立位及盆腔影像，亚型信心中等，但总体诊断明确。"}
+Answer: 低位肛门直肠畸形伴肛管部分通畅（肛门狭窄或膜性闭锁）
+Report: 患儿出生后无胎便，伴胆汁性呕吐和腹胀；导尿管仅能插入肛门口半英寸，肛门位置正常；下消化道造影显示直肠对比剂不能通过肛管，梗阻位于肛门直肠水平，无移行带或微结肠。这些表现符合低位肛门直肠畸形伴肛管部分通畅，如肛门狭窄或膜性闭锁；可排除Hirschsprung病、胎粪性肠梗阻/闭锁及VACTERL。因未行会阴检查、倒立位及盆腔影像，亚型信心中等，但总体诊断明确。
+[TraceEvo] case 12: 28 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：38 | Input token nums：69828 | Output token nums：88227 | Total token nums：158055 | price(CNY)：0.00000000

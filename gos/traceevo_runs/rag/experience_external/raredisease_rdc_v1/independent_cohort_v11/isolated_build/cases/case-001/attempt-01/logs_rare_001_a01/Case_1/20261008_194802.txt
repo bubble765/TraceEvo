@@ -1,0 +1,24 @@
+[2026-10-08 19:48:04] | Structured output mode json_schema_strict is unsupported; falling back to json_object: API call error：HTTP 400 [invalid_request_error] Upstream request failed: [invalid_request_error] This response_format type is unavailable now (request_id: e6bd997e-2c18-4465-9844-7c90bed7de49)
+[2026-10-08 19:48:17] | LLM structured output used compatibility mode: json_object
+[2026-10-08 19:48:17] | #### Here are the reponse of ingest function -- generating basic symptom and evidence nodes:
+
+ {
+  "symptom_node": "Patient presented with abdominal pain and bloating",
+  "isolated_evidence": [
+    "The patient is a 54-year-old Caucasian male; he had been using nonsteroidal anti-inflammatory drugs (NSAIDs) for abdominal pain and bloating.",
+    "Medical history includes hypertension, Raynaud's syndrome, rectal cancer in remission post-surgical resection and radiation therapy, and ongoing radiation-induced cystitis.",
+    "Two months prior, he was diagnosed with strongly positive anti-RNA polymerase III systemic sclerosis following the onset of dysphagia and was prescribed methotrexate (MTX) up to 20 mg weekly; he had not taken MTX for 14 days due to feeling unwell.",
+    "Examination revealed a small bladder rupture attributed to cystitis, which did not necessitate surgical intervention; during bladder evaluation, abnormal serum sodium and creatinine levels were detected, leading to further cardiac assessment."
+  ]
+}
+[2026-10-08 19:48:48] | LLM structured output used compatibility mode: json_object
+[2026-10-08 19:48:48] | #### Here are the reponse of ingest function -- generating L1 hypos and corresponding relationship between evidence and hypos:
+
+ {"candidates":[{"id":"h001","label":"NSAID-related adverse effects","confidence":0.4,"why":"node-2 supports NSAID use for symptoms; node-5 abnormal renal function may reflect NSAID nephrotoxicity. Alternative diagnoses exist."},{"id":"h002","label":"SSc GI involvement","confidence":0.75,"why":"node-3 Raynaud's and node-4 anti-RNA pol III SSc with dysphagia support SSc GI involvement; abdominal pain/bloating fits dysmotility/SIBO."},{"id":"h003","label":"Post-radiation complications","confidence":0.5,"why":"node-3 post-radiation rectal cancer and radiation cystitis, plus node-5 bladder rupture/cystitis, support post-radiation pelvic complications."},{"id":"h004","label":"SSc renal crisis","confidence":0.6,"why":"node-3 hypertension, node-4 anti-RNA pol III SSc, node-5 abnormal sodium/creatinine and cardiac assessment support scleroderma renal crisis."}],"edges":[{"src":"node-2","dst":"h001","relation":"support"},{"src":"node-3","dst":"h002","relation":"support"},{"src":"node-3","dst":"h003","relation":"support"},{"src":"node-3","dst":"h004","relation":"support"},{"src":"node-4","dst":"h002","relation":"support"},{"src":"node-4","dst":"h004","relation":"support"},{"src":"node-5","dst":"h001","relation":"support"},{"src":"node-5","dst":"h003","relation":"support"},{"src":"node-5","dst":"h004","relation":"support"}]}
+[2026-10-08 19:48:53] | #### Step1: Finding the current frontier 
+
+ {'node_id': 'node-7', 'label': 'SSc GI involvement', 'why': "node-3 Raynaud's and node-4 anti-RNA pol III SSc with dysphagia support SSc GI involvement; abdominal pain/bloating fits dysmotility/SIBO.", 'score': 0.75, 'level': 1, 'supports': 2, 'refutes': 0}
+[2026-10-08 19:49:10] | #### Here are the plan of central expert: 
+
+ [{"expert_name":"Radiologist","planning_intent":"seek_discriminating_evidence"}]
+[2026-10-08 19:49:10] | Step 1 - Decision Making

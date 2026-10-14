@@ -1,0 +1,90 @@
+# Table 4 — Experience Gate
+
+Block: case 80-137, N = 58. Positive-class branch: **HELDOUT_POSITIVE_CLASS_ADEQUATE**.
+
+## §10.1 natural candidates, by rule
+
+n = 58 natural candidates, every rule run on every one.
+
+| rule | eligible | failure_experience | manual_review | reject | admission rate | 95% CI |
+|---|---|---|---|---|---|---|
+| B0_Naive | 58 | 0 | 0 | 0 | 1.0000 | [0.938, 1.000] |
+| B1_OutcomeOnly | 7 | 0 | 0 | 51 | 0.1207 | [0.060, 0.229] |
+| B2_AuditOnly | 42 | 0 | 0 | 16 | 0.7241 | [0.598, 0.822] |
+| B3_IntegrityOnly | 58 | 0 | 0 | 0 | 1.0000 | [0.938, 1.000] |
+| TraceEvo | 5 | 16 | 37 | 0 | 0.0862 | [0.037, 0.186] |
+
+## §10.2 Incorrect-clean
+
+Definition: verified_incorrect with no audit finding on the trace (§10.2, frozen). n = 22.
+
+| rule | admitted | denominator | rate | 95% CI |
+|---|---|---|---|---|
+| B0_Naive | 22 | 22 | 1.0000 | [0.851, 1.000] |
+| B1_OutcomeOnly | 0 | 22 | 0.0000 | [0.000, 0.149] |
+| B2_AuditOnly | 22 | 22 | 1.0000 | [0.851, 1.000] |
+| B3_IntegrityOnly | 22 | 22 | 1.0000 | [0.851, 1.000] |
+| TraceEvo | 0 | 22 | 0.0000 | [0.000, 0.149] |
+
+## §11 rates, each as numerator / denominator
+
+| rule | metric | numerator | denominator | rate | 95% CI |
+|---|---|---|---|---|---|
+| B0_Naive | Validated Success Retention | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B0_Naive | Admission Precision | 5 | 77 | 0.0649 | [0.028, 0.143] |
+| B0_Naive | Admission Recall | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B0_Naive | Incorrect-Clean Admission | 22 | 22 | 1.0000 | [0.851, 1.000] |
+| B0_Naive | Poison Admission | 19 | 19 | 1.0000 | [0.832, 1.000] |
+| B0_Naive | Correct-but-Poisoned Admission | 19 | 19 | 1.0000 | [0.832, 1.000] |
+| B0_Naive | Manual Review Rate | 0 | 58 | 0.0000 | [0.000, 0.062] |
+| B0_Naive | Failure Capture Rate | 0 | 16 | 0.0000 | [0.000, 0.194] |
+| B1_OutcomeOnly | Validated Success Retention | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B1_OutcomeOnly | Admission Precision | 5 | 26 | 0.1923 | [0.085, 0.379] |
+| B1_OutcomeOnly | Admission Recall | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B1_OutcomeOnly | Incorrect-Clean Admission | 0 | 22 | 0.0000 | [0.000, 0.149] |
+| B1_OutcomeOnly | Poison Admission | 19 | 19 | 1.0000 | [0.832, 1.000] |
+| B1_OutcomeOnly | Correct-but-Poisoned Admission | 19 | 19 | 1.0000 | [0.832, 1.000] |
+| B1_OutcomeOnly | Manual Review Rate | 0 | 58 | 0.0000 | [0.000, 0.062] |
+| B1_OutcomeOnly | Failure Capture Rate | 0 | 2 | 0.0000 | [0.000, 0.658] |
+| B2_AuditOnly | Validated Success Retention | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B2_AuditOnly | Admission Precision | 5 | 44 | 0.1136 | [0.050, 0.240] |
+| B2_AuditOnly | Admission Recall | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B2_AuditOnly | Incorrect-Clean Admission | 22 | 22 | 1.0000 | [0.851, 1.000] |
+| B2_AuditOnly | Poison Admission | 2 | 19 | 0.1053 | [0.029, 0.314] |
+| B2_AuditOnly | Correct-but-Poisoned Admission | 2 | 19 | 0.1053 | [0.029, 0.314] |
+| B2_AuditOnly | Manual Review Rate | 0 | 58 | 0.0000 | [0.000, 0.062] |
+| B2_AuditOnly | Failure Capture Rate | 0 | 0 | — | — |
+| B3_IntegrityOnly | Validated Success Retention | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B3_IntegrityOnly | Admission Precision | 5 | 58 | 0.0862 | [0.037, 0.186] |
+| B3_IntegrityOnly | Admission Recall | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| B3_IntegrityOnly | Incorrect-Clean Admission | 22 | 22 | 1.0000 | [0.851, 1.000] |
+| B3_IntegrityOnly | Poison Admission | 0 | 19 | 0.0000 | [0.000, 0.168] |
+| B3_IntegrityOnly | Correct-but-Poisoned Admission | 0 | 19 | 0.0000 | [0.000, 0.168] |
+| B3_IntegrityOnly | Manual Review Rate | 0 | 58 | 0.0000 | [0.000, 0.062] |
+| B3_IntegrityOnly | Failure Capture Rate | 0 | 16 | 0.0000 | [0.000, 0.194] |
+| TraceEvo | Validated Success Retention | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| TraceEvo | Admission Precision | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| TraceEvo | Admission Recall | 5 | 5 | 1.0000 | [0.566, 1.000] |
+| TraceEvo | Incorrect-Clean Admission | 0 | 22 | 0.0000 | [0.000, 0.149] |
+| TraceEvo | Poison Admission | 0 | 19 | 0.0000 | [0.000, 0.168] |
+| TraceEvo | Correct-but-Poisoned Admission | 0 | 19 | 0.0000 | [0.000, 0.168] |
+| TraceEvo | Manual Review Rate | 37 | 58 | 0.6379 | [0.509, 0.749] |
+| TraceEvo | Failure Capture Rate | 16 | 16 | 1.0000 | [0.806, 1.000] |
+
+## Positive class (§10.4)
+
+verified_success = 7; clean + protocol-eligible = 5; gold-safe = 5; twins built = 19.
+
+Twins: 19 applicable.
+
+| rule | poisoned twins admitted | denominator | rate | 95% CI |
+|---|---|---|---|---|
+| B0_Naive | 19 | 19 | 1.0000 | [0.832, 1.000] |
+| B1_OutcomeOnly | 19 | 19 | 1.0000 | [0.832, 1.000] |
+| B2_AuditOnly | 2 | 19 | 0.1053 | [0.029, 0.314] |
+| B3_IntegrityOnly | 0 | 19 | 0.0000 | [0.000, 0.168] |
+| TraceEvo | 0 | 19 | 0.0000 | [0.000, 0.168] |
+
+Every proportion above carries its numerator and denominator; §11 forbids writing 0.0 or 1.0 without the counts behind them, and the Wilson interval is what makes a 0/58 distinguishable from a 0/2.
+
+Generated by `traceevo/s5b_tables.py` from `gate_final.json` and `gate_baseline_metrics.csv`.

@@ -1,0 +1,422 @@
+[S0] Running 1 case(s): [0]
+
+
+===============[RUN] Case 0  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1333 | Output token nums：2006 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Patient presented with stridor, increased work of breathing, and supplemental oxygen requirement.",
+  "isolated_evidence": [
+    "A man presented to the emergency department on transfer from an outside hospital after falling with an e-cigarette in his mouth several hours earlier; he did not remember the exact cause of the fall but believed he may have lost consciousness.",
+    "Physical examination in the ED showed diffuse supraglottic edema most severe in the epiglottis, arytenoids, and aryepiglottic folds, obstructing a view of the true vocal cords."
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Patient presented with stridor, increased work of breathing… | score=1.000
+[node-2] Evidence[-] | A man presented to the emergency department on transfer fro… | score=1.000
+[node-3] Evidence[-] | Physical examination in the ED showed diffuse supraglottic … | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1382 | Output token nums：3218 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Acute supraglottic edema",
+      "confidence": 0.9,
+      "why": "node-3 confirms diffuse supraglottic edema obstructing view; node-2 supports acute trigger (fall with e-cigarette)."
+    },
+    {
+      "id": "h002",
+      "label": "E-cigarette airway injury",
+      "confidence": 0.7,
+      "why": "node-2 supports e-cigarette exposure/trauma; node-3 supports edema consistent with thermal/chemical injury."
+    },
+    {
+      "id": "h003",
+      "label": "Acute infectious epiglottitis",
+      "confidence": 0.2,
+      "why": "node-3 supports supraglottic edema (can be infectious); node-2 suggests traumatic/inhalational cause, reducing likelihood."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h003",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "support"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Patient presented with stridor, increased work of breathing… | score=1.000
+[node-2] Evidence[-] | A man presented to the emergency department on transfer fro… | score=1.000
+[node-3] Evidence[-] | Physical examination in the ED showed diffuse supraglottic … | score=1.000
+[node-4] Hypothesis[1] | Acute supraglottic edema | score=0.900 | attrs={"why": "node-3 confirms diffuse supraglottic edema obstructing view; node-2 su…
+[node-5] Hypothesis[1] | E-cigarette airway injury | score=0.700 | attrs={"why": "node-2 supports e-cigarette exposure/trauma; node-3 supports edema con…
+[node-6] Hypothesis[1] | Acute infectious epiglottitis | score=0.200 | attrs={"why": "node-3 supports supraglottic edema (can be infectious); node-2 suggest…
+=== Edges ===
+node-1[Patient presented with stridor, increased work of breathing…] -> node-4[Acute supraglottic edema] | refines | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-5[E-cigarette airway injury] | refines | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-6[Acute infectious epiglottitis] | refines | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-6[Acute infectious epiglottitis] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：977 | Output token nums：537 | price(CNY)：0.00000000
+Response: {"belief": "The patient's stridor, increased work of breathing, and oxygen requirement indicate acute upper airway obstruction. Physical examination evidence of diffuse supraglottic edema, most severe in the epiglottis, arytenoids, and aryepiglottic folds, strongly supports acute supraglottic edema. The history of falling with an e-cigarette in the mouth supports e-cigarette airway injury as the likely trigger, consistent with thermal or chemical injury. Because the presentation is traumatic/inhalational rather than infectious, acute infectious epiglottitis is less likely. Overall consensus: acute supraglottic edema, probably due to e-cigarette airway injury."}
+{'node_id': 'node-4', 'label': 'Acute supraglottic edema', 'why': 'node-3 confirms diffuse supraglottic edema obstructing view; node-2 supports acute trigger (fall with e-cigarette).', 'score': 0.9, 'level': 1, 'supports': 2, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1284 | Output token nums：1105 | price(CNY)：0.00000000
+Response: [
+  {"expert_name":"Radiologist"},
+  {"expert_name":"Laboratory_Physician"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1052 | Output token nums：648 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1200 | Output token nums：668 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need lateral neck radiograph/CT neck with contrast and laryngoscopy report (core for confirming acute supraglottic edema, grading airway narrowing, and excluding infectious epiglottitis); also inflammatory markers and exposure timeline to distinguish e-cigarette thermal/chemical injury."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：548 | Output token nums：2599 | price(CNY)：0.00000000
+Step 1 Observations: Computed tomographic scan showed glottic and supraglottic swelling with no evidence of fractures.
+Direct laryngoscopy showed diffuse edema and sloughing of pharyngeal and supraglottic mucosa, most severe in the epiglottis
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1158 | Output token nums：2829 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "analyze"}
+Step 2 parsed result: type=1, decision=analyze
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1306 | Output token nums：977 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"analyze","content":"Combined with suspected acute supraglottic edema from e-cigarette airway injury, CT shows glottic and supraglottic swelling without fracture, and direct laryngoscopy shows diffuse edema and sloughing of pharyngeal and supraglottic mucosa, most severe in the epiglottis. This supports acute supraglottic edema; infectious epiglottitis is less likely. Continue airway monitoring. All key imaging information is covered."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1166 | Output token nums：393 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1314 | Output token nums：2353 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need direct nasopharyngolaryngoscopy findings, neck radiograph/CT, and inflammatory markers (CBC, CRP, procalcitonin) to confirm acute supraglottic edema from e-cigarette injury and exclude infectious epiglottitis; current exam alone lacks visualization, device/exposure details, and infection evidence."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：559 | Output token nums：2688 | price(CNY)：0.00000000
+Step 1 Observations: 1. Computed tomographic scan showed glottic and supraglottic swelling with no evidence of fractures.
+1. Direct laryngoscopy showed diffuse edema and sloughing of pharyngeal and supraglottic mucosa, most severe in the epiglottis
+         Image Title: Clinical Image of False Vocal Cords
+         Image Description: Image of the false vocal cords and aryepiglottic folds taken during tracheostomy
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1374 | Output token nums：300 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1522 | Output token nums：245 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's inflammatory markers (CBC, CRP, procalcitonin) and detailed e-cigarette exposure history (device type, temperature, inhalation duration) to confirm e-cigarette-induced chemical/thermal injury and definitively exclude infectious epiglottitis, as imaging and laryngoscopy already confirm supraglottic edema without fractures."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：616 | Output token nums：51 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1462 | Output token nums：93 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1610 | Output token nums：381 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the hypothesis of acute supraglottic edema from e-cigarette airway injury, CT confirms glottic and supraglottic swelling without fractures, and direct laryngoscopy shows diffuse pharyngeal and supraglottic mucosal edema with sloughing most severe in the epiglottis, arytenoids, and aryepiglottic folds, matching the physical examination and supporting thermal/chemical injury. Fracture absence and the traumatic-inhalational context make infectious epiglottitis less likely. Although inflammatory markers and detailed e-cigarette exposure history remain unavailable, the imaging and laryngoscopic evidence cover all key anatomic findings needed to confirm the diagnosis."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3165 | Output token nums：6025 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-4",
+      "confidence": 0.95,
+      "why": "CT showing glottic and supraglottic swelling without fracture and direct laryngoscopy showing diffuse pharyngeal/supraglottic edema with sloughing most severe in the epiglottis corroborate the physical examination; both the radiologist and laboratory physician analyses support acute supraglottic edema. Confidence raised from 0.9 to 0.95."
+    },
+    {
+      "node_id": "node-5",
+      "confidence": 0.85,
+      "why": "The history of falling with an e-cigarette in the mouth, combined with CT and laryngoscopy findings of edema and mucosal sloughing without fracture, supports thermal/chemical injury; experts interpret these findings as consistent with e-cigarette airway injury. Confidence raised from 0.7 to 0.85, although detailed e-cigarette exposure history remains unavailable."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.1,
+      "why": "CT and direct laryngoscopy show a traumatic/inhalational pattern with edema and mucosal sloughing and no fracture, without infectious features; the radiologist and laboratory physician both state that infectious epiglottitis is less likely in this context. Confidence lowered from 0.2 to 0.1."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "CT shows glottic and supraglottic swelling without fracture",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Direct laryngoscopy shows diffuse edema and sloughing of pharyngeal and supraglottic mucosa, most severe in epiglottis",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Acute supraglottic edema due to e-cigarette airway injury",
+      "node_type": "Hypothesis",
+      "confidence": 0.85,
+      "why": "The patient's fall with an e-cigarette in the mouth provides a traumatic/inhalational trigger; CT and direct laryngoscopy confirm severe supraglottic edema with mucosal sloughing and no fracture, matching the physical examination and supporting thermal/chemical injury. Experts endorse this as acute supraglottic edema from e-cigarette airway injury; confidence is 0.85 because detailed e-cigarette exposure history is still unavailable."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-6",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-6",
+      "relation": "refute"
+    },
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h001",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-4', 'label': 'Acute supraglottic edema', 'why': {'why': 'CT showing glottic and supraglottic swelling without fracture and direct laryngoscopy showing diffuse pharyngeal/supraglottic edema with sloughing most severe in the epiglottis corroborate the physical examination; both the radiologist and laboratory physician analyses support acute supraglottic edema. Confidence raised from 0.9 to 0.95.'}, 'score': 0.95, 'level': 1, 'supports': 4, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient presented with stridor, increased work of breathing… | score=1.000
+[node-2] Evidence[-] | A man presented to the emergency department on transfer fro… | score=1.000
+[node-3] Evidence[-] | Physical examination in the ED showed diffuse supraglottic … | score=1.000
+[node-4] Hypothesis[1] | Acute supraglottic edema | score=0.950 | attrs={"why": {"why": "CT showing glottic and supraglottic swelling without fracture …
+[node-5] Hypothesis[1] | E-cigarette airway injury | score=0.850 | attrs={"why": {"why": "The history of falling with an e-cigarette in the mouth, combi…
+[node-6] Hypothesis[1] | Acute infectious epiglottitis | score=0.100 | attrs={"why": {"why": "CT and direct laryngoscopy show a traumatic/inhalational patte…
+[node-7] Evidence[-] | CT shows glottic and supraglottic swelling without fracture | score=1.000
+[node-8] Evidence[-] | Direct laryngoscopy shows diffuse edema and sloughing of ph… | score=1.000
+[node-9] Hypothesis[1] | Acute supraglottic edema due to e-cigarette airway injury | score=0.850 | attrs={"why": "The patient's fall with an e-cigarette in the mouth provides a traumat…
+=== Edges ===
+node-1[Patient presented with stridor, increased work of breathing…] -> node-4[Acute supraglottic edema] | refines | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-5[E-cigarette airway injury] | refines | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-6[Acute infectious epiglottitis] | refines | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-6[Acute infectious epiglottitis] | support | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | refines | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1824 | Output token nums：506 | price(CNY)：0.00000000
+Response: {"belief": "The patient’s presentation with stridor, increased work of breathing, and oxygen requirement, together with the history of falling with an e-cigarette in his mouth, supports an airway injury mechanism. Physical examination, CT, and direct laryngoscopy consistently show diffuse supraglottic edema and mucosal sloughing without fracture, strongly supporting acute supraglottic edema. This is most plausibly explained as acute supraglottic edema due to e-cigarette airway injury, given the traumatic/inhalational context and absence of infectious features. Acute infectious epiglottitis is considered unlikely. The evidence converges on severe supraglottic swelling from thermal/chemical injury, with the combined diagnosis of e-cigarette-associated acute supraglottic edema as the leading explanation."}
+{'node_id': 'node-4', 'label': 'Acute supraglottic edema', 'why': {'why': 'CT showing glottic and supraglottic swelling without fracture and direct laryngoscopy showing diffuse pharyngeal/supraglottic edema with sloughing most severe in the epiglottis corroborate the physical examination; both the radiologist and laboratory physician analyses support acute supraglottic edema. Confidence raised from 0.9 to 0.95.'}, 'score': 0.95, 'level': 1, 'supports': 4, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1388 | Output token nums：451 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Radiologist"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1233 | Output token nums：597 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1432 | Output token nums：388 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need bronchoscopy findings to assess distal airway injury and exclude occult foreign body, along with inflammatory markers (CRP, WBC) and detailed exposure timeline to differentiate thermal/chemical injury from infection, as these are critical to confirm e-cigarette-associated acute supraglottic edema."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：603 | Output token nums：68 | price(CNY)：0.00000000
+Step 1 Observations: 
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1292 | Output token nums：192 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1491 | Output token nums：390 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need bronchoscopy findings to assess distal airway injury and exclude occult foreign body, along with inflammatory markers (CRP, WBC) and detailed exposure timeline to differentiate thermal/chemical injury from infection; these are critical to confirm e-cigarette-associated acute supraglottic edema and rule out infectious epiglottitis."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：610 | Output token nums：117 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1374 | Output token nums：71 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1573 | Output token nums：408 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with suspected e-cigarette airway injury, CT shows glottic and supraglottic swelling without fracture, and direct laryngoscopy confirms diffuse supraglottic edema with mucosal sloughing most severe in the epiglottis, strongly supporting acute supraglottic edema. Absence of fracture and infectious features favors thermal/chemical injury over infectious epiglottitis. Bronchoscopy and inflammatory markers remain unavailable, but imaging and endoscopic evidence cover the key diagnostic confirmation. All key imaging information is covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3730 | Output token nums：3039 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-4",
+      "confidence": 0.97,
+      "why": "The radiologist analysis explicitly states that CT and direct laryngoscopy findings strongly support acute supraglottic edema and that imaging and endoscopic evidence cover key diagnostic confirmation. This reinforces the physical examination and prior imaging/endoscopic evidence, so confidence is raised from 0.95 to 0.97."
+    },
+    {
+      "node_id": "node-5",
+      "confidence": 0.9,
+      "why": "The radiologist analysis, in the context of suspected e-cigarette airway injury, interprets the CT and laryngoscopy findings of supraglottic swelling and mucosal sloughing without fracture as favoring thermal/chemical injury, which supports e-cigarette airway injury as the mechanism. Confidence is raised from 0.85 to 0.9, while acknowledging that detailed e-cigarette exposure history and bronchoscopy/inflammatory markers remain unavailable."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.05,
+      "why": "The radiologist analysis emphasizes the absence of fracture and infectious features and states that the pattern favors thermal/chemical injury over infectious epiglottitis. This further reduces the likelihood of acute infectious epiglottitis, lowering confidence from 0.1 to 0.05."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.9,
+      "why": "The radiologist analysis confirms that CT and direct laryngoscopy strongly support acute supraglottic edema and, combined with the history of falling with an e-cigarette in the mouth, favor thermal/chemical injury over infectious epiglottitis. This makes e-cigarette-associated acute supraglottic edema the leading combined explanation; confidence is raised from 0.85 to 0.9, though bronchoscopy and inflammatory markers remain unavailable."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Bronchoscopy and inflammatory markers remain unavailable",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "CT and direct laryngoscopy show no fracture and no infectious features",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev002",
+      "dst": "node-4",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-6",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-9",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-4', 'label': 'Acute supraglottic edema', 'why': {'why': 'The radiologist analysis explicitly states that CT and direct laryngoscopy findings strongly support acute supraglottic edema and that imaging and endoscopic evidence cover key diagnostic confirmation. This reinforces the physical examination and prior imaging/endoscopic evidence, so confidence is raised from 0.95 to 0.97.'}, 'score': 0.97, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient presented with stridor, increased work of breathing… | score=1.000
+[node-2] Evidence[-] | A man presented to the emergency department on transfer fro… | score=1.000
+[node-3] Evidence[-] | Physical examination in the ED showed diffuse supraglottic … | score=1.000
+[node-4] Hypothesis[1] | Acute supraglottic edema | score=0.970 | attrs={"why": {"why": "The radiologist analysis explicitly states that CT and direct …
+[node-5] Hypothesis[1] | E-cigarette airway injury | score=0.900 | attrs={"why": {"why": "The radiologist analysis, in the context of suspected e-cigare…
+[node-6] Hypothesis[1] | Acute infectious epiglottitis | score=0.050 | attrs={"why": {"why": "The radiologist analysis emphasizes the absence of fracture an…
+[node-7] Evidence[-] | CT shows glottic and supraglottic swelling without fracture | score=1.000
+[node-8] Evidence[-] | Direct laryngoscopy shows diffuse edema and sloughing of ph… | score=1.000
+[node-9] Hypothesis[1] | Acute supraglottic edema due to e-cigarette airway injury | score=0.900 | attrs={"why": {"why": "The radiologist analysis confirms that CT and direct laryngosc…
+[node-1] Evidence[-] | Bronchoscopy and inflammatory markers remain unavailable | score=1.000
+[node-1] Evidence[-] | CT and direct laryngoscopy show no fracture and no infectio… | score=1.000
+=== Edges ===
+node-1[Patient presented with stridor, increased work of breathing…] -> node-4[Acute supraglottic edema] | refines | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-5[E-cigarette airway injury] | refines | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-6[Acute infectious epiglottitis] | refines | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-6[Acute infectious epiglottitis] | support | conf=0.000
+node-1[Patient presented with stridor, increased work of breathing…] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | refines | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-2[A man presented to the emergency department on transfer fro…] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+node-3[Physical examination in the ED showed diffuse supraglottic …] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+node-7[CT shows glottic and supraglottic swelling without fracture] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+node-8[Direct laryngoscopy shows diffuse edema and sloughing of ph…] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+node-1[CT and direct laryngoscopy show no fracture and no infectio…] -> node-4[Acute supraglottic edema] | support | conf=0.000
+node-1[CT and direct laryngoscopy show no fracture and no infectio…] -> node-5[E-cigarette airway injury] | support | conf=0.000
+node-1[CT and direct laryngoscopy show no fracture and no infectio…] -> node-6[Acute infectious epiglottitis] | refute | conf=0.000
+node-1[CT and direct laryngoscopy show no fracture and no infectio…] -> node-9[Acute supraglottic edema due to e-cigarette airway injury] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2056 | Output token nums：641 | price(CNY)：0.00000000
+Response: {"belief": "The patient's presentation with stridor, increased work of breathing, and oxygen requirement, together with diffuse supraglottic edema on examination, CT showing glottic/supraglottic swelling without fracture, and direct laryngoscopy revealing edema and mucosal sloughing, strongly supports acute supraglottic edema. The history of falling with an e-cigarette in the mouth and the absence of infectious features favor e-cigarette-related thermal/chemical airway injury as the mechanism. Thus, acute supraglottic edema due to e-cigarette airway injury is the leading combined diagnosis. Acute infectious epiglottitis is considered unlikely. Bronchoscopy and inflammatory markers remain unavailable, so further diagnostic confirmation is still pending."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4176 | Output token nums：6269 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "E-cigarette supraglottic edema",
+  "report": "Stridor, increased work of breathing, oxygen need, diffuse supraglottic edema on exam, CT glottic/supraglottic swelling without fracture, and laryngoscopic edema with mucosal sloughing confirm acute supraglottic edema. History of falling with e-cigarette in mouth and absent infectious features favor thermal/chemical airway injury over infectious epiglottitis. Leading diagnosis: acute supraglottic edema due to e-cigarette airway injury. Bronchoscopy/inflammatory markers pending don't change this."
+}
+Answer: E-cigarette supraglottic edema
+Report: Stridor, increased work of breathing, oxygen need, diffuse supraglottic edema on exam, CT glottic/supraglottic swelling without fracture, and laryngoscopic edema with mucosal sloughing confirm acute supraglottic edema. History of falling with e-cigarette in mouth and absent infectious features favor thermal/chemical airway injury over infectious epiglottitis. Leading diagnosis: acute supraglottic edema due to e-cigarette airway injury. Bronchoscopy/inflammatory markers pending don't change this.
+[TraceEvo] case 0: 23 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：31 | Input token nums：45810 | Output token nums：40253 | Total token nums：86063 | price(CNY)：0.00000000

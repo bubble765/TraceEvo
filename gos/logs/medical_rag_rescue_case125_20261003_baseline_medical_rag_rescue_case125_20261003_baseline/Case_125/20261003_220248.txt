@@ -1,0 +1,330 @@
+[2026-10-03 22:02:53] | #### Here are the reponse of ingest function -- generating basic symptom and evidence nodes:
+
+ {
+  "symptom_node": "A 52-year-old woman presented with sudden chest tightness and then developed severe respiratory distress and cardiac arrest",
+  "isolated_evidence": [
+    "Patient has a history of Sjogren's syndrome and initially presented to a regional hospital with sudden chest tightness",
+    "On day 3, the patient developed severe respiratory distress and cardiac arrest with severe ventricular arrhythmias refractory to conventional CPR; after tracheal intubation, she received V-A ECMO and IABP",
+    "On day 4, due to worsening cardiovascular status and persistent electrical instability despite V-A ECMO and IABP, the patient was transferred to another hospital by helicopter",
+    "Upon arrival, blood pressure was 83/64 mmHg while on ECMO at 3.5 L/min and IABP; bedside echocardiography showed severely depressed global wall motion with LVEF approximately 10%"
+  ]
+}
+[2026-10-03 22:03:08] | #### Here are the reponse of ingest function -- generating L1 hypos and corresponding relationship between evidence and hypos:
+
+ {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Autoimmune myocarditis",
+      "confidence": 0.5,
+      "why": "node-2 history of Sjogren's syndrome strongly supports autoimmune myocardial inflammation; node-3 refractory ventricular arrhythmias and cardiac arrest requiring ECMO/IABP are consistent with fulminant myocarditis; node-4 persistent electrical instability reflects severe myocardial injury; node-5 global severe hypokinesis (LVEF 10%) supports diffuse inflammation rather than regional ischemia."
+    },
+    {
+      "id": "h002",
+      "label": "Acute coronary syndrome",
+      "confidence": 0.25,
+      "why": "node-2 sudden chest tightness supports possible ischemic presentation; node-3 cardiac arrest and refractory arrhythmias can complicate acute myocardial infarction; node-4 hemodynamic worsening fits cardiogenic shock; node-5 global severe hypokinesis is less typical of regional infarction, decreasing but not excluding this diagnosis."
+    },
+    {
+      "id": "h003",
+      "label": "Non-ischemic cardiomyopathy",
+      "confidence": 0.15,
+      "why": "node-5 severe global hypokinesis with LVEF 10% supports a non-ischemic diffuse myocardial process; node-3 severe arrhythmias and circulatory support can occur in acute severe cardiomyopathy; node-4 persistent instability is compatible; node-2 chest tightness and Sjogren's history are non-specific and do not clearly refute this category."
+    },
+    {
+      "id": "h004",
+      "label": "Pulmonary embolism",
+      "confidence": 0.1,
+      "why": "node-2 sudden chest tightness and node-3 severe respiratory distress with cardiac arrest can be caused by massive pulmonary embolism; node-5 severe global left ventricular hypokinesis is atypical for pulmonary embolism and refutes it as the primary cause."
+    }
+  ],
+  "edges": [
+    {"src":"node-2","dst":"h001","relation":"support"},
+    {"src":"node-2","dst":"h002","relation":"support"},
+    {"src":"node-2","dst":"h004","relation":"support"},
+    {"src":"node-3","dst":"h001","relation":"support"},
+    {"src":"node-3","dst":"h002","relation":"support"},
+    {"src":"node-3","dst":"h003","relation":"support"},
+    {"src":"node-3","dst":"h004","relation":"support"},
+    {"src":"node-4","dst":"h001","relation":"support"},
+    {"src":"node-4","dst":"h002","relation":"support"},
+    {"src":"node-4","dst":"h003","relation":"support"},
+    {"src":"node-5","dst":"h001","relation":"support"},
+    {"src":"node-5","dst":"h002","relation":"refute"},
+    {"src":"node-5","dst":"h003","relation":"support"},
+    {"src":"node-5","dst":"h004","relation":"refute"}
+  ]
+}
+[2026-10-03 22:03:11] | #### Step1: Finding the current frontier 
+
+ {'node_id': 'node-6', 'label': 'Autoimmune myocarditis', 'why': "node-2 history of Sjogren's syndrome strongly supports autoimmune myocardial inflammation; node-3 refractory ventricular arrhythmias and cardiac arrest requiring ECMO/IABP are consistent with fulminant myocarditis; node-4 persistent electrical instability reflects severe myocardial injury; node-5 global severe hypokinesis (LVEF 10%) supports diffuse inflammation rather than regional ischemia.", 'score': 0.5, 'level': 1, 'supports': 4, 'refutes': 0}
+[2026-10-03 22:03:23] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name": "Laboratory_Physician", "planning_intent": "seek_discriminating_evidence"},
+  {"expert_name": "Radiologist", "planning_intent": "interpret_existing_evidence"}
+]
+[2026-10-03 22:03:23] | Step 1 - Decision Making
+[2026-10-03 22:03:25] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-10-03 22:03:25] | Step 1 parsed result: type=1, decision=retrieve
+[2026-10-03 22:03:25] | Step 1 - Content Generation
+[2026-10-03 22:03:27] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need cardiac MRI findings and endomyocardial biopsy pathology results (core evidence for confirming autoimmune myocarditis and excluding non-inflammatory cardiomyopathy), along with autoimmune antibody serology to support the Sjogren's-associated etiology."}
+[2026-10-03 22:03:29] | Step 1 Observations: - Pathological Examination:
+  - Histological analysis of left ventricular apex specimen showed myocardial necrosis, interstitial edema, and fibrosis, accompanied by infiltration of diffuse monocytes and scattered multinucleated giant cells.
+[2026-10-03 22:03:29] | Step 2 - Decision Making
+[2026-10-03 22:03:31] | Step 2 Decision: {"type":1,"decision":"retrieve"}
+[2026-10-03 22:03:31] | Step 2 parsed result: type=1, decision=retrieve
+[2026-10-03 22:03:31] | Step 2 - Content Generation
+[2026-10-03 22:03:34] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the cardiac MRI report and autoimmune antibody panel results (anti-Ro/anti-La), which remain unavailable; these are core to confirm diffuse myocardial inflammation and link the pathology to Sjogren's-associated autoimmune myocarditis."}
+[2026-10-03 22:03:36] | Step 2 Observations:
+[2026-10-03 22:03:36] | Step 3 - Decision Making
+[2026-10-03 22:03:38] | Step 3 Decision: {"type": 1, "decision": "analyze"}
+[2026-10-03 22:03:38] | Step 3 parsed result: type=1, decision=analyze
+[2026-10-03 22:03:38] | Step 3 - Content Generation
+[2026-10-03 22:03:41] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the suspicion of autoimmune myocarditis, the retrieved endomyocardial biopsy shows diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis, pathognomonic for giant cell myocarditis, an autoimmune fulminant form. This, with Sjogren's history and severe global hypokinesis, confirms the leading diagnosis. Cardiac MRI and anti-Ro/anti-La serology remain unavailable, but biopsy provides definitive tissue evidence. All key information currently covered supports autoimmune myocarditis."}
+[2026-10-03 22:03:41] | Step 1 - Decision Making
+[2026-10-03 22:03:43] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-10-03 22:03:43] | Step 1 parsed result: type=1, decision=retrieve
+[2026-10-03 22:03:43] | Step 1 - Content Generation
+[2026-10-03 22:03:45] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's cardiac MRI and endomyocardial biopsy results to confirm autoimmune myocarditis, along with autoimmune serology and viral PCR to exclude infectious mimics."}
+[2026-10-03 22:03:47] | Step 1 Observations:
+[2026-10-03 22:03:47] | Step 2 - Decision Making
+[2026-10-03 22:03:49] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-10-03 22:03:49] | Step 2 parsed result: type=1, decision=retrieve
+[2026-10-03 22:03:49] | Step 2 - Content Generation
+[2026-10-03 22:03:51] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's serial high-sensitivity troponin and inflammatory markers (CRP, ESR) to quantify myocardial injury and active inflammation, plus coronary angiography or CTA to definitively exclude obstructive coronary disease as the cause of the global dysfunction, which is critical for distinguishing autoimmune myocarditis from ischemic cardiomyopathy."}
+[2026-10-03 22:03:52] | Step 2 Observations: - Troponin T: 14210 ng/L (ref: 0-14 ng/L)
+- Cardiac catheterization: Revealed normal coronary arteries
+[2026-10-03 22:03:52] | Step 3 - Decision Making
+[2026-10-03 22:03:54] | Step 3 Decision: {"type":1,"decision":"analyze"}
+[2026-10-03 22:03:54] | Step 3 parsed result: type=1, decision=analyze
+[2026-10-03 22:03:54] | Step 3 - Content Generation
+[2026-10-03 22:04:02] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the belief of fulminant autoimmune myocarditis, the markedly elevated troponin (14210 ng/L) indicates severe myocardial injury, and normal coronary arteries exclude ischemic cause. Echocardiographic global severe hypokinesis with LVEF 10% plus refractory arrhythmias requiring ECMO/IABP in a Sjogren's patient strongly support autoimmune myocarditis. All key imaging information is covered."}
+[2026-10-03 22:04:45] | #### Step1: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ {
+  "edit": [
+    {
+      "node_id": "node-6",
+      "confidence": 0.96,
+      "why": "Endomyocardial biopsy showing diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis is pathognomonic for giant cell myocarditis, an autoimmune fulminant form. The markedly elevated troponin (14210 ng/L) and normal coronary arteries, together with the history of Sjogren's syndrome and global severe hypokinesis (LVEF ~10%), confirm autoimmune myocarditis as the leading diagnosis."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.03,
+      "why": "Coronary angiography showing normal coronary arteries excludes an ischemic cause, directly refuting acute coronary syndrome. The severe global hypokinesis is atypical for regional infarction, and the elevated troponin reflects myocardial injury rather than a specific ischemic mechanism."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.2,
+      "why": "Normal coronary arteries support a non-ischemic process, and biopsy-confirmed giant cell myocarditis is itself a non-ischemic cardiomyopathy. However, this broad category is less specific than the confirmed autoimmune myocarditis and therefore remains a secondary diagnostic label."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.01,
+      "why": "Biopsy-confirmed giant cell myocarditis provides a definitive alternative cause, and the echocardiographic severe global left ventricular hypokinesis is not characteristic of massive pulmonary embolism. These findings make pulmonary embolism highly unlikely."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev002",
+      "label": "Endomyocardial biopsy shows diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "Troponin is markedly elevated at 14210 ng/L",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev004",
+      "label": "Coronary angiography shows normal coronary arteries",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h002",
+      "label": "Giant cell myocarditis",
+      "node_type": "Hypothesis",
+      "confidence": 0.95,
+      "why": "Endomyocardial biopsy findings are pathognomonic for giant cell myocarditis, an autoimmune fulminant myocarditis, in a patient with Sjogren's syndrome and severe global hypokinesis; markedly elevated troponin and normal coronary arteries support this specific diagnosis."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev002",
+      "dst": "node-6",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-6",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "ev004",
+      "dst": "node-6",
+      "relation": "support"
+    },
+    {
+      "src": "ev004",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "ev004",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "ev004",
+      "dst": "node-8",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-8",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-9",
+      "relation": "refute"
+    },
+    {
+      "src": "h002",
+      "dst": "node-6",
+      "relation": "support"
+    }
+  ]
+}
+[2026-10-03 22:04:45] | #### Step1: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-6', 'label': 'Autoimmune myocarditis', 'why': "Endomyocardial biopsy showing diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis is pathognomonic for giant cell myocarditis, an autoimmune fulminant form. The markedly elevated troponin (14210 ng/L) and normal coronary arteries, together with the history of Sjogren's syndrome and global severe hypokinesis (LVEF ~10%), confirm autoimmune myocarditis as the leading diagnosis.", 'score': 0.96, 'level': 1, 'supports': 8, 'refutes': 0}
+[2026-10-03 22:04:52] | #### Step2: Finding the current frontier 
+
+ {'node_id': 'node-6', 'label': 'Autoimmune myocarditis', 'why': "Endomyocardial biopsy showing diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis is pathognomonic for giant cell myocarditis, an autoimmune fulminant form. The markedly elevated troponin (14210 ng/L) and normal coronary arteries, together with the history of Sjogren's syndrome and global severe hypokinesis (LVEF ~10%), confirm autoimmune myocarditis as the leading diagnosis.", 'score': 0.96, 'level': 1, 'supports': 8, 'refutes': 0}
+[2026-10-03 22:04:57] | #### Here are the plan of central expert: 
+
+ [
+  {"expert_name": "Pathologist", "planning_intent": "interpret_existing_evidence"},
+  {"expert_name": "Laboratory_Physician", "planning_intent": "interpret_existing_evidence"}
+]
+[2026-10-03 22:04:57] | Step 1 - Decision Making
+[2026-10-03 22:04:58] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-10-03 22:04:58] | Step 1 parsed result: type=1, decision=retrieve
+[2026-10-03 22:04:58] | Step 1 - Content Generation
+[2026-10-03 22:05:01] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's complete endomyocardial biopsy pathology report with immunohistochemical staining (CD3, CD68, etc.) and viral PCR to confirm giant cell myocarditis and exclude viral mimics, as this is the diagnostic cornerstone for autoimmune myocarditis."}
+[2026-10-03 22:05:03] | Step 1 Observations: Histological analysis of left ventricular apex specimen showed myocardial necrosis, interstitial edema, and fibrosis, accompanied by infiltration of diffuse monocytes and scattered multinucleated giant cells.
+[2026-10-03 22:05:03] | Step 2 - Decision Making
+[2026-10-03 22:05:05] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-10-03 22:05:05] | Step 2 parsed result: type=1, decision=retrieve
+[2026-10-03 22:05:05] | Step 2 - Content Generation
+[2026-10-03 22:05:08] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the results of immunohistochemical staining (CD3, CD68, etc.) and viral PCR from the endomyocardial biopsy to confirm an autoimmune T-cell/macrophage-mediated process and exclude viral myocarditis mimics, as this is the critical missing evidence to solidify giant cell myocarditis."}
+[2026-10-03 22:05:10] | Step 2 Observations:
+[2026-10-03 22:05:10] | Step 3 - Decision Making
+[2026-10-03 22:05:11] | Step 3 Decision: {"type":1,"decision":"analyze"}
+[2026-10-03 22:05:11] | Step 3 parsed result: type=1, decision=analyze
+[2026-10-03 22:05:11] | Step 3 - Content Generation
+[2026-10-03 22:05:14] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the suspicion of autoimmune giant cell myocarditis, the endomyocardial biopsy showing diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis is pathognomonic, confirming the diagnosis. Markedly elevated troponin and normal coronary arteries refute acute coronary syndrome, while severe global hypokinesis with LVEF ~10% and ECMO/IABP support a fulminant non-ischemic inflammatory cause. Although immunohistochemical and viral PCR results remain unavailable, the biopsy findings alone are diagnostic, and all key morphological and clinical information is covered."}
+[2026-10-03 22:05:14] | Step 1 - Decision Making
+[2026-10-03 22:05:16] | Step 1 Decision: {"type":1,"decision":"retrieve"}
+[2026-10-03 22:05:16] | Step 1 parsed result: type=1, decision=retrieve
+[2026-10-03 22:05:16] | Step 1 - Content Generation
+[2026-10-03 22:05:17] | Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the cardiac MRI report and autoimmune antibody panel (anti-Ro/anti-La) results, which remain unavailable; these are essential to confirm diffuse myocardial inflammation and directly link the pathognomonic biopsy findings to Sjogren's-associated autoimmune myocarditis."}
+[2026-10-03 22:05:19] | Step 1 Observations:
+[2026-10-03 22:05:19] | Step 2 - Decision Making
+[2026-10-03 22:05:22] | Step 2 Decision: {"type": 1, "decision": "retrieve"}
+[2026-10-03 22:05:22] | Step 2 parsed result: type=1, decision=retrieve
+[2026-10-03 22:05:22] | Step 2 - Content Generation
+[2026-10-03 22:05:24] | Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the cardiac MRI report and autoimmune antibody panel (anti-Ro/anti-La) results, which remain the only missing core evidence to confirm diffuse myocardial inflammation and definitively link the pathognomonic biopsy to Sjogren's-associated autoimmune myocarditis."}
+[2026-10-03 22:05:25] | Step 2 Observations:
+[2026-10-03 22:05:25] | Step 3 - Decision Making
+[2026-10-03 22:05:27] | Step 3 Decision: {"type": 1, "decision": "analyze"}
+[2026-10-03 22:05:27] | Step 3 parsed result: type=1, decision=analyze
+[2026-10-03 22:05:27] | Step 3 - Content Generation
+[2026-10-03 22:05:31] | Step 3 reponse: {"type":1,"decision":"analyze","content":"Endomyocardial biopsy showing diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis is pathognomonic for giant cell myocarditis, confirming autoimmune myocarditis as the leading diagnosis. Markedly elevated troponin and normal coronary arteries refute acute coronary syndrome, while severe global hypokinesis with LVEF ~10% and ECMO/IABP support a fulminant non-ischemic inflammatory etiology. Although cardiac MRI and anti-Ro/anti-La serology remain unavailable, the biopsy-based diagnosis is definitive; all other key information is covered."}
+[2026-10-03 22:05:53] | #### Step2: Central agent decided to update the graph after receiving the analyses from expert agent
+
+ {
+  "edit": [
+    {
+      "node_id": "node-6",
+      "confidence": 0.97,
+      "why": "Pathologist and laboratory physician analyses both confirm that the endomyocardial biopsy showing diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis is pathognomonic for giant cell myocarditis, an autoimmune fulminant form. This, together with markedly elevated troponin, normal coronary arteries, severe global hypokinesis (LVEF ~10%) and ECMO/IABP support, confirms autoimmune myocarditis as the leading diagnosis. Confidence is raised to 0.97; pending ancillary tests (immunohistochemistry, viral PCR, cardiac MRI, anti-Ro/anti-La serology) are not required for the diagnosis."
+    },
+    {
+      "node_id": "node-13",
+      "confidence": 0.98,
+      "why": "Both pathology and laboratory medicine experts independently state that the biopsy findings (diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis) are diagnostic/pathognomonic for giant cell myocarditis. The markedly elevated troponin, normal coronary arteries, and fulminant hemodynamic collapse requiring ECMO/IABP all support this specific autoimmune fulminant myocarditis. Confidence raised to 0.98; the small residual uncertainty reflects only pending ancillary tests that do not alter the biopsy-based diagnosis."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.02,
+      "why": "Coronary angiography showing normal coronary arteries directly refutes an ischemic mechanism, and both expert analyses explicitly confirm that acute coronary syndrome is refuted. The markedly elevated troponin reflects myocardial necrosis from giant cell myocarditis rather than ischemia, and the severe global hypokinesis is not a regional infarct pattern. Confidence is reduced to 0.02."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.2,
+      "why": "Biopsy-confirmed giant cell myocarditis, normal coronary arteries, and expert analyses supporting a fulminant non-ischemic inflammatory cause all indicate a non-ischemic cardiomyopathy. However, this label is a broad descriptive category rather than the specific etiologic diagnosis, so it remains a secondary label with unchanged moderate-low confidence."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.01,
+      "why": "Biopsy-confirmed giant cell myocarditis is a definitive alternative diagnosis, and both expert analyses agree with this. The echocardiographic pattern of severe global left ventricular hypokinesis with LVEF ~10% is not characteristic of massive pulmonary embolism. Pulmonary embolism remains highly unlikely."
+    }
+  ],
+  "nodes": [],
+  "edges": [
+    {
+      "src": "node-6",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "node-6",
+      "dst": "node-8",
+      "relation": "support"
+    },
+    {
+      "src": "node-6",
+      "dst": "node-9",
+      "relation": "refute"
+    },
+    {
+      "src": "node-13",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "node-13",
+      "dst": "node-8",
+      "relation": "support"
+    },
+    {
+      "src": "node-13",
+      "dst": "node-9",
+      "relation": "refute"
+    }
+  ]
+}
+[2026-10-03 22:05:53] | Level: 1 Node: node-6 not the hypothesis with highest confidence, backtracking invoked
+[2026-10-03 22:05:53] | #### Step2: The new frontier after the central agent updating the graph 
+
+ {'node_id': 'node-13', 'label': 'Giant cell myocarditis', 'why': 'Both pathology and laboratory medicine experts independently state that the biopsy findings (diffuse monocyte and multinucleated giant cell infiltration with myocardial necrosis and fibrosis) are diagnostic/pathognomonic for giant cell myocarditis. The markedly elevated troponin, normal coronary arteries, and fulminant hemodynamic collapse requiring ECMO/IABP all support this specific autoimmune fulminant myocarditis. Confidence raised to 0.98; the small residual uncertainty reflects only pending ancillary tests that do not alter the biopsy-based diagnosis.', 'score': 0.98, 'level': 1, 'supports': 3, 'refutes': 0}
+[2026-10-03 22:06:00] | #### Step2: Central agent decide to report or dive deeper
+
+ {
+  "type": 1,
+  "answer": "Giant cell myocarditis",
+  "report": "Fulminant chest tightness/respiratory distress/cardiac arrest with Sjogren's syndrome and ECMO/IABP support points to autoimmune fulminant myocarditis. Endomyocardial biopsy showing diffuse monocytes and multinucleated giant cells with necrosis and fibrosis is pathognomonic for giant cell myocarditis. Elevated troponin and normal coronary arteries support it; severe global hypokinesis (LVEF~10%) fits. ACS and PE are refuted; non-ischemic cardiomyopathy is only a broad label. Final diagnosis: giant cell myocarditis."
+}

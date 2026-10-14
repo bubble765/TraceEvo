@@ -1,0 +1,1169 @@
+{
+  "task_id": "case-4",
+  "n_nodes": 31,
+  "n_edges": 48,
+  "nodes": [
+    {
+      "event_id": "evt-case-4-00001",
+      "task_id": "case-4",
+      "step_id": 0,
+      "timestamp": "2026-10-08T12:07:27.543+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "034d37a38881175fd973d99aa3f79b3b36308c4159a6aec1c5187277ddcc805f",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\n  \"symptom_node\": \"A 43-year-old man presented with multiple skin lesions on his shoulders, back, feet, and hands\",\n  \"isolated_evidence\": [\n    \"The patient was a 43-year-old man who visited an outpatient endocrine clinic at Tabriz University of Medical Sciences, Tabriz, Iran, accompanied by his sister, for assessment of skin lesions; he reported no other complaints and maintained an active lifestyle as a greengrocer\",\n    \"The patient had multiple lesions on his shoulders, back, the lateral and medial parts of the dorsal surface of his feet, the medial and lateral malleus of both feet, and the dorsal and palmar surfaces of both hands\",\n    \"His siblings were monitored in the same clinic for similar skin conditions characterized by palmar, eruptive, tuberous, and trauma site xanthomas, along with elevated plasma total cholesterol and triglycerides; both parents had normal serum lipid levels; there was no history of coronary artery or other atherosclerotic disorders in the patient or his siblings\",\n    \"A pathology report from a skin lesion biopsy performed by a dermatologist a few months prior indicated the presence of lipid-laden macrophages\"\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00002",
+      "task_id": "case-4",
+      "step_id": 0,
+      "timestamp": "2026-10-08T12:08:05.839+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "034d37a38881175fd973d99aa3f79b3b36308c4159a6aec1c5187277ddcc805f",
+      "event_hash": "f7e0122df2ddf874130cdf7a87769ad1b2713034ae9801ed83e5615975907c14",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\"candidates\":[{\"id\":\"h001\",\"label\":\"Xanthoma due to dyslipidemia\",\"confidence\":0.9,\"why\":\"node-3 lesions fit xanthoma distribution; node-4 family xanthomas with hyperlipidemia; node-5 lipid-laden macrophages.\"},{\"id\":\"h002\",\"label\":\"Hereditary hyperlipidemia\",\"confidence\":0.85,\"why\":\"node-4 siblings affected, parents normal lipids suggests hereditary; node-2 endocrine clinic for metabolic evaluation.\"},{\"id\":\"h003\",\"label\":\"Malignant skin lesion\",\"confidence\":0.05,\"why\":\"node-3 multiple lesions could suggest malignancy; node-4 family xanthomas/hyperlipidemia and node-5 lipid-laden macrophages refute.\"}],\"edges\":[{\"src\":\"node-2\",\"dst\":\"h002\",\"relation\":\"support\"},{\"src\":\"node-3\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-3\",\"dst\":\"h003\",\"relation\":\"support\"},{\"src\":\"node-4\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-4\",\"dst\":\"h002\",\"relation\":\"support\"},{\"src\":\"node-4\",\"dst\":\"h003\",\"relation\":\"refute\"},{\"src\":\"node-5\",\"dst\":\"h001\",\"relation\":\"support\"},{\"src\":\"node-5\",\"dst\":\"h002\",\"relation\":\"support\"},{\"src\":\"node-5\",\"dst\":\"h003\",\"relation\":\"refute\"}]}"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00003",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:08:15.504+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f7e0122df2ddf874130cdf7a87769ad1b2713034ae9801ed83e5615975907c14",
+      "event_hash": "19240f277a1912d331003141ea36b46e0f1fe79bc521b5b9ab56752825207d39",
+      "payload": {
+        "response": "[\n  {\"expert_name\":\"Laboratory_Physician\",\"planning_intent\":\"seek_discriminating_evidence\"},\n  {\"expert_name\":\"Pathologist\",\"planning_intent\":\"interpret_existing_evidence\"}\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Xanthoma due to dyslipidemia",
+          "why": "node-3 lesions fit xanthoma distribution; node-4 family xanthomas with hyperlipidemia; node-5 lipid-laden macrophages.",
+          "score": 0.9,
+          "level": 1,
+          "supports": 3,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-4-00004",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:08:15.508+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "19240f277a1912d331003141ea36b46e0f1fe79bc521b5b9ab56752825207d39",
+      "event_hash": "8be3715d7d7b5522fc1a90f35336e72a41f3bdde7020bbaae2881ef73fd8c2f7",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00005",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:08:37.351+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8be3715d7d7b5522fc1a90f35336e72a41f3bdde7020bbaae2881ef73fd8c2f7",
+      "event_hash": "bf6c929892e844ce904feb13aa6c16b2ffb5349b4d8d2d17b0fd6dca1973b969",
+      "payload": {
+        "query": "Need the patient's complete fasting lipid panel (total cholesterol, triglycerides, LDL-C, HDL-C, Lp(a), apoB) and genetic testing results for familial hypercholesterolemia (LDLR, APOB, PCSK9), plus documentation of tendon xanthomas or premature atherosclerotic disease, as these are core to confirm inherited dyslipidemia and exclude secondary or malignant causes.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "a770fa6b75f05635f140547da6cd3b6a5f9c2bd4fe93c20e36fea14c94abef6d",
+        "started_at": "2026-10-08T12:08:33.525+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00006",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:08:37.355+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bf6c929892e844ce904feb13aa6c16b2ffb5349b4d8d2d17b0fd6dca1973b969",
+      "event_hash": "90bcf569c4bb537001fe6d3f4b5dc44bb16b4b4966fd40a8b0f2cbd7ff3d2d7a",
+      "payload": {
+        "query": "Need the patient's complete fasting lipid panel (total cholesterol, triglycerides, LDL-C, HDL-C, Lp(a), apoB) and genetic testing results for familial hypercholesterolemia (LDLR, APOB, PCSK9), plus documentation of tendon xanthomas or premature atherosclerotic disease, as these are core to confirm inherited dyslipidemia and exclude secondary or malignant causes.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "a770fa6b75f05635f140547da6cd3b6a5f9c2bd4fe93c20e36fea14c94abef6d",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00007",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:08:53.773+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "90bcf569c4bb537001fe6d3f4b5dc44bb16b4b4966fd40a8b0f2cbd7ff3d2d7a",
+      "event_hash": "6bb95ae7874a1ca9e35884bf0a5bea67929f2d5167f1ece401da000b8bd369a6",
+      "payload": {
+        "query": "Given fasting TC 507 and TG 470 with HDL 41, need the remaining lipid panel (LDL-C, Lp(a), apoB) and genetic testing for familial hypercholesterolemia (LDLR, APOB, PCSK9), plus documentation of tendon xanthomas or premature atherosclerotic disease, to confirm inherited dyslipidemia and exclude secondary or malignant causes.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "81ece44ed48f459772227d0857e452f159df0de3f7f4dd4613c617235ea04905",
+        "started_at": "2026-10-08T12:08:49.939+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00008",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:08:53.777+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "6bb95ae7874a1ca9e35884bf0a5bea67929f2d5167f1ece401da000b8bd369a6",
+      "event_hash": "f6d956cd8efc80ecfe718eb5b45950c99698035cffd915d36c221ecbd1e0e0b4",
+      "payload": {
+        "query": "Given fasting TC 507 and TG 470 with HDL 41, need the remaining lipid panel (LDL-C, Lp(a), apoB) and genetic testing for familial hypercholesterolemia (LDLR, APOB, PCSK9), plus documentation of tendon xanthomas or premature atherosclerotic disease, to confirm inherited dyslipidemia and exclude secondary or malignant causes.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "81ece44ed48f459772227d0857e452f159df0de3f7f4dd4613c617235ea04905",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00009",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:09:06.018+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-4-0001",
+        "rec-case-4-0002",
+        "rec-case-4-0003",
+        "rec-case-4-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f6d956cd8efc80ecfe718eb5b45950c99698035cffd915d36c221ecbd1e0e0b4",
+      "event_hash": "3d570066c6b25adfaf3840c62a0a5aa0d2e80f7fb38f260657467d08a66bf344",
+      "payload": {
+        "analysis": "Xanthoma due to dyslipidemia requires lipid panel, LDLR/APOB/PCSK9 genetics, and tendon/premature atherosclerosis evidence. History shows TC 507, TG 470, HDL 41, lipid-laden macrophages, familial xanthomas. LDL-C, Lp(a), apoB, genetics missing, but severe hyperlipidemia plus familial xanthomas strongly supports inherited dyslipidemia and refutes malignancy. All key obtainable data covered; no further retrieval.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-4-00010",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:09:06.021+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "3d570066c6b25adfaf3840c62a0a5aa0d2e80f7fb38f260657467d08a66bf344",
+      "event_hash": "2d097456578de44b5c198c9f6f45720510f2a41038b762a0a41b8940651ee4e6",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00011",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:09:47.092+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2d097456578de44b5c198c9f6f45720510f2a41038b762a0a41b8940651ee4e6",
+      "event_hash": "0a414d84e71933c4c6815c383ca57a666cf5ee6cd4da3ab93e22725c246a19d0",
+      "payload": {
+        "query": "Need the patient's complete fasting serum lipid panel (total cholesterol, triglycerides, LDL-C, HDL-C, lipoprotein electrophoresis) and genetic testing for familial hypercholesterolemia or hypertriglyceridemia, as these are the core missing data to confirm inherited dyslipidemia as the xanthoma cause and exclude secondary hyperlipidemia.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "d70e68ae2267e1ef6419a4dddf67e7e8fe33932bbaacadb5e548a7e3431e9163",
+        "started_at": "2026-10-08T12:09:43.929+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00012",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:09:47.095+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0a414d84e71933c4c6815c383ca57a666cf5ee6cd4da3ab93e22725c246a19d0",
+      "event_hash": "2e253bec7405f172c0c84505f8759b1eb9a7392c4182e05a8db0baf453e95460",
+      "payload": {
+        "query": "Need the patient's complete fasting serum lipid panel (total cholesterol, triglycerides, LDL-C, HDL-C, lipoprotein electrophoresis) and genetic testing for familial hypercholesterolemia or hypertriglyceridemia, as these are the core missing data to confirm inherited dyslipidemia as the xanthoma cause and exclude secondary hyperlipidemia.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "d70e68ae2267e1ef6419a4dddf67e7e8fe33932bbaacadb5e548a7e3431e9163",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00013",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:10:05.361+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2e253bec7405f172c0c84505f8759b1eb9a7392c4182e05a8db0baf453e95460",
+      "event_hash": "cc5f8ee1ff2b8b41fe37accfa47ade07f468eabff29615314e00c58f4476d25a",
+      "payload": {
+        "query": "Need the patient's calculated/measured LDL-C and lipoprotein electrophoresis, plus genetic testing for familial hypercholesterolemia or hypertriglyceridemia (LDLR, APOB, PCSK9, LPL, APOC2, APOA5), and parental fasting lipid panels, as these are the critical missing data to confirm inherited dyslipidemia as the xanthoma cause and exclude secondary hyperlipidemia.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "0e2435279d6e059e40a795d41cb9db804821fbd47e66ac3b212dd0b18a8f484b",
+        "started_at": "2026-10-08T12:09:56.237+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00014",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:10:05.365+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "cc5f8ee1ff2b8b41fe37accfa47ade07f468eabff29615314e00c58f4476d25a",
+      "event_hash": "9fe69099e0943a37e4ec63e82985a1c4035aeca45b442c59468731d52f393271",
+      "payload": {
+        "query": "Need the patient's calculated/measured LDL-C and lipoprotein electrophoresis, plus genetic testing for familial hypercholesterolemia or hypertriglyceridemia (LDLR, APOB, PCSK9, LPL, APOC2, APOA5), and parental fasting lipid panels, as these are the critical missing data to confirm inherited dyslipidemia as the xanthoma cause and exclude secondary hyperlipidemia.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "0e2435279d6e059e40a795d41cb9db804821fbd47e66ac3b212dd0b18a8f484b",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00015",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:10:15.471+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-4-0005",
+        "rec-case-4-0006",
+        "rec-case-4-0007",
+        "rec-case-4-0008"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "9fe69099e0943a37e4ec63e82985a1c4035aeca45b442c59468731d52f393271",
+      "event_hash": "88655aa415c3e71f3f75a7c310d349e353a94d1569e83186de7df60a6de8f3b6",
+      "payload": {
+        "analysis": "结合43岁男性肩背手足多发皮损、活检示脂质吞噬细胞及家族性黄瘤伴高胆固醇/高甘油三酯史，已获取空腹血脂：总胆固醇507 mg/dl、甘油三酯470 mg/dl、HDL 41 mg/dl。该结果与黄瘤分布及脂质吞噬细胞高度一致，支持遗传性高脂血症所致黄瘤，基本排除恶性肿瘤。LDL-C、脂蛋白电泳及基因检测未回报，但现有资料已覆盖支持该诊断的关键信息。建议按遗传性高脂血症管理并筛查家系。",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-4-00016",
+      "task_id": "case-4",
+      "step_id": 1,
+      "timestamp": "2026-10-08T12:10:30.863+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-9"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "88655aa415c3e71f3f75a7c310d349e353a94d1569e83186de7df60a6de8f3b6",
+      "event_hash": "1855634c51c86c93b275ffb9c2b064731c3caafe1fe929ab6338e0e431a88427",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\"edit\":[{\"node_id\":\"node-6\",\"confidence\":0.95,\"why\":\"Fasting lipid panel shows severe dyslipidemia with total cholesterol 507 mg/dl, triglycerides 470 mg/dl, and HDL 41 mg/dl. Together with the lipid-laden macrophages and xanthoma distribution, and with both expert analyses agreeing these findings are highly consistent with xanthoma, this strongly supports xanthoma due to dyslipidemia. Confidence rises from 0.9 to 0.95.\"},{\"node_id\":\"node-7\",\"confidence\":0.9,\"why\":\"The patient's severe hypercholesterolemia and hypertriglyceridemia on fasting lipid panel, combined with multiple family members having similar xanthomas and elevated plasma lipids, support an inherited hyperlipidemia. Parental normal lipid levels and absence of atherosclerotic disease do not exclude an inherited lipid disorder; expert laboratory and pathology analyses favor inherited dyslipidemia, so confidence rises from 0.85 to 0.9.\"},{\"node_id\":\"node-8\",\"confidence\":0.02,\"why\":\"The new fasting lipid panel shows marked hyperlipidemia with total cholesterol 507 mg/dl, triglycerides 470 mg/dl, and HDL 41 mg/dl. Both expert analyses state that this result, together with lipid-laden macrophages and familial xanthomas, essentially excludes malignancy. This further refutes malignant skin lesion, so confidence drops from 0.05 to 0.02.\"}],\"nodes\":[{\"id\":\"ev001\",\"label\":\"Fasting lipid panel shows total cholesterol 507 mg/dl, triglycerides 470 mg/dl, and HDL 41 mg/dl\",\"node_type\":\"Evidence\"}],\"edges\":[{\"src\":\"ev001\",\"dst\":\"node-6\",\"relation\":\"support\"},{\"src\":\"ev001\",\"dst\":\"node-7\",\"relation\":\"support\"},{\"src\":\"ev001\",\"dst\":\"node-8\",\"relation\":\"refute\"}]}"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00017",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:10:41.307+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "1855634c51c86c93b275ffb9c2b064731c3caafe1fe929ab6338e0e431a88427",
+      "event_hash": "8e6fe47696a35fe8636d1e4ea5ebae77f8be95da5996858ef9df3f5e972eec0e",
+      "payload": {
+        "response": "[\n  {\"expert_name\": \"Laboratory_Physician\", \"planning_intent\": \"interpret_existing_evidence\"},\n  {\"expert_name\": \"Pathologist\", \"planning_intent\": \"interpret_existing_evidence\"}\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Xanthoma due to dyslipidemia",
+          "why": "Fasting lipid panel shows severe dyslipidemia with total cholesterol 507 mg/dl, triglycerides 470 mg/dl, and HDL 41 mg/dl. Together with the lipid-laden macrophages and xanthoma distribution, and with both expert analyses agreeing these findings are highly consistent with xanthoma, this strongly supports xanthoma due to dyslipidemia. Confidence rises from 0.9 to 0.95.",
+          "score": 0.95,
+          "level": 1,
+          "supports": 4,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-4-00018",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:10:41.310+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Laboratory_Physician",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8e6fe47696a35fe8636d1e4ea5ebae77f8be95da5996858ef9df3f5e972eec0e",
+      "event_hash": "7843c73334b8ed5dbe9d1bccd6104c8837cd842ff2d9908d3562cac0c6216fee",
+      "payload": {
+        "expert": "Laboratory_Physician"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00019",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:10:59.354+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0009"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7843c73334b8ed5dbe9d1bccd6104c8837cd842ff2d9908d3562cac0c6216fee",
+      "event_hash": "9a4023729f22e2fb20cba400e303829d493fdd71412eccc77f56ab792662a6b9",
+      "payload": {
+        "query": "Need thyroid function, HbA1c, renal and liver panels, and medication history to exclude secondary hyperlipidemia, plus quantitative lipid levels and ages of onset for affected relatives to support heredity; these are critical to confirm inherited dyslipidemia and rule out secondary causes before finalizing xanthoma diagnosis.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "7e09303bd46462af73dcb97eb93b150e2a10a2cfd21de268a5851d1d1fb3886c",
+        "started_at": "2026-10-08T12:10:56.939+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00020",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:10:59.358+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0010"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "9a4023729f22e2fb20cba400e303829d493fdd71412eccc77f56ab792662a6b9",
+      "event_hash": "183fdbc5c68d321f61dc97c2dc6c8efeb9ab057818a4ab83203fabf9d2e0049b",
+      "payload": {
+        "query": "Need thyroid function, HbA1c, renal and liver panels, and medication history to exclude secondary hyperlipidemia, plus quantitative lipid levels and ages of onset for affected relatives to support heredity; these are critical to confirm inherited dyslipidemia and rule out secondary causes before finalizing xanthoma diagnosis.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "7e09303bd46462af73dcb97eb93b150e2a10a2cfd21de268a5851d1d1fb3886c",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00021",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:11:28.432+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0011"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "183fdbc5c68d321f61dc97c2dc6c8efeb9ab057818a4ab83203fabf9d2e0049b",
+      "event_hash": "ebaa430f6075aabc2e5fd4ad69a7bd6494e399fb4609a7a15d5f4afa5840ac94",
+      "payload": {
+        "query": "Need the patient's LDL-C level specifically (critical for confirming the severity of hypercholesterolemia and for guiding lipid-lowering therapy), as it remains missing from all previous lipid panel results and is essential for assessing atherosclerotic risk and confirming xanthoma due to dyslipidemia.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "662da580f4664a602bd36d4b92665e70c9aa2c5e9f027aa3ac2c6553a20a277a",
+        "started_at": "2026-10-08T12:11:25.621+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00022",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:11:28.436+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0012"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ebaa430f6075aabc2e5fd4ad69a7bd6494e399fb4609a7a15d5f4afa5840ac94",
+      "event_hash": "c01ae9cc70f33be08e694bb7633b710a0e7b4f3b31524ee9425b7c53d9f88cd6",
+      "payload": {
+        "query": "Need the patient's LDL-C level specifically (critical for confirming the severity of hypercholesterolemia and for guiding lipid-lowering therapy), as it remains missing from all previous lipid panel results and is essential for assessing atherosclerotic risk and confirming xanthoma due to dyslipidemia.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "662da580f4664a602bd36d4b92665e70c9aa2c5e9f027aa3ac2c6553a20a277a",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00023",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:11:38.935+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Laboratory_Physician",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-4-0009",
+        "rec-case-4-0010",
+        "rec-case-4-0011",
+        "rec-case-4-0012"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c01ae9cc70f33be08e694bb7633b710a0e7b4f3b31524ee9425b7c53d9f88cd6",
+      "event_hash": "2344fb401129c87f086859d27111a6687fbb481f7cdaf5fd31a2445110e5b26d",
+      "payload": {
+        "analysis": "43-year-old man with shoulder, back, foot and hand lesions; biopsy lipid-laden macrophages; family history of xanthomas and high lipids; fasting TC 507, TG 470, HDL 41. This strongly supports xanthoma due to inherited dyslipidemia; malignancy is refuted. LDL-C, Lp(a), apoB and genetic testing remain unretrieved, but current evidence is sufficient. All key available information is integrated.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-4-00024",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:11:38.938+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2344fb401129c87f086859d27111a6687fbb481f7cdaf5fd31a2445110e5b26d",
+      "event_hash": "d3ba2c40572c26d529e3a3024e9739fb21e18d1e75023d2de7d532cf83590228",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00025",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:11:58.649+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0013"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "d3ba2c40572c26d529e3a3024e9739fb21e18d1e75023d2de7d532cf83590228",
+      "event_hash": "7d5d2a97b111cc2a40251ca3e5756025a58d7bd420a97b4f3d8ba760d8f66134",
+      "payload": {
+        "query": "Need secondary hyperlipidemia workup (TSH, HbA1c, creatinine, liver enzymes, medication review) and genetic testing results for familial hypercholesterolemia/hypertriglyceridemia (LDLR, APOB, PCSK9, LPL, APOC2, APOA5) to confirm inherited dyslipidemia and exclude secondary causes, as current lipid panel lacks LDL-C and genetic data.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "fdcfce7051ec5130029d293f1e8dc173b9fad80f75864278e6c76d95c43777ef",
+        "started_at": "2026-10-08T12:11:50.415+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00026",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:11:58.653+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0014"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7d5d2a97b111cc2a40251ca3e5756025a58d7bd420a97b4f3d8ba760d8f66134",
+      "event_hash": "b27077ff1f2b912b5c1f425468145a688f9c19e62943e9c89c5c8300644ab23d",
+      "payload": {
+        "query": "Need secondary hyperlipidemia workup (TSH, HbA1c, creatinine, liver enzymes, medication review) and genetic testing results for familial hypercholesterolemia/hypertriglyceridemia (LDLR, APOB, PCSK9, LPL, APOC2, APOA5) to confirm inherited dyslipidemia and exclude secondary causes, as current lipid panel lacks LDL-C and genetic data.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "fdcfce7051ec5130029d293f1e8dc173b9fad80f75864278e6c76d95c43777ef",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00027",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:12:29.021+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0015"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b27077ff1f2b912b5c1f425468145a688f9c19e62943e9c89c5c8300644ab23d",
+      "event_hash": "bc18e2898972d58d45ab6ef5651216cb054a1f6b546fd5b9b5126a842731468a",
+      "payload": {
+        "query": "Need the patient's LDL-C and lipoprotein electrophoresis, plus genetic testing for familial hypercholesterolemia/hypertriglyceridemia; these remain the core missing data to confirm inherited dyslipidemia and exclude secondary hyperlipidemia.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "86914a99f54fee6302881c789e2b269f9df67f11ad8b080cc632613dfc56381f",
+        "started_at": "2026-10-08T12:12:15.509+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00028",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:12:29.025+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-4-0016"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bc18e2898972d58d45ab6ef5651216cb054a1f6b546fd5b9b5126a842731468a",
+      "event_hash": "d714242c2e17affcd22915f34954b9e75ea2447e02a203807aeafaf2d83ad140",
+      "payload": {
+        "query": "Need the patient's LDL-C and lipoprotein electrophoresis, plus genetic testing for familial hypercholesterolemia/hypertriglyceridemia; these remain the core missing data to confirm inherited dyslipidemia and exclude secondary hyperlipidemia.",
+        "hit": true,
+        "retrieval_output": "Fasting serum lipid levels reported as: Total cholesterol = 507 mg/dl, Triglycerides = 470 mg/dl and High Density Lipoprotein (HDL) cholesterol = 41 mg/dl..",
+        "record_hash": "86914a99f54fee6302881c789e2b269f9df67f11ad8b080cc632613dfc56381f",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00029",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:12:37.109+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-4-0013",
+        "rec-case-4-0014",
+        "rec-case-4-0015",
+        "rec-case-4-0016"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "d714242c2e17affcd22915f34954b9e75ea2447e02a203807aeafaf2d83ad140",
+      "event_hash": "b5d95a20f4cc391c86520ced61e40e618911891d717f8bd6ddb523a9c58afa9a",
+      "payload": {
+        "analysis": "Biopsy lipid-laden macrophages, typical xanthomas, family history, and fasting lipids (cholesterol 507, triglycerides 470, HDL 41 mg/dl) strongly support xanthoma from inherited dyslipidemia and refute malignancy. LDL-C, lipoprotein electrophoresis, genetic testing, and secondary hyperlipidemia workup remain unretrieved; all available key evidence is covered, and the consensus diagnosis stands.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-4-00030",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:13:31.226+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-10",
+        "node-11"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b5d95a20f4cc391c86520ced61e40e618911891d717f8bd6ddb523a9c58afa9a",
+      "event_hash": "62ef565ab239abcd35da82d9db388d548ce66926577a7d7eb391a8b19bd0bcbf",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.95,\n      \"why\": \"Both expert analyses (Laboratory Physician and Pathologist) independently state that the combination of lipid-laden macrophages, typical xanthoma distribution, family history, and fasting lipid panel (TC 507, TG 470, HDL 41) strongly supports xanthoma due to inherited dyslipidemia and that current evidence is sufficient. Although LDL-C, Lp(a), apoB, and genetic testing remain unretrieved, these do not alter the diagnosis. Confidence remains 0.95.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.9,\n      \"why\": \"The familial pattern of similar xanthomas and elevated plasma lipids, together with the patient's severe hypercholesterolemia and hypertriglyceridemia, strongly supports an inherited hyperlipidemia. Expert analyses note that lipoprotein electrophoresis, genetic testing, and secondary hyperlipidemia workup remain unretrieved, but they agree the consensus diagnosis stands on available evidence. Confidence remains 0.9.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.02,\n      \"why\": \"Both expert analyses explicitly state that malignancy is refuted by the biopsy finding of lipid-laden macrophages and the severe hyperlipidemia with familial xanthomas. Secondary hyperlipidemia workup is unretrieved but does not suggest malignancy. Confidence remains 0.02.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"LDL-C, Lp(a), apoB, lipoprotein electrophoresis, genetic testing, and secondary hyperlipidemia workup remain unretrieved\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Secondary hyperlipidemia (e.g., hypothyroidism, diabetes mellitus, nephrotic syndrome, or drug-induced)\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.05,\n      \"why\": \"Expert analyses note that secondary hyperlipidemia workup remains unretrieved, so this differential has not been formally excluded. However, the strong family history of similar xanthomas and elevated lipids in siblings, along with the absence of other systemic complaints, makes a secondary cause unlikely. Confidence is low at 0.05.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"node-4\",\n      \"dst\": \"h001\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-4-00031",
+      "task_id": "case-4",
+      "step_id": 2,
+      "timestamp": "2026-10-08T12:13:41.988+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-6"
+      ],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "62ef565ab239abcd35da82d9db388d548ce66926577a7d7eb391a8b19bd0bcbf",
+      "event_hash": "396d24cdaf80428317ceacebe74f6a6d11725f3c5143fd454b38321deaa78409",
+      "payload": {
+        "prediction": "Xanthoma due to dyslipidemia",
+        "report": "The patient's multiple skin lesions on the shoulders, back, feet, and hands, with biopsy showing lipid-laden macrophages, are diagnostic of xanthoma. Fasting lipids are markedly elevated (total cholesterol 507 mg/dl, triglycerides 470 mg/dl), and his siblings had similar xanthomas with hyperlipidemia while both parents had normal lipids, indicating an inherited dyslipidemia. This constellation confirms xanthoma due to hereditary dyslipidemia. Malignancy is refuted by the lipid-laden macrophages and the familial lipid disorder, and a secondary cause is unlikely given the strong familial pattern. Remaining unretrieved tests (LDL-C, genetic testing, secondary workup) would not alter this diagnosis, so the frontier is sufficiently refined.",
+        "report_chars": 745,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1
+            ],
+            "stage_steps": {
+              "1": 2
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 2,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-6",
+            "label": "Xanthoma due to dyslipidemia",
+            "why": "Both expert analyses (Laboratory Physician and Pathologist) independently state that the combination of lipid-laden macrophages, typical xanthoma distribution, family history, and fasting lipid panel (TC 507, TG 470, HDL 41) strongly supports xanthoma due to inherited dyslipidemia and that current evidence is sufficient. Although LDL-C, Lp(a), apoB, and genetic testing remain unretrieved, these do not alter the diagnosis. Confidence remains 0.95.",
+            "score": 0.95,
+            "level": 1,
+            "supports": 4,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-4-00001",
+      "dst": "evt-case-4-00002"
+    },
+    {
+      "src": "evt-case-4-00002",
+      "dst": "evt-case-4-00003"
+    },
+    {
+      "src": "evt-case-4-00003",
+      "dst": "evt-case-4-00004"
+    },
+    {
+      "src": "evt-case-4-00004",
+      "dst": "evt-case-4-00005"
+    },
+    {
+      "src": "evt-case-4-00004",
+      "dst": "evt-case-4-00006"
+    },
+    {
+      "src": "evt-case-4-00004",
+      "dst": "evt-case-4-00007"
+    },
+    {
+      "src": "evt-case-4-00004",
+      "dst": "evt-case-4-00008"
+    },
+    {
+      "src": "evt-case-4-00004",
+      "dst": "evt-case-4-00009"
+    },
+    {
+      "src": "evt-case-4-00005",
+      "dst": "evt-case-4-00009"
+    },
+    {
+      "src": "evt-case-4-00006",
+      "dst": "evt-case-4-00009"
+    },
+    {
+      "src": "evt-case-4-00007",
+      "dst": "evt-case-4-00009"
+    },
+    {
+      "src": "evt-case-4-00008",
+      "dst": "evt-case-4-00009"
+    },
+    {
+      "src": "evt-case-4-00003",
+      "dst": "evt-case-4-00010"
+    },
+    {
+      "src": "evt-case-4-00010",
+      "dst": "evt-case-4-00011"
+    },
+    {
+      "src": "evt-case-4-00010",
+      "dst": "evt-case-4-00012"
+    },
+    {
+      "src": "evt-case-4-00010",
+      "dst": "evt-case-4-00013"
+    },
+    {
+      "src": "evt-case-4-00010",
+      "dst": "evt-case-4-00014"
+    },
+    {
+      "src": "evt-case-4-00010",
+      "dst": "evt-case-4-00015"
+    },
+    {
+      "src": "evt-case-4-00011",
+      "dst": "evt-case-4-00015"
+    },
+    {
+      "src": "evt-case-4-00012",
+      "dst": "evt-case-4-00015"
+    },
+    {
+      "src": "evt-case-4-00013",
+      "dst": "evt-case-4-00015"
+    },
+    {
+      "src": "evt-case-4-00014",
+      "dst": "evt-case-4-00015"
+    },
+    {
+      "src": "evt-case-4-00009",
+      "dst": "evt-case-4-00016"
+    },
+    {
+      "src": "evt-case-4-00015",
+      "dst": "evt-case-4-00016"
+    },
+    {
+      "src": "evt-case-4-00016",
+      "dst": "evt-case-4-00017"
+    },
+    {
+      "src": "evt-case-4-00017",
+      "dst": "evt-case-4-00018"
+    },
+    {
+      "src": "evt-case-4-00018",
+      "dst": "evt-case-4-00019"
+    },
+    {
+      "src": "evt-case-4-00018",
+      "dst": "evt-case-4-00020"
+    },
+    {
+      "src": "evt-case-4-00018",
+      "dst": "evt-case-4-00021"
+    },
+    {
+      "src": "evt-case-4-00018",
+      "dst": "evt-case-4-00022"
+    },
+    {
+      "src": "evt-case-4-00018",
+      "dst": "evt-case-4-00023"
+    },
+    {
+      "src": "evt-case-4-00019",
+      "dst": "evt-case-4-00023"
+    },
+    {
+      "src": "evt-case-4-00020",
+      "dst": "evt-case-4-00023"
+    },
+    {
+      "src": "evt-case-4-00021",
+      "dst": "evt-case-4-00023"
+    },
+    {
+      "src": "evt-case-4-00022",
+      "dst": "evt-case-4-00023"
+    },
+    {
+      "src": "evt-case-4-00017",
+      "dst": "evt-case-4-00024"
+    },
+    {
+      "src": "evt-case-4-00024",
+      "dst": "evt-case-4-00025"
+    },
+    {
+      "src": "evt-case-4-00024",
+      "dst": "evt-case-4-00026"
+    },
+    {
+      "src": "evt-case-4-00024",
+      "dst": "evt-case-4-00027"
+    },
+    {
+      "src": "evt-case-4-00024",
+      "dst": "evt-case-4-00028"
+    },
+    {
+      "src": "evt-case-4-00024",
+      "dst": "evt-case-4-00029"
+    },
+    {
+      "src": "evt-case-4-00025",
+      "dst": "evt-case-4-00029"
+    },
+    {
+      "src": "evt-case-4-00026",
+      "dst": "evt-case-4-00029"
+    },
+    {
+      "src": "evt-case-4-00027",
+      "dst": "evt-case-4-00029"
+    },
+    {
+      "src": "evt-case-4-00028",
+      "dst": "evt-case-4-00029"
+    },
+    {
+      "src": "evt-case-4-00023",
+      "dst": "evt-case-4-00030"
+    },
+    {
+      "src": "evt-case-4-00029",
+      "dst": "evt-case-4-00030"
+    },
+    {
+      "src": "evt-case-4-00030",
+      "dst": "evt-case-4-00031"
+    }
+  ]
+}

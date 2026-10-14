@@ -1,0 +1,1764 @@
+{
+  "task_id": "case-9",
+  "n_nodes": 47,
+  "n_edges": 73,
+  "nodes": [
+    {
+      "event_id": "evt-case-9-00001",
+      "task_id": "case-9",
+      "step_id": 0,
+      "timestamp": "2026-10-08T07:08:49.155+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "19ec7de454da3effa0cb560387914fec8a99a094d9d79b69a6442ae91f35b6ae",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\"symptom_node\":\"A 70-year-old woman has a pink, raised, non-tender lesion with progressive skin discoloration on her left breast for 6 months.\",\"isolated_evidence\":[\"She observed skin discoloration on the left breast 6 months prior, which progressively increased and prompted her to seek medical attention.\",\"Physical examination revealed a single 3 × 3 cm pink, non-tender, raised lesion on the left breast at the 12:00 position.\",\"Medical history includes hypertension, hyperlipidemia, diabetes mellitus, and osteoporosis, with no previous breast health issues or surgeries.\",\"She reported no associated pain, new masses, nipple discharge/retraction, or lymphadenopathy; vital signs were within normal limits, she appeared in no distress, and she tolerated a treatment procedure well without complications.\"]}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00002",
+      "task_id": "case-9",
+      "step_id": 0,
+      "timestamp": "2026-10-08T07:09:11.392+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6",
+        "node-7",
+        "node-8"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "19ec7de454da3effa0cb560387914fec8a99a094d9d79b69a6442ae91f35b6ae",
+      "event_hash": "c006f7b73fb711af8cc7f2bdb37307aeb1fe8d9826c5f4471153338857de0806",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\n  \"candidates\": [\n    {\n      \"id\": \"h001\",\n      \"label\": \"Malignant breast neoplasm\",\n      \"confidence\": 0.45,\n      \"why\": \"node-2 progressive discoloration 6mo; node-3 pink raised lesion could be skin involvement; node-4 age/comorbidity risk; node-5 no mass/lymphadenopathy argues against.\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Primary cutaneous malignancy\",\n      \"confidence\": 0.35,\n      \"why\": \"node-3 pink raised non-tender lesion suggests skin tumor; node-2 progressive growth; node-5 no breast mass/systemic symptoms supports localized skin cancer.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"Benign skin/breast lesion\",\n      \"confidence\": 0.20,\n      \"why\": \"node-3 non-tender well-defined lesion; node-2 slow progression; node-5 no mass/lymphadenopathy/systemic symptoms supports benign localized process.\"\n    }\n  ],\n  \"edges\": [\n    {\"src\": \"node-2\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-2\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-2\", \"dst\": \"h003\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h003\", \"relation\": \"support\"},\n    {\"src\": \"node-4\", \"dst\": \"h001\", \"relation\": \"support\"},\n    {\"src\": \"node-5\", \"dst\": \"h001\", \"relation\": \"refute\"},\n    {\"src\": \"node-5\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-5\", \"dst\": \"h003\", \"relation\": \"support\"}\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00003",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:09:25.925+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-6"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c006f7b73fb711af8cc7f2bdb37307aeb1fe8d9826c5f4471153338857de0806",
+      "event_hash": "c557b6f95b2143b109027c7872340f2b4bfe68b87194ea4d414eb868d8c1fb21",
+      "payload": {
+        "response": "[\n  {\n    \"expert_name\": \"Pathologist\",\n    \"planning_intent\": \"interpret_existing_evidence\"\n  },\n  {\n    \"expert_name\": \"Radiologist\",\n    \"planning_intent\": \"seek_discriminating_evidence\"\n  }\n]",
+        "focus": {
+          "node_id": "node-6",
+          "label": "Malignant breast neoplasm",
+          "why": "node-2 progressive discoloration 6mo; node-3 pink raised lesion could be skin involvement; node-4 age/comorbidity risk; node-5 no mass/lymphadenopathy argues against.",
+          "score": 0.45,
+          "level": 1,
+          "supports": 3,
+          "refutes": 1
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-9-00004",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:09:25.929+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c557b6f95b2143b109027c7872340f2b4bfe68b87194ea4d414eb868d8c1fb21",
+      "event_hash": "ce935eb5da4aa6a95a26829e540cb54bd05a720536b294ebb2a8f08635504330",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00005",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:09:48.354+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ce935eb5da4aa6a95a26829e540cb54bd05a720536b294ebb2a8f08635504330",
+      "event_hash": "d78708ea05ccdf8d79e6faf4f91a555b79ec9af0f8429392bcb90dda8cd38c65",
+      "payload": {
+        "query": "Need the left breast lesion punch/core biopsy histopathology and immunohistochemistry (ER/PR/HER2, p63, S100, SOX10) plus diagnostic breast imaging (mammography/ultrasound) reports; these are core to confirm or exclude malignant breast neoplasm versus primary cutaneous malignancy or benign lesion, as current clinical features alone are insufficient.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "95180f20afd318fb93f31aead9c9412434870f250278289f5b8056a6972e614f",
+        "started_at": "2026-10-08T07:09:34.731+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00006",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:09:48.357+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "d78708ea05ccdf8d79e6faf4f91a555b79ec9af0f8429392bcb90dda8cd38c65",
+      "event_hash": "67d8010386c445fc5b59a343169a1a89d0479875917a480317f7c7bd5357c4a8",
+      "payload": {
+        "query": "Need the left breast lesion punch/core biopsy histopathology and immunohistochemistry (ER/PR/HER2, p63, S100, SOX10) plus diagnostic breast imaging (mammography/ultrasound) reports; these are core to confirm or exclude malignant breast neoplasm versus primary cutaneous malignancy or benign lesion, as current clinical features alone are insufficient.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "95180f20afd318fb93f31aead9c9412434870f250278289f5b8056a6972e614f",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00007",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:10:36.791+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "67d8010386c445fc5b59a343169a1a89d0479875917a480317f7c7bd5357c4a8",
+      "event_hash": "2fc52305b856a681dc1398a9cf49b656ddabb2c39f3e0c4aa150cde2b2524e6d",
+      "payload": {
+        "query": "Need molecular T-cell receptor clonality studies plus systemic staging (PET/CT, LDH, CBC, bone marrow, lymph node exam) to classify the CD30+ cutaneous lymphoid proliferation and exclude systemic lymphoma, since biopsy already shows negative cytokeratins and makes malignant breast neoplasm unlikely; these are critical for definitive diagnosis.",
+        "hit": true,
+        "retrieval_output": "Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "0d79b5b5b37f6d4cd6bad93815c2f774020a3b9ace3ee238e651fd8054454445",
+        "started_at": "2026-10-08T07:10:08.609+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00008",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:10:36.796+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2fc52305b856a681dc1398a9cf49b656ddabb2c39f3e0c4aa150cde2b2524e6d",
+      "event_hash": "a9156a4e4aeef20e19a9f47a2e8f22286c509195e31c59ffa07f8942f48abdee",
+      "payload": {
+        "query": "Need molecular T-cell receptor clonality studies plus systemic staging (PET/CT, LDH, CBC, bone marrow, lymph node exam) to classify the CD30+ cutaneous lymphoid proliferation and exclude systemic lymphoma, since biopsy already shows negative cytokeratins and makes malignant breast neoplasm unlikely; these are critical for definitive diagnosis.",
+        "hit": true,
+        "retrieval_output": "Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "0d79b5b5b37f6d4cd6bad93815c2f774020a3b9ace3ee238e651fd8054454445",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00009",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:10:53.263+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0001",
+        "rec-case-9-0002",
+        "rec-case-9-0003",
+        "rec-case-9-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "a9156a4e4aeef20e19a9f47a2e8f22286c509195e31c59ffa07f8942f48abdee",
+      "event_hash": "9c6a07d7234707dfb5a5f5ee25a8ce05befd72d231ff2e2bd1d1be0862767336",
+      "payload": {
+        "analysis": "Biopsy: dermal confluent large lymphoid cells, epidermal ulceration, Ki-67 95%, CD3/CD4/CD5/BCL2/MUM1/CD30 positive, cytokeratin/ALK1/MPO negative. This excludes malignant breast neoplasm and supports primary cutaneous CD30+ lymphoid proliferation, pcALCL vs LyP. No systemic staging or TCR clonality available; all retrieved key data covered, requiring those tests for final classification.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00010",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:10:53.268+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "9c6a07d7234707dfb5a5f5ee25a8ce05befd72d231ff2e2bd1d1be0862767336",
+      "event_hash": "a6994782d7cfa3a599021a24e917e4e0024009562fb834286cf539247c1606c5",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00011",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:11:14.771+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "a6994782d7cfa3a599021a24e917e4e0024009562fb834286cf539247c1606c5",
+      "event_hash": "396f1c3566e988358d3118cb8622fad7d4ebe76fab5fdd20e6de6fcc577849c0",
+      "payload": {
+        "query": "Requesting bilateral mammography and left breast ultrasound reports to evaluate for an underlying breast mass, skin thickening, or microcalcifications behind the 6-month pink raised lesion; these are core to confirm or exclude malignant breast neoplasm. Also need skin lesion biopsy/pathology if available to distinguish primary cutaneous malignancy. Critical because current hypothesis hinges on imaging absence of breast findings.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "f112efcfa37f4273bf48eb4297b14d509fc4b510312b7b0e801734a5a4c6e60c",
+        "started_at": "2026-10-08T07:11:05.972+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00012",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:11:14.777+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "396f1c3566e988358d3118cb8622fad7d4ebe76fab5fdd20e6de6fcc577849c0",
+      "event_hash": "5a72e1c76ac20f65f4fc313124798c19fe86fdf581b41719171cc0d8e3a095db",
+      "payload": {
+        "query": "Requesting bilateral mammography and left breast ultrasound reports to evaluate for an underlying breast mass, skin thickening, or microcalcifications behind the 6-month pink raised lesion; these are core to confirm or exclude malignant breast neoplasm. Also need skin lesion biopsy/pathology if available to distinguish primary cutaneous malignancy. Critical because current hypothesis hinges on imaging absence of breast findings.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "f112efcfa37f4273bf48eb4297b14d509fc4b510312b7b0e801734a5a4c6e60c",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00013",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:12:43.535+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "5a72e1c76ac20f65f4fc313124798c19fe86fdf581b41719171cc0d8e3a095db",
+      "event_hash": "e4e12bf5a55f1dfecf4f40e72218ac9422ceaf8fd119dfd82f17278d3fe83be5",
+      "payload": {
+        "query": "Need whole-body PET-CT to assess for systemic lymphoma and occult breast primary, given skin biopsy shows CD30+ large lymphoid cells and current suspicion of malignant breast neoplasm; critical to distinguish primary cutaneous lymphoma from systemic disease with skin involvement.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "c8d4864cc3152392a8be0d1945eed1e7ae79644c4fa31178e87e4166e4c29d65",
+        "started_at": "2026-10-08T07:11:50.853+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00014",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:12:43.541+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "e4e12bf5a55f1dfecf4f40e72218ac9422ceaf8fd119dfd82f17278d3fe83be5",
+      "event_hash": "f167cb3801ee4cdfa59070e7f4b694e96aad229d0a7cc04979ebee1376b09eab",
+      "payload": {
+        "query": "Need whole-body PET-CT to assess for systemic lymphoma and occult breast primary, given skin biopsy shows CD30+ large lymphoid cells and current suspicion of malignant breast neoplasm; critical to distinguish primary cutaneous lymphoma from systemic disease with skin involvement.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "c8d4864cc3152392a8be0d1945eed1e7ae79644c4fa31178e87e4166e4c29d65",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00015",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:13:07.249+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0005",
+        "rec-case-9-0006",
+        "rec-case-9-0007",
+        "rec-case-9-0008"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f167cb3801ee4cdfa59070e7f4b694e96aad229d0a7cc04979ebee1376b09eab",
+      "event_hash": "b1f8ecda5cefaff8bb06fb8af85c0a1ea71d1dee0f4668751381564f2cf825bd",
+      "payload": {
+        "analysis": "Retrieved biopsy for the 6-month progressive pink raised left breast lesion shows CD30+ large T-cell lymphoid infiltrate (CD3/CD4/CD5/BCL2/MUM1+, CD20/AE1/AE3/ALK1/MPO/BCL6-, Ki-67 95%), favoring primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma over malignant breast neoplasm. No mass, nipple change, or lymphadenopathy; breast imaging/PET unavailable. All key data covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00016",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:13:42.265+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-9",
+        "node-10",
+        "node-11"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b1f8ecda5cefaff8bb06fb8af85c0a1ea71d1dee0f4668751381564f2cf825bd",
+      "event_hash": "abb5ede88cf49c166a78e7fb5a16c64c06acea1e2188c03f93a1b49a7c6fad32",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.02,\n      \"why\": \"New pathologist analysis reports biopsy with dermal confluent large lymphoid cells, Ki-67 95%, CD3/CD4/CD5/BCL2/MUM1/CD30 positivity, and cytokeratin/ALK1/MPO negativity, explicitly excluding malignant breast neoplasm. Radiologist concurs that the CD30+ large T-cell lymphoid infiltrate favors a cutaneous lymphoproliferative disorder over breast malignancy. The prior nonspecific supports (age, progressive discoloration, pink lesion) are outweighed by the lack of epithelial malignancy markers; confidence drops from 0.45 to 0.02.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.85,\n      \"why\": \"Biopsy and expert analyses reveal a primary cutaneous CD30+ large T-cell lymphoid infiltrate (CD3/CD4/CD5/BCL2/MUM1+, cytokeratin/ALK1/MPO-, Ki-67 95%, epidermal ulceration). Both pathologist and radiologist favor a primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma, which supports the primary cutaneous malignancy hypothesis. Localized skin presentation without systemic findings fits this category; remaining uncertainty is pcALCL vs LyP and lack of systemic staging/TCR clonality, so confidence rises from 0.35 to 0.85.\"\n    },\n    {\n      \"node_id\": \"node-8\",\n      \"confidence\": 0.05,\n      \"why\": \"The biopsy shows confluent large lymphoid cells, epidermal ulceration, Ki-67 95%, and CD30+ T-cell lineage markers, which are not consistent with a benign skin/breast lesion. Although lymphomatoid papulosis can be indolent, it is a CD30+ lymphoproliferative disorder rather than a simple benign dermatosis or breast lesion. The benign hypothesis is therefore largely refuted, with confidence reduced from 0.20 to 0.05.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"Biopsy of left breast lesion shows dermal confluent large lymphoid cells and epidermal ulceration\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Immunohistochemistry shows Ki-67 95%, CD3/CD4/CD5/BCL2/MUM1/CD30 positive, and cytokeratin/ALK1/MPO negative\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Patient has primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.9,\n      \"why\": \"Biopsy demonstrates CD30+ large T-cell lymphoid infiltrate with CD3/CD4/CD5/BCL2/MUM1 positivity, cytokeratin/ALK1/MPO negativity, Ki-67 95%, and epidermal ulceration. Both pathologist and radiologist favor primary cutaneous CD30+ lymphoid proliferation/lymphoma over malignant breast neoplasm. The main limitation is lack of TCR clonality and systemic staging to distinguish pcALCL from LyP, but the broad CD30+ lymphoproliferative disorder category is strongly supported.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-6\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-6\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-7\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-7\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"h001\",\n      \"dst\": \"node-7\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"h001\",\n      \"dst\": \"node-6\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"h001\",\n      \"dst\": \"node-8\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00017",
+      "task_id": "case-9",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:13:42.271+00:00",
+      "event_type": "BACKTRACK",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-6"
+      ],
+      "source_class": "SYSTEM_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "abb5ede88cf49c166a78e7fb5a16c64c06acea1e2188c03f93a1b49a7c6fad32",
+      "event_hash": "b399b835119c43b3c1e9a55e2450d23d63330de4dc75e709ccac828079a74118",
+      "payload": {
+        "level_from": 1,
+        "level_to": 1,
+        "deleted_levels": [],
+        "applied": false
+      }
+    },
+    {
+      "event_id": "evt-case-9-00018",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:13:59.545+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-11"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-11"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "b399b835119c43b3c1e9a55e2450d23d63330de4dc75e709ccac828079a74118",
+      "event_hash": "bbe30892d2dab5bb6b4e5b56fde14ba0fb84f5baae1d5a51e5322394c472a1ee",
+      "payload": {
+        "response": "[\n  {\"expert_name\":\"Pathologist\",\"planning_intent\":\"seek_discriminating_evidence\"},\n  {\"expert_name\":\"Radiologist\",\"planning_intent\":\"seek_discriminating_evidence\"}\n]",
+        "focus": {
+          "node_id": "node-11",
+          "label": "Patient has primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma",
+          "why": "Biopsy demonstrates CD30+ large T-cell lymphoid infiltrate with CD3/CD4/CD5/BCL2/MUM1 positivity, cytokeratin/ALK1/MPO negativity, Ki-67 95%, and epidermal ulceration. Both pathologist and radiologist favor primary cutaneous CD30+ lymphoid proliferation/lymphoma over malignant breast neoplasm. The main limitation is lack of TCR clonality and systemic staging to distinguish pcALCL from LyP, but the broad CD30+ lymphoproliferative disorder category is strongly supported.",
+          "score": 0.9,
+          "level": 1,
+          "supports": 2,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-9-00019",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:13:59.547+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-11"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bbe30892d2dab5bb6b4e5b56fde14ba0fb84f5baae1d5a51e5322394c472a1ee",
+      "event_hash": "c9911273bbe7de9158f9b78841d0a993042380fdfc4e9bff7399cfad42f6a73d",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00020",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:14:20.048+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0009"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "c9911273bbe7de9158f9b78841d0a993042380fdfc4e9bff7399cfad42f6a73d",
+      "event_hash": "7e495b29f555942a4f0ceefc7011d2264f39192e045d695aba2bb14ae7e12945",
+      "payload": {
+        "query": "Need the actual TCR clonality result, systemic PET/CT, LDH, bone marrow and lymph node findings, plus clinical course details (spontaneous regression, recurrence, persistence). These critical missing items distinguish pcALCL from LyP and exclude systemic CD30+ lymphoma.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b3a60bab446e6168de6d3ef0021ad7043ff9d92a924844992c84939f687d341e",
+        "started_at": "2026-10-08T07:14:15.787+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00021",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:14:20.055+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0010"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7e495b29f555942a4f0ceefc7011d2264f39192e045d695aba2bb14ae7e12945",
+      "event_hash": "db6d5722af964ddb68c7a66f71fe1e07dc40056b2683279113216a0652588f7b",
+      "payload": {
+        "query": "Need the actual TCR clonality result, systemic PET/CT, LDH, bone marrow and lymph node findings, plus clinical course details (spontaneous regression, recurrence, persistence). These critical missing items distinguish pcALCL from LyP and exclude systemic CD30+ lymphoma.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b3a60bab446e6168de6d3ef0021ad7043ff9d92a924844992c84939f687d341e",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00022",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:14:55.212+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0011"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "db6d5722af964ddb68c7a66f71fe1e07dc40056b2683279113216a0652588f7b",
+      "event_hash": "bf8bd8ec5274b7e6c27ddc900e84865bc64ebf9c8a922ad7ec19d94bec5fc80b",
+      "payload": {
+        "query": "Need final integrated pathology report and dermatopathology second opinion, including TCR clonality conclusion if performed, plus lesion evolution/regression pattern and systemic symptoms; critical to confirm CD30+ cutaneous LPD and distinguish pcALCL from LyP/systemic lymphoma, because current IHC supports the frontier but classification-critical data remain absent.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "b8cf654853b9f00995f0678bb86ea7819c02d31c9cb973819bc72fcdbf62a7cc",
+        "started_at": "2026-10-08T07:14:41.329+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00023",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:14:55.219+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0012"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bf8bd8ec5274b7e6c27ddc900e84865bc64ebf9c8a922ad7ec19d94bec5fc80b",
+      "event_hash": "bfa4f9a780b752519dd15235376a2a5b2ba1516ab2577965269a0ce530786a6b",
+      "payload": {
+        "query": "Need final integrated pathology report and dermatopathology second opinion, including TCR clonality conclusion if performed, plus lesion evolution/regression pattern and systemic symptoms; critical to confirm CD30+ cutaneous LPD and distinguish pcALCL from LyP/systemic lymphoma, because current IHC supports the frontier but classification-critical data remain absent.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "b8cf654853b9f00995f0678bb86ea7819c02d31c9cb973819bc72fcdbf62a7cc",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00024",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:15:09.098+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0009",
+        "rec-case-9-0010",
+        "rec-case-9-0011",
+        "rec-case-9-0012"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bfa4f9a780b752519dd15235376a2a5b2ba1516ab2577965269a0ce530786a6b",
+      "event_hash": "3f3a1e74efa08bfe9dfe9b008d39618c0a24b45dd2be586bfdaaa382087bd742",
+      "payload": {
+        "analysis": "Integrated evidence: dermal confluent large lymphoid cells with ulceration, Ki-67 95%, CD3/CD4/CD5/BCL2/MUM1/CD30 positive, cytokeratin/ALK1/MPO negative strongly supports primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma and excludes breast carcinoma. Available biopsy/IHC key data are covered; however TCR clonality and systemic staging (PET/CT, LDH, marrow, nodes, course) are missing, so pcALCL versus LyP remains unresolved.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00025",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:15:09.104+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-11"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "3f3a1e74efa08bfe9dfe9b008d39618c0a24b45dd2be586bfdaaa382087bd742",
+      "event_hash": "f2378559114b2a6788e04b620e72bf40b6e083bdc1e1420d963374c0bbd90907",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00026",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:15:32.626+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0013"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "f2378559114b2a6788e04b620e72bf40b6e083bdc1e1420d963374c0bbd90907",
+      "event_hash": "30fbe1424a89c5158925e6320efcd88268b1772316fa9da5edca545142ee3bcb",
+      "payload": {
+        "query": "Need the T-cell receptor gene rearrangement clonality result and whole-body PET-CT report (core to distinguish pcALCL from LyP and exclude systemic lymphoma with skin involvement); prior pathology only confirms cutaneous CD30+ LPD, but staging and clonality are missing and critical for definitive diagnosis and treatment planning.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "54b002d78ecd57de14c40bf842a72d85c8057b735e1e9ef763056123ad6399f5",
+        "started_at": "2026-10-08T07:15:27.422+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00027",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:15:32.631+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0014"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "30fbe1424a89c5158925e6320efcd88268b1772316fa9da5edca545142ee3bcb",
+      "event_hash": "6e00c5bfedf189aa18ab84d6aea1e786abc141fb9872dd8c83e491c327308aa2",
+      "payload": {
+        "query": "Need the T-cell receptor gene rearrangement clonality result and whole-body PET-CT report (core to distinguish pcALCL from LyP and exclude systemic lymphoma with skin involvement); prior pathology only confirms cutaneous CD30+ LPD, but staging and clonality are missing and critical for definitive diagnosis and treatment planning.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "54b002d78ecd57de14c40bf842a72d85c8057b735e1e9ef763056123ad6399f5",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00028",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:15:54.010+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0015"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "6e00c5bfedf189aa18ab84d6aea1e786abc141fb9872dd8c83e491c327308aa2",
+      "event_hash": "7cfe0aac67b070457ab593d4c6667820946156ceb8eeed63a5f2c4203e5f034e",
+      "payload": {
+        "query": "Need the actual T-cell receptor gene rearrangement clonality result and whole-body PET-CT report, plus brief clinical course including lesion number, spontaneous regression, and extracutaneous symptoms (core to separate pcALCL from LyP and exclude systemic lymphoma); pathology already confirms cutaneous CD30+ LPD but these missing data are critical for definitive diagnosis and treatment.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "93c2535ae3c37992d7012b6b555f5d42b6e690c85d086d6282e0266d84f43074",
+        "started_at": "2026-10-08T07:15:49.965+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00029",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:15:54.018+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0016"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7cfe0aac67b070457ab593d4c6667820946156ceb8eeed63a5f2c4203e5f034e",
+      "event_hash": "ac56a2dbbbcc9f0ef43fd797bf695f29c86535ea27ad8c150fed085b7176d27d",
+      "payload": {
+        "query": "Need the actual T-cell receptor gene rearrangement clonality result and whole-body PET-CT report, plus brief clinical course including lesion number, spontaneous regression, and extracutaneous symptoms (core to separate pcALCL from LyP and exclude systemic lymphoma); pathology already confirms cutaneous CD30+ LPD but these missing data are critical for definitive diagnosis and treatment.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "93c2535ae3c37992d7012b6b555f5d42b6e690c85d086d6282e0266d84f43074",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00030",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:16:11.043+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0013",
+        "rec-case-9-0014",
+        "rec-case-9-0015",
+        "rec-case-9-0016"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ac56a2dbbbcc9f0ef43fd797bf695f29c86535ea27ad8c150fed085b7176d27d",
+      "event_hash": "091d0bf23a7a342c4fa8460779a4bd4a7289acdd7deab8c221ea2aad69f8815a",
+      "payload": {
+        "analysis": "Pathology shows confluent dermal large lymphoid cells, epidermal ulceration, Ki-67 95%, CD3/CD4/CD5/BCL2/MUM1/CD30+, cytokeratin/ALK1/MPO−, supporting primary cutaneous CD30+ T-cell LPD/lymphoma and refuting malignant breast neoplasm. TCR clonality and PET-CT staging are missing, so pcALCL versus LyP/systemic disease is not definitively separated. All key information covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00031",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:16:38.120+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-12",
+        "node-13",
+        "node-14"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "091d0bf23a7a342c4fa8460779a4bd4a7289acdd7deab8c221ea2aad69f8815a",
+      "event_hash": "7ad0534f2e90b32ea56a6b0595de37d0035b5a7edc4f6041dec09916518d6113",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-11\",\n      \"confidence\": 0.9,\n      \"why\": \"Both the pathologist and radiologist, on integrated review, reaffirm that the confluent dermal large T-cell infiltrate with CD30/CD3/CD4/CD5/BCL2/MUM1 positivity and cytokeratin/ALK1/MPO negativity, Ki-67 95%, and epidermal ulceration best fits a primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma rather than a breast neoplasm. Because TCR clonality and systemic staging (PET/CT, LDH, marrow, nodes, clinical course) remain unavailable, the distinction between pcALCL and LyP cannot yet be resolved; the broad CD30+ category therefore stays strongly supported at 0.9 without further increase.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev002\",\n      \"label\": \"TCR clonality analysis and systemic staging (PET/CT, LDH, bone marrow, and lymph node evaluation) have not yet been performed\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Patient has primary cutaneous anaplastic large cell lymphoma (pcALCL)\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.5,\n      \"why\": \"A single persistent, progressively enlarging 3 cm raised lesion over 6 months, together with confluent dermal large CD30+ T cells, BCL2/MUM1 expression, Ki-67 95%, and epidermal ulceration, is characteristic of pcALCL as a defined subtype within the CD30+ cutaneous lymphoproliferative category. The advanced large-cell morphology and high proliferation favor pcALCL over the more indolent papular disorder, and both expert analyses place pcALCL among the unresolved possibilities. Confidence is limited to 0.5 because TCR clonality and systemic staging are still pending.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"Patient has lymphomatoid papulosis (LyP)\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.3,\n      \"why\": \"The CD30+ large T-cell lymphoid infiltrate with T-cell lineage markers could also represent LyP, which shares the CD30+ phenotype and morphology within this lymphoproliferative spectrum. However, the solitary, continuously progressive lesion over 6 months with 95% Ki-67 and ulceration is atypical for the typically recurrent, waxing-and-waning papules of LyP, and the expert analyses leave the entity unresolved. Confidence is therefore lower at 0.3 pending clonality and systemic staging.\"\n    }\n  ],\n  \"edges\": [\n    {\"src\": \"node-9\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-10\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-2\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-3\", \"dst\": \"h002\", \"relation\": \"support\"},\n    {\"src\": \"node-9\", \"dst\": \"h003\", \"relation\": \"support\"},\n    {\"src\": \"node-10\", \"dst\": \"h003\", \"relation\": \"support\"},\n    {\"src\": \"node-2\", \"dst\": \"h003\", \"relation\": \"refute\"},\n    {\"src\": \"h002\", \"dst\": \"node-11\", \"relation\": \"support\"},\n    {\"src\": \"h003\", \"dst\": \"node-11\", \"relation\": \"support\"},\n    {\"src\": \"ev002\", \"dst\": \"node-11\", \"relation\": \"support\"}\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00032",
+      "task_id": "case-9",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:17:04.115+00:00",
+      "event_type": "DRILL_DOWN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-15",
+        "node-16",
+        "node-11"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7ad0534f2e90b32ea56a6b0595de37d0035b5a7edc4f6041dec09916518d6113",
+      "event_hash": "bc1da39e8296eb6b849f3c7c03fea06b608d2c1852c3baa588527d250dcdbdd7",
+      "payload": {
+        "level_from": 1,
+        "level_to": 2,
+        "candidates": [
+          "Patient has primary cutaneous anaplastic large cell lymphoma (pcALCL)",
+          "Patient has lymphomatoid papulosis (LyP)"
+        ],
+        "applied": true
+      }
+    },
+    {
+      "event_id": "evt-case-9-00033",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:17:14.706+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-15"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-15"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "bc1da39e8296eb6b849f3c7c03fea06b608d2c1852c3baa588527d250dcdbdd7",
+      "event_hash": "05a6c7ae271f2d552b110aba4b3af99432cb81fdd6d4e41c4c8d3d41c0a99ed5",
+      "payload": {
+        "response": "[\n  {\"expert_name\": \"Pathologist\", \"planning_intent\": \"assess_hypothesis\"},\n  {\"expert_name\": \"Radiologist\", \"planning_intent\": \"seek_discriminating_evidence\"}\n]",
+        "focus": {
+          "node_id": "node-15",
+          "label": "Patient has primary cutaneous anaplastic large cell lymphoma (pcALCL)",
+          "why": "Current frontier is the broad category 'primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma' (node-11, 0.9). pcALCL is a more granular subtype within this spectrum, represented by node-13 (0.5). It is supported by the solitary progressive 3 cm left-breast lesion over 6 months (node-2, node-3) and biopsy showing confluent dermal large CD30+ T cells with BCL2/MUM1 positivity, Ki-67 95%, and epidermal ulceration (node-9, node-10). TCR clonality and systemic staging are pending (node-12), limiting confidence, but pcALCL remains a strong specific refinement.",
+          "score": 0.5,
+          "level": 2,
+          "supports": 0,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-9-00034",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:17:14.711+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Pathologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-15"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "05a6c7ae271f2d552b110aba4b3af99432cb81fdd6d4e41c4c8d3d41c0a99ed5",
+      "event_hash": "d8f4fb6b24c27ad66239c50f9281457f4a7b19714a94c31ecc70fd21906b485f",
+      "payload": {
+        "expert": "Pathologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00035",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:17:42.184+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0017"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "d8f4fb6b24c27ad66239c50f9281457f4a7b19714a94c31ecc70fd21906b485f",
+      "event_hash": "5649597b03253768a978742d4ff41e2862061e4ab2d13083ff5239cee577de20",
+      "payload": {
+        "query": "Need the final T-cell receptor clonality report and systemic staging results (PET/CT, LDH, bone marrow, lymph node exam) to confirm pcALCL and exclude LyP or systemic CD30+ lymphoma, as these critical missing items remain unavailable despite biopsy showing confluent dermal CD30+ large T cells with high Ki-67.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "f19336ce74132c5629e875686931fbfe26770cb52a067bdca8ecf7230fa8d74e",
+        "started_at": "2026-10-08T07:17:34.500+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00036",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:17:42.190+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0018"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "5649597b03253768a978742d4ff41e2862061e4ab2d13083ff5239cee577de20",
+      "event_hash": "3b21bb41d767650df4f067d7a56fe9dc8ab38b3c235be16ecb507f78f96d5bc4",
+      "payload": {
+        "query": "Need the final T-cell receptor clonality report and systemic staging results (PET/CT, LDH, bone marrow, lymph node exam) to confirm pcALCL and exclude LyP or systemic CD30+ lymphoma, as these critical missing items remain unavailable despite biopsy showing confluent dermal CD30+ large T cells with high Ki-67.",
+        "hit": true,
+        "retrieval_output": "The lesion was composed of confluent sheets of large lymphoid cells, predominantly located in the mid to deep dermis with focal ulcerations of the epidermis. Cells were medium to large with a moderate amount of eosinophilic cytoplasm, and large anaplastic nuclei, some with prominent nucleoli. Tissues were highly mitotic, with 95% proliferative index determined via Ki-67 staining. Abnormal cells stained positive for CD3, CD4, CD5, BCL2, MUM1, and CD30, and negative for CD20, CD10, CD8, AE1/AE3, ALK1, Myeloperoxidase, and BCL6..",
+        "record_hash": "f19336ce74132c5629e875686931fbfe26770cb52a067bdca8ecf7230fa8d74e",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00037",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:17:57.235+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0019"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "3b21bb41d767650df4f067d7a56fe9dc8ab38b3c235be16ecb507f78f96d5bc4",
+      "event_hash": "6aad9721b65f6d88903190fc1c7d229d62bd2cec43c61d7677cfe83d3a7859e1",
+      "payload": {
+        "query": "Need the biopsy molecular cytogenetic/FISH report for DUSP22-IRF4, TP63, and IRF4 rearrangements, plus any available comparative TCR clonality data between skin and blood; these novel discriminators are critical because pcALCL is enriched for DUSP22 rearrangement and such data can confirm the frontier when systemic staging remains absent.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b22e0cbd3c74b74c437f15c59a7587517dc18c143288842b98fea511a33cebf6",
+        "started_at": "2026-10-08T07:17:54.193+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00038",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:17:57.241+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0020"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "6aad9721b65f6d88903190fc1c7d229d62bd2cec43c61d7677cfe83d3a7859e1",
+      "event_hash": "96f524a631ae91baa1d31c710fc71e1e9bc32039c1fe08e811ecff379ca12287",
+      "payload": {
+        "query": "Need the biopsy molecular cytogenetic/FISH report for DUSP22-IRF4, TP63, and IRF4 rearrangements, plus any available comparative TCR clonality data between skin and blood; these novel discriminators are critical because pcALCL is enriched for DUSP22 rearrangement and such data can confirm the frontier when systemic staging remains absent.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "b22e0cbd3c74b74c437f15c59a7587517dc18c143288842b98fea511a33cebf6",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00039",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:18:28.099+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Pathologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0017",
+        "rec-case-9-0018",
+        "rec-case-9-0019",
+        "rec-case-9-0020"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "96f524a631ae91baa1d31c710fc71e1e9bc32039c1fe08e811ecff379ca12287",
+      "event_hash": "8cf4b51d9a9e0fd0655395391cfd257451cf8fdf4ffcdf66bc24fad8217af289",
+      "payload": {
+        "analysis": "Biopsy shows confluent dermal CD3/CD4/CD5/CD30/BCL2/MUM1+ T cells with Ki-67 95%, ulceration, and negative cytokeratin/ALK1/MPO, suggesting primary cutaneous CD30+ T-cell lymphoproliferative disorder and favoring pcALCL over breast cancer/benign lesion. TCR clonality and staging are absent, so pcALCL versus LyP/systemic lymphoma is unresolved. All available key data covered; key gaps remain.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00040",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:18:28.104+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-15"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8cf4b51d9a9e0fd0655395391cfd257451cf8fdf4ffcdf66bc24fad8217af289",
+      "event_hash": "ff17630bdc61c9fc581c888d024430d73bd64f2cb816400d92627b105feaff55",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00041",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:18:48.006+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0021"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ff17630bdc61c9fc581c888d024430d73bd64f2cb816400d92627b105feaff55",
+      "event_hash": "7baa8846e05a9e523bab03b9d401881d17cdce3bd1be731a7cfa31ed57789609",
+      "payload": {
+        "query": "Need serum LDH, complete blood count, and bone marrow biopsy results, plus dermatology follow-up notes documenting lesion multiplicity and any spontaneous regression (critical to distinguish pcALCL from LyP and exclude systemic lymphoma); prior TCR/PET requests returned no data, so these systemic and clinical markers are the next essential evidence.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "d6353ebfc229b2c9a18c696dbeac4543b7a002ef89fd4e191661b81e0876f941",
+        "started_at": "2026-10-08T07:18:43.304+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00042",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:18:48.013+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0022"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "7baa8846e05a9e523bab03b9d401881d17cdce3bd1be731a7cfa31ed57789609",
+      "event_hash": "4cf91f8bf83d73dbd299994161712ff4112756d4f8310e95a67c7e286075254e",
+      "payload": {
+        "query": "Need serum LDH, complete blood count, and bone marrow biopsy results, plus dermatology follow-up notes documenting lesion multiplicity and any spontaneous regression (critical to distinguish pcALCL from LyP and exclude systemic lymphoma); prior TCR/PET requests returned no data, so these systemic and clinical markers are the next essential evidence.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "d6353ebfc229b2c9a18c696dbeac4543b7a002ef89fd4e191661b81e0876f941",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00043",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:19:18.102+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0023"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "4cf91f8bf83d73dbd299994161712ff4112756d4f8310e95a67c7e286075254e",
+      "event_hash": "ee50411a05683e168940c4543d05fd44e40162755dc6615254c8e9b98311ab8f",
+      "payload": {
+        "query": "Need contrast-enhanced CT of chest, abdomen, and pelvis, peripheral blood flow cytometry, and TCR clonality from skin/blood, because prior PET-CT and TCR results are unavailable; these assess extracutaneous disease and help distinguish pcALCL from LyP, critical for definitive diagnosis.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "d136b8e413ae917e68d193aad705ef4a0d203a239c7686d19e8d4142f91b53b8",
+        "started_at": "2026-10-08T07:19:01.184+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00044",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:19:18.108+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-9-0024"
+      ],
+      "causal_node_refs": [],
+      "source_class": "UNKNOWN",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ee50411a05683e168940c4543d05fd44e40162755dc6615254c8e9b98311ab8f",
+      "event_hash": "ef9cc3301cb7a0462682d2fc95b6edafbd1237089e99151c685900f21c0e52a9",
+      "payload": {
+        "query": "Need contrast-enhanced CT of chest, abdomen, and pelvis, peripheral blood flow cytometry, and TCR clonality from skin/blood, because prior PET-CT and TCR results are unavailable; these assess extracutaneous disease and help distinguish pcALCL from LyP, critical for definitive diagnosis.",
+        "hit": false,
+        "retrieval_output": "",
+        "record_hash": "d136b8e413ae917e68d193aad705ef4a0d203a239c7686d19e8d4142f91b53b8",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00045",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:19:41.409+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-9-0021",
+        "rec-case-9-0022",
+        "rec-case-9-0023",
+        "rec-case-9-0024"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "ef9cc3301cb7a0462682d2fc95b6edafbd1237089e99151c685900f21c0e52a9",
+      "event_hash": "5f6d69115582c95c62cf2f02bbb8f05c5fba8592bb96e979b809a3441d536ecd",
+      "payload": {
+        "analysis": "Evidence: 70F, 6-month progressive pink left-breast lesion; biopsy shows confluent dermal CD30+ large T cells, ulceration, Ki-67 95%, CD3/CD4/CD5/BCL2/MUM1+, cytokeratin/ALK1/MPO−. This refutes breast carcinoma/benign lesion and supports primary cutaneous CD30+ T-cell LPD/lymphoma; pcALCL favored over LyP. TCR clonality and staging pending. All available evidence integrated.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-9-00046",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:20:21.554+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-17",
+        "node-18",
+        "node-19"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "5f6d69115582c95c62cf2f02bbb8f05c5fba8592bb96e979b809a3441d536ecd",
+      "event_hash": "740340fe8dc1066958ed0c7369b38fb922943cb6adfecf9c55453b26aeff462a",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-11\",\n      \"confidence\": 0.9,\n      \"why\": \"The pathologist and radiologist analyses both continue to support a primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma, based on confluent dermal large CD30+ T cells with Ki-67 95%, ulceration, and cytokeratin/ALK1/MPO negativity. The radiologist explicitly favors pcALCL over LyP, and systemic lymphoma remains only a differential until staging is completed. Because TCR clonality and systemic staging are still pending, the broad CD30+ category remains strongly supported at 0.9.\"\n    },\n    {\n      \"node_id\": \"node-13\",\n      \"confidence\": 0.5,\n      \"why\": \"The radiologist now explicitly favors pcALCL over LyP, adding support to the pcALCL refinement of the CD30+ cutaneous lymphoproliferative spectrum. The solitary progressive 3 cm left-breast lesion over 6 months with confluent dermal large CD30+ T cells, BCL2/MUM1 positivity, Ki-67 95%, and ulceration remains characteristic of pcALCL. Confidence stays at 0.5 because TCR clonality and systemic staging are pending and LyP/systemic lymphoma cannot yet be fully excluded.\"\n    },\n    {\n      \"node_id\": \"node-14\",\n      \"confidence\": 0.3,\n      \"why\": \"The radiologist's explicit preference for pcALCL over LyP reduces relative support for LyP, while the CD30+ large T-cell infiltrate and T-cell lineage markers still leave LyP within the differential. The solitary, continuously progressive lesion with ulceration and Ki-67 95% is atypical for typical LyP papules, and TCR clonality/staging remain pending, so confidence remains 0.3.\"\n    },\n    {\n      \"node_id\": \"node-15\",\n      \"confidence\": 0.5,\n      \"why\": \"As a level 2 refinement of the broad CD30+ T-cell lymphoproliferative disorder/lymphoma category, pcALCL is now additionally supported by the radiologist's explicit preference over LyP. The persistent solitary 3 cm lesion and large CD30+ dermal T cells with BCL2/MUM1, Ki-67 95%, and ulceration favor pcALCL, but pending TCR clonality and systemic staging limit confidence to 0.5.\"\n    },\n    {\n      \"node_id\": \"node-16\",\n      \"confidence\": 0.3,\n      \"why\": \"LyP remains a possible subtype within the CD30+ lymphoproliferative spectrum, but the radiologist's explicit preference for pcALCL over LyP lowers its relative likelihood. The solitary progressive lesion with high Ki-67 and ulceration is atypical for LyP, and pending TCR clonality and systemic staging leave residual uncertainty, so confidence remains 0.3.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev001\",\n      \"label\": \"Radiologist analysis explicitly favors pcALCL over LyP within the CD30+ cutaneous lymphoproliferative spectrum.\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Expert analyses state that systemic lymphoma remains a differential until TCR clonality and systemic staging are completed.\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h001\",\n      \"label\": \"Patient has systemic lymphoma with secondary skin involvement\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.15,\n      \"why\": \"The expert pathologist explicitly lists systemic lymphoma in the differential alongside pcALCL and LyP, and the skin biopsy shows a CD30+ large T-cell infiltrate that could represent secondary cutaneous involvement. However, the localized 3 cm breast lesion without lymphadenopathy, ALK1 negativity, and the primary cutaneous CD30+ phenotype favored by both experts make systemic lymphoma much less likely, and TCR clonality/systemic staging are still pending. Confidence is therefore low at 0.15.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-11\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-13\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-15\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-14\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev001\",\n      \"dst\": \"node-16\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-9\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-10\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-5\",\n      \"dst\": \"h001\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-11\",\n      \"dst\": \"h001\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-13\",\n      \"dst\": \"h001\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-14\",\n      \"dst\": \"h001\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-9-00047",
+      "task_id": "case-9",
+      "step_id": 3,
+      "timestamp": "2026-10-08T07:20:43.042+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-15"
+      ],
+      "causal_node_refs": [
+        "node-15"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "740340fe8dc1066958ed0c7369b38fb922943cb6adfecf9c55453b26aeff462a",
+      "event_hash": "a3a103ace31b9d93243201cca3401829f400a8618a912eb204af66e29eaba413",
+      "payload": {
+        "prediction": "Patient most likely has pcALCL",
+        "report": "A 70-year-old woman presents with a 6-month progressive pink, raised, non-tender 3 cm left breast lesion. Biopsy shows dermal confluent large lymphoid cells with epidermal ulceration, and immunohistochemistry is CD3/CD4/CD5/BCL2/MUM1/CD30 positive with Ki-67 95%, while cytokeratin/ALK1/MPO are negative. These findings refute malignant breast neoplasm and benign skin/breast lesions, and establish a primary cutaneous CD30+ T-cell lymphoproliferative disorder/lymphoma. Expert analyses (pathologist and radiologist) favor pcALCL over LyP, based on the solitary, continuously progressive, ulcerated lesion with BCL2/MUM1 positivity and very high Ki-67; systemic lymphoma with secondary skin involvement remains unlikely given localized disease without lymphadenopathy and ALK1 negativity. TCR clonality and systemic staging (PET/CT, LDH, bone marrow, lymph node evaluation) are still pending, so pcALCL is the leading diagnosis with staging required to exclude systemic disease.",
+        "report_chars": 978,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 2,
+            "history": [
+              1,
+              1,
+              2
+            ],
+            "stage_steps": {
+              "1": 2,
+              "2": 1
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 3,
+          "session_max_steps": 3,
+          "report_flag": "True",
+          "frontier": {
+            "node_id": "node-15",
+            "label": "Patient has primary cutaneous anaplastic large cell lymphoma (pcALCL)",
+            "why": "As a level 2 refinement of the broad CD30+ T-cell lymphoproliferative disorder/lymphoma category, pcALCL is now additionally supported by the radiologist's explicit preference over LyP. The persistent solitary 3 cm lesion and large CD30+ dermal T cells with BCL2/MUM1, Ki-67 95%, and ulceration favor pcALCL, but pending TCR clonality and systemic staging limit confidence to 0.5.",
+            "score": 0.5,
+            "level": 2,
+            "supports": 1,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-9-00001",
+      "dst": "evt-case-9-00002"
+    },
+    {
+      "src": "evt-case-9-00002",
+      "dst": "evt-case-9-00003"
+    },
+    {
+      "src": "evt-case-9-00003",
+      "dst": "evt-case-9-00004"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00005"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00006"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00007"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00008"
+    },
+    {
+      "src": "evt-case-9-00004",
+      "dst": "evt-case-9-00009"
+    },
+    {
+      "src": "evt-case-9-00005",
+      "dst": "evt-case-9-00009"
+    },
+    {
+      "src": "evt-case-9-00006",
+      "dst": "evt-case-9-00009"
+    },
+    {
+      "src": "evt-case-9-00007",
+      "dst": "evt-case-9-00009"
+    },
+    {
+      "src": "evt-case-9-00008",
+      "dst": "evt-case-9-00009"
+    },
+    {
+      "src": "evt-case-9-00003",
+      "dst": "evt-case-9-00010"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00011"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00012"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00013"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00014"
+    },
+    {
+      "src": "evt-case-9-00010",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00011",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00012",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00013",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00014",
+      "dst": "evt-case-9-00015"
+    },
+    {
+      "src": "evt-case-9-00009",
+      "dst": "evt-case-9-00016"
+    },
+    {
+      "src": "evt-case-9-00015",
+      "dst": "evt-case-9-00016"
+    },
+    {
+      "src": "evt-case-9-00016",
+      "dst": "evt-case-9-00017"
+    },
+    {
+      "src": "evt-case-9-00016",
+      "dst": "evt-case-9-00018"
+    },
+    {
+      "src": "evt-case-9-00018",
+      "dst": "evt-case-9-00019"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00020"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00021"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00022"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00023"
+    },
+    {
+      "src": "evt-case-9-00019",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00020",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00021",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00022",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00023",
+      "dst": "evt-case-9-00024"
+    },
+    {
+      "src": "evt-case-9-00018",
+      "dst": "evt-case-9-00025"
+    },
+    {
+      "src": "evt-case-9-00025",
+      "dst": "evt-case-9-00026"
+    },
+    {
+      "src": "evt-case-9-00025",
+      "dst": "evt-case-9-00027"
+    },
+    {
+      "src": "evt-case-9-00025",
+      "dst": "evt-case-9-00028"
+    },
+    {
+      "src": "evt-case-9-00025",
+      "dst": "evt-case-9-00029"
+    },
+    {
+      "src": "evt-case-9-00025",
+      "dst": "evt-case-9-00030"
+    },
+    {
+      "src": "evt-case-9-00026",
+      "dst": "evt-case-9-00030"
+    },
+    {
+      "src": "evt-case-9-00027",
+      "dst": "evt-case-9-00030"
+    },
+    {
+      "src": "evt-case-9-00028",
+      "dst": "evt-case-9-00030"
+    },
+    {
+      "src": "evt-case-9-00029",
+      "dst": "evt-case-9-00030"
+    },
+    {
+      "src": "evt-case-9-00024",
+      "dst": "evt-case-9-00031"
+    },
+    {
+      "src": "evt-case-9-00030",
+      "dst": "evt-case-9-00031"
+    },
+    {
+      "src": "evt-case-9-00031",
+      "dst": "evt-case-9-00032"
+    },
+    {
+      "src": "evt-case-9-00032",
+      "dst": "evt-case-9-00033"
+    },
+    {
+      "src": "evt-case-9-00033",
+      "dst": "evt-case-9-00034"
+    },
+    {
+      "src": "evt-case-9-00034",
+      "dst": "evt-case-9-00035"
+    },
+    {
+      "src": "evt-case-9-00034",
+      "dst": "evt-case-9-00036"
+    },
+    {
+      "src": "evt-case-9-00034",
+      "dst": "evt-case-9-00037"
+    },
+    {
+      "src": "evt-case-9-00034",
+      "dst": "evt-case-9-00038"
+    },
+    {
+      "src": "evt-case-9-00034",
+      "dst": "evt-case-9-00039"
+    },
+    {
+      "src": "evt-case-9-00035",
+      "dst": "evt-case-9-00039"
+    },
+    {
+      "src": "evt-case-9-00036",
+      "dst": "evt-case-9-00039"
+    },
+    {
+      "src": "evt-case-9-00037",
+      "dst": "evt-case-9-00039"
+    },
+    {
+      "src": "evt-case-9-00038",
+      "dst": "evt-case-9-00039"
+    },
+    {
+      "src": "evt-case-9-00033",
+      "dst": "evt-case-9-00040"
+    },
+    {
+      "src": "evt-case-9-00040",
+      "dst": "evt-case-9-00041"
+    },
+    {
+      "src": "evt-case-9-00040",
+      "dst": "evt-case-9-00042"
+    },
+    {
+      "src": "evt-case-9-00040",
+      "dst": "evt-case-9-00043"
+    },
+    {
+      "src": "evt-case-9-00040",
+      "dst": "evt-case-9-00044"
+    },
+    {
+      "src": "evt-case-9-00040",
+      "dst": "evt-case-9-00045"
+    },
+    {
+      "src": "evt-case-9-00041",
+      "dst": "evt-case-9-00045"
+    },
+    {
+      "src": "evt-case-9-00042",
+      "dst": "evt-case-9-00045"
+    },
+    {
+      "src": "evt-case-9-00043",
+      "dst": "evt-case-9-00045"
+    },
+    {
+      "src": "evt-case-9-00044",
+      "dst": "evt-case-9-00045"
+    },
+    {
+      "src": "evt-case-9-00039",
+      "dst": "evt-case-9-00046"
+    },
+    {
+      "src": "evt-case-9-00045",
+      "dst": "evt-case-9-00046"
+    },
+    {
+      "src": "evt-case-9-00046",
+      "dst": "evt-case-9-00047"
+    }
+  ]
+}

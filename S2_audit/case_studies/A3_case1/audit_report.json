@@ -1,0 +1,71 @@
+{
+  "task_id": "case-1",
+  "aborted": true,
+  "n_anomalies": 2,
+  "anomalies": [
+    {
+      "anomaly_id": "case-1-A5-001",
+      "task_id": "case-1",
+      "type": "A5",
+      "root_event_id": "evt-case-1-00004",
+      "root_node_id": "",
+      "severity": "critical",
+      "evidence": [
+        {
+          "n_events": 4,
+          "last_event_type": "AGENT_CALL",
+          "hypothesis": "a complete run ends in a FINAL_REPORT; if the log simply stops, the tail was cut"
+        }
+      ],
+      "affected_events": [],
+      "affected_nodes": [],
+      "path_to_conclusion": [],
+      "detector_rule": "missing_final_report",
+      "confidence": 1.0
+    },
+    {
+      "anomaly_id": "case-1-A3-001",
+      "task_id": "case-1",
+      "type": "A3",
+      "root_event_id": "evt-case-1-00004",
+      "root_node_id": "",
+      "severity": "medium",
+      "evidence": [
+        {
+          "requested": "Laboratory Physician",
+          "roster": [
+            "Laboratory_Physician",
+            "Pathologist",
+            "Radiologist"
+          ],
+          "near_miss": "Laboratory_Physician",
+          "recorded_status": "failed",
+          "recorded_reason": "INVALID_EXPERT_DISPATCH",
+          "detail": {
+            "cause": "name_form_mismatch",
+            "requested_normalized": "laboratoryphysician",
+            "available_normalized": "laboratoryphysician",
+            "hint": "upstream compares names exactly; 'Laboratory Physician' != 'Laboratory_Physician'"
+          }
+        }
+      ],
+      "affected_events": [],
+      "affected_nodes": [],
+      "path_to_conclusion": [],
+      "detector_rule": "name_form_mismatch",
+      "confidence": 1.0
+    }
+  ],
+  "detectors_run": [
+    "integrity",
+    "dependency_dag",
+    "capability_policy"
+  ],
+  "detectors_skipped": {
+    "A1": "no node bindings (the task died before finish_task)",
+    "A2": "no node bindings",
+    "A4": "no analysis pool (no bindings)"
+  },
+  "note": "The task aborted; only the event log exists. Its absence of a FINAL_REPORT is reported, not treated as an error in the audit.",
+  "path_png": true
+}

@@ -1,0 +1,54 @@
+[S0] Running 1 case(s): [1]
+
+
+===============[RUN] Case 1  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1405 | Output token nums：2874 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Patient presented with abdominal pain and bloating",
+  "isolated_evidence": [
+    "The patient is a 54-year-old Caucasian male; he had been using nonsteroidal anti-inflammatory drugs (NSAIDs) for abdominal pain and bloating.",
+    "Medical history includes hypertension, Raynaud's syndrome, rectal cancer in remission post-surgical resection and radiation therapy, and ongoing radiation-induced cystitis.",
+    "Two months prior, he was diagnosed with strongly positive anti-RNA polymerase III systemic sclerosis following the onset of dysphagia and was prescribed methotrexate (MTX) up to 20 mg weekly; he had not taken MTX for 14 days due to feeling unwell.",
+    "Examination revealed a small bladder rupture attributed to cystitis, which did not necessitate surgical intervention; during bladder evaluation, abnormal serum sodium and creatinine levels were detected, leading to further cardiac assessment."
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Patient presented with abdominal pain and bloating | score=1.000
+[node-2] Evidence[-] | The patient is a 54-year-old Caucasian male; he had been us… | score=1.000
+[node-3] Evidence[-] | Medical history includes hypertension, Raynaud's syndrome, … | score=1.000
+[node-4] Evidence[-] | Two months prior, he was diagnosed with strongly positive a… | score=1.000
+[node-5] Evidence[-] | Examination revealed a small bladder rupture attributed to … | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1481 | Output token nums：6601 | price(CNY)：0.00000000
+Response: {"candidates":[{"id":"h001","label":"NSAID-related adverse effects","confidence":0.4,"why":"node-2 supports NSAID use for symptoms; node-5 abnormal renal function may reflect NSAID nephrotoxicity. Alternative diagnoses exist."},{"id":"h002","label":"SSc GI involvement","confidence":0.75,"why":"node-3 Raynaud's and node-4 anti-RNA pol III SSc with dysphagia support SSc GI involvement; abdominal pain/bloating fits dysmotility/SIBO."},{"id":"h003","label":"Post-radiation complications","confidence":0.5,"why":"node-3 post-radiation rectal cancer and radiation cystitis, plus node-5 bladder rupture/cystitis, support post-radiation pelvic complications."},{"id":"h004","label":"SSc renal crisis","confidence":0.6,"why":"node-3 hypertension, node-4 anti-RNA pol III SSc, node-5 abnormal sodium/creatinine and cardiac assessment support scleroderma renal crisis."}],"edges":[{"src":"node-2","dst":"h001","relation":"support"},{"src":"node-3","dst":"h002","relation":"support"},{"src":"node-3","dst":"h003","relation":"support"},{"src":"node-3","dst":"h004","relation":"support"},{"src":"node-4","dst":"h002","relation":"support"},{"src":"node-4","dst":"h004","relation":"support"},{"src":"node-5","dst":"h001","relation":"support"},{"src":"node-5","dst":"h003","relation":"support"},{"src":"node-5","dst":"h004","relation":"support"}]}
+=== Nodes ===
+[node-1] Signal[-] | Patient presented with abdominal pain and bloating | score=1.000
+[node-2] Evidence[-] | The patient is a 54-year-old Caucasian male; he had been us… | score=1.000
+[node-3] Evidence[-] | Medical history includes hypertension, Raynaud's syndrome, … | score=1.000
+[node-4] Evidence[-] | Two months prior, he was diagnosed with strongly positive a… | score=1.000
+[node-5] Evidence[-] | Examination revealed a small bladder rupture attributed to … | score=1.000
+[node-6] Hypothesis[1] | NSAID-related adverse effects | score=0.400 | attrs={"why": "node-2 supports NSAID use for symptoms; node-5 abnormal renal function…
+[node-7] Hypothesis[1] | SSc GI involvement | score=0.750 | attrs={"why": "node-3 Raynaud's and node-4 anti-RNA pol III SSc with dysphagia suppor…
+[node-8] Hypothesis[1] | Post-radiation complications | score=0.500 | attrs={"why": "node-3 post-radiation rectal cancer and radiation cystitis, plus node-…
+[node-9] Hypothesis[1] | SSc renal crisis | score=0.600 | attrs={"why": "node-3 hypertension, node-4 anti-RNA pol III SSc, node-5 abnormal sodi…
+=== Edges ===
+node-1[Patient presented with abdominal pain and bloating] -> node-6[NSAID-related adverse effects] | refines | conf=0.000
+node-1[Patient presented with abdominal pain and bloating] -> node-7[SSc GI involvement] | refines | conf=0.000
+node-1[Patient presented with abdominal pain and bloating] -> node-8[Post-radiation complications] | refines | conf=0.000
+node-1[Patient presented with abdominal pain and bloating] -> node-9[SSc renal crisis] | refines | conf=0.000
+node-2[The patient is a 54-year-old Caucasian male; he had been us…] -> node-6[NSAID-related adverse effects] | support | conf=0.000
+node-3[Medical history includes hypertension, Raynaud's syndrome, …] -> node-7[SSc GI involvement] | support | conf=0.000
+node-3[Medical history includes hypertension, Raynaud's syndrome, …] -> node-8[Post-radiation complications] | support | conf=0.000
+node-3[Medical history includes hypertension, Raynaud's syndrome, …] -> node-9[SSc renal crisis] | support | conf=0.000
+node-4[Two months prior, he was diagnosed with strongly positive a…] -> node-7[SSc GI involvement] | support | conf=0.000
+node-4[Two months prior, he was diagnosed with strongly positive a…] -> node-9[SSc renal crisis] | support | conf=0.000
+node-5[Examination revealed a small bladder rupture attributed to …] -> node-6[NSAID-related adverse effects] | support | conf=0.000
+node-5[Examination revealed a small bladder rupture attributed to …] -> node-8[Post-radiation complications] | support | conf=0.000
+node-5[Examination revealed a small bladder rupture attributed to …] -> node-9[SSc renal crisis] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1347 | Output token nums：804 | price(CNY)：0.00000000
+Response: {"belief": "The presenting signal of abdominal pain and bloating refines four hypotheses. Evidence of Raynaud's syndrome and strongly positive anti-RNA polymerase III systemic sclerosis with dysphagia most strongly supports SSc GI involvement (0.75), likely from dysmotility or SIBO. Hypertension, anti-RNA pol III SSc, and abnormal sodium/creatinine with cardiac assessment support SSc renal crisis (0.6). Prior rectal cancer radiation and radiation cystitis, plus bladder rupture, support post-radiation complications (0.5). NSAID use and renal abnormalities support NSAID-related adverse effects (0.4). Thus the leading consensus is SSc GI involvement, with SSc renal crisis as a significant concern and alternative contributions from radiation and NSAIDs."}
+{'node_id': 'node-7', 'label': 'SSc GI involvement', 'why': "node-3 Raynaud's and node-4 anti-RNA pol III SSc with dysphagia support SSc GI involvement; abdominal pain/bloating fits dysmotility/SIBO.", 'score': 0.75, 'level': 1, 'supports': 2, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1350 | Output token nums：2677 | price(CNY)：0.00000000
+Response: [{"expert_name":"Radiologist","planning_intent":"seek_discriminating_evidence"}]
+
+Step 1 - Decision Making

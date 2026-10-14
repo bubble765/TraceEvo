@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Causal Graph Visualization</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                        signal: '#ef4444',
+                        evidence: '#22c55e',
+                        hypothesis: '#f97316',
+                        background: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .node-card {
+                @apply p-3 rounded-lg shadow-md transition-all duration-300 cursor-pointer;
+            }
+            .node-card:hover {
+                @apply shadow-lg transform -translate-y-1;
+            }
+            .signal-node {
+                @apply bg-red-100 border-l-4 border-signal;
+            }
+            .evidence-node {
+                @apply bg-green-100 border-l-4 border-evidence;
+            }
+            .hypothesis-node {
+                @apply bg-orange-100 border-l-4 border-hypothesis;
+            }
+            .nav-button {
+                @apply px-4 py-2 rounded-md bg-primary text-white hover:bg-blue-600 transition-colors duration-200;
+            }
+            .nav-button:disabled {
+                @apply bg-gray-300 cursor-not-allowed;
+            }
+            .tooltip {
+                @apply absolute bg-white p-2 rounded shadow-lg z-50 max-w-xs;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.2s;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Causal graph</h1>
+            <p class="text-gray-600">Causal graph</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <div class="lg:w-1/4 bg-white p-4 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Navi</h2>
+                <div class="flex justify-between items-center mb-6">
+                    <button id="prevBtn" class="nav-button">
+                        <i class="fa fa-arrow-left mr-2"></i>Before
+                    </button>
+                    <span id="counter" class="text-lg font-medium text-gray-700">1 / 9</span>
+                    <button id="nextBtn" class="nav-button">
+                        Next<i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium mb-2 text-gray-700">Legend</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 rounded-full bg-signal mr-2"></div>
+                            <span>Signal (Signal)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 rounded-full bg-evidence mr-2"></div>
+                            <span>Evidence (Evidence)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 rounded-full bg-hypothesis mr-2"></div>
+                            <span>Hypothesis (Hypothesis)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700">statis</h3>
+                    <div id="nodeStats" class="text-sm text-gray-600">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lg:w-3/4 bg-white p-4 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="graphTitle" class="text-xl font-semibold text-gray-700">Causal graph 1</h2>
+                    <div>
+                        <button id="zoomInBtn" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 mr-2">
+                            <i class="fa fa-search-plus"></i>
+                        </button>
+                        <button id="zoomOutBtn" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 mr-2">
+                            <i class="fa fa-search-minus"></i>
+                        </button>
+                        <button id="resetZoomBtn" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+                
+
+                <div id="graphContainer" class="border border-gray-200 rounded-lg h-[600px] overflow-hidden">
+   
+                </div>
+                
+       
+                <div id="nodeDetails" class="mt-4 p-4 border border-gray-200 rounded-lg hidden">
+                    <h3 class="text-lg font-medium mb-2 text-gray-700">Node</h3>
+                    <div id="nodeDetailsContent">
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div id="tooltip" class="tooltip"></div>
+    
+    <script>
+       
+        const graphData = [{"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-1", "dst": "node-11", "type": "refines", "attrs": {}}], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-1", "dst": "node-11", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-11", "type": "support", "attrs": {}}], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-1", "dst": "node-11", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-11", "type": "support", "attrs": {}}], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-1", "dst": "node-11", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-11", "type": "support", "attrs": {}}], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-1", "dst": "node-11", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-13", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-14", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-15", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-16", "type": "refines", "attrs": {}}], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-1", "dst": "node-11", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-13", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-14", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-15", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-16", "type": "refines", "attrs": {}}], "start_signal_id": null}, {"nodes": {"node-1": {"type": "Signal", "label": "A man in his 40s presented with a 3-month history of discrete, dark red, circular lesions in his right axilla", "score": 1.0, "attrs": {}}, "node-2": {"type": "Evidence", "label": "The patient reported severe pruritus at these sites that would wake him up at night", "score": 1.0, "attrs": {}}, "node-3": {"type": "Evidence", "label": "Physical examination revealed 3 well-circumscribed, violaceous, annular patches without scale or erosion limited to the right axilla; no other lesions were noted on skin or mucous membranes; Wood lamp examination was negative", "score": 1.0, "attrs": {}}, "node-4": {"type": "Evidence", "label": "The patient denied recent trauma, history of similar lesions, associated pain, blisters, or systemic symptoms; medical history was unremarkable; no environmental triggers or new medications", "score": 1.0, "attrs": {}}, "node-5": {"type": "Evidence", "label": "Treatment with over-the-counter hydrocortisone cream, ketoconazole cream, and discontinuation of underarm deodorant yielded no improvement", "score": 1.0, "attrs": {}}, "node-6": {"type": "Hypothesis", "label": "Infectious dermatosis (fungal)", "score": 0.02, "attrs": {"why": {"why": "Both expert analyses emphasize that the absence of scale, negative Wood lamp, and failure of antifungals argue strongly against fungal infection; no new evidence supports fungal dermatosis. Confidence is reduced from 0.05 to 0.02."}, "level": 1}}, "node-7": {"type": "Hypothesis", "label": "Inflammatory dermatosis", "score": 0.15, "attrs": {"why": {"why": "Expert analyses favor cutaneous lymphoma/neoplasia over inflammatory dermatosis because of violaceous annular patches without scale, negative Wood lamp, no triggers or systemic symptoms, and no improvement with topical steroids. Inflammatory dermatosis remains a low-probability differential, so confidence is reduced from 0.2 to 0.15."}, "level": 1}}, "node-8": {"type": "Hypothesis", "label": "Cutaneous lymphoma/neoplasia", "score": 0.75, "attrs": {"why": {"why": "Both pathologist and laboratory physician analyses identify cutaneous lymphoma/neoplasia as the leading hypothesis; the pathologist calls patch-stage mycosis fungoides the most credible entity, and the laboratory physician reports H&E epidermotropism. These new supportive findings increase confidence from 0.6 to 0.75, though confirmatory IHC, TCR rearrangement, flow cytometry, and staging are still pending."}, "level": 1}}, "node-9": {"type": "Evidence", "label": "Skin biopsy with histopathology, immunohistochemistry, TCR gene rearrangement, and flow cytometry has been requested but results are pending", "score": 1.0, "attrs": {}}, "node-10": {"type": "Evidence", "label": "CBC with differential, peripheral smear, and serum LDH have been ordered to assess systemic involvement but results are not yet available", "score": 1.0, "attrs": {}}, "node-11": {"type": "Hypothesis", "label": "The right axillary lesion is mycosis fungoides (cutaneous T-cell lymphoma)", "score": 0.65, "attrs": {"why": {"why": "Expert analyses specifically name mycosis fungoides as the leading suspected entity within cutaneous lymphoma, and the reported H&E epidermotropism is a supportive histopathologic feature. Confidence increases from 0.45 to 0.65, but remains moderate because confirmatory molecular and staging results are not yet available."}, "level": 1}}, "node-12": {"type": "Evidence", "label": "Staging imaging (e.g., CT/PET) has been recommended but results are not yet available", "score": 1.0, "attrs": {}}, "node-13": {"type": "Hypothesis", "label": "Mycosis fungoides (patch-stage cutaneous T-cell lymphoma)", "score": 0.7, "attrs": {"why": {"why": "The pathologist states the violaceous annular patches are consistent with classic patch-stage mycosis fungoides, and the laboratory physician reports H&E epidermotropism. Together with negative Wood lamp and resistance to antifungals/topical steroids, this raises confidence from 0.45 to 0.70, while definitive IHC/TCR/flow and staging confirmation remain pending."}, "level": 2}}, "node-14": {"type": "Hypothesis", "label": "Primary cutaneous CD30+ lymphoproliferative disorder (e.g., primary cutaneous anaplastic large cell lymphoma)", "score": 0.04, "attrs": {"why": {"why": "Expert consensus and the reported epidermotropism favor patch-stage mycosis fungoides rather than a CD30+ lymphoproliferative disorder, which more often forms nodules or ulcerated lesions. Confidence is reduced from 0.06 to 0.04."}, "level": 2}}, "node-15": {"type": "Hypothesis", "label": "Cutaneous B-cell lymphoma", "score": 0.03, "attrs": {"why": {"why": "The new expert-supported emphasis on epidermotropism and patch-stage mycosis fungoides makes cutaneous B-cell lymphoma less likely, as B-cell lymphomas usually form firm nodules or plaques without this pattern. Confidence is reduced from 0.05 to 0.03."}, "level": 2}}, "node-16": {"type": "Hypothesis", "label": "Other cutaneous T-cell lymphoma (e.g., S\u00e9zary syndrome, peripheral T-cell lymphoma)", "score": 0.02, "attrs": {"why": {"why": "Expert analyses continue to focus on patch-stage mycosis fungoides; the absence of erythroderma, generalized lymphadenopathy, and systemic symptoms argues against S\u00e9zary syndrome or aggressive peripheral T-cell lymphoma. Confidence is reduced from 0.04 to 0.02."}, "level": 2}}, "node-17": {"type": "Evidence", "label": "H&E of skin biopsy shows epidermotropism", "score": 1.0, "attrs": {}}, "node-18": {"type": "Evidence", "label": "Peripheral blood flow cytometry has been requested but results are not yet available", "score": 1.0, "attrs": {}}}, "edges": [{"src": "node-1", "dst": "node-6", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-7", "type": "refines", "attrs": {}}, {"src": "node-1", "dst": "node-8", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-6", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-2", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-3", "dst": "node-7", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-4", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-6", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-7", "type": "refute", "attrs": {}}, {"src": "node-5", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-1", "dst": "node-11", "type": "refines", "attrs": {}}, {"src": "node-2", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-3", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-4", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-5", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-12", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-8", "dst": "node-13", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-14", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-15", "type": "refines", "attrs": {}}, {"src": "node-8", "dst": "node-16", "type": "refines", "attrs": {}}, {"src": "node-17", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-17", "dst": "node-11", "type": "support", "attrs": {}}, {"src": "node-17", "dst": "node-13", "type": "support", "attrs": {}}, {"src": "node-18", "dst": "node-8", "type": "support", "attrs": {}}, {"src": "node-18", "dst": "node-11", "type": "support", "attrs": {}}], "start_signal_id": null}];
+        let currentGraphIndex = 0;
+        let svg, g, simulation, link, node;
+        let width, height;
+        let zoom;
+        
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            initGraph();
+            updateNavigation();
+            updateNodeStats();
+            setupEventListeners();
+        });
+        
+       
+        function initGraph() {
+            const container = document.getElementById('graphContainer');
+            width = container.clientWidth;
+            height = container.clientHeight;
+            
+         
+            svg = d3.select('#graphContainer')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            
+      
+            zoom = d3.zoom()
+                .scaleExtent([0.1, 4])
+                .on('zoom', function(event) {
+                    g.attr('transform', event.transform);
+                });
+            
+            svg.call(zoom);
+            
+      
+            g = svg.append('g');
+            
+         
+            loadGraph(currentGraphIndex);
+        }
+        
+      
+        function loadGraph(index) {
+            const graph = graphData[index];
+            
+       
+            document.getElementById('graphTitle').textContent = 'Causal graph ' + (index + 1);
+            
+      
+            g.selectAll('*').remove();
+            
+       
+            const nodes = [];
+            for (const nodeId in graph.nodes) {
+                if (graph.nodes.hasOwnProperty(nodeId)) {
+                    nodes.push({
+                        id: nodeId,
+                        ...graph.nodes[nodeId]
+                    });
+                }
+            }
+            
+ 
+            let links = (graph.edges || []).map(function(e) {
+                return {
+                    source: e.source || e.src,
+                    target: e.target || e.dst,
+                    type: e.type,
+                    attrs: e.attrs || {}
+                };
+            });
+            
+           
+            links = links.filter(function(link) {
+                const sourceExists = nodes.some(function(n) { return n.id === link.source; });
+                const targetExists = nodes.some(function(n) { return n.id === link.target; });
+                
+                if (!sourceExists) {
+                    console.warn('Source node not found:', link.source);
+                }
+                if (!targetExists) {
+                    console.warn('Target node not found:', link.target);
+                }
+                
+                return sourceExists && targetExists;
+            });
+            
+         
+            simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(function(d) { return d.id; }).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(70));
+            
+  
+            link = g.append('g')
+                .attr('class', 'links')
+                .selectAll('line')
+                .data(links)
+                .enter()
+                .append('line')
+                .attr('stroke-width', 2)
+                .attr('stroke', function(d) { return getLinkColor(d.type); })
+                .attr('stroke-opacity', 0.6);
+            
+  
+            const nodeGroups = g.append('g')
+                .attr('class', 'nodes')
+                .selectAll('.node-group')
+                .data(nodes)
+                .enter()
+                .append('g')
+                .attr('class', 'node-group')
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+            
+    
+            nodeGroups.append('circle')
+                .attr('r', 20)
+                .attr('fill', function(d) { return getNodeColor(d.type); })
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2);
+            
+        
+            nodeGroups.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'central')
+                .attr('fill', '#fff')
+                .attr('font-size', '12px')
+                .text(function(d) { return getNodeIcon(d.type); });
+     
+            nodeGroups.append('text')
+                .attr('dy', 40)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#333')
+                .attr('font-size', '12px')
+                .text(function(d) { return truncateText(d.label, 20); });
+            
+
+            nodeGroups.on('click', showNodeDetails);
+            
+  
+            nodeGroups.on('mouseover', function(event, d) {
+                const tooltip = d3.select('#tooltip');
+                tooltip.transition()
+                    .duration(200)
+                    .style('opacity', .9);
+                tooltip.html(
+                    '<div class="font-medium">' + d.type + ': ' + truncateText(d.label, 50) + '</div>' +
+                    (d.score !== undefined ? '<div>Score: ' + d.score + '</div>' : '')
+                )
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 28) + 'px');
+            })
+            .on('mouseout', function() {
+                d3.select('#tooltip').transition()
+                    .duration(500)
+                    .style('opacity', 0);
+            });
+            
+     
+            simulation.on('tick', function() {
+                link
+                    .attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.target.x; })
+                    .attr('y2', function(d) { return d.target.y; });
+                
+                nodeGroups
+                    .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+            });
+        }
+        
+ 
+        function getLinkColor(type) {
+            switch(type) {
+                case 'support': return '#22c55e'; 
+                case 'refute': return '#ef4444'; 
+                default: return '#999';
+            }
+        }
+
+        function getNodeColor(type) {
+            switch(type) {
+                case 'Signal': return '#ef4444';
+                case 'Evidence': return '#22c55e'; 
+                case 'Hypothesis': return '#f97316'; 
+                default: return '#64748b'; 
+            }
+        }
+        
+
+        function getNodeIcon(type) {
+            switch(type) {
+                case 'Signal': return 'S';
+                case 'Evidence': return 'E';
+                case 'Hypothesis': return 'H';
+                default: return '?';
+            }
+        }
+        
+
+        function truncateText(text, maxLength) {
+            if (!text) return '';
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+        
+
+        function showNodeDetails(event, d) {
+            const detailsPanel = document.getElementById('nodeDetails');
+            const detailsContent = document.getElementById('nodeDetailsContent');
+            
+       
+            let html = '<div class="mb-2"><span class="font-medium">Type:</span><span class="px-2 py-1 rounded text-white" style="background-color: ' + getNodeColor(d.type) + '">' + d.type + '</span></div>';
+            html += '<div class="mb-2"><span class="font-medium"Label:</span><p class="mt-1">' + d.label + '</p></div>';
+            
+          
+            if (d.score !== undefined) {
+                html += '<div class="mb-2"><span class="font-medium">Confidence:</span><span>' + d.score + '</span></div>';
+            }
+            
+           
+            if (d.attrs && Object.keys(d.attrs).length > 0) {
+                html += '<div class="mb-2"><span class="font-medium">Attributes:</span><ul class="mt-1">';
+                
+                for (const [key, value] of Object.entries(d.attrs)) {
+                    html += '<li><span class="font-medium">' + key + ':</span> ' + value + '</li>';
+                }
+                
+                html += '</ul></div>';
+            }
+            
+            detailsContent.innerHTML = html;
+            detailsPanel.classList.remove('hidden');
+        }
+        
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const counter = document.getElementById('counter');
+            
+            prevBtn.disabled = currentGraphIndex === 0;
+            nextBtn.disabled = currentGraphIndex === graphData.length - 1;
+            counter.textContent = (currentGraphIndex + 1) + ' / ' + graphData.length;
+        }
+        
+
+        function updateNodeStats() {
+            const graph = graphData[currentGraphIndex];
+            const nodes = graph.nodes;
+            
+            let signalCount = 0;
+            let evidenceCount = 0;
+            let hypothesisCount = 0;
+            
+            for (const nodeId in nodes) {
+                const node = nodes[nodeId];
+                switch(node.type) {
+                    case 'Signal': signalCount++; break;
+                    case 'Evidence': evidenceCount++; break;
+                    case 'Hypothesis': hypothesisCount++; break;
+                }
+            }
+            
+            const statsHtml = '<div class="mb-1">Total nodes: ' + Object.keys(nodes).length + '</div>' +
+                             '<div class="mb-1">Signal Node: ' + signalCount + '</div>' +
+                             '<div class="mb-1">Evidence Node: ' + evidenceCount + '</div>' +
+                             '<div>Hypothesis Node: ' + hypothesisCount + '</div>';
+            
+            document.getElementById('nodeStats').innerHTML = statsHtml;
+        }
+        
+        function setupEventListeners() {
+
+            document.getElementById('prevBtn').addEventListener('click', function() {
+                if (currentGraphIndex > 0) {
+                    currentGraphIndex--;
+                    loadGraph(currentGraphIndex);
+                    updateNavigation();
+                    updateNodeStats();
+                    document.getElementById('nodeDetails').classList.add('hidden');
+                }
+            });
+            
+            document.getElementById('nextBtn').addEventListener('click', function() {
+                if (currentGraphIndex < graphData.length - 1) {
+                    currentGraphIndex++;
+                    loadGraph(currentGraphIndex);
+                    updateNavigation();
+                    updateNodeStats();
+                    document.getElementById('nodeDetails').classList.add('hidden');
+                }
+            });
+            
+  
+            document.getElementById('zoomInBtn').addEventListener('click', function() {
+                svg.transition().call(zoom.scaleBy, 1.3);
+            });
+            
+            document.getElementById('zoomOutBtn').addEventListener('click', function() {
+                svg.transition().call(zoom.scaleBy, 0.7);
+            });
+            
+            document.getElementById('resetZoomBtn').addEventListener('click', function() {
+                svg.transition().call(zoom.transform, d3.zoomIdentity);
+            });
+       
+            window.addEventListener('resize', function() {
+                const container = document.getElementById('graphContainer');
+                width = container.clientWidth;
+                height = container.clientHeight;
+                
+                svg.attr('width', width).attr('height', height);
+                simulation.force('center', d3.forceCenter(width / 2, height / 2));
+                simulation.alpha(0.3).restart();
+            });
+        }
+        
+  
+        function dragstarted(event) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+        }
+        
+        function dragged(event) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
+        }
+        
+        function dragended(event) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+        }
+    </script>
+</body>
+</html>

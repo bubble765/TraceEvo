@@ -1,0 +1,106 @@
+{
+  "clean": {
+    "n_traces": 10,
+    "n_traces_with_alerts": 3,
+    "clean_trace_alert_rate": 0.3,
+    "clean_evidence_alert_rate": 0.1,
+    "detected_type_counts": {
+      "A4": 2,
+      "A1": 1
+    },
+    "note": "§12's Clean group, measured on this block rather than inherited from an earlier stage. Clean Evidence Alert Rate counts clean traces carrying an evidence-tier finding (A1/A3), which is a statement about nodes rather than about the trace."
+  },
+  "primary_injected": {
+    "n": 78,
+    "detected": 76,
+    "missed": 2,
+    "precision": 0.987012987012987,
+    "recall": 0.9743589743589743,
+    "f1": 0.9806451612903225,
+    "false_positives_from_clean": 1,
+    "per_type": [
+      {
+        "type": "A1",
+        "n_injected": 10,
+        "tp": 10,
+        "fn": 0,
+        "fp_on_clean": 1,
+        "clean_fp_rate": 0.1,
+        "precision": 0.9091,
+        "recall": 1.0,
+        "f1": 0.9524,
+        "secondary_consequence_detections": 6,
+        "precision_strict": 0.5882,
+        "f1_strict": 0.7407
+      },
+      {
+        "type": "A2",
+        "n_injected": 18,
+        "tp": 16,
+        "fn": 2,
+        "fp_on_clean": 0,
+        "clean_fp_rate": 0.0,
+        "precision": 1.0,
+        "recall": 0.8889,
+        "f1": 0.9412,
+        "secondary_consequence_detections": 0,
+        "precision_strict": 1.0,
+        "f1_strict": 0.9412
+      },
+      {
+        "type": "A3",
+        "n_injected": 10,
+        "tp": 10,
+        "fn": 0,
+        "fp_on_clean": 0,
+        "clean_fp_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "secondary_consequence_detections": 0,
+        "precision_strict": 1.0,
+        "f1_strict": 1.0
+      },
+      {
+        "type": "A5",
+        "n_injected": 40,
+        "tp": 40,
+        "fn": 0,
+        "fp_on_clean": 0,
+        "clean_fp_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "secondary_consequence_detections": 0,
+        "precision_strict": 1.0,
+        "f1_strict": 1.0
+      }
+    ],
+    "note": "§12: secondary findings are not counted as false positives of the injected class; the strict variant is in `per_type` for continuity and is not the headline."
+  },
+  "secondary_findings": {
+    "count": 6,
+    "note": "§12's Secondary group. These are detections of type T on a trace injected with T' != T — a real downstream consequence, not an error."
+  },
+  "root": {
+    "n": 78,
+    "observable_root_top1_accuracy": 0.9743589743589743,
+    "latent_root_equals_observable": 58,
+    "note": "§12: for delete/truncate the latent root is an event that no longer exists and no detector could name, so scoring uses the observable root and the metric is never called 'exact injected root localization'."
+  },
+  "conditional_not_in_headline": {
+    "n": 10,
+    "types": [
+      "A0"
+    ],
+    "n_detected": 10,
+    "note": "§11 keeps A0 only 只有存在可靠 degraded/failed instrumentation 时才保留. That instrumentation does not exist here (S4A: no event carries status=degraded or failed), so A0 rows are reported in this group and are NOT in the primary precision/recall/F1 above. The `status_marked` variant was refused outright because it writes a status the pipeline never produces."
+  },
+  "case_study": {
+    "n": 10,
+    "types": [
+      "A4"
+    ],
+    "note": "§11: A4 is a parser/invocation boundary case study, reported here and not merged into the primary numbers."
+  }
+}

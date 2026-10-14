@@ -1,0 +1,724 @@
+[S0] Running 1 case(s): [17]
+
+
+===============[RUN] Case 17  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1321 | Output token nums：1445 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Patient experienced worsening headaches",
+  "isolated_evidence": [
+    "37-year-old Japanese man underwent imaging which revealed a 10 mm cystic lesion with a mural nodule near the anterior horn of the right lateral ventricle",
+    "Despite the absence of neurological symptoms, the patient was monitored over a period of 10 years",
+    "During this time, the lesion increased in size from 10 mm to 18 mm"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced worsening headaches | score=1.000
+[node-2] Evidence[-] | 37-year-old Japanese man underwent imaging which revealed a… | score=1.000
+[node-3] Evidence[-] | Despite the absence of neurological symptoms, the patient w… | score=1.000
+[node-4] Evidence[-] | During this time, the lesion increased in size from 10 mm t… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1381 | Output token nums：4112 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Secondary headache from lesion",
+      "confidence": 0.75,
+      "why": "node-2/4 show cystic lesion and growth, supporting lesion as headache cause; node-3 long asymptomatic course does not exclude."
+    },
+    {
+      "id": "h002",
+      "label": "Obstructive hydrocephalus",
+      "confidence": 0.55,
+      "why": "node-2 near lateral ventricle and node-4 growth may obstruct CSF; node-3 lack of neuro signs somewhat refutes."
+    },
+    {
+      "id": "h003",
+      "label": "Primary headache disorder",
+      "confidence": 0.15,
+      "why": "node-3 long asymptomatic course supports non-lesional headache; node-2/4 structural lesion and growth refute."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h003",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "refute"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h003",
+      "relation": "refute"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced worsening headaches | score=1.000
+[node-2] Evidence[-] | 37-year-old Japanese man underwent imaging which revealed a… | score=1.000
+[node-3] Evidence[-] | Despite the absence of neurological symptoms, the patient w… | score=1.000
+[node-4] Evidence[-] | During this time, the lesion increased in size from 10 mm t… | score=1.000
+[node-5] Hypothesis[1] | Secondary headache from lesion | score=0.750 | attrs={"why": "node-2/4 show cystic lesion and growth, supporting lesion as headache …
+[node-6] Hypothesis[1] | Obstructive hydrocephalus | score=0.550 | attrs={"why": "node-2 near lateral ventricle and node-4 growth may obstruct CSF; node…
+[node-7] Hypothesis[1] | Primary headache disorder | score=0.150 | attrs={"why": "node-3 long asymptomatic course supports non-lesional headache; node-2…
+=== Edges ===
+node-1[Patient experienced worsening headaches] -> node-5[Secondary headache from lesion] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-6[Obstructive hydrocephalus] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-7[Primary headache disorder] | refines | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-7[Primary headache disorder] | support | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-6[Obstructive hydrocephalus] | refute | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-7[Primary headache disorder] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1041 | Output token nums：467 | price(CNY)：0.00000000
+Response: {"belief": "The patient's worsening headaches prompt consideration of three hypotheses. Imaging evidence of a 10 mm cystic lesion with mural nodule near the right lateral ventricle supports both secondary headache from the lesion and obstructive hydrocephalus, while refuting a primary headache disorder. The 10-year asymptomatic period supports primary headache but refutes hydrocephalus, though it does not exclude lesion-related headache. Lesion growth from 10 mm to 18 mm strongly supports secondary headache and hydrocephalus and further refutes primary headache. Overall consensus favors secondary headache from the lesion (0.75), followed by obstructive hydrocephalus (0.55); primary headache disorder is least likely (0.15)."}
+{'node_id': 'node-5', 'label': 'Secondary headache from lesion', 'why': 'node-2/4 show cystic lesion and growth, supporting lesion as headache cause; node-3 long asymptomatic course does not exclude.', 'score': 0.75, 'level': 1, 'supports': 2, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1338 | Output token nums：1596 | price(CNY)：0.00000000
+Response: [{"expert_name":"Radiologist","planning_intent":"interpret_existing_evidence"}]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1052 | Output token nums：845 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1196 | Output token nums：2536 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need complete brain MRI with contrast report (T1/T2/FLAIR/DWI, enhancement, perilesional edema, mass effect, serial size) and ventricular size or CSF flow study (core items to verify secondary headache from lesion versus obstructive hydrocephalus). Critical because 10 to 18 mm growth and mural nodule suggest neoplastic cystic lesion; ventricular assessment determines hydrocephalus contribution."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：554 | Output token nums：1254 | price(CNY)：0.00000000
+Step 1 Observations: MRI showed a 10 mm cystic lesion with a mural nodule near the anterior horn of the right lateral ventricle. After a follow-up period of 10 years, the lesion started to increase in size from 10 to 18 mm, accompanied by worsening of headaches. MRI revealed that the increased size of the lesion was attributable to an enlargement of the cystic component and the mural nodule. A cystic mass with a gadolinium (Gd)-enhancing cyst wall and mural nodule were present. Signal intensity of the cystic component was high on T2-weighted imaging and fluid-attenuated inversion recovery (FLAIR) imaging. The cyst wall and nodule showed low signal intensity on T2*-weighted imaging..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1278 | Output token nums：336 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1422 | Output token nums：3314 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the prior MRI's ventricular size/CSF flow and perilesional edema/mass effect results (omitted from retrieved report), plus MR spectroscopy/perfusion to characterize the enhancing mural nodule and headache red flags/papilledema; these core items verify lesion-related secondary headache versus obstructive hydrocephalus, since 10→18 mm growth is known but ventricular and lesion physiology data remain missing."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：555 | Output token nums：1833 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1376 | Output token nums：68 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1520 | Output token nums：3376 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"MRI confirms 10→18 mm Gd-enhancing cystic lesion with mural nodule near right lateral ventricle, T2/FLAIR hyperintense, T2* hypointense, worsening headaches. This supports secondary headache from lesion (0.75); hydrocephalus possible (0.55) but ventricular/CSF data missing; primary headache unlikely (0.15). Max retrieval reached; best fit is lesional secondary headache. Key data covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3160 | Output token nums：9465 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.75,
+      "why": "Radiologist MRI confirmation of a Gd-enhancing cystic lesion with mural nodule near the right lateral ventricle, plus T2/FLAIR hyperintense and T2* hypointense signal and lesion growth from 10 to 18 mm, strengthens the lesional cause of worsening headaches. The 10-year asymptomatic period does not exclude a slow-growing lesion. Expert analysis supports lesional secondary headache as best fit, so confidence remains 0.75."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.55,
+      "why": "The lesion is near the right lateral ventricle, and growth could obstruct CSF flow, but the radiologist notes that ventricular size and CSF data are missing. Because hydrocephalus remains possible but unconfirmed, confidence stays at 0.55."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.15,
+      "why": "New MRI details (Gd-enhancing cystic lesion with mural nodule, T2/FLAIR hyperintense, T2* hypointense) and interval growth provide strong structural evidence against a primary headache disorder. The radiologist also considers primary headache unlikely, so confidence remains 0.15."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "MRI confirms the cystic lesion is Gd-enhancing and has a mural nodule near the right lateral ventricle",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "MRI shows the lesion is T2/FLAIR hyperintense and T2* hypointense",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h002",
+      "label": "The cystic lesion with mural nodule is a low-grade neoplasm",
+      "node_type": "Hypothesis",
+      "confidence": 0.6,
+      "why": "The lesion is Gd-enhancing with a mural nodule, T2/FLAIR hyperintense, T2* hypointense, and has grown over 10 years. These imaging features and slow growth suggest a low-grade neoplastic etiology, and the radiologist confirms lesional secondary headache as the best fit. Confidence is 0.6 because no pathology is available."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "ev001",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "h002",
+      "dst": "node-5",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-5', 'label': 'Secondary headache from lesion', 'why': 'Radiologist MRI confirmation of a Gd-enhancing cystic lesion with mural nodule near the right lateral ventricle, plus T2/FLAIR hyperintense and T2* hypointense signal and lesion growth from 10 to 18 mm, strengthens the lesional cause of worsening headaches. The 10-year asymptomatic period does not exclude a slow-growing lesion. Expert analysis supports lesional secondary headache as best fit, so confidence remains 0.75.', 'score': 0.75, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced worsening headaches | score=1.000
+[node-2] Evidence[-] | 37-year-old Japanese man underwent imaging which revealed a… | score=1.000
+[node-3] Evidence[-] | Despite the absence of neurological symptoms, the patient w… | score=1.000
+[node-4] Evidence[-] | During this time, the lesion increased in size from 10 mm t… | score=1.000
+[node-5] Hypothesis[1] | Secondary headache from lesion | score=0.750 | attrs={"why": "Radiologist MRI confirmation of a Gd-enhancing cystic lesion with mura…
+[node-6] Hypothesis[1] | Obstructive hydrocephalus | score=0.550 | attrs={"why": "The lesion is near the right lateral ventricle, and growth could obstr…
+[node-7] Hypothesis[1] | Primary headache disorder | score=0.150 | attrs={"why": "New MRI details (Gd-enhancing cystic lesion with mural nodule, T2/FLAI…
+[node-8] Evidence[-] | MRI confirms the cystic lesion is Gd-enhancing and has a mu… | score=1.000
+[node-9] Evidence[-] | MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi… | score=1.000
+[node-1] Hypothesis[1] | The cystic lesion with mural nodule is a low-grade neoplasm | score=0.600 | attrs={"why": "The lesion is Gd-enhancing with a mural nodule, T2/FLAIR hyperintense,…
+=== Edges ===
+node-1[Patient experienced worsening headaches] -> node-5[Secondary headache from lesion] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-6[Obstructive hydrocephalus] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-7[Primary headache disorder] | refines | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-7[Primary headache disorder] | support | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-6[Obstructive hydrocephalus] | refute | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | refines | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-1[The cystic lesion with mural nodule is a low-grade neoplasm] -> node-5[Secondary headache from lesion] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1759 | Output token nums：680 | price(CNY)：0.00000000
+Response: {"belief": "The patient's worsening headaches are refined by evidence of a 37-year-old Japanese man with a 10 mm cystic lesion with mural nodule near the anterior horn of the right lateral ventricle. Despite no neurological symptoms, 10-year monitoring showed lesion growth from 10 to 18 mm. MRI confirms a Gd-enhancing, T2/FLAIR hyperintense, T2* hypointense lesion with mural nodule. These findings strongly support secondary headache from the lesion (0.75) and moderately support a low-grade neoplasm (0.60), while refuting primary headache disorder (0.15). Obstructive hydrocephalus remains possible (0.55) because of ventricular proximity, but is unconfirmed. Overall consensus favors a slow-growing lesional cause of secondary headache, likely low-grade neoplastic, with hydrocephalus less likely and primary headache unlikely."}
+{'node_id': 'node-5', 'label': 'Secondary headache from lesion', 'why': 'Radiologist MRI confirmation of a Gd-enhancing cystic lesion with mural nodule near the right lateral ventricle, plus T2/FLAIR hyperintense and T2* hypointense signal and lesion growth from 10 to 18 mm, strengthens the lesional cause of worsening headaches. The 10-year asymptomatic period does not exclude a slow-growing lesion. Expert analysis supports lesional secondary headache as best fit, so confidence remains 0.75.', 'score': 0.75, 'level': 1, 'supports': 5, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1403 | Output token nums：352 | price(CNY)：0.00000000
+Response: [
+  {"expert_name":"Radiologist","planning_intent":"assess_hypothesis"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1403 | Output token nums：200 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1612 | Output token nums：2486 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the radiology report's ventricular size and CSF flow study results, plus MR spectroscopy/perfusion of the mural nodule and fundoscopic exam findings, because these core items to confirm or exclude obstructive hydrocephalus and characterize the low-grade neoplasm remain missing despite known 10→18 mm lesion growth."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：536 | Output token nums：807 | price(CNY)：0.00000000
+Step 1 Observations: ""
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1467 | Output token nums：280 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1676 | Output token nums：3273 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need lumbar puncture opening pressure and CSF analysis results, plus clinical documentation of headache positional triggers or Valsalva exacerbation (core to assess raised ICP/hydrocephalus). Critical because ventricular size/CSF flow data remain missing and these tests directly evaluate ICP to confirm or refute secondary headache from lesion."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：537 | Output token nums：615 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1548 | Output token nums：83 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1757 | Output token nums：10589 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Analyze: 37-year-old Japanese man, 10-year right lateral ventricle cystic mural-nodule lesion grew 10→18 mm with worsening headaches. MRI shows Gd-enhancing wall/nodule and T2/FLAIR hyperintense lesion, supporting lesional secondary headache (0.75), low-grade neoplasm (0.60), possible hydrocephalus (0.55); primary headache refuted (0.15). CSF data missing; max steps reached; imaging covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3832 | Output token nums：11557 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.75,
+      "why": "The radiologist's reassessment reconfirms the MRI findings—a Gd-enhancing cystic lesion with an enhancing mural nodule near the anterior horn of the right lateral ventricle, T2/FLAIR hyperintense and T2* hypointense—together with documented growth from 10 to 18 mm over 10 years. These structural findings, the temporal link between lesion growth and worsening headaches, and the absence of any alternative headache explanation keep a lesional (secondary) headache as the best fit, so confidence remains 0.75."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.55,
+      "why": "The lesion lies at the anterior horn of the right lateral ventricle, close to the foramen of Monro, where growth could obstruct CSF flow and raise intracranial pressure. However, the radiologist explicitly notes that ventricular size and CSF data are missing and reports no confirmed ventriculomegaly, so obstructive hydrocephalus remains anatomically plausible but unconfirmed; confidence stays at 0.55."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.6,
+      "why": "The Gd-enhancing mural nodule, the T2/FLAIR hyperintense and T2* hypointense signal, and the 10-year growth all favor a low-grade neoplastic lesion, and the radiologist endorses this as the best-fit lesional diagnosis. Because no histopathology or CSF cytology is available—and pathology is the gold standard for tumor characterization—the diagnosis remains presumptive, so confidence stays at 0.60."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "h011",
+      "label": "The cystic lesion is a benign non-neoplastic cyst",
+      "node_type": "Hypothesis",
+      "confidence": 0.15,
+      "why": "The T2/FLAIR hyperintense cystic component is consistent with a fluid-filled benign cyst. However, the presence of an enhancing mural nodule, the T2* hypointense signal, and the documented growth from 10 to 18 mm over 10 years argue strongly against a simple non-neoplastic cyst, and the radiologist favors a low-grade neoplastic lesion, so this alternative is kept low at 0.15."
+    },
+    {
+      "id": "ev011",
+      "label": "Ventricular size and CSF analysis data are unavailable",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {"src": "node-8", "dst": "h011", "relation": "refute"},
+    {"src": "node-9", "dst": "h011", "relation": "refute"},
+    {"src": "node-4", "dst": "h011", "relation": "refute"},
+    {"src": "node-2", "dst": "h011", "relation": "refute"},
+    {"src": "node-10", "dst": "h011", "relation": "refute"},
+    {"src": "ev011", "dst": "node-6", "relation": "refute"}
+  ]
+}
+{'node_id': 'node-5', 'label': 'Secondary headache from lesion', 'why': "The radiologist's reassessment reconfirms the MRI findings—a Gd-enhancing cystic lesion with an enhancing mural nodule near the anterior horn of the right lateral ventricle, T2/FLAIR hyperintense and T2* hypointense—together with documented growth from 10 to 18 mm over 10 years. These structural findings, the temporal link between lesion growth and worsening headaches, and the absence of any alternative headache explanation keep a lesional (secondary) headache as the best fit, so confidence remains 0.75.", 'score': 0.75, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced worsening headaches | score=1.000
+[node-2] Evidence[-] | 37-year-old Japanese man underwent imaging which revealed a… | score=1.000
+[node-3] Evidence[-] | Despite the absence of neurological symptoms, the patient w… | score=1.000
+[node-4] Evidence[-] | During this time, the lesion increased in size from 10 mm t… | score=1.000
+[node-5] Hypothesis[1] | Secondary headache from lesion | score=0.750 | attrs={"why": "The radiologist's reassessment reconfirms the MRI findings—a Gd-enhanc…
+[node-6] Hypothesis[1] | Obstructive hydrocephalus | score=0.550 | attrs={"why": "The lesion lies at the anterior horn of the right lateral ventricle, c…
+[node-7] Hypothesis[1] | Primary headache disorder | score=0.150 | attrs={"why": "New MRI details (Gd-enhancing cystic lesion with mural nodule, T2/FLAI…
+[node-8] Evidence[-] | MRI confirms the cystic lesion is Gd-enhancing and has a mu… | score=1.000
+[node-9] Evidence[-] | MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi… | score=1.000
+[node-1] Hypothesis[1] | The cystic lesion with mural nodule is a low-grade neoplasm | score=0.600 | attrs={"why": "The Gd-enhancing mural nodule, the T2/FLAIR hyperintense and T2* hypoi…
+[node-1] Hypothesis[1] | The cystic lesion is a benign non-neoplastic cyst | score=0.150 | attrs={"why": "The T2/FLAIR hyperintense cystic component is consistent with a fluid-…
+[node-1] Evidence[-] | Ventricular size and CSF analysis data are unavailable | score=1.000
+=== Edges ===
+node-1[Patient experienced worsening headaches] -> node-5[Secondary headache from lesion] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-6[Obstructive hydrocephalus] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-7[Primary headache disorder] | refines | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-7[Primary headache disorder] | support | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-6[Obstructive hydrocephalus] | refute | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | refines | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-1[The cystic lesion with mural nodule is a low-grade neoplasm] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refines | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-1[The cystic lesion with mural nodule is a low-grade neoplasm] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-1[Ventricular size and CSF analysis data are unavailable] -> node-6[Obstructive hydrocephalus] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2264 | Output token nums：762 | price(CNY)：0.00000000
+Response: {"belief": "The patient's worsening headaches are most likely secondary to the enlarging cystic lesion near the right lateral ventricle. Imaging shows a Gd-enhancing mural nodule, T2/FLAIR hyperintensity, and T2* hypointensity, with growth from 10 mm to 18 mm over 10 years. These findings support a low-grade neoplastic lesion and strongly argue against a primary headache disorder or a benign non-neoplastic cyst. The lesion's location near the foramen of Monro makes obstructive hydrocephalus anatomically plausible, but ventricular size and CSF data are unavailable, so it remains unconfirmed. Overall, the leading consensus is secondary headache from the lesion, with low-grade neoplasm as the favored underlying diagnosis; hydrocephalus is possible but not established."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4406 | Output token nums：4892 | price(CNY)：0.00000000
+Response: {
+  "type": 2,
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Secondary headache from a low-grade glioneuronal tumor (e.g., ganglioglioma)",
+      "confidence": 0.35,
+      "why": "Refines the general frontier 'Secondary headache from lesion' by specifying the favored lesion nature. The Gd-enhancing mural nodule (node-8), T2/FLAIR hyperintensity with T2* hypointensity (node-9), and the slow 10-year growth from 10 to 18 mm (node-4) all fit a slow-growing low-grade glioneuronal neoplasm, consistent with node-10's favored low-grade neoplastic diagnosis and the patient's worsening headaches (node-1)."
+    },
+    {
+      "id": "h002",
+      "label": "Secondary headache from a pilocytic astrocytoma",
+      "confidence": 0.25,
+      "why": "Another fine-grained refinement of the frontier: the classic cyst-with-enhancing-mural-nodule morphology (node-8) and the periventricular location near the foramen of Monro (node-2) are characteristic of pilocytic astrocytoma, and the very slow 10-year growth (node-4) supports a grade I tumor rather than a higher-grade lesion."
+    },
+    {
+      "id": "h003",
+      "label": "Secondary headache from obstructive hydrocephalus due to the lesion",
+      "confidence": 0.20,
+      "why": "Refines the frontier along the mechanism axis rather than the lesion-nature axis: the lesion lies at the anterior horn of the right lateral ventricle near the foramen of Monro (node-2), so CSF obstruction is anatomically plausible (node-6); however, the absent ventricular size and CSF data (node-12) keep this unconfirmed, limiting confidence."
+    },
+    {
+      "id": "h004",
+      "label": "Secondary headache from a benign non-neoplastic cyst",
+      "confidence": 0.10,
+      "why": "The next-level alternative to neoplasia: the T2/FLAIR hyperintense cystic component (node-9) could represent a simple fluid-filled cyst (node-11), but the enhancing mural nodule (node-8) and documented interval growth (node-4) argue strongly against it, so confidence remains low."
+    }
+  ]
+}
+{'node_id': 'node-13', 'label': 'Secondary headache from a low-grade glioneuronal tumor (e.g., ganglioglioma)', 'why': "Refines the general frontier 'Secondary headache from lesion' by specifying the favored lesion nature. The Gd-enhancing mural nodule (node-8), T2/FLAIR hyperintensity with T2* hypointensity (node-9), and the slow 10-year growth from 10 to 18 mm (node-4) all fit a slow-growing low-grade glioneuronal neoplasm, consistent with node-10's favored low-grade neoplastic diagnosis and the patient's worsening headaches (node-1).", 'score': 0.35, 'level': 2, 'supports': 0, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1433 | Output token nums：850 | price(CNY)：0.00000000
+Response: [
+  {
+    "expert_name": "Radiologist",
+    "planning_intent": "assess_hypothesis"
+  },
+  {
+    "expert_name": "Pathologist",
+    "planning_intent": "seek_discriminating_evidence"
+  }
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1510 | Output token nums：178 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] attempt 1/5 failed [LLMTransientError] (API call error：HTTP 502 [proxy_error] Remote end closed connection without response); retrying in 2.0s
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1749 | Output token nums：1224 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the histopathology and immunohistochemistry report from any biopsy or resection of the cystic mural nodule, including neuronal and glial markers plus CD34, BRAF V600E mutation status, and Ki-67 index. This is the core remaining item to confirm or exclude the frontier low-grade glioneuronal tumor such as ganglioglioma, because imaging features and slow 10 to 18 mm growth support but do not definitively establish it."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：567 | Output token nums：166 | price(CNY)：0.00000000
+Step 1 Observations: ""
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1605 | Output token nums：392 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1844 | Output token nums：2342 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need clinical evaluation and genetic testing for tuberous sclerosis complex (TSC1/TSC2, skin, renal, retinal, seizure history) because subependymal giant cell astrocytoma is a key low-grade glioneuronal tumor at the foramen of Monro and can explain the enhancing mural nodule, cyst, T2* hypointensity, and slow growth; this core missing item best refines the frontier diagnosis."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：564 | Output token nums：2151 | price(CNY)：0.00000000
+Step 2 Observations: MRI showed a 10 mm cystic lesion with a mural nodule near the anterior horn of the right lateral ventricle. After a follow-up period of 10 years, the lesion started to increase in size from 10 to 18 mm, accompanied by worsening of headaches. MRI revealed that the increased size of the lesion was attributable to an enlargement of the cystic component and the mural nodule. A cystic mass with a gadolinium (Gd)-enhancing cyst wall and mural nodule were present. Signal intensity of the cystic component was high on T2-weighted imaging and fluid-attenuated inversion recovery (FLAIR) imaging. The cyst wall and nodule showed low signal intensity on T2*-weighted imaging..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1859 | Output token nums：75 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2098 | Output token nums：4052 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Based on available imaging and 10-year growth, the lesion is most consistent with a low-grade glioneuronal tumor, likely ganglioglioma, causing secondary headaches. Hydrocephalus is plausible but unconfirmed. Histopathology and TSC evaluation are needed for definitive diagnosis but unavailable. All retrieved key imaging is covered; critical ventricular and histopathological data remain missing."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1179 | Output token nums：219 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1418 | Output token nums：540 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the lesion histopathology and immunohistochemistry report (e.g., CD34, NeuN, synaptophysin, GFAP, BRAF V600E) plus ventricular size and CSF opening pressure data. These are critical to confirm or exclude a low-grade glioneuronal tumor and obstructive hydrocephalus underlying the worsening headaches."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：542 | Output token nums：350 | price(CNY)：0.00000000
+Step 1 Observations: 
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1246 | Output token nums：189 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1485 | Output token nums：3548 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's age, seizure history, and neurological exam findings (critical for assessing low-grade glioneuronal tumor likelihood, as these tumors often cause seizures in young patients; age and seizure type help differentiate ganglioglioma from other lesions). Results of pending histopathology and immunohistochemistry would be definitive but are already requested."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：542 | Output token nums：82 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1332 | Output token nums：70 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1571 | Output token nums：653 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"基于现有全部资料，进行性头痛最可能继发于右侧侧脑室旁囊性病变；壁结节Gd强化、T2/FLAIR高信号、T2*低信号且10年从10mm增至18mm，支持低级别胶质神经元肿瘤（如节细胞胶质瘤），不支持原发性头痛或良性囊肿。因检索步数达上限，脑室大小、脑脊液压力及组织病理/免疫组化未能获取，故梗阻性脑积水未证实，但关键影像与病程信息已覆盖。"}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4984 | Output token nums：12780 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.85,
+      "why": "The radiologist and pathologist now both favor a low-grade glioneuronal tumor (likely ganglioglioma) as the cause of the worsening headaches, with supporting imaging features (Gd-enhancing mural nodule, T2/FLAIR hyperintensity, T2* hypointensity) and 10-year growth. Because no primary headache or alternative explanation is supported, confidence rises from 0.75 to 0.85."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.55,
+      "why": "Both experts reiterate that obstructive hydrocephalus is anatomically plausible given the lesion's proximity to the foramen of Monro, but they explicitly state it remains unconfirmed because ventricular size and CSF data are unavailable. No new evidence confirms ventriculomegaly, so confidence remains 0.55."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.05,
+      "why": "The radiologist and pathologist strongly argue against a primary headache disorder, emphasizing the structural lesion, enhancing mural nodule, abnormal T2* signal, and interval growth. This additional expert consensus lowers confidence from 0.15 to 0.05."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.75,
+      "why": "The radiologist and pathologist both endorse a low-grade neoplastic lesion as the best-fit diagnosis, citing the Gd-enhancing mural nodule, T2/FLAIR hyperintensity, T2* hypointensity, and 10-year growth. Because histopathology is unavailable and the diagnosis remains presumptive, confidence rises from 0.60 to 0.75 rather than higher."
+    },
+    {
+      "node_id": "node-11",
+      "confidence": 0.05,
+      "why": "Expert consensus and imaging features—especially the enhancing mural nodule and documented growth—strongly argue against a benign non-neoplastic cyst. The pathologist also excludes a simple cyst, so confidence drops from 0.15 to 0.05."
+    },
+    {
+      "node_id": "node-13",
+      "confidence": 0.55,
+      "why": "The radiologist explicitly states the lesion is most consistent with a low-grade glioneuronal tumor, likely ganglioglioma, and the pathologist concurs. The Gd-enhancing mural nodule, T2/FLAIR hyperintensity, T2* hypointensity, and slow 10-year growth all support this diagnosis. Because histopathology and TSC evaluation are unavailable, confidence rises from 0.35 to 0.55."
+    },
+    {
+      "node_id": "node-14",
+      "confidence": 0.1,
+      "why": "The radiologist favors a glioneuronal tumor (ganglioglioma) rather than pilocytic astrocytoma, and the periventricular location near the foramen of Monro is less typical for pilocytic astrocytoma. The TSC evaluation recommendation also raises SEGA as an alternative, further lowering confidence from 0.25 to 0.10."
+    },
+    {
+      "node_id": "node-15",
+      "confidence": 0.2,
+      "why": "The experts reaffirm that hydrocephalus is plausible but unconfirmed because ventricular size and CSF data are missing. The lesion's location near the foramen of Monro continues to support this mechanism, but no new confirmatory evidence has emerged, so confidence remains 0.20."
+    },
+    {
+      "node_id": "node-16",
+      "confidence": 0.05,
+      "why": "The radiologist and pathologist consider a benign non-neoplastic cyst unlikely given the enhancing mural nodule, T2* hypointensity, and interval growth. This expert consensus lowers confidence from 0.10 to 0.05."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Radiologist assessment: the lesion is most consistent with a low-grade glioneuronal tumor, likely ganglioglioma",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Pathologist assessment: findings favor a low-grade glioneuronal tumor such as ganglioglioma",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "Histopathology/immunohistochemistry and TSC evaluation are unavailable",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev004",
+      "label": "Lesion is located near the foramen of Monro",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "The cystic lesion is a subependymal giant cell astrocytoma (SEGA) associated with tuberous sclerosis complex",
+      "node_type": "Hypothesis",
+      "confidence": 0.12,
+      "why": "The lesion's periventricular location near the foramen of Monro, the enhancing mural nodule, T2* hypointensity suggesting calcification, and slow growth are features that can be seen in SEGA. The radiologist recommends TSC evaluation, which is specifically relevant to SEGA. However, the radiologist favors ganglioglioma, and no TSC stigmata are reported, so confidence is low at 0.12."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-13",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-10",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-13",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-10",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "ev004",
+      "dst": "node-6",
+      "relation": "support"
+    },
+    {
+      "src": "ev004",
+      "dst": "node-15",
+      "relation": "support"
+    },
+    {
+      "src": "ev004",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-8",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-9",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-10",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-13",
+      "relation": "refute"
+    }
+  ]
+}
+{'node_id': 'node-13', 'label': 'Secondary headache from a low-grade glioneuronal tumor (e.g., ganglioglioma)', 'why': 'The radiologist explicitly states the lesion is most consistent with a low-grade glioneuronal tumor, likely ganglioglioma, and the pathologist concurs. The Gd-enhancing mural nodule, T2/FLAIR hyperintensity, T2* hypointensity, and slow 10-year growth all support this diagnosis. Because histopathology and TSC evaluation are unavailable, confidence rises from 0.35 to 0.55.', 'score': 0.55, 'level': 2, 'supports': 2, 'refutes': 1}
+=== Nodes ===
+[node-1] Signal[-] | Patient experienced worsening headaches | score=1.000
+[node-2] Evidence[-] | 37-year-old Japanese man underwent imaging which revealed a… | score=1.000
+[node-3] Evidence[-] | Despite the absence of neurological symptoms, the patient w… | score=1.000
+[node-4] Evidence[-] | During this time, the lesion increased in size from 10 mm t… | score=1.000
+[node-5] Hypothesis[1] | Secondary headache from lesion | score=0.850 | attrs={"why": "The radiologist and pathologist now both favor a low-grade glioneurona…
+[node-6] Hypothesis[1] | Obstructive hydrocephalus | score=0.550 | attrs={"why": "Both experts reiterate that obstructive hydrocephalus is anatomically …
+[node-7] Hypothesis[1] | Primary headache disorder | score=0.050 | attrs={"why": "The radiologist and pathologist strongly argue against a primary heada…
+[node-8] Evidence[-] | MRI confirms the cystic lesion is Gd-enhancing and has a mu… | score=1.000
+[node-9] Evidence[-] | MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi… | score=1.000
+[node-1] Hypothesis[1] | The cystic lesion with mural nodule is a low-grade neoplasm | score=0.750 | attrs={"why": "The radiologist and pathologist both endorse a low-grade neoplastic le…
+[node-1] Hypothesis[1] | The cystic lesion is a benign non-neoplastic cyst | score=0.050 | attrs={"why": "Expert consensus and imaging features—especially the enhancing mural n…
+[node-1] Evidence[-] | Ventricular size and CSF analysis data are unavailable | score=1.000
+[node-1] Hypothesis[2] | Secondary headache from a low-grade glioneuronal tumor (e.g… | score=0.550 | attrs={"why": "The radiologist explicitly states the lesion is most consistent with a…
+[node-1] Hypothesis[2] | Secondary headache from a pilocytic astrocytoma | score=0.100 | attrs={"why": "The radiologist favors a glioneuronal tumor (ganglioglioma) rather tha…
+[node-1] Hypothesis[2] | Secondary headache from obstructive hydrocephalus due to th… | score=0.200 | attrs={"why": "The experts reaffirm that hydrocephalus is plausible but unconfirmed b…
+[node-1] Hypothesis[2] | Secondary headache from a benign non-neoplastic cyst | score=0.050 | attrs={"why": "The radiologist and pathologist consider a benign non-neoplastic cyst …
+[node-1] Evidence[-] | Radiologist assessment: the lesion is most consistent with … | score=1.000
+[node-1] Evidence[-] | Pathologist assessment: findings favor a low-grade glioneur… | score=1.000
+[node-1] Evidence[-] | Histopathology/immunohistochemistry and TSC evaluation are … | score=1.000
+[node-2] Evidence[-] | Lesion is located near the foramen of Monro | score=1.000
+[node-2] Hypothesis[2] | The cystic lesion is a subependymal giant cell astrocytoma … | score=0.120 | attrs={"why": "The lesion's periventricular location near the foramen of Monro, the e…
+=== Edges ===
+node-1[Patient experienced worsening headaches] -> node-5[Secondary headache from lesion] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-6[Obstructive hydrocephalus] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-7[Primary headache disorder] | refines | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-7[Primary headache disorder] | support | conf=0.000
+node-3[Despite the absence of neurological symptoms, the patient w…] -> node-6[Obstructive hydrocephalus] | refute | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | refines | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-7[Primary headache disorder] | refute | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-1[The cystic lesion with mural nodule is a low-grade neoplasm] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refines | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-2[37-year-old Japanese man underwent imaging which revealed a…] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-1[The cystic lesion with mural nodule is a low-grade neoplasm] -> node-1[The cystic lesion is a benign non-neoplastic cyst] | refute | conf=0.000
+node-1[Ventricular size and CSF analysis data are unavailable] -> node-6[Obstructive hydrocephalus] | refute | conf=0.000
+node-5[Secondary headache from lesion] -> node-1[Secondary headache from a low-grade glioneuronal tumor (e.g…] | refines | conf=0.000
+node-5[Secondary headache from lesion] -> node-1[Secondary headache from a pilocytic astrocytoma] | refines | conf=0.000
+node-5[Secondary headache from lesion] -> node-1[Secondary headache from obstructive hydrocephalus due to th…] | refines | conf=0.000
+node-5[Secondary headache from lesion] -> node-1[Secondary headache from a benign non-neoplastic cyst] | refines | conf=0.000
+node-1[Patient experienced worsening headaches] -> node-2[The cystic lesion is a subependymal giant cell astrocytoma …] | refines | conf=0.000
+node-1[Radiologist assessment: the lesion is most consistent with …] -> node-1[Secondary headache from a low-grade glioneuronal tumor (e.g…] | support | conf=0.000
+node-1[Radiologist assessment: the lesion is most consistent with …] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-1[Pathologist assessment: findings favor a low-grade glioneur…] -> node-1[Secondary headache from a low-grade glioneuronal tumor (e.g…] | support | conf=0.000
+node-1[Pathologist assessment: findings favor a low-grade glioneur…] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-1[Histopathology/immunohistochemistry and TSC evaluation are …] -> node-2[The cystic lesion is a subependymal giant cell astrocytoma …] | support | conf=0.000
+node-2[Lesion is located near the foramen of Monro] -> node-6[Obstructive hydrocephalus] | support | conf=0.000
+node-2[Lesion is located near the foramen of Monro] -> node-1[Secondary headache from obstructive hydrocephalus due to th…] | support | conf=0.000
+node-2[Lesion is located near the foramen of Monro] -> node-2[The cystic lesion is a subependymal giant cell astrocytoma …] | support | conf=0.000
+node-8[MRI confirms the cystic lesion is Gd-enhancing and has a mu…] -> node-2[The cystic lesion is a subependymal giant cell astrocytoma …] | support | conf=0.000
+node-9[MRI shows the lesion is T2/FLAIR hyperintense and T2* hypoi…] -> node-2[The cystic lesion is a subependymal giant cell astrocytoma …] | support | conf=0.000
+node-4[During this time, the lesion increased in size from 10 mm t…] -> node-2[The cystic lesion is a subependymal giant cell astrocytoma …] | support | conf=0.000
+node-2[The cystic lesion is a subependymal giant cell astrocytoma …] -> node-5[Secondary headache from lesion] | support | conf=0.000
+node-2[The cystic lesion is a subependymal giant cell astrocytoma …] -> node-1[The cystic lesion with mural nodule is a low-grade neoplasm] | support | conf=0.000
+node-2[The cystic lesion is a subependymal giant cell astrocytoma …] -> node-1[Secondary headache from a low-grade glioneuronal tumor (e.g…] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3716 | Output token nums：997 | price(CNY)：0.00000000
+Response: {"belief": "Consensus: The patient's worsening headaches are most likely secondary to a structural brain lesion rather than a primary headache disorder (0.05). Imaging evidence—a Gd-enhancing cystic lesion with a mural nodule near the right lateral ventricle, T2/FLAIR hyperintensity, T2* hypointensity, and growth from 10 mm to 18 mm over 10 years—supports a low-grade neoplasm (0.75). Both radiologist and pathologist favor a low-grade glioneuronal tumor, likely ganglioglioma (0.55), which refutes benign non-neoplastic cyst (0.05) and pilocytic astrocytoma (0.10). Obstructive hydrocephalus remains anatomically plausible because the lesion is near the foramen of Monro, but it is unconfirmed without ventricular size or CSF data (0.55; secondary headache from hydrocephalus 0.20). SEGA is unlikely (0.12) pending TSC evaluation."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：5678 | Output token nums：2505 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Headache due to ganglioglioma",
+  "report": "The patient's worsening headaches are best explained by a structural lesion, not a primary headache disorder. MRI shows a Gd-enhancing cystic lesion with a mural nodule near the right lateral ventricle, T2/FLAIR hyperintensity, T2* hypointensity, and growth from 10 to 18 mm over 10 years. Radiologist and pathologist both favor a low-grade glioneuronal tumor, likely ganglioglioma, which refutes benign cyst and pilocytic astrocytoma. Thus headaches are secondary to a low-grade ganglioglioma."
+}
+Answer: Headache due to ganglioglioma
+Report: The patient's worsening headaches are best explained by a structural lesion, not a primary headache disorder. MRI shows a Gd-enhancing cystic lesion with a mural nodule near the right lateral ventricle, T2/FLAIR hyperintensity, T2* hypointensity, and growth from 10 to 18 mm over 10 years. Radiologist and pathologist both favor a low-grade glioneuronal tumor, likely ganglioglioma, which refutes benign cyst and pilocytic astrocytoma. Thus headaches are secondary to a low-grade ganglioglioma.
+[TraceEvo] case 17: 34 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：46 | Input token nums：78316 | Output token nums：100586 | Total token nums：178902 | price(CNY)：0.00000000

@@ -1,0 +1,555 @@
+[S0] Running 1 case(s): [12]
+
+
+===============[RUN] Case 12  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1385 | Output token nums：1056 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "A 26-year-old female reported vision loss and metamorphopsia in her left eye over the past five days",
+  "isolated_evidence": [
+    "Refractive error was -7.25 D in both eyes; best-corrected visual acuity was 20/20 in the right eye and 20/40 in the left eye",
+    "Examination of the anterior chamber and vitreous cavity showed no signs of inflammation",
+    "Fundoscopy of the left eye revealed sporadic, small, round, yellow-white spots confined to the posterior pole, with no evidence of hemorrhage"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | A 26-year-old female reported vision loss and metamorphopsi… | score=1.000
+[node-2] Evidence[-] | Refractive error was -7.25 D in both eyes; best-corrected v… | score=1.000
+[node-3] Evidence[-] | Examination of the anterior chamber and vitreous cavity sho… | score=1.000
+[node-4] Evidence[-] | Fundoscopy of the left eye revealed sporadic, small, round,… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1413 | Output token nums：3484 | price(CNY)：0.00000000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2046 | Output token nums：583 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "White dot syndrome",
+      "confidence": 0.8,
+      "why": "node-4: posterior pole yellow-white spots support; node-3: no vitritis typical of MEWDS; node-2: young myopic female demographic"
+    },
+    {
+      "id": "h002",
+      "label": "Myopic macular degeneration",
+      "confidence": 0.15,
+      "why": "node-2 supports (high myopia); node-4 refutes (spots not typical); node-3 supports (non-inflammatory)"
+    },
+    {
+      "id": "h003",
+      "label": "Inflammatory uveitis",
+      "confidence": 0.05,
+      "why": "node-4 supports (yellow-white lesions); node-3 refutes (no anterior/vitreous inflammation)"
+    }
+  ],
+  "edges": [
+    {"src": "node-2", "dst": "h001", "relation": "support"},
+    {"src": "node-2", "dst": "h002", "relation": "support"},
+    {"src": "node-3", "dst": "h001", "relation": "support"},
+    {"src": "node-3", "dst": "h002", "relation": "support"},
+    {"src": "node-3", "dst": "h003", "relation": "refute"},
+    {"src": "node-4", "dst": "h001", "relation": "support"},
+    {"src": "node-4", "dst": "h002", "relation": "refute"},
+    {"src": "node-4", "dst": "h003", "relation": "support"}
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | A 26-year-old female reported vision loss and metamorphopsi… | score=1.000
+[node-2] Evidence[-] | Refractive error was -7.25 D in both eyes; best-corrected v… | score=1.000
+[node-3] Evidence[-] | Examination of the anterior chamber and vitreous cavity sho… | score=1.000
+[node-4] Evidence[-] | Fundoscopy of the left eye revealed sporadic, small, round,… | score=1.000
+[node-5] Hypothesis[1] | White dot syndrome | score=0.800 | attrs={"why": "node-4: posterior pole yellow-white spots support; node-3: no vitritis…
+[node-6] Hypothesis[1] | Myopic macular degeneration | score=0.150 | attrs={"why": "node-2 supports (high myopia); node-4 refutes (spots not typical); nod…
+[node-7] Hypothesis[1] | Inflammatory uveitis | score=0.050 | attrs={"why": "node-4 supports (yellow-white lesions); node-3 refutes (no anterior/vi…
+=== Edges ===
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-5[White dot syndrome] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-6[Myopic macular degeneration] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-7[Inflammatory uveitis] | refines | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-5[White dot syndrome] | support | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-5[White dot syndrome] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-5[White dot syndrome] | support | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-7[Inflammatory uveitis] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1080 | Output token nums：805 | price(CNY)：0.00000000
+Response: {"belief": "Consensus favors white dot syndrome (score 0.8) in a 26-year-old myopic woman with five days of left-eye vision loss and metamorphopsia. Fundoscopy shows small, round, yellow-white spots confined to the posterior pole without hemorrhage, and there is no anterior or vitreous inflammation; these findings support white dot syndrome and refute myopic macular degeneration, whose typical lesions are absent. Although high myopia supports myopic macular degeneration, the posterior-pole spots and absence of inflammatory signs make it less likely (0.15). Inflammatory uveitis is unlikely (0.05) because the anterior chamber and vitreous are quiet, despite the yellow-white lesions. Thus, the leading diagnosis is white dot syndrome, with myopic macular degeneration and inflammatory uveitis as lower-probability alternatives."}
+{'node_id': 'node-5', 'label': 'White dot syndrome', 'why': 'node-4: posterior pole yellow-white spots support; node-3: no vitritis typical of MEWDS; node-2: young myopic female demographic', 'score': 0.8, 'level': 1, 'supports': 3, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1344 | Output token nums：1547 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Radiologist", "planning_intent": "seek_discriminating_evidence"},
+  {"expert_name": "Laboratory_Physician", "planning_intent": "seek_discriminating_evidence"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1088 | Output token nums：276 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1238 | Output token nums：1980 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need multimodal retinal imaging (SD-OCT, FAF, FA/ICGA) and visual field/ERG plus uveitis workup for syphilis, TB, Lyme, Bartonella, HIV, HSV/VZV, HLA-B27/ACE/chest X-ray, to confirm white dot syndrome and exclude mimics; these are critical for subtype classification and management."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：458 | Output token nums：846 | price(CNY)：0.00000000
+Step 1 Observations: SD-OCT showed the presence of focal elevation of the EZ band with underlying hyper-reflective material. RPE and BM were integral and neither choroidal hyper-transmission nor hypo-transmission was observed below the lesion. No sign of CNV was found using OCTA..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1218 | Output token nums：189 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1368 | Output token nums：532 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need FAF, FA/ICGA, visual field/ERG, and uveitis serologies including syphilis, TB, Lyme, Bartonella, HIV, HSV/VZV, HLA-B27, ACE, chest X-ray to confirm white dot syndrome, exclude mimics, and classify subtype; SD-OCT already obtained but insufficient."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：451 | Output token nums：1884 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1305 | Output token nums：79 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1455 | Output token nums：3166 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"White dot syndrome remains most likely (0.8). SD-OCT: focal EZ elevation with hyper-reflective material, intact RPE/BM, no CNV. Fundoscopy: posterior-pole yellow-white spots without hemorrhage/inflammation, supporting white dot syndrome and refuting myopic macular degeneration and inflammatory uveitis. FAF, FA/ICGA, ERG, uveitis serologies missing; retrieval limit reached. All key info covered."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1202 | Output token nums：251 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1352 | Output token nums：768 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need multimodal retinal imaging (OCT, fundus autofluorescence, fluorescein and indocyanine green angiography) and targeted inflammatory/infectious workup (CBC, syphilis, tuberculosis, sarcoidosis) to verify white dot syndrome and exclude myopic macular degeneration or uveitis. These are critical because current diagnosis rests only on fundoscopic spots and demographic risk; imaging will define outer retinal/choroidal involvement."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：471 | Output token nums：553 | price(CNY)：0.00000000
+Step 1 Observations: SD-OCT showed the presence of focal elevation of the EZ band with underlying hyper-reflective material. RPE and BM were integral and neither choroidal hyper-transmission nor hypo-transmission was observed below the lesion. No sign of CNV was found using OCTA.
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1345 | Output token nums：207 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1495 | Output token nums：2454 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the not-yet-provided fundus autofluorescence, fluorescein/indocyanine green angiography, and targeted inflammatory/infectious lab results (CBC, syphilis, tuberculosis, sarcoidosis) to confirm white dot syndrome and exclude myopic macular degeneration or uveitis; these are critical because current diagnosis rests on posterior-pole spots and SD-OCT alone."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：462 | Output token nums：3179 | price(CNY)：0.00000000
+Step 2 Observations: SD-OCT showed the presence of focal elevation of the EZ band with underlying hyper-reflective material. RPE and BM were integral and neither choroidal hyper-transmission nor hypo-transmission was observed below the lesion. No sign of CNV was found using OCTA..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1497 | Output token nums：75 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1647 | Output token nums：2104 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"At retrieval limit, findings best fit white dot syndrome: young myopic woman, acute left vision loss/metamorphopsia, posterior-pole yellow-white spots, quiet vitreous, SD-OCT EZ elevation with hyperreflective material, intact RPE/BM, no CNV; this argues against myopic macular degeneration and uveitis. FAF/angiography and inflammatory labs remain missing; all retrieved key data covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3343 | Output token nums：9350 | price(CNY)：0.00000000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4188 | Output token nums：1074 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.8,
+      "why": "Expert analyses and SD-OCT findings show focal ellipsoid zone elevation with hyper-reflective material, intact RPE/Bruch's membrane, and no choroidal neovascularization, further supporting white dot syndrome. Fundoscopy shows posterior-pole yellow-white spots without hemorrhage, and anterior/vitreous examination is quiet. Confidence remains 0.8 because confirmatory FAF/FA/ICGA/ERG and uveitis serologies are unavailable."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.1,
+      "why": "High myopia supports this possibility, but expert analysis and SD-OCT show intact RPE/Bruch's membrane, no choroidal neovascularization, and posterior-pole yellow-white spots without hemorrhage, which argue against typical myopic macular degeneration. Confidence decreased from 0.15 to 0.1."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.03,
+      "why": "Yellow-white lesions could suggest inflammation, but anterior chamber and vitreous are quiet, and expert analysis with SD-OCT findings showing focal ellipsoid zone elevation with hyper-reflective material argues against inflammatory uveitis. Confidence decreased from 0.05 to 0.03."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev002",
+      "label": "SD-OCT shows focal ellipsoid zone elevation with hyper-reflective material in the left eye",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "SD-OCT shows intact RPE/Bruch's membrane and no choroidal neovascularization in the left eye",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h002",
+      "label": "Multiple evanescent white dot syndrome (MEWDS)",
+      "node_type": "Hypothesis",
+      "confidence": 0.7,
+      "why": "Young myopic woman with acute unilateral vision loss and metamorphopsia, posterior-pole yellow-white spots, quiet vitreous, and SD-OCT focal EZ elevation with hyperreflective material and intact RPE/BM/no CNV fit MEWDS, a common white dot syndrome. Confirmatory FAF/FA/ICGA and follow-up are missing, so confidence is 0.7."
+    }
+  ],
+  "edges": [
+    {"src": "ev002", "dst": "node-5", "relation": "support"},
+    {"src": "ev003", "dst": "node-5", "relation": "support"},
+    {"src": "ev002", "dst": "h002", "relation": "support"},
+    {"src": "ev003", "dst": "h002", "relation": "support"},
+    {"src": "ev003", "dst": "node-6", "relation": "refute"},
+    {"src": "ev002", "dst": "node-7", "relation": "refute"},
+    {"src": "node-4", "dst": "h002", "relation": "support"},
+    {"src": "node-3", "dst": "h002", "relation": "support"},
+    {"src": "node-2", "dst": "h002", "relation": "support"},
+    {"src": "h002", "dst": "node-5", "relation": "support"}
+  ]
+}
+{'node_id': 'node-5', 'label': 'White dot syndrome', 'why': "Expert analyses and SD-OCT findings show focal ellipsoid zone elevation with hyper-reflective material, intact RPE/Bruch's membrane, and no choroidal neovascularization, further supporting white dot syndrome. Fundoscopy shows posterior-pole yellow-white spots without hemorrhage, and anterior/vitreous examination is quiet. Confidence remains 0.8 because confirmatory FAF/FA/ICGA/ERG and uveitis serologies are unavailable.", 'score': 0.8, 'level': 1, 'supports': 6, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 26-year-old female reported vision loss and metamorphopsi… | score=1.000
+[node-2] Evidence[-] | Refractive error was -7.25 D in both eyes; best-corrected v… | score=1.000
+[node-3] Evidence[-] | Examination of the anterior chamber and vitreous cavity sho… | score=1.000
+[node-4] Evidence[-] | Fundoscopy of the left eye revealed sporadic, small, round,… | score=1.000
+[node-5] Hypothesis[1] | White dot syndrome | score=0.800 | attrs={"why": "Expert analyses and SD-OCT findings show focal ellipsoid zone elevatio…
+[node-6] Hypothesis[1] | Myopic macular degeneration | score=0.100 | attrs={"why": "High myopia supports this possibility, but expert analysis and SD-OCT …
+[node-7] Hypothesis[1] | Inflammatory uveitis | score=0.030 | attrs={"why": "Yellow-white lesions could suggest inflammation, but anterior chamber …
+[node-8] Evidence[-] | SD-OCT shows focal ellipsoid zone elevation with hyper-refl… | score=1.000
+[node-9] Evidence[-] | SD-OCT shows intact RPE/Bruch's membrane and no choroidal n… | score=1.000
+[node-1] Hypothesis[1] | Multiple evanescent white dot syndrome (MEWDS) | score=0.700 | attrs={"why": "Young myopic woman with acute unilateral vision loss and metamorphopsi…
+=== Edges ===
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-5[White dot syndrome] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-6[Myopic macular degeneration] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-7[Inflammatory uveitis] | refines | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-5[White dot syndrome] | support | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-5[White dot syndrome] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-5[White dot syndrome] | support | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-7[Inflammatory uveitis] | support | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | refines | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-5[White dot syndrome] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-5[White dot syndrome] | support | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-1[Multiple evanescent white dot syndrome (MEWDS)] -> node-5[White dot syndrome] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1840 | Output token nums：652 | price(CNY)：0.00000000
+Response: {"belief": "The 26-year-old myopic woman with acute unilateral vision loss and metamorphopsia, posterior-pole yellow-white spots, quiet anterior chamber/vitreous, and SD-OCT focal ellipsoid zone elevation with intact RPE/Bruch's membrane and no choroidal neovascularization points to a white dot syndrome. This evidence supports white dot syndrome (0.8) and its subtype MEWDS (0.7), with MEWDS supporting the broader white dot syndrome. Myopic macular degeneration (0.1) is refuted by intact RPE/BM, no CNV, and absence of hemorrhage, while inflammatory uveitis (0.03) is refuted by quiet vitreous and supportive SD-OCT findings. Consensus: likely MEWDS/white dot syndrome, though confirmatory FAF/FA/ICGA/ERG and uveitis serologies are unavailable."}
+{'node_id': 'node-5', 'label': 'White dot syndrome', 'why': "Expert analyses and SD-OCT findings show focal ellipsoid zone elevation with hyper-reflective material, intact RPE/Bruch's membrane, and no choroidal neovascularization, further supporting white dot syndrome. Fundoscopy shows posterior-pole yellow-white spots without hemorrhage, and anterior/vitreous examination is quiet. Confidence remains 0.8 because confirmatory FAF/FA/ICGA/ERG and uveitis serologies are unavailable.", 'score': 0.8, 'level': 1, 'supports': 6, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1400 | Output token nums：1957 | price(CNY)：0.00000000
+Response: [
+  {"expert_name":"Radiologist","planning_intent":"seek_discriminating_evidence"},
+  {"expert_name":"Laboratory_Physician","planning_intent":"seek_discriminating_evidence"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1303 | Output token nums：193 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1509 | Output token nums：1510 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the actual results of the previously requested multimodal retinal imaging (FAF, FA/ICGA, ERG/visual field) and uveitis serologies (syphilis, TB, Lyme, Bartonella, HIV, HSV/VZV, HLA-B27, ACE, chest X-ray), as these are the core missing evidence to confirm MEWDS, exclude infectious/inflammatory mimics, and guide management; prior retrieval returned empty, so subtype remains unverified."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：477 | Output token nums：3060 | price(CNY)：0.00000000
+Step 1 Observations: ""
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1400 | Output token nums：219 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1606 | Output token nums：1003 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's recent viral prodrome, vaccination, and travel/exposure history (critical missing clinical evidence to confirm MEWDS subtype and exclude infectious mimics), as prior imaging and serology retrievals returned empty; these details determine next diagnostic steps and management."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：436 | Output token nums：261 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1472 | Output token nums：69 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1678 | Output token nums：4662 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"26F myope with acute unilateral vision loss/metamorphopsia, quiet vitreous, yellow-white posterior spots; SD-OCT focal EZ elevation with hyperreflective material, intact RPE/BM, no CNV on OCTA supports white dot syndrome, likely MEWDS; mimics refuted. Confirmatory FAF/FA/ICGA/ERG and serologies unavailable; subtype unverified. Manage as MEWDS; exclude mimics. Available key evidence covered."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1495 | Output token nums：186 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1701 | Output token nums：730 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the not-yet-provided multimodal retinal imaging results—fundus autofluorescence, fluorescein/indocyanine green angiography, full-field ERG—and targeted inflammatory/infectious serologies (CBC, syphilis, tuberculosis, sarcoidosis) to confirm MEWDS/white dot syndrome and exclude uveitis; these are critical because diagnosis currently rests on fundoscopy and SD-OCT alone."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：469 | Output token nums：1239 | price(CNY)：0.00000000
+Step 1 Observations: 
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1583 | Output token nums：156 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1789 | Output token nums：2527 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the actual results/reports of the previously requested FAF, FA/ICGA, ERG, and uveitis serologies, plus symptom chronology/viral prodrome and serial fundus/OCT follow-up, to confirm MEWDS and exclude progressive white dot syndromes; critical because current diagnosis still lacks confirmatory multimodal and laboratory evidence."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：453 | Output token nums：1206 | price(CNY)：0.00000000
+Step 2 Observations: SD-OCT showed the presence of focal elevation of the EZ band with underlying hyper-reflective material. RPE and BM were integral and neither choroidal hyper-transmission nor hypo-transmission was observed below the lesion. No sign of CNV was found using OCTA..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1726 | Output token nums：75 | price(CNY)：0.00000000
+Step 3 Decision: {"type": 1, "decision": "analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1932 | Output token nums：2171 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"SD-OCT shows focal EZ elevation with hyper-reflective material, intact RPE/BM, no CNV; with posterior-pole yellow-white spots and quiet vitreous, this supports white dot syndrome/MEWDS. Myopic degeneration and uveitis are largely refuted. Confirmatory FAF, FA/ICGA, ERG and uveitis serologies remain unavailable, so diagnosis is provisional. Key confirmatory evidence missing."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4019 | Output token nums：4148 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.8,
+      "why": "Both expert analyses (Radiologist and Laboratory Physician) independently support a white dot syndrome in this young myopic woman with acute unilateral vision loss, metamorphopsia, posterior-pole yellow-white spots, quiet anterior chamber/vitreous, and SD-OCT focal ellipsoid zone elevation with hyper-reflective material and intact RPE/Bruch's membrane. The additional OCTA finding of no choroidal neovascularization further excludes mimics. Confidence stays 0.8 because confirmatory FAF, FA/ICGA, ERG, and uveitis serologies are unavailable."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.7,
+      "why": "The constellation of a young myopic woman with acute unilateral vision loss and metamorphopsia, posterior-pole yellow-white spots, quiet vitreous, and SD-OCT focal EZ elevation with hyperreflective material plus intact RPE/BM and no CNV on SD-OCT/OCTA is most consistent with MEWDS, the most common white dot syndrome, as agreed by both expert analyses (both recommend managing as MEWDS). Subtype remains unverified without FAF/FA/ICGA/ERG, so confidence is held at 0.7."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "OCTA showed no choroidal neovascularization in the left eye",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {"src": "ev001", "dst": "node-5", "relation": "support"},
+    {"src": "ev001", "dst": "node-10", "relation": "support"},
+    {"src": "ev001", "dst": "node-6", "relation": "refute"},
+    {"src": "ev001", "dst": "node-7", "relation": "refute"}
+  ]
+}
+{'node_id': 'node-5', 'label': 'White dot syndrome', 'why': "Both expert analyses (Radiologist and Laboratory Physician) independently support a white dot syndrome in this young myopic woman with acute unilateral vision loss, metamorphopsia, posterior-pole yellow-white spots, quiet anterior chamber/vitreous, and SD-OCT focal ellipsoid zone elevation with hyper-reflective material and intact RPE/Bruch's membrane. The additional OCTA finding of no choroidal neovascularization further excludes mimics. Confidence stays 0.8 because confirmatory FAF, FA/ICGA, ERG, and uveitis serologies are unavailable.", 'score': 0.8, 'level': 1, 'supports': 7, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 26-year-old female reported vision loss and metamorphopsi… | score=1.000
+[node-2] Evidence[-] | Refractive error was -7.25 D in both eyes; best-corrected v… | score=1.000
+[node-3] Evidence[-] | Examination of the anterior chamber and vitreous cavity sho… | score=1.000
+[node-4] Evidence[-] | Fundoscopy of the left eye revealed sporadic, small, round,… | score=1.000
+[node-5] Hypothesis[1] | White dot syndrome | score=0.800 | attrs={"why": "Both expert analyses (Radiologist and Laboratory Physician) independen…
+[node-6] Hypothesis[1] | Myopic macular degeneration | score=0.100 | attrs={"why": "High myopia supports this possibility, but expert analysis and SD-OCT …
+[node-7] Hypothesis[1] | Inflammatory uveitis | score=0.030 | attrs={"why": "Yellow-white lesions could suggest inflammation, but anterior chamber …
+[node-8] Evidence[-] | SD-OCT shows focal ellipsoid zone elevation with hyper-refl… | score=1.000
+[node-9] Evidence[-] | SD-OCT shows intact RPE/Bruch's membrane and no choroidal n… | score=1.000
+[node-1] Hypothesis[1] | Multiple evanescent white dot syndrome (MEWDS) | score=0.700 | attrs={"why": "The constellation of a young myopic woman with acute unilateral vision…
+[node-1] Evidence[-] | OCTA showed no choroidal neovascularization in the left eye | score=1.000
+=== Edges ===
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-5[White dot syndrome] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-6[Myopic macular degeneration] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-7[Inflammatory uveitis] | refines | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-5[White dot syndrome] | support | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-5[White dot syndrome] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-5[White dot syndrome] | support | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-7[Inflammatory uveitis] | support | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | refines | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-5[White dot syndrome] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-5[White dot syndrome] | support | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-1[Multiple evanescent white dot syndrome (MEWDS)] -> node-5[White dot syndrome] | support | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-5[White dot syndrome] | support | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2086 | Output token nums：745 | price(CNY)：0.00000000
+Response: {"belief": "The 26-year-old myopic woman with acute left vision loss and metamorphopsia, posterior-pole yellow-white spots, and quiet anterior chamber/vitreous most likely has a white dot syndrome. SD-OCT showing focal ellipsoid zone elevation with hyperreflective material, intact RPE/Bruch's membrane, and no choroidal neovascularization on SD-OCT/OCTA supports this and specifically favors multiple evanescent white dot syndrome (MEWDS), the leading subtype. This evidence refutes myopic macular degeneration and inflammatory uveitis. Current consensus: white dot syndrome 0.8, MEWDS 0.7; myopic macular degeneration 0.1 and inflammatory uveitis 0.03 are unlikely. Confirmatory FAF/FA/ICGA/ERG and uveitis serologies are still needed."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4279 | Output token nums：4951 | price(CNY)：0.00000000
+Response: {
+  "type": 2,
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Multiple evanescent white dot syndrome (MEWDS)",
+      "confidence": 0.7,
+      "why": "Refines the frontier 'white dot syndrome' (node-5, belief 0.8) into its most specific leading subtype. MEWDS is the commonest white dot syndrome and matches the entire evidence set: young myopic woman with acute unilateral vision loss/metamorphopsia (node-1), posterior-pole yellow-white spots (node-4), quiet anterior chamber and vitreous (node-3), SD-OCT focal ellipsoid zone elevation with hyper-reflective material (node-8), intact RPE/Bruch's membrane and no CNV (node-9), and no CNV on OCTA (node-11). Confidence held at 0.7 pending FAF/FA/ICGA/ERG confirmation."
+    },
+    {
+      "id": "h002",
+      "label": "Acute zonal occult outer retinopathy (AZOOR)",
+      "confidence": 0.1,
+      "why": "Subtype refinement of 'white dot syndrome' (node-5) that presents with acute visual loss and outer retinal/ellipsoid-zone disruption, so the SD-OCT EZ findings (node-8) permit it. However, AZOOR typically lacks the transient posterior-pole yellow-white spots seen here (node-4) and is less typical for this young myopic profile; FAF/ERG would be needed to separate it from MEWDS."
+    },
+    {
+      "id": "h003",
+      "label": "Multifocal choroiditis / punctate inner choroidopathy (PIC/MFC)",
+      "confidence": 0.08,
+      "why": "A further white-dot-syndrome subcategory plausible in young myopic women, refining node-5. It is weakened by the absence of choroidal neovascularization on SD-OCT/OCTA (nodes 9, 11), the lack of vitreous inflammation (node-3), and the absence of hemorrhage on fundoscopy (node-4), all of which argue against the typical MFC/PIC picture."
+    },
+    {
+      "id": "h004",
+      "label": "Acute idiopathic blind spot enlargement syndrome / other rare white dot syndromes",
+      "confidence": 0.05,
+      "why": "A residual fine-grained refinement of 'white dot syndrome' (node-5) to account for uncommon entities when the leading MEWDS cannot yet be serologically/electrophysiologically confirmed. No graph evidence currently separates this from MEWDS, so its low confidence reflects only diagnostic uncertainty, not supporting findings."
+    }
+  ]
+}
+{'node_id': 'node-12', 'label': 'Multiple evanescent white dot syndrome (MEWDS)', 'why': "Refines the frontier 'white dot syndrome' (node-5, belief 0.8) into its most specific leading subtype. MEWDS is the commonest white dot syndrome and matches the entire evidence set: young myopic woman with acute unilateral vision loss/metamorphopsia (node-1), posterior-pole yellow-white spots (node-4), quiet anterior chamber and vitreous (node-3), SD-OCT focal ellipsoid zone elevation with hyper-reflective material (node-8), intact RPE/Bruch's membrane and no CNV (node-9), and no CNV on OCTA (node-11). Confidence held at 0.7 pending FAF/FA/ICGA/ERG confirmation.", 'score': 0.7, 'level': 2, 'supports': 0, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1469 | Output token nums：734 | price(CNY)：0.00000000
+Response: [{"expert_name":"Radiologist","planning_intent":"seek_discriminating_evidence"}]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1446 | Output token nums：120 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1721 | Output token nums：1409 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's follow-up SD-OCT and fundus autofluorescence in 2-4 weeks to document resolution of the ellipsoid zone elevation and evanescence of white dots, the hallmark of MEWDS; critical because prior acute multimodal imaging and serology requests returned empty, leaving the diagnosis unconfirmed and this follow-up is the most specific remaining evidence to verify or exclude MEWDS."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：465 | Output token nums：1218 | price(CNY)：0.00000000
+Step 1 Observations: SD-OCT showed the presence of focal elevation of the EZ band with underlying hyper-reflective material.
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1551 | Output token nums：184 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1826 | Output token nums：2071 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's outside facility records and any available raw imaging/laboratory results for FAF, FA/ICGA, ERG/visual field, and uveitis serologies, plus recent viral prodrome/vaccination history, because prior in-house retrievals were empty; these are the core missing data to confirm MEWDS and exclude infectious/inflammatory mimics."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：459 | Output token nums：1697 | price(CNY)：0.00000000
+Step 2 Observations: ""
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1646 | Output token nums：69 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1921 | Output token nums：15784 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Integrated analysis: Acute left vision loss, metamorphopsia, posterior-pole yellow-white spots, quiet anterior chamber/vitreous, and SD-OCT focal ellipsoid zone elevation with hyperreflective material, intact RPE/Bruch's membrane, no CNV on OCTA supports white dot syndrome, most likely MEWDS. Myopic degeneration/uveitis refuted; FAF/FA/ICGA/ERG and serologies are missing, so MEWDS is unconfirmed."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4828 | Output token nums：7477 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.8,
+      "why": "The Radiologist's integrated analysis independently supports a white dot syndrome in this young myopic woman with acute unilateral vision loss, metamorphopsia, posterior-pole yellow-white spots, and a quiet anterior chamber/vitreous, and adds that SD-OCT focal ellipsoid zone elevation with hyperreflective material, intact RPE/Bruch's membrane, and no choroidal neovascularization on OCTA further exclude mimics. This confirms the prior reasoning and confidence remains 0.8 because confirmatory FAF, FA/ICGA, ERG, and uveitis serologies are still unavailable."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.1,
+      "why": "The Radiologist's integrated analysis explicitly refutes myopic degeneration: SD-OCT shows intact RPE/Bruch's membrane and no choroidal neovascularization, and the posterior-pole yellow-white spots lack hemorrhage, all atypical for myopic macular degeneration. High myopia remains the only supporting feature, so confidence stays low at 0.1."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.03,
+      "why": "The Radiologist's integrated analysis explicitly identifies inflammatory uveitis as refuted, in keeping with the quiet anterior chamber and vitreous and the focal ellipsoid zone elevation with hyperreflective material on SD-OCT. With no inflammatory signs present, confidence remains very low at 0.03."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.7,
+      "why": "The Radiologist's integrated analysis concludes the findings are most likely MEWDS, concordant with the prior consensus. The full evidence set—young myopic woman with acute unilateral vision loss and metamorphopsia, posterior-pole yellow-white spots, quiet vitreous, SD-OCT focal EZ elevation with hyperreflective material, intact RPE/BM, and no CNV on SD-OCT/OCTA—matches MEWDS. Confidence is held at 0.7 pending FAF/FA/ICGA/ERG and serologic confirmation."
+    },
+    {
+      "node_id": "node-12",
+      "confidence": 0.7,
+      "why": "This subtype refinement of white dot syndrome is reinforced by the Radiologist's integrated analysis, which favors MEWDS as the leading white dot syndrome here. The shared demographic, clinical, and SD-OCT features and the absence of CNV support it, but as the confirmatory imaging and electrophysiology are still missing, confidence remains 0.7."
+    },
+    {
+      "node_id": "node-13",
+      "confidence": 0.1,
+      "why": "The Radiologist's integrated analysis favors MEWDS and offers no support for AZOOR, which typically lacks the transient posterior-pole yellow-white spots seen here. The SD-OCT ellipsoid-zone disruption keeps AZOOR marginally possible, so confidence remains 0.1 pending FAF/ERG."
+    },
+    {
+      "node_id": "node-14",
+      "confidence": 0.08,
+      "why": "The Radiologist's integrated analysis, combined with the absence of choroidal neovascularization on SD-OCT/OCTA, the lack of vitreous inflammation, and no hemorrhage on fundoscopy, argues against the typical MFC/PIC picture in this young myopic woman, so confidence remains low at 0.08."
+    },
+    {
+      "node_id": "node-15",
+      "confidence": 0.05,
+      "why": "A residual refinement of white dot syndrome covering uncommon entities that cannot be excluded until FAF/FA/ICGA/ERG and serologies are available. The Radiologist's integrated analysis provides no discriminating evidence, so confidence stays low at 0.05."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Confirmatory FAF, FA/ICGA, ERG, and uveitis serologies have not yet been obtained, so MEWDS remains unconfirmed and alternative white dot syndromes cannot be excluded",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-15",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-12', 'label': 'Multiple evanescent white dot syndrome (MEWDS)', 'why': "This subtype refinement of white dot syndrome is reinforced by the Radiologist's integrated analysis, which favors MEWDS as the leading white dot syndrome here. The shared demographic, clinical, and SD-OCT features and the absence of CNV support it, but as the confirmatory imaging and electrophysiology are still missing, confidence remains 0.7.", 'score': 0.7, 'level': 2, 'supports': 0, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | A 26-year-old female reported vision loss and metamorphopsi… | score=1.000
+[node-2] Evidence[-] | Refractive error was -7.25 D in both eyes; best-corrected v… | score=1.000
+[node-3] Evidence[-] | Examination of the anterior chamber and vitreous cavity sho… | score=1.000
+[node-4] Evidence[-] | Fundoscopy of the left eye revealed sporadic, small, round,… | score=1.000
+[node-5] Hypothesis[1] | White dot syndrome | score=0.800 | attrs={"why": "The Radiologist's integrated analysis independently supports a white d…
+[node-6] Hypothesis[1] | Myopic macular degeneration | score=0.100 | attrs={"why": "The Radiologist's integrated analysis explicitly refutes myopic degene…
+[node-7] Hypothesis[1] | Inflammatory uveitis | score=0.030 | attrs={"why": "The Radiologist's integrated analysis explicitly identifies inflammato…
+[node-8] Evidence[-] | SD-OCT shows focal ellipsoid zone elevation with hyper-refl… | score=1.000
+[node-9] Evidence[-] | SD-OCT shows intact RPE/Bruch's membrane and no choroidal n… | score=1.000
+[node-1] Hypothesis[1] | Multiple evanescent white dot syndrome (MEWDS) | score=0.700 | attrs={"why": "The Radiologist's integrated analysis concludes the findings are most …
+[node-1] Evidence[-] | OCTA showed no choroidal neovascularization in the left eye | score=1.000
+[node-1] Hypothesis[2] | Multiple evanescent white dot syndrome (MEWDS) | score=0.700 | attrs={"why": "This subtype refinement of white dot syndrome is reinforced by the Rad…
+[node-1] Hypothesis[2] | Acute zonal occult outer retinopathy (AZOOR) | score=0.100 | attrs={"why": "The Radiologist's integrated analysis favors MEWDS and offers no suppo…
+[node-1] Hypothesis[2] | Multifocal choroiditis / punctate inner choroidopathy (PIC/… | score=0.080 | attrs={"why": "The Radiologist's integrated analysis, combined with the absence of ch…
+[node-1] Hypothesis[2] | Acute idiopathic blind spot enlargement syndrome / other ra… | score=0.050 | attrs={"why": "A residual refinement of white dot syndrome covering uncommon entities…
+[node-1] Evidence[-] | Confirmatory FAF, FA/ICGA, ERG, and uveitis serologies have… | score=1.000
+=== Edges ===
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-5[White dot syndrome] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-6[Myopic macular degeneration] | refines | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-7[Inflammatory uveitis] | refines | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-5[White dot syndrome] | support | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-5[White dot syndrome] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-6[Myopic macular degeneration] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-5[White dot syndrome] | support | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-7[Inflammatory uveitis] | support | conf=0.000
+node-1[A 26-year-old female reported vision loss and metamorphopsi…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | refines | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-5[White dot syndrome] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-5[White dot syndrome] | support | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-9[SD-OCT shows intact RPE/Bruch's membrane and no choroidal n…] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-8[SD-OCT shows focal ellipsoid zone elevation with hyper-refl…] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-4[Fundoscopy of the left eye revealed sporadic, small, round,…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-3[Examination of the anterior chamber and vitreous cavity sho…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-2[Refractive error was -7.25 D in both eyes; best-corrected v…] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-1[Multiple evanescent white dot syndrome (MEWDS)] -> node-5[White dot syndrome] | support | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-5[White dot syndrome] | support | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | support | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-6[Myopic macular degeneration] | refute | conf=0.000
+node-1[OCTA showed no choroidal neovascularization in the left eye] -> node-7[Inflammatory uveitis] | refute | conf=0.000
+node-5[White dot syndrome] -> node-1[Multiple evanescent white dot syndrome (MEWDS)] | refines | conf=0.000
+node-5[White dot syndrome] -> node-1[Acute zonal occult outer retinopathy (AZOOR)] | refines | conf=0.000
+node-5[White dot syndrome] -> node-1[Multifocal choroiditis / punctate inner choroidopathy (PIC/…] | refines | conf=0.000
+node-5[White dot syndrome] -> node-1[Acute idiopathic blind spot enlargement syndrome / other ra…] | refines | conf=0.000
+node-1[Confirmatory FAF, FA/ICGA, ERG, and uveitis serologies have…] -> node-1[Acute idiopathic blind spot enlargement syndrome / other ra…] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2857 | Output token nums：632 | price(CNY)：0.00000000
+Response: {"belief": "In a 26-year-old myopic woman with acute unilateral vision loss and metamorphopsia, the leading hypothesis is a white dot syndrome, specifically multiple evanescent white dot syndrome (MEWDS). Evidence includes posterior-pole yellow-white spots, a quiet anterior chamber and vitreous, focal ellipsoid zone elevation with hyperreflective material on SD-OCT, intact RPE/Bruch's membrane, and no choroidal neovascularization on OCTA. These findings support MEWDS (0.7) and the broader white dot syndrome (0.8), while refuting myopic macular degeneration, inflammatory uveitis, and MFC/PIC. AZOOR and rare white dot syndromes remain low-probability alternatives. Because confirmatory FAF, FA/ICGA, ERG, and uveitis serologies are still pending, MEWDS is favored but not confirmed."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4930 | Output token nums：7147 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Most likely MEWDS",
+  "report": "MEWDS is the leading diagnosis. A 26-year-old myopic woman had acute unilateral vision loss and metamorphopsia. Fundoscopy showed posterior-pole yellow-white spots with a quiet anterior chamber/vitreous. SD-OCT found focal ellipsoid zone elevation, hyperreflective material, and intact RPE/Bruch's membrane; OCTA excluded choroidal neovascularization. These support MEWDS and refute myopic degeneration, uveitis, and MFC/PIC. Confirmatory tests pending; MEWDS favored, not confirmed."
+}
+Answer: Most likely MEWDS
+Report: MEWDS is the leading diagnosis. A 26-year-old myopic woman had acute unilateral vision loss and metamorphopsia. Fundoscopy showed posterior-pole yellow-white spots with a quiet anterior chamber/vitreous. SD-OCT found focal ellipsoid zone elevation, hyperreflective material, and intact RPE/Bruch's membrane; OCTA excluded choroidal neovascularization. These support MEWDS and refute myopic degeneration, uveitis, and MFC/PIC. Confirmatory tests pending; MEWDS favored, not confirmed.
+[TraceEvo] case 12: 40 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：56 | Input token nums：92623 | Output token nums：106704 | Total token nums：199327 | price(CNY)：0.00000000

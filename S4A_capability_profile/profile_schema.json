@@ -1,0 +1,41 @@
+{
+  "name": "Trustworthy Execution Capability Profile",
+  "version": "s4a-v1",
+  "shape": "vector per role; §10.1 forbids a weighted total score",
+  "roles": [
+    "Laboratory_Physician",
+    "Pathologist",
+    "Radiologist"
+  ],
+  "central_agent": {
+    "note": "§5.1: orchestration profile may be built separately and must not be mixed into expert role metrics. S4A reports Central_Agent counts in the ledger attribution but does not give it an expert profile row."
+  },
+  "fields": {
+    "n_cases": "cases in which the role appears in the ledger",
+    "n_invocations": "ledger rows with actor_id == role",
+    "accepted_calls": "ledger parse_status == accepted",
+    "discarded_calls": "ledger parse_status == discarded",
+    "degraded_calls": "UNAVAILABLE -- no such status in the artifacts",
+    "failed_calls": "UNAVAILABLE -- no such status in the artifacts",
+    "evidence_attributed_p0..p3": "audit decisions whose best_analysis_event is an ANALYSIS emitted by this role; a grounding/coverage link, not authorship",
+    "p3_used_in_reasoning": "attributed P3 nodes with used_in_reasoning",
+    "retrieval_events": "TOOL_CALL + EVIDENCE_READ events by this role",
+    "structural_use_rate": "attributed nodes appearing in final reasoning / attributed nodes -- structural participation, never causal contribution"
+  },
+  "unavailable_fields": {
+    "degraded_calls": "no event in case 10-39 carries status=degraded; all 855 are status=success, reason_code=NONE. There is no observable source.",
+    "failed_calls": "same as degraded_calls: the status vocabulary in the artifacts has no failing value.",
+    "latency": "not recorded in any artifact (S3A §5.4 noted the same).",
+    "token_counts": "not recorded per invocation in the artifacts."
+  },
+  "derived_metrics": {
+    "p_exec_abnormal": "UNAVAILABLE (its two inputs are)",
+    "p_parse_discard": "Beta(1,1) smoothed, §6.1 keeps it separate from failure",
+    "p3_decision_use_rate": "§6.2's safety metric; NA when the denominator is 0, never 0",
+    "outcome_association": "§6.4 description only; §10 forbids weighting on it"
+  },
+  "uncertainty": {
+    "method": "Beta(1,1) posterior, 95% (scipy.stats.beta.ppf)",
+    "requirement": "every binomial ratio reports count, posterior mean and 95% interval (§8)"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "requirement": "S3B §6.1 / §15.8: the invocation ledger must account for every model call, and every committed event must trace to one",
+  "scope": "10 Memory-Build traces, case 30-39",
+  "total_calls": 420,
+  "by_parse_status": {
+    "accepted": 411,
+    "discarded": 9
+  },
+  "pending": 0,
+  "failed": 0,
+  "rows_with_warnings": 0,
+  "uncommitted_by_stage": {
+    "EXPERT_DECISION": 123,
+    "EXPERT_CONTENT": 9,
+    "REPORT": 1
+  },
+  "gate_completeness_rule": "complete = no pending and no failed; uncommitted expert decisions are normal by construction, because the decision stage emits no event (§6.1)",
+  "observation": {
+    "what": "one REPORT call (case-37, call-case-37-00042) parsed as accepted but committed no event, while call-case-37-00070 committed the case's single FINAL_REPORT event",
+    "why_it_matters": "the event stream shows one report; the ledger shows two report calls. This is the S3A dual-channel argument visible in real data: the event stream alone cannot distinguish 'the model was asked once' from 'asked, and the first answer was discarded without a trace'.",
+    "cause": "not determined from the artifacts; the call sits between a belief-graph update and the next CENTRAL_PLAN, consistent with a report generated speculatively mid-loop and only emitted when the run actually stops",
+    "impact_on_s3b": "none on eligibility: the gate's completeness rule counts pending and failed calls, and both are 0 for every case. Reported so the count is not read as an unexplained gap."
+  },
+  "unbound_commits": 0,
+  "note": "'unbound commit' -- a commit that matched no call -- is the defect S3A added _unbound_commits to catch. It is 0 here."
+}

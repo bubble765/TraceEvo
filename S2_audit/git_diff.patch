@@ -1,0 +1,179 @@
+diff --git a/agents/central_agent.py b/agents/central_agent.py
+index 1c6fe02..f434639 100755
+--- a/agents/central_agent.py
++++ b/agents/central_agent.py
+@@ -53,8 +53,7 @@ class Central_Agent:
+         self.graph.pretty_print()
+ 
+         # TraceEvo S1 hook: initial graph, all nodes sourced from the case input.
+-        _txemit("on_ingest", self.graph, self.name, response, "basic_node",
+-                self.llm_args["model_path"])
++        _txemit("on_ingest", self.graph, self.name, response, "basic_node")
+ 
+         system_prompt, user_prompt = construct_ingest_prompt_L1_Hypo(dataset=self.dataset, expert_name=self.name, graph=self.graph, symptom_node_id=self.symptom_node_id, isolated_evidence_ids=self.isolated_evidence_ids)
+         response, meta = llm_generate_response(user_prompt=user_prompt, model_path=self.llm_args["model_path"], temperature=self.llm_args["temperature"], max_tokens=self.llm_args["max_tokens"], system_prompt=system_prompt, return_meta=self.llm_args["return_meta"])
+@@ -105,8 +104,7 @@ class Central_Agent:
+         self.graph.pretty_print()
+ 
+         # TraceEvo S1 hook: L1 hypotheses + their evidence edges.
+-        _txemit("on_ingest", self.graph, self.name, response, "l1_hypo",
+-                self.llm_args["model_path"])
++        _txemit("on_ingest", self.graph, self.name, response, "l1_hypo")
+ 
+     def run(self):
+ 
+@@ -228,8 +226,7 @@ class Central_Agent:
+ 
+             # TraceEvo S1 hook: UpdateGraph finished applying the proposal.
+             # The delta is computed against the previously recorded state.
+-            _txemit("on_graph_update", self.graph, self.name, response,
+-                    self.llm_args["model_path"])
++            _txemit("on_graph_update", self.graph, self.name, response)
+ 
+             self.backtrack_frontier_chain()
+ 
+@@ -274,8 +271,7 @@ class Central_Agent:
+                     report = response_dict["report"]
+                     # TraceEvo S1 hook: final prediction + the reasoning state
+                     # it depends on (amendment §3.3).
+-                    _txemit("on_final_report", self.name, answer, report,
+-                            self.llm_args["model_path"], self.graph)
++                    _txemit("on_final_report", self.name, answer, report, self.graph)
+                     return answer, report
+                 else:
+ 
+@@ -372,7 +368,7 @@ class Central_Agent:
+         response_dict = parse_json_response(response)
+         plan = response_dict
+         # TraceEvo S1 hook: the plan (expert selection) for the current focus.
+-        _txemit("on_plan", self.name, response, self.llm_args["model_path"])
++        _txemit("on_plan", self.name, response)
+         return plan
+ 
+     def act(self, plan):
+@@ -388,6 +384,12 @@ class Central_Agent:
+           
+             matching_experts = [agent for agent in self.experts if agent.name == expert_name]
+             if not matching_experts:
++                # TraceEvo S2: record the failed dispatch, then re-raise the
++                # original exception unchanged. The hook must not swallow it,
++                # repair it, or alter the message.
++                _txemit("on_dispatch_failed", self.name, expert_name,
++                        [a.name for a in self.experts],
++                        f"Not founded, current list：{[a.name for a in self.experts]}")
+                 raise ValueError(f"Not founded, current list：{[a.name for a in self.experts]}")
+             expert = matching_experts[0]
+ 
+diff --git a/agents/expert_agent.py b/agents/expert_agent.py
+index bd77135..75262c5 100755
+--- a/agents/expert_agent.py
++++ b/agents/expert_agent.py
+@@ -41,11 +41,16 @@ class Expert_Agent:
+             return self._run_micro(frontier)
+ 
+         
+-        max_retrieve_step = self.max_retrieval_steps 
++        max_retrieve_step = self.max_retrieval_steps
+         retrieve_step = 0
+         final_analysis = None
+-        retrieval_history = self.retrieval_history 
+-        decision_result: Optional[dict] = None  
++        retrieval_history = self.retrieval_history
++        decision_result: Optional[dict] = None
++
++        # TraceEvo S2: remember WHY the loop ends so the ANALYSIS event can be
++        # marked degraded with an accurate reason. Observational only -- none of
++        # this feeds back into control flow or the returned text.
++        tx_exit_cause = None          # "empty_query" | "bad_decision" | "parse_error" | "budget"
+ 
+         if len(tool_names) == 1 and tool_names[0] == "Evidence_Text":
+             tool_prompt_base = "We provide only pre-prepared auxiliary evidence texts for you, and you must extract related information from the evidence texts."
+@@ -99,10 +104,11 @@ class Expert_Agent:
+                 except (json.JSONDecodeError, ValueError) as e:
+                     print(f"Failed parsing: {e}")
+                     log_to_file(f"Failed parsing: {e}\n\n",log_path=self.log_path)
++                    tx_exit_cause = "parse_error"
+                     retrieve_step += 1
+                     continue
+ 
+-                
++
+                 print(f"Step {retrieve_step + 1} - Content Generation")
+                 log_to_file(f"Step {retrieve_step + 1} - Content Generation\n\n",log_path=self.log_path)
+                 system_p2, user_p2 = construct_expert_analyze_prompt(
+@@ -140,15 +146,17 @@ class Expert_Agent:
+                 except (json.JSONDecodeError, ValueError) as e:
+                     print(f"Failed Parsing: {e}")
+                     log_to_file(f"Failed Parsing: {e}\n\n",log_path=self.log_path)
++                    tx_exit_cause = "parse_error"
+                     retrieve_step += 1
+                     continue
+ 
+-               
++
+                 if current_decision == "retrieve":
+                     retrieve_step += 1
+                     if not content:
+                         print("Empty query, terminated!")
+                         log_to_file("Empty query, terminated!\n",log_path=self.log_path)
++                        tx_exit_cause = "empty_query"
+                         break
+                     # TraceEvo S1 hook: the expert decided to call the retrieval
+                     # tool. The EVIDENCE_READ event is emitted from inside
+@@ -162,20 +170,30 @@ class Expert_Agent:
+                 elif current_decision == "analyze":
+                     final_analysis = content
+                     # TraceEvo S1 hook: the expert's analysis for this focus.
+-                    _txemit("on_analysis", content, self.llm_args["model_path"])
++                    _txemit("on_analysis", content, "success", "NONE")
+                     break
+ 
+                 else:
+                     print(f"Wrong decision value: {current_decision}，terminated!")
+                     log_to_file(f"Wrong decision value: {current_decision}，terminated!\n\n",log_path=self.log_path)
++                    tx_exit_cause = "bad_decision"
+                     break
+ 
+-            
++
+             if final_analysis is None:
++                # Upstream returns this fixed text; S2 only *marks* that the path
++                # was a fallback. The text and the control flow are unchanged.
+                 final_analysis = "Insufficient information to complete the analysis (max retrieval steps reached or invalid decision/response)"
+-                # TraceEvo S1 hook: exhausted the retrieval budget; still record
+-                # what the expert returned so event coverage stays complete.
+-                _txemit("on_analysis", final_analysis, self.llm_args["model_path"])
++                _tx_reason = {
++                    "empty_query": "PARSER_ERROR",
++                    "bad_decision": "PARSER_ERROR",
++                    "parse_error": "PARSER_ERROR",
++                    "budget": "BUDGET_EXHAUSTED",
++                }.get(tx_exit_cause or "budget",
++                      "INSUFFICIENT_INFORMATION_FALLBACK")
++                # TraceEvo S2 hook: degraded -- completed, but on a fallback.
++                _txemit("on_analysis", final_analysis, "degraded", _tx_reason,
++                        tx_exit_cause or "budget")
+ 
+             return final_analysis
+         else:
+diff --git a/configs/TraceEvo_Configs.yaml b/configs/TraceEvo_Configs.yaml
+index c1a6d85..7e7f58c 100644
+--- a/configs/TraceEvo_Configs.yaml
++++ b/configs/TraceEvo_Configs.yaml
+@@ -21,6 +21,16 @@ traceevo:
+     recording_path: ""
+     strict: true
+ 
++  # S2 §1 D1: identity of the backbone that produced the events.
++  # `model_id` is what the config names -- reliable, but it is a *name*, not a
++  # build. `model_version` stays null unless the provider reports one, and
++  # `version_observable` says which of the two a reader is looking at, so no
++  # downstream claim can overstate it. Empty model_id -> the GoS backbone from
++  # configs/LLM_Configs.yaml (default_model_path).
++  model_id: ""
++  model_version: null
++  version_observable: false
++
+   # Deterministic source classification (amendment §1 D2). No LLM judgement.
+   source_classification:
+     verbatim: true

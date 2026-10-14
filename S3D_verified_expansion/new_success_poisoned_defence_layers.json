@@ -1,0 +1,53 @@
+{
+  "baseline_clean_case_51_eligibility": "manual_review",
+  "baseline_reason": "2 P1 soft-grounded node(s) on the decision path -- case-51 is NOT admitted even without poisoning",
+  "rows": [
+    {
+      "poison_kind": "PZ1",
+      "anomaly_types": "A1",
+      "layer1_integrity_eligibility": "reject",
+      "layer1_reasons": "trace integrity does not verify",
+      "layer2_forcing_integrity_ok": "failure_experience",
+      "layer2_reasons": "localized anomaly root(s): A1/evidence_tier_p3_used@evt-case-51-00016",
+      "layer2_catches_the_poison": true,
+      "admits_success_either_way": false
+    },
+    {
+      "poison_kind": "PZ2",
+      "anomaly_types": "",
+      "layer1_integrity_eligibility": "reject",
+      "layer1_reasons": "trace integrity does not verify",
+      "layer2_forcing_integrity_ok": "manual_review",
+      "layer2_reasons": "2 P1 soft-grounded node(s) on the decision path; §6.1 sends these to review rather than admitting them",
+      "layer2_catches_the_poison": false,
+      "admits_success_either_way": false
+    },
+    {
+      "poison_kind": "PZ3",
+      "anomaly_types": "A0",
+      "layer1_integrity_eligibility": "reject",
+      "layer1_reasons": "trace integrity does not verify",
+      "layer2_forcing_integrity_ok": "failure_experience",
+      "layer2_reasons": "localized anomaly root(s): A0/degraded_status@evt-case-51-00009",
+      "layer2_catches_the_poison": true,
+      "admits_success_either_way": false
+    },
+    {
+      "poison_kind": "PZ4",
+      "anomaly_types": "A5",
+      "layer1_integrity_eligibility": "reject",
+      "layer1_reasons": "trace integrity does not verify",
+      "layer2_forcing_integrity_ok": "failure_experience",
+      "layer2_reasons": "localized anomaly root(s): A5/hash_chain_broken@evt-case-51-00009",
+      "layer2_catches_the_poison": true,
+      "admits_success_either_way": false
+    }
+  ],
+  "n_twins": 4,
+  "n_admitted_either_layer": 0,
+  "n_caught_by_anomaly_layer": 3,
+  "confounded_kinds": [
+    "PZ2"
+  ],
+  "confound_explanation": "The 0/4 headline is weaker than S3C's 0/16 and the difference is worth naming. case-51 does not reach `eligible` even clean, because the frozen §6.1 P1 rule sends it to manual_review. So 0/4 cannot be read as evidence that the Gate survives poisoning of this success: the Gate was never going to admit it. With integrity forced True, PZ2 is held by that same P1 reason and produces no anomaly at all -- its rejection is a property of case-51, not a defence against misbinding. PZ1/PZ3/PZ4 are caught by the anomaly layer independently. S3C's 0/16 remains the poison-resistance result; this one is a robustness check whose confound is reported rather than absorbed."
+}

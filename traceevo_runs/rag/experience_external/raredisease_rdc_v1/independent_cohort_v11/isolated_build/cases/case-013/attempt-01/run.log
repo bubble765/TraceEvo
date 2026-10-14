@@ -1,0 +1,630 @@
+[S0] Running 1 case(s): [13]
+
+
+===============[RUN] Case 13  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1598 | Output token nums：2553 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "Patient had shortness of breath for 1 month, which worsened over the past 2 days",
+  "isolated_evidence": [
+    "Patient was a 32-year-old adequately nourished male, worked as a tailor, consumed a mixed diet, had BMI 25.3 kg/m2, and was well-built and nourished; he had no other accompanying symptoms",
+    "On examination, he was tachypneic, tachycardic, and had a mild fever; oral thrush was observed and scrapings were sent for fungal culture; SpO2 was 87%; no apparent risk factors for immunosuppressive states were found",
+    "Chest X-ray showed scattered inspiratory crackles; chest roentgenogram showed bilateral perihilar infiltrates; blood gas analysis revealed PO2 47 mmHg and PCO2 24 mmHg; HRCT thorax showed ground glass opacities in both lung fields, predominantly perihilar; LDH was elevated at 916 U/L; other routine blood work was normal",
+    "High flow oxygen was initiated and he was transferred to the Intensive Care Unit; he remained tachypneic on high flow oxygen and intermittently required noninvasive ventilation; empirical antibiotics, fluconazole, and oral trimethoprim-sulfamethoxazole (TMP-SMX) were started along with steroids",
+    "Bronchoalveolar lavage revealed Pneumocystis organisms; acid-fast bacteria and routine bacterial and fungal cultures were negative; fungal scrapings grew Candida albicans sensitive to fluconazole; HIV ELISA, Western blot, and HIV-RNA polymerase chain reaction tests were negative"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | Patient had shortness of breath for 1 month, which worsened… | score=1.000
+[node-2] Evidence[-] | Patient was a 32-year-old adequately nourished male, worked… | score=1.000
+[node-3] Evidence[-] | On examination, he was tachypneic, tachycardic, and had a m… | score=1.000
+[node-4] Evidence[-] | Chest X-ray showed scattered inspiratory crackles; chest ro… | score=1.000
+[node-5] Evidence[-] | High flow oxygen was initiated and he was transferred to th… | score=1.000
+[node-6] Evidence[-] | Bronchoalveolar lavage revealed Pneumocystis organisms; aci… | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1639 | Output token nums：5755 | price(CNY)：0.00000000
+Response: {"candidates":[{"id":"h001","label":"Pneumocystis pneumonia","confidence":0.95,"why":"node-6 BAL confirmed Pneumocystis; node-4 perihilar ground glass, hypoxia, LDH 916; node-3 oral thrush; node-5 TMP-SMX started."},{"id":"h002","label":"Bacterial pneumonia","confidence":0.15,"why":"node-2 well-nourished; node-3 fever/tachypnea; node-4 infiltrates/hypoxia; node-5 antibiotics. node-6 cultures negative, Pneumocystis found refute."},{"id":"h003","label":"Invasive fungal pneumonia","confidence":0.1,"why":"node-3 oral thrush; node-5 fluconazole; but node-6 fungal cultures negative and BAL Pneumocystis, only oral Candida, refute candidal pneumonia."},{"id":"h004","label":"Interstitial lung disease","confidence":0.05,"why":"node-4 ground glass/hypoxia could suggest ILD; node-2 no systemic symptoms; but node-6 BAL confirms Pneumocystis, refuting non-infectious ILD."}],"edges":[{"src":"node-2","dst":"h002","relation":"support"},{"src":"node-3","dst":"h001","relation":"support"},{"src":"node-3","dst":"h002","relation":"support"},{"src":"node-3","dst":"h003","relation":"support"},{"src":"node-4","dst":"h001","relation":"support"},{"src":"node-4","dst":"h002","relation":"support"},{"src":"node-4","dst":"h003","relation":"support"},{"src":"node-4","dst":"h004","relation":"support"},{"src":"node-5","dst":"h001","relation":"support"},{"src":"node-5","dst":"h002","relation":"support"},{"src":"node-5","dst":"h003","relation":"support"},{"src":"node-6","dst":"h001","relation":"support"},{"src":"node-6","dst":"h002","relation":"refute"},{"src":"node-6","dst":"h003","relation":"refute"},{"src":"node-6","dst":"h004","relation":"refute"}]}
+=== Nodes ===
+[node-1] Signal[-] | Patient had shortness of breath for 1 month, which worsened… | score=1.000
+[node-2] Evidence[-] | Patient was a 32-year-old adequately nourished male, worked… | score=1.000
+[node-3] Evidence[-] | On examination, he was tachypneic, tachycardic, and had a m… | score=1.000
+[node-4] Evidence[-] | Chest X-ray showed scattered inspiratory crackles; chest ro… | score=1.000
+[node-5] Evidence[-] | High flow oxygen was initiated and he was transferred to th… | score=1.000
+[node-6] Evidence[-] | Bronchoalveolar lavage revealed Pneumocystis organisms; aci… | score=1.000
+[node-7] Hypothesis[1] | Pneumocystis pneumonia | score=0.950 | attrs={"why": "node-6 BAL confirmed Pneumocystis; node-4 perihilar ground glass, hypo…
+[node-8] Hypothesis[1] | Bacterial pneumonia | score=0.150 | attrs={"why": "node-2 well-nourished; node-3 fever/tachypnea; node-4 infiltrates/hypo…
+[node-9] Hypothesis[1] | Invasive fungal pneumonia | score=0.100 | attrs={"why": "node-3 oral thrush; node-5 fluconazole; but node-6 fungal cultures neg…
+[node-1] Hypothesis[1] | Interstitial lung disease | score=0.050 | attrs={"why": "node-4 ground glass/hypoxia could suggest ILD; node-2 no systemic symp…
+=== Edges ===
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-7[Pneumocystis pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-8[Bacterial pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-9[Invasive fungal pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Interstitial lung disease] | refines | conf=0.000
+node-2[Patient was a 32-year-old adequately nourished male, worked…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-1[Interstitial lung disease] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-8[Bacterial pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-9[Invasive fungal pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-1[Interstitial lung disease] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1767 | Output token nums：458 | price(CNY)：0.00000000
+Response: {"belief": "The patient presented with one month of worsening shortness of breath, and examination showed tachypnea, tachycardia, fever, oral thrush, and SpO2 87%. Chest imaging and labs revealed bilateral perihilar ground-glass opacities, hypoxia, and elevated LDH. Bronchoalveolar lavage confirmed Pneumocystis organisms, while bacterial and fungal cultures and HIV testing were negative. This evidence strongly supports Pneumocystis pneumonia as the leading hypothesis. Bacterial pneumonia, invasive fungal pneumonia, and interstitial lung disease are much less likely, as BAL findings and negative cultures refute them. Treatment with TMP-SMX, steroids, and ICU support is consistent with this diagnosis."}
+{'node_id': 'node-7', 'label': 'Pneumocystis pneumonia', 'why': 'node-6 BAL confirmed Pneumocystis; node-4 perihilar ground glass, hypoxia, LDH 916; node-3 oral thrush; node-5 TMP-SMX started.', 'score': 0.95, 'level': 1, 'supports': 4, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1353 | Output token nums：457 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Pathologist", "planning_intent": "interpret_existing_evidence"},
+  {"expert_name": "Radiologist", "planning_intent": "interpret_existing_evidence"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1164 | Output token nums：770 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "analyze"}
+Step 1 parsed result: type=1, decision=analyze
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1323 | Output token nums：1489 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's detailed immunosuppression history (CD4 count, corticosteroid or chemotherapy exposure, transplant, malignancy, autoimmune disease) and serum beta-D-glucan result, because HIV-negative Pneumocystis pneumonia requires an underlying immune defect; these are core to confirming the frontier hypothesis and ruling out alternative causes. No prior retrieval exists."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1164 | Output token nums：1579 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "analyze"}
+Step 2 parsed result: type=1, decision=analyze
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1323 | Output token nums：3063 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need CD4 count, HIV RNA, immunosuppressant/corticosteroid exposure, transplant/malignancy history, and Pneumocystis PCR/beta-D-glucan to verify PCP. BAL organisms and negative cultures support it, but host immune status and confirmatory markers remain missing, critical to confirm susceptibility and exclude alternatives."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1180 | Output token nums：76 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1339 | Output token nums：941 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"BAL confirmed Pneumocystis, with perihilar ground-glass opacities, hypoxia, LDH 916, oral thrush, fever, SpO2 87% supports Pneumocystis pneumonia as leading diagnosis. Negative bacterial/fungal cultures and HIV testing do not exclude non-HIV PCP; bacterial, fungal, interstitial disease less likely. TMP-SMX, steroids, ICU support are appropriate. All key information is covered."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1058 | Output token nums：1163 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "analyze"}
+Step 1 parsed result: type=1, decision=analyze
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1217 | Output token nums：3278 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's CD4 count, HIV viral load, and detailed immunosuppressive medication history (critical to confirm non-HIV Pneumocystis pneumonia and exclude false-negative HIV or other immunodeficiency)."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1058 | Output token nums：2271 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "analyze"}
+Step 2 parsed result: type=1, decision=analyze
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1217 | Output token nums：1806 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's CD4 count, HIV viral load, detailed immunosuppression history (corticosteroid use, transplant, malignancy, autoimmune disease), and prior chest HRCT report. These are critical to confirm the immune status underlying Pneumocystis pneumonia and exclude coexisting opportunistic infections, since HIV testing alone is negative and BAL already confirms Pneumocystis."}
+Failed Parsing: Content stage result inconsistent with decision stage: expected (type=1, decision=analyze), got (type=1, decision=retrieve)
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1074 | Output token nums：61 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1233 | Output token nums：2867 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Worsening dyspnea, tachypnea, fever, oral thrush, SpO2 87%, bilateral perihilar ground-glass opacities, hypoxia, and high LDH suggest Pneumocystis pneumonia. BAL confirmed Pneumocystis; bacterial/fungal cultures and HIV tests were negative. TMP-SMX and steroids were started. This supports the leading hypothesis and rules out bacterial and invasive fungal pneumonia. All key data covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3911 | Output token nums：3546 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-7",
+      "confidence": 0.96,
+      "why": "Bronchoalveolar lavage confirmed Pneumocystis organisms, together with perihilar ground-glass opacities, hypoxia (PO2 47 mmHg), elevated LDH (916 U/L) and oral thrush. Both expert analyses (pathologist and radiologist) independently endorse Pneumocystis pneumonia as the leading diagnosis and emphasize that negative bacterial/fungal cultures and negative HIV testing do not exclude it. Confidence raised from 0.95 to 0.96."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.12,
+      "why": "Fever, tachypnea and perihilar infiltrates could suggest bacterial pneumonia, but BAL cultures were negative and Pneumocystis organisms were identified; both experts consider bacterial pneumonia much less likely. Confidence lowered from 0.15 to 0.12."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.08,
+      "why": "Oral thrush and empirical fluconazole raised concern for fungal infection, but fungal cultures were negative with only oral Candida albicans isolated, and BAL confirmed Pneumocystis; experts regard invasive fungal pneumonia as unlikely. Confidence lowered from 0.1 to 0.08."
+    },
+    {
+      "node_id": "node-10",
+      "confidence": 0.05,
+      "why": "Ground-glass opacities and hypoxia could suggest interstitial lung disease, but BAL-confirmed Pneumocystis and the overall infectious picture make non-infectious ILD unlikely; both experts concur it is effectively ruled out. Confidence remains low at 0.05."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev002",
+      "label": "Patient was well-nourished (BMI 25.3) with no immunosuppressive risk factors, and HIV ELISA, Western blot and HIV-RNA PCR were all negative, indicating a non-immunocompromised host",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h002",
+      "label": "Non-HIV (immunocompetent host) Pneumocystis pneumonia",
+      "node_type": "Hypothesis",
+      "confidence": 0.85,
+      "why": "BAL-confirmed Pneumocystis organisms in a well-nourished 32-year-old with no immunosuppressive risk factors and negative HIV testing indicate a non-HIV (immunocompetent host) form of Pneumocystis pneumonia. The pathologist explicitly notes that negative HIV testing does not exclude non-HIV PCP. Confidence 0.85, limited by the absence of CD4 count and lack of a defined immunodeficiency workup."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev002",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-6",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "h002",
+      "dst": "node-7",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-7', 'label': 'Pneumocystis pneumonia', 'why': 'Bronchoalveolar lavage confirmed Pneumocystis organisms, together with perihilar ground-glass opacities, hypoxia (PO2 47 mmHg), elevated LDH (916 U/L) and oral thrush. Both expert analyses (pathologist and radiologist) independently endorse Pneumocystis pneumonia as the leading diagnosis and emphasize that negative bacterial/fungal cultures and negative HIV testing do not exclude it. Confidence raised from 0.95 to 0.96.', 'score': 0.96, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient had shortness of breath for 1 month, which worsened… | score=1.000
+[node-2] Evidence[-] | Patient was a 32-year-old adequately nourished male, worked… | score=1.000
+[node-3] Evidence[-] | On examination, he was tachypneic, tachycardic, and had a m… | score=1.000
+[node-4] Evidence[-] | Chest X-ray showed scattered inspiratory crackles; chest ro… | score=1.000
+[node-5] Evidence[-] | High flow oxygen was initiated and he was transferred to th… | score=1.000
+[node-6] Evidence[-] | Bronchoalveolar lavage revealed Pneumocystis organisms; aci… | score=1.000
+[node-7] Hypothesis[1] | Pneumocystis pneumonia | score=0.960 | attrs={"why": "Bronchoalveolar lavage confirmed Pneumocystis organisms, together with…
+[node-8] Hypothesis[1] | Bacterial pneumonia | score=0.120 | attrs={"why": "Fever, tachypnea and perihilar infiltrates could suggest bacterial pne…
+[node-9] Hypothesis[1] | Invasive fungal pneumonia | score=0.080 | attrs={"why": "Oral thrush and empirical fluconazole raised concern for fungal infect…
+[node-1] Hypothesis[1] | Interstitial lung disease | score=0.050 | attrs={"why": "Ground-glass opacities and hypoxia could suggest interstitial lung dis…
+[node-1] Evidence[-] | Patient was well-nourished (BMI 25.3) with no immunosuppres… | score=1.000
+[node-1] Hypothesis[1] | Non-HIV (immunocompetent host) Pneumocystis pneumonia | score=0.850 | attrs={"why": "BAL-confirmed Pneumocystis organisms in a well-nourished 32-year-old w…
+=== Edges ===
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-7[Pneumocystis pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-8[Bacterial pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-9[Invasive fungal pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Interstitial lung disease] | refines | conf=0.000
+node-2[Patient was a 32-year-old adequately nourished male, worked…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-1[Interstitial lung disease] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-8[Bacterial pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-9[Invasive fungal pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-1[Interstitial lung disease] | refute | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | refines | conf=0.000
+node-1[Patient was well-nourished (BMI 25.3) with no immunosuppres…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2265 | Output token nums：695 | price(CNY)：0.00000000
+Response: {"belief": "The consensus is that the patient has Pneumocystis pneumonia (PCP), confidence 0.96, specifically non-HIV/immunocompetent-host PCP (0.85). The core signal—progressive dyspnea—is refined by evidence of tachypnea, tachycardia, fever, oral thrush, hypoxia (SpO2 87%, PO2 47 mmHg), bilateral perihilar ground-glass opacities, and elevated LDH (916 U/L). Bronchoalveolar lavage confirming Pneumocystis organisms strongly supports PCP and, with negative HIV ELISA/Western blot/RNA PCR and no immunosuppressive risk factors, supports the non-HIV form. Negative bacterial/fungal cultures and Pneumocystis identification refute bacterial pneumonia (0.12), invasive fungal pneumonia (0.08), and interstitial lung disease (0.05) as alternative explanations. Overall, PCP is the leading diagnosis."}
+{'node_id': 'node-7', 'label': 'Pneumocystis pneumonia', 'why': 'Bronchoalveolar lavage confirmed Pneumocystis organisms, together with perihilar ground-glass opacities, hypoxia (PO2 47 mmHg), elevated LDH (916 U/L) and oral thrush. Both expert analyses (pathologist and radiologist) independently endorse Pneumocystis pneumonia as the leading diagnosis and emphasize that negative bacterial/fungal cultures and negative HIV testing do not exclude it. Confidence raised from 0.95 to 0.96.', 'score': 0.96, 'level': 1, 'supports': 5, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1407 | Output token nums：2043 | price(CNY)：0.00000000
+Response: [
+  {
+    "expert_name": "Laboratory_Physician",
+    "planning_intent": "interpret_existing_evidence"
+  }
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1224 | Output token nums：2039 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1437 | Output token nums：1830 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need serum beta-D-glucan, CD4/CD8 counts, BAL viral/mycobacterial PCR, and detailed corticosteroid/immunosuppressant exposure history (core to confirm non-HIV PCP, exclude co-infections, and assess host immunity)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：456 | Output token nums：344 | price(CNY)：0.00000000
+Step 1 Observations: The CD4 turned out to be 110/mm3 and the CD4% was 14.3. The CD8 counts were 312/mm3 with a CD4:CD8 ratio, inverted (0.35; normal: 1.4–1.7). This test was repeated after 6 weeks and the results were the same..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1352 | Output token nums：155 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1565 | Output token nums：1377 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need serum beta-D-glucan, BAL viral/mycobacterial PCR results, and detailed corticosteroid/immunosuppressant exposure history (CD4 110/mm3 and inverted CD4:CD8 ratio indicate significant immunodeficiency; these missing tests are critical to confirm PCP, exclude co-infections, and determine whether the non-HIV PCP is truly immunocompetent-host or secondary to another immunosuppressive condition)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：489 | Output token nums：623 | price(CNY)：0.00000000
+Step 2 Observations: The CD4 turned out to be 110/mm3 and the CD4% was 14.3. The CD8 counts were 312/mm3 with a CD4:CD8 ratio, inverted (0.35; normal: 1.4–1.7). This test was repeated after 6 weeks and the results were the same..
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1531 | Output token nums：67 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1744 | Output token nums：5033 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"PCP remains leading (0.96): BAL Pneumocystis, perihilar ground-glass opacities, PO2 47, LDH 916, oral thrush. Negative HIV and bacterial/fungal cultures support non-HIV PCP; CD4 110 with inverted CD4:CD8 (0.35) indicates immunodeficiency, not immunocompetent host. Beta-D-glucan, BAL viral/mycobacterial PCR, steroid history unavailable at max retrieval; final analysis. All key information covered."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4320 | Output token nums：2193 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-12",
+      "confidence": 0.3,
+      "why": "BAL-confirmed Pneumocystis in a non-HIV patient with negative HIV testing still supports a non-HIV form of Pneumocystis pneumonia. However, the new laboratory expert analysis reports a CD4 count of 110 cells/µL with an inverted CD4:CD8 ratio of 0.35, which indicates genuine immunodeficiency rather than an immunocompetent host. This directly contradicts the 'immunocompetent host' characterization, so confidence in this specific label is lowered from 0.85 to 0.30."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Laboratory testing shows a CD4 count of 110 cells/µL with an inverted CD4:CD8 ratio of 0.35",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h001",
+      "label": "Pneumocystis pneumonia occurring in a non-HIV immunocompromised host with CD4 lymphocytopenia",
+      "node_type": "Hypothesis",
+      "confidence": 0.75,
+      "why": "BAL-confirmed Pneumocystis organisms with negative HIV ELISA/Western blot/RNA PCR establish a non-HIV Pneumocystis pneumonia, while the newly reported CD4 count of 110 cells/µL and inverted CD4:CD8 ratio of 0.35 demonstrate a real immunodeficiency rather than an immunocompetent host. This fits a non-HIV immunocompromised-host PCP better than the immunocompetent-host description. Confidence is 0.75 because the precise underlying cause of the CD4 lymphocytopenia is not yet defined."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-12",
+      "relation": "refute"
+    },
+    {
+      "src": "ev001",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "h001",
+      "dst": "node-7",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-7', 'label': 'Pneumocystis pneumonia', 'why': 'Bronchoalveolar lavage confirmed Pneumocystis organisms, together with perihilar ground-glass opacities, hypoxia (PO2 47 mmHg), elevated LDH (916 U/L) and oral thrush. Both expert analyses (pathologist and radiologist) independently endorse Pneumocystis pneumonia as the leading diagnosis and emphasize that negative bacterial/fungal cultures and negative HIV testing do not exclude it. Confidence raised from 0.95 to 0.96.', 'score': 0.96, 'level': 1, 'supports': 6, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | Patient had shortness of breath for 1 month, which worsened… | score=1.000
+[node-2] Evidence[-] | Patient was a 32-year-old adequately nourished male, worked… | score=1.000
+[node-3] Evidence[-] | On examination, he was tachypneic, tachycardic, and had a m… | score=1.000
+[node-4] Evidence[-] | Chest X-ray showed scattered inspiratory crackles; chest ro… | score=1.000
+[node-5] Evidence[-] | High flow oxygen was initiated and he was transferred to th… | score=1.000
+[node-6] Evidence[-] | Bronchoalveolar lavage revealed Pneumocystis organisms; aci… | score=1.000
+[node-7] Hypothesis[1] | Pneumocystis pneumonia | score=0.960 | attrs={"why": "Bronchoalveolar lavage confirmed Pneumocystis organisms, together with…
+[node-8] Hypothesis[1] | Bacterial pneumonia | score=0.120 | attrs={"why": "Fever, tachypnea and perihilar infiltrates could suggest bacterial pne…
+[node-9] Hypothesis[1] | Invasive fungal pneumonia | score=0.080 | attrs={"why": "Oral thrush and empirical fluconazole raised concern for fungal infect…
+[node-1] Hypothesis[1] | Interstitial lung disease | score=0.050 | attrs={"why": "Ground-glass opacities and hypoxia could suggest interstitial lung dis…
+[node-1] Evidence[-] | Patient was well-nourished (BMI 25.3) with no immunosuppres… | score=1.000
+[node-1] Hypothesis[1] | Non-HIV (immunocompetent host) Pneumocystis pneumonia | score=0.300 | attrs={"why": "BAL-confirmed Pneumocystis in a non-HIV patient with negative HIV test…
+[node-1] Evidence[-] | Laboratory testing shows a CD4 count of 110 cells/µL with a… | score=1.000
+[node-1] Hypothesis[1] | Pneumocystis pneumonia occurring in a non-HIV immunocomprom… | score=0.750 | attrs={"why": "BAL-confirmed Pneumocystis organisms with negative HIV ELISA/Western b…
+=== Edges ===
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-7[Pneumocystis pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-8[Bacterial pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-9[Invasive fungal pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Interstitial lung disease] | refines | conf=0.000
+node-2[Patient was a 32-year-old adequately nourished male, worked…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-1[Interstitial lung disease] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-8[Bacterial pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-9[Invasive fungal pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-1[Interstitial lung disease] | refute | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | refines | conf=0.000
+node-1[Patient was well-nourished (BMI 25.3) with no immunosuppres…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Pneumocystis pneumonia occurring in a non-HIV immunocomprom…] | refines | conf=0.000
+node-1[Laboratory testing shows a CD4 count of 110 cells/µL with a…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | refute | conf=0.000
+node-1[Laboratory testing shows a CD4 count of 110 cells/µL with a…] -> node-1[Pneumocystis pneumonia occurring in a non-HIV immunocomprom…] | support | conf=0.000
+node-1[Pneumocystis pneumonia occurring in a non-HIV immunocomprom…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2674 | Output token nums：911 | price(CNY)：0.00000000
+Response: {"belief": "The patient's one-month worsening dyspnea, tachypnea, hypoxia (SpO2 87%, PO2 47 mmHg), oral thrush, elevated LDH, and bilateral perihilar ground-glass opacities support a leading diagnosis of Pneumocystis pneumonia (0.96). Bronchoalveolar lavage confirming Pneumocystis organisms, with negative bacterial and fungal cultures, refutes bacterial pneumonia, invasive fungal pneumonia, and interstitial lung disease. Although HIV tests are negative, a CD4 count of 110 cells/µL with inverted CD4:CD8 ratio 0.35 refutes an immunocompetent-host label and supports Pneumocystis pneumonia in a non-HIV immunocompromised host with CD4 lymphocytopenia (0.75). The main uncertainty is the underlying cause of the CD4 lymphocytopenia."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4802 | Output token nums：1977 | price(CNY)：0.00000000
+Response: {
+  "type": 2,
+  "candidates": [
+    {
+      "id": "h015",
+      "label": "Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause",
+      "confidence": 0.5,
+      "why": "Current frontier (node-14, 'Pneumocystis pneumonia in a non-HIV immunocompromised host with CD4 lymphocytopenia') identifies the immunodeficiency but not its cause; the belief states 'the main uncertainty is the underlying cause of the CD4 lymphocytopenia.' Node-3 and node-11 document no apparent immunosuppressive risk factors, no drugs, and negative HIV testing, and node-13 shows CD4 110 cells/µL with inverted CD4:CD8 0.35 — the classic profile of ICL, a diagnosis of exclusion and the most common recognized cause of non-HIV PCP."
+    },
+    {
+      "id": "h016",
+      "label": "CD4 lymphocytopenia secondary to hematologic malignancy (e.g., lymphoma)",
+      "confidence": 0.2,
+      "why": "Refines node-14 by attributing the low CD4 count (node-13) to an underlying lymphoproliferative disorder. Lymphoma can directly deplete CD4 T-cells and predispose to PCP in a non-HIV host. Elevated LDH (916 U/L, node-4) is a non-specific but supportive clue; however, there is no lymphadenopathy, B-symptoms, or abnormal routine blood work in node-2/node-4, so this remains an important but unconfirmed alternative."
+    },
+    {
+      "id": "h017",
+      "label": "CD4 lymphocytopenia secondary to drug or medication exposure",
+      "confidence": 0.1,
+      "why": "Refines node-14 by proposing exogenous/iatrogenic CD4 depletion. Certain immunosuppressants, chemotherapy, or other agents can reduce CD4 counts and permit PCP. Node-11 explicitly records 'no apparent immunosuppressive risk factors,' which argues against this, hence low confidence, but the history cannot be fully excluded and warrants verification."
+    },
+    {
+      "id": "h018",
+      "label": "CD4 lymphocytopenia secondary to an autoimmune or systemic disease",
+      "confidence": 0.1,
+      "why": "Refines node-14 by linking CD4 lymphocytopenia (node-13) to an underlying autoimmune/systemic disorder, a recognized secondary cause of low CD4 counts. Node-2 states the patient had 'no other accompanying symptoms,' and no autoantibody or systemic findings are recorded, so supporting evidence is absent and confidence is low."
+    },
+    {
+      "id": "h019",
+      "label": "CD4 lymphocytopenia secondary to chronic viral infection (e.g., HTLV-1)",
+      "confidence": 0.1,
+      "why": "Refines node-14 by considering a chronic retroviral/viral cause of CD4 depletion distinct from HIV, which was negative (node-6). HTLV-1 and similar agents can lower CD4 counts in non-HIV hosts, but no serology for these agents is present in the graph; node-6 only excludes HIV, so this remains an unverified, lower-probability hypothesis."
+    }
+  ]
+}
+{'node_id': 'node-15', 'label': 'Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause', 'why': "Current frontier (node-14, 'Pneumocystis pneumonia in a non-HIV immunocompromised host with CD4 lymphocytopenia') identifies the immunodeficiency but not its cause; the belief states 'the main uncertainty is the underlying cause of the CD4 lymphocytopenia.' Node-3 and node-11 document no apparent immunosuppressive risk factors, no drugs, and negative HIV testing, and node-13 shows CD4 110 cells/µL with inverted CD4:CD8 0.35 — the classic profile of ICL, a diagnosis of exclusion and the most common recognized cause of non-HIV PCP.", 'score': 0.5, 'level': 2, 'supports': 0, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1448 | Output token nums：3058 | price(CNY)：0.00000000
+Response: [
+  {
+    "expert_name": "Laboratory_Physician",
+    "planning_intent": "interpret_existing_evidence"
+  }
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1498 | Output token nums：265 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1752 | Output token nums：998 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need comprehensive exclusion workup for idiopathic CD4 lymphocytopenia: HIV-1/2 serology and RNA, HTLV-1/2, immunoglobulin levels, autoimmune serologies, lymphocyte subset immunophenotype, and documentation ruling out malignancy/lymphoma, thymoma, splenectomy, congenital immunodeficiency, and any immunosuppressive drug exposure. These are core to confirm ICL versus secondary CD4 lymphocytopenia and guide prophylaxis."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：487 | Output token nums：1020 | price(CNY)：0.00000000
+Step 1 Observations: The CD4 turned out to be 110/mm3 and the CD4% was 14.3. The CD8 counts were 312/mm3 with a CD4:CD8 ratio, inverted (0.35; normal: 1.4–1.7). This test was repeated after 6 weeks and the results were the same..
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1659 | Output token nums：229 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1913 | Output token nums：3578 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the results of previously requested HIV-1/2 RNA, HTLV-1/2 serology, immunoglobulin levels, autoimmune serologies, and exclusion documentation for lymphoma, thymoma, splenectomy, congenital immunodeficiency, and immunosuppressive drug exposure (still missing; core to confirm ICL and rule out secondary CD4 lymphocytopenia)."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：470 | Output token nums：696 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1747 | Output token nums：79 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2001 | Output token nums：4392 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"PCP is confirmed by BAL Pneumocystis and negative bacterial/fungal cultures in a non-HIV host. Repeated CD4 110/µL with inverted CD4:CD8 0.35 and no HIV/drug risk factors suggest idiopathic CD4 lymphocytopenia (ICL). ICL remains leading but unconfirmed, as exclusion labs (HIV RNA, HTLV, immunoglobulins, autoimmune/malignancy workup) are missing. Retrieved evidence covered; exclusions needed."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：5505 | Output token nums：10652 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-7",
+      "confidence": 0.98,
+      "why": "The laboratory expert confirms Pneumocystis pneumonia by BAL showing Pneumocystis organisms with negative bacterial and fungal cultures in a non-HIV host. This corroborates the existing clinical, radiographic, and bronchoscopic evidence, so confidence is slightly raised from 0.96 to 0.98."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.05,
+      "why": "The laboratory expert confirms negative bacterial cultures and BAL-confirmed Pneumocystis, further arguing against bacterial pneumonia. With the already low prior probability, confidence is lowered from 0.12 to 0.05."
+    },
+    {
+      "node_id": "node-9",
+      "confidence": 0.04,
+      "why": "The laboratory expert confirms negative fungal cultures and BAL-confirmed Pneumocystis, with only oral Candida albicans isolated; invasive fungal pneumonia is therefore very unlikely. Confidence is lowered from 0.08 to 0.04."
+    },
+    {
+      "node_id": "node-12",
+      "confidence": 0.1,
+      "why": "The laboratory expert reports repeated CD4 110 cells/µL with inverted CD4:CD8 ratio 0.35 and no HIV/drug risk factors, indicating genuine immunodeficiency rather than an immunocompetent host. This directly contradicts the immunocompetent-host label, so confidence is lowered from 0.30 to 0.10."
+    },
+    {
+      "node_id": "node-14",
+      "confidence": 0.9,
+      "why": "The laboratory expert confirms PCP by BAL in a non-HIV host and emphasizes repeated CD4 110 cells/µL with inverted CD4:CD8 0.35, establishing a non-HIV immunocompromised host with CD4 lymphocytopenia. The underlying cause remains a separate issue, so confidence is raised from 0.75 to 0.90."
+    },
+    {
+      "node_id": "node-15",
+      "confidence": 0.6,
+      "why": "The laboratory expert states idiopathic CD4 lymphocytopenia remains the leading but unconfirmed cause, supported by repeated CD4 110 cells/µL, inverted CD4:CD8 0.35, and no HIV/drug risk factors. However, exclusion labs are missing, so confidence is raised only from 0.50 to 0.60."
+    },
+    {
+      "node_id": "node-16",
+      "confidence": 0.2,
+      "why": "The laboratory expert notes malignancy workup is missing, so hematologic malignancy is not excluded as a secondary cause of CD4 lymphocytopenia. However, there remains no lymphadenopathy, B symptoms, or abnormal routine blood work, so confidence remains 0.20."
+    },
+    {
+      "node_id": "node-17",
+      "confidence": 0.05,
+      "why": "The laboratory expert specifically reports no drug risk factors, which argues strongly against drug- or medication-induced CD4 lymphocytopenia. Confidence is lowered from 0.10 to 0.05."
+    },
+    {
+      "node_id": "node-18",
+      "confidence": 0.1,
+      "why": "The laboratory expert notes autoimmune workup is missing, so an autoimmune/systemic cause is not formally excluded. No systemic symptoms or serologic findings support it, so confidence remains 0.10."
+    },
+    {
+      "node_id": "node-19",
+      "confidence": 0.15,
+      "why": "The laboratory expert notes HTLV serology is missing, so a chronic non-HIV viral cause remains unexcluded. No positive viral evidence exists, so confidence is only slightly raised from 0.10 to 0.15."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Laboratory expert reports CD4 count was repeated and remained 110 cells/µL with inverted CD4:CD8 ratio 0.35",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Laboratory expert reports no HIV or drug risk factors",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "Exclusion tests for secondary causes of CD4 lymphocytopenia (HIV RNA, HTLV, immunoglobulins, autoimmune and malignancy workup) are missing",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev004",
+      "label": "Laboratory expert states idiopathic CD4 lymphocytopenia remains the leading but unconfirmed cause of the CD4 lymphocytopenia",
+      "node_type": "Evidence"
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-14",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-15",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-15",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-17",
+      "relation": "refute"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-15",
+      "relation": "refute"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-16",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-18",
+      "relation": "support"
+    },
+    {
+      "src": "ev003",
+      "dst": "node-19",
+      "relation": "support"
+    },
+    {
+      "src": "ev004",
+      "dst": "node-15",
+      "relation": "support"
+    }
+  ]
+}
+{'node_id': 'node-15', 'label': 'Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause', 'why': 'The laboratory expert states idiopathic CD4 lymphocytopenia remains the leading but unconfirmed cause, supported by repeated CD4 110 cells/µL, inverted CD4:CD8 0.35, and no HIV/drug risk factors. However, exclusion labs are missing, so confidence is raised only from 0.50 to 0.60.', 'score': 0.6, 'level': 2, 'supports': 3, 'refutes': 1}
+=== Nodes ===
+[node-1] Signal[-] | Patient had shortness of breath for 1 month, which worsened… | score=1.000
+[node-2] Evidence[-] | Patient was a 32-year-old adequately nourished male, worked… | score=1.000
+[node-3] Evidence[-] | On examination, he was tachypneic, tachycardic, and had a m… | score=1.000
+[node-4] Evidence[-] | Chest X-ray showed scattered inspiratory crackles; chest ro… | score=1.000
+[node-5] Evidence[-] | High flow oxygen was initiated and he was transferred to th… | score=1.000
+[node-6] Evidence[-] | Bronchoalveolar lavage revealed Pneumocystis organisms; aci… | score=1.000
+[node-7] Hypothesis[1] | Pneumocystis pneumonia | score=0.980 | attrs={"why": "The laboratory expert confirms Pneumocystis pneumonia by BAL showing P…
+[node-8] Hypothesis[1] | Bacterial pneumonia | score=0.050 | attrs={"why": "The laboratory expert confirms negative bacterial cultures and BAL-con…
+[node-9] Hypothesis[1] | Invasive fungal pneumonia | score=0.040 | attrs={"why": "The laboratory expert confirms negative fungal cultures and BAL-confir…
+[node-1] Hypothesis[1] | Interstitial lung disease | score=0.050 | attrs={"why": "Ground-glass opacities and hypoxia could suggest interstitial lung dis…
+[node-1] Evidence[-] | Patient was well-nourished (BMI 25.3) with no immunosuppres… | score=1.000
+[node-1] Hypothesis[1] | Non-HIV (immunocompetent host) Pneumocystis pneumonia | score=0.100 | attrs={"why": "The laboratory expert reports repeated CD4 110 cells/µL with inverted …
+[node-1] Evidence[-] | Laboratory testing shows a CD4 count of 110 cells/µL with a… | score=1.000
+[node-1] Hypothesis[1] | Pneumocystis pneumonia occurring in a non-HIV immunocomprom… | score=0.900 | attrs={"why": "The laboratory expert confirms PCP by BAL in a non-HIV host and emphas…
+[node-1] Hypothesis[2] | Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause | score=0.600 | attrs={"why": "The laboratory expert states idiopathic CD4 lymphocytopenia remains th…
+[node-1] Hypothesis[2] | CD4 lymphocytopenia secondary to hematologic malignancy (e.… | score=0.200 | attrs={"why": "The laboratory expert notes malignancy workup is missing, so hematolog…
+[node-1] Hypothesis[2] | CD4 lymphocytopenia secondary to drug or medication exposure | score=0.050 | attrs={"why": "The laboratory expert specifically reports no drug risk factors, which…
+[node-1] Hypothesis[2] | CD4 lymphocytopenia secondary to an autoimmune or systemic … | score=0.100 | attrs={"why": "The laboratory expert notes autoimmune workup is missing, so an autoim…
+[node-1] Hypothesis[2] | CD4 lymphocytopenia secondary to chronic viral infection (e… | score=0.150 | attrs={"why": "The laboratory expert notes HTLV serology is missing, so a chronic non…
+[node-2] Evidence[-] | Laboratory expert reports CD4 count was repeated and remain… | score=1.000
+[node-2] Evidence[-] | Laboratory expert reports no HIV or drug risk factors | score=1.000
+[node-2] Evidence[-] | Exclusion tests for secondary causes of CD4 lymphocytopenia… | score=1.000
+[node-2] Evidence[-] | Laboratory expert states idiopathic CD4 lymphocytopenia rem… | score=1.000
+=== Edges ===
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-7[Pneumocystis pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-8[Bacterial pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-9[Invasive fungal pneumonia] | refines | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Interstitial lung disease] | refines | conf=0.000
+node-2[Patient was a 32-year-old adequately nourished male, worked…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-3[On examination, he was tachypneic, tachycardic, and had a m…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-1[Interstitial lung disease] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-8[Bacterial pneumonia] | support | conf=0.000
+node-5[High flow oxygen was initiated and he was transferred to th…] -> node-9[Invasive fungal pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-8[Bacterial pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-9[Invasive fungal pneumonia] | refute | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-1[Interstitial lung disease] | refute | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | refines | conf=0.000
+node-1[Patient was well-nourished (BMI 25.3) with no immunosuppres…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-6[Bronchoalveolar lavage revealed Pneumocystis organisms; aci…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-4[Chest X-ray showed scattered inspiratory crackles; chest ro…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | support | conf=0.000
+node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-1[Patient had shortness of breath for 1 month, which worsened…] -> node-1[Pneumocystis pneumonia occurring in a non-HIV immunocomprom…] | refines | conf=0.000
+node-1[Laboratory testing shows a CD4 count of 110 cells/µL with a…] -> node-1[Non-HIV (immunocompetent host) Pneumocystis pneumonia] | refute | conf=0.000
+node-1[Laboratory testing shows a CD4 count of 110 cells/µL with a…] -> node-1[Pneumocystis pneumonia occurring in a non-HIV immunocomprom…] | support | conf=0.000
+node-1[Pneumocystis pneumonia occurring in a non-HIV immunocomprom…] -> node-7[Pneumocystis pneumonia] | support | conf=0.000
+node-7[Pneumocystis pneumonia] -> node-1[Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause] | refines | conf=0.000
+node-7[Pneumocystis pneumonia] -> node-1[CD4 lymphocytopenia secondary to hematologic malignancy (e.…] | refines | conf=0.000
+node-7[Pneumocystis pneumonia] -> node-1[CD4 lymphocytopenia secondary to drug or medication exposure] | refines | conf=0.000
+node-7[Pneumocystis pneumonia] -> node-1[CD4 lymphocytopenia secondary to an autoimmune or systemic …] | refines | conf=0.000
+node-7[Pneumocystis pneumonia] -> node-1[CD4 lymphocytopenia secondary to chronic viral infection (e…] | refines | conf=0.000
+node-2[Laboratory expert reports CD4 count was repeated and remain…] -> node-1[Pneumocystis pneumonia occurring in a non-HIV immunocomprom…] | support | conf=0.000
+node-2[Laboratory expert reports CD4 count was repeated and remain…] -> node-1[Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause] | support | conf=0.000
+node-2[Laboratory expert reports no HIV or drug risk factors] -> node-1[Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause] | support | conf=0.000
+node-2[Laboratory expert reports no HIV or drug risk factors] -> node-1[CD4 lymphocytopenia secondary to drug or medication exposure] | refute | conf=0.000
+node-2[Exclusion tests for secondary causes of CD4 lymphocytopenia…] -> node-1[Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause] | refute | conf=0.000
+node-2[Exclusion tests for secondary causes of CD4 lymphocytopenia…] -> node-1[CD4 lymphocytopenia secondary to hematologic malignancy (e.…] | support | conf=0.000
+node-2[Exclusion tests for secondary causes of CD4 lymphocytopenia…] -> node-1[CD4 lymphocytopenia secondary to an autoimmune or systemic …] | support | conf=0.000
+node-2[Exclusion tests for secondary causes of CD4 lymphocytopenia…] -> node-1[CD4 lymphocytopenia secondary to chronic viral infection (e…] | support | conf=0.000
+node-2[Laboratory expert states idiopathic CD4 lymphocytopenia rem…] -> node-1[Idiopathic CD4 lymphocytopenia (ICL) as the underlying cause] | support | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3829 | Output token nums：1145 | price(CNY)：0.00000000
+Response: {"belief": "The patient’s progressive dyspnea, hypoxia, bilateral perihilar ground-glass infiltrates, and elevated LDH raised concern for Pneumocystis pneumonia. Bronchoalveolar lavage confirming Pneumocystis organisms, with negative bacterial and fungal cultures, makes PCP the leading diagnosis (0.98) and effectively rules out bacterial pneumonia, invasive fungal pneumonia, and interstitial lung disease. Negative HIV testing plus CD4 count 110 cells/µL and inverted CD4:CD8 ratio 0.35 indicate PCP in a non-HIV immunocompromised host, not an immunocompetent host. The underlying cause is most likely idiopathic CD4 lymphocytopenia (0.60), though it remains unconfirmed because exclusion tests for lymphoma, autoimmune disease, HTLV, and other secondary causes are missing; these alternate etiologies remain less probable."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：5753 | Output token nums：5116 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "PCP due to ICL",
+  "report": "Progressive dyspnea, hypoxia, perihilar ground-glass opacities and LDH 916 U/L suggested Pneumocystis pneumonia; BAL confirmed Pneumocystis organisms with negative bacterial/fungal cultures, establishing PCP (0.98) and excluding other pneumonias and ILD. Negative HIV testing, CD4 110 cells/µL and inverted CD4:CD8 0.35 indicate PCP in a non-HIV immunocompromised host. Secondary causes (lymphoma, HTLV, autoimmunity, drugs) are unproven; idiopathic CD4 lymphocytopenia is the most probable cause."
+}
+Answer: PCP due to ICL
+Report: Progressive dyspnea, hypoxia, perihilar ground-glass opacities and LDH 916 U/L suggested Pneumocystis pneumonia; BAL confirmed Pneumocystis organisms with negative bacterial/fungal cultures, establishing PCP (0.98) and excluding other pneumonias and ILD. Negative HIV testing, CD4 110 cells/µL and inverted CD4:CD8 0.35 indicate PCP in a non-HIV immunocompromised host. Secondary causes (lymphoma, HTLV, autoimmunity, drugs) are unproven; idiopathic CD4 lymphocytopenia is the most probable cause.
+[TraceEvo] case 13: 26 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：42 | Input token nums：77946 | Output token nums：82648 | Total token nums：160594 | price(CNY)：0.00000000

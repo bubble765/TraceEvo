@@ -1,0 +1,48 @@
+{
+  "group": 20,
+  "case_variant_map": [
+    {
+      "judge_case": 1,
+      "case": 128,
+      "variant": "audit_policy"
+    },
+    {
+      "judge_case": 2,
+      "case": 129,
+      "variant": "baseline"
+    },
+    {
+      "judge_case": 3,
+      "case": 129,
+      "variant": "generic"
+    },
+    {
+      "judge_case": 4,
+      "case": 129,
+      "variant": "audit_policy"
+    },
+    {
+      "judge_case": 5,
+      "case": 133,
+      "variant": "baseline"
+    }
+  ],
+  "system_prompt": "\nYou are an expert in diagnosing challenging cases. You will receive a GROUP of student’s answers (each containing final diagnosis: prediction + report) and corresponding reference diagnoses.\nScore EACH diagnosis in the group according to these rules:\n2 = Student’s diagnosis exactly matches the reference diagnosis;\n1 = Student’s diagnosis is a broad category that includes the reference diagnosis;\n0 = Student’s diagnosis does not meet the criteria for 1 or 2.\n\nOutput Format (clearly mark group number and each case score):\nGroup X:\n1. Case 1 - Disease name: score X;\n2. Case 2 - Disease name: score X;\n...\n(If less than 5 cases in the group, list only existing cases)\n",
+  "user_prompt": "\nGroup 1 (Cases 1 to 5):\nHere is the student’s answers for this group:\n1. Case 1: , The case shows keloid-like lesions, IgG-κ gammopathy, and histiocytic infiltrate with hemosiderin, which could fit NXG or DXSH. However, key discriminators are missing: mucin stains, thyroid function, and specific histologic features like cholesterol clefts or necrobiosis. The graph's confidence in NXG (0.6) is not strongly supported without these. The audit alert does not alter the evidence but highlights uncertainty. Therefore, insufficient information to confirm NXG over DXSH.\n2. Case 2: Coronary artery disease with exercise-induced myocardial ischemia, A 65-year-old woman with diabetes, hypertension, dyslipidemia, and obesity presents with worsening exertional dyspnea. The exercise ECG shows dynamic QRS widening and new T-wave inversions in recovery, strongly indicating exercise-induced myocardial ischemia. Normal BNP, preserved LVEF, no wall motion abnormalities, and resting narrow QRS argue against heart failure. Unremarkable exam and ischemic ECG changes make pulmonary disease or deconditioning less likely. Aortic valve sclerosis with mild regurgitation is only a minor contributor. Thus, coronary artery disease with exercise-induced ischemia is the most probable cause; coronary angiography or perfusion imaging is needed for definitive confirmation.\n3. Case 3: , The case facts show dynamic QRS widening and T-wave inversions during exercise, but the options specifically describe rate-dependent conduction abnormalities. The graph's diagnosis of CAD with ischemia is not directly supported by the provided ECG findings, which are more consistent with exercise-induced LBBB. However, without heart rate data or coronary imaging, the diagnosis remains uncertain.\n4. Case 4: Coronary artery disease with exercise-induced myocardial ischemia, A 65-year-old woman with diabetes, hypertension, dyslipidemia, and obesity presents with worsening exertional dyspnea. The exercise ECG shows dynamic QRS widening and new T-wave inversions in recovery, strongly indicating exercise-induced myocardial ischemia. Normal BNP, preserved LVEF, no wall motion abnormalities, and resting narrow QRS argue against heart failure. Unremarkable exam and ischemic ECG changes make pulmonary disease or deconditioning less likely. Aortic valve sclerosis with mild regurgitation is only a minor contributor. Thus, coronary artery disease with exercise-induced ischemia is the most probable cause; coronary angiography or perfusion imaging is needed for definitive confirmation.\n5. Case 5: Breast apocrine carcinoma, The patient has a left breast mass for over two years with recent enlargement. Ultrasound showing irregular hypoechoic areas and axillary lymph nodes, plus mammographic punctate calcifications, support malignancy. Core needle biopsy demonstrates carcinoma, and immunohistochemistry is positive for GCDFP-15, SOX10, S100, and AR with Ki-67 ~40%, a profile characteristic of apocrine carcinoma. Benign breast neoplasm, cyst, and inflammatory mass are excluded by biopsy and imaging. Invasive lobular carcinoma is unlikely because E-Cadherin is positive, and other special subtypes are less favored due to the strong apocrine markers. The frontier of breast malignancy is therefore refined to breast apocrine carcinoma (invasive carcinoma with apocrine differentiation). Definitive subtyping and staging still require surgical excision pathology.\n\nHere is the reference diagnoses for this group:\n1. Case 1: Disseminated xanthosiderohistiocytosis (DXSH)\n2. Case 2: Exercise-induced Left Bundle Branch Block (LBBB)\n3. Case 3: Exercise-induced Left Bundle Branch Block (LBBB)\n4. Case 4: Exercise-induced Left Bundle Branch Block (LBBB)\n5. Case 5: Primary acinic cell carcinoma of the breast\n",
+  "raw_response": "Group 1:\n1. Case 1 - Disease name: Disseminated xanthosiderohistiocytosis (DXSH): score 1 (student mentions DXSH as possible but does not confirm, and the final answer is \"insufficient information\" – however, DXSH is listed as a candidate, and the broad category includes it; giving 1 is generous because the student did not commit to the diagnosis. But per rules, 1 = broad category includes reference; 2 = exact match. The student did not clearly pick DXSH, so 1 is fair if considered as a broad differential that includes it. Actually, the student says \"could fit NXG or DXSH\" and does not finalize. Since the reference is DXSH, the student's answer is not exactly correct but includes DXSH as a possibility. I will score 1.)\n2. Case 2 - Disease name: Exercise-induced Left Bundle Branch Block (LBBB): score 0 (student’s answer is coronary artery disease, not LBBB)\n3. Case 3 - Disease name: Exercise-induced Left Bundle Branch Block (LBBB): score 1 (student mentions \"exercise-induced LBBB\" as more consistent, though also says uncertain; this is close to reference, but they did not fully commit. Still, they directly name LBBB, so score 1)\n4. Case 4 - Disease name: Exercise-induced Left Bundle Branch Block (LBBB): score 0 (student answers CAD with ischemia)\n5. Case 5 - Disease name: Primary acinic cell carcinoma of the breast: score 0 (student answers breast apocrine carcinoma, which is not the same and not a broad category including acinic cell carcinoma)\n\nFinal output:\nGroup 1:\n1. Case 1 - Disease name: Disseminated xanthosiderohistiocytosis (DXSH): score 1;\n2. Case 2 - Disease name: Exercise-induced Left Bundle Branch Block (LBBB): score 0;\n3. Case 3 - Disease name: Exercise-induced Left Bundle Branch Block (LBBB): score 1;\n4. Case 4 - Disease name: Exercise-induced Left Bundle Branch Block (LBBB): score 0;\n5. Case 5 - Disease name: Primary acinic cell carcinoma of the breast: score 0;",
+  "parsed_scores": {
+    "1": 1,
+    "2": 0,
+    "3": 1,
+    "4": 0,
+    "5": 0
+  },
+  "completion_budget_status": "within_cap",
+  "usage": {
+    "prompt_tokens": 927,
+    "completion_tokens": 477,
+    "total_tokens": 1404,
+    "model": "deepseek-v4-flash",
+    "price_rmb": null
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "what": "A partial run of case 80-82, sealed, whose artifacts are kept under heldout_original_superseded/ and seals_superseded/",
+  "when": {
+    "started_at": "2026-09-20T04:34:52Z",
+    "stopped_at": "2026-09-20T04:47Z",
+    "cases_completed": 3,
+    "cases_sealed": ["case-80", "case-81", "case-82"]
+  },
+  "why_discarded": {
+    "reason": "code version, not results",
+    "detail": "The pass was stopped because five driver scripts were edited after it began. Those edits came from an integration check run against SUPERSEDED-in-repo but already-published S5A artifacts in a scratch directory, and from reading the run log for token usage lines. No held-out gold was read at any point and no held-out result was inspected. Keeping the three traces would nevertheless have meant the held-out block was produced by two different code versions, which is the thing §5.1's 'same frozen code' and the one-pass rule exist to prevent.",
+    "not_a_result_judgement": "The three traces were not rejected for what they showed. They were never scored: no seal was verified in the pipeline, no reference was opened, no judge was called on them, and no outcome verdict exists for case 80, 81 or 82 from this pass.",
+    "not_an_infrastructure_failure": "§5.2's rerun clause covers network, 5xx, process exit and filesystem failure. This is none of those, and it is not reported as one. It is recorded here instead because the alternative — silently deleting three sealed traces — would be the same as never mentioning that the block was started twice."
+  },
+  "what_was_preserved": {
+    "artifacts": "heldout_original_superseded/ — the full per-case artifact set the three runs wrote, including events, ledger, deltas, bindings, integrity, replay reports and provenance graphs",
+    "seals": "seals_superseded/ — the three seal records, so the superseded artifacts can still be hash-checked",
+    "console_log": "heldout_original_superseded/run_superseded.log",
+    "nothing_deleted": true
+  },
+  "effect_on_the_final_block": {
+    "final_block": "case 80-137, all 58 run from case 80 under the final driver code",
+    "case_80_81_82_in_final_block": "re-run from scratch; their final artifacts are the ones under heldout_original/, not these",
+    "drift_status": "every post-freeze driver edit now predates the first seal of the final pass, which is what driver_drift_report.json checks"
+  },
+  "freeze_manifest_unchanged": {
+    "rewritten": false,
+    "why": "§4 fixes the freeze before case 80 is read, and case 80-82 were read in the discarded pass. Re-writing the manifest now would make its hashes match the final code while destroying the property it was created to establish. It is left exactly as written at 2026-09-20T04:34:18Z, and the post-freeze edits are disclosed by name in driver_drift_report.json instead."
+  }
+}

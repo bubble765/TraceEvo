@@ -1,0 +1,127 @@
+{
+  "decision": {
+    "verdict": "NO_ROLE_SPECIFIC_ADAPTATION",
+    "criteria": {
+      "item_1": {
+        "met": true,
+        "note": "profile rebuilt from the same artifacts; see test_the_profile_rebuilds_identically"
+      },
+      "item_2": {
+        "met": true,
+        "snapshots_checked": 30,
+        "violations": 0,
+        "note": "§13 item 2: no future case enters a past snapshot"
+      },
+      "item_3": {
+        "met": true,
+        "n_roles_with_enough_obs": 3,
+        "roles": [
+          "Laboratory_Physician",
+          "Pathologist",
+          "Radiologist"
+        ]
+      },
+      "item_4": {
+        "met": true,
+        "target_1": "UNTESTABLE_NO_POSITIVES",
+        "target_2": "ok"
+      },
+      "item_5": {
+        "met": false,
+        "n_targets_with_gain": 0,
+        "deltas": {
+          "execution_abnormality (§9.2)": null,
+          "parse_discard (secondary, NOT §9.2)": 0.00011656008303715867,
+          "unsupported_evidence_risk (§9.3)": 0.0004108458971882542
+        }
+      },
+      "item_6": {
+        "met": true,
+        "n_guard_candidates": 0,
+        "satisfied_by": "proof that role risks are indistinguishable",
+        "note": "§13 item 6: either a non-INSUFFICIENT_DATA candidate, or a demonstration that all roles' risks are alike so that no differentiated scheduling is warranted"
+      }
+    },
+    "go_conditions_met": false,
+    "criteria_unresolved": [
+      2,
+      6
+    ],
+    "not_claimed": {
+      "PROFILE_NOT_PREDICTIVE": "not claimed: the core target's delta-Brier 95% CI [-0.00039740614875193037, 0.0010179049256693884] covers zero, so the point estimate is not evidence that the profile is *anti*-predictive either. With 3 positives the test has no power to separate 'no gain exists' from 'no power to detect gain'."
+    },
+    "why_not_go": "§13 item 5 requires delta Brier < 0 on at least one core target; no target reached it.",
+    "authority": "§13's GO conditions are a conjunction; item 5 fails.",
+    "criteria_evaluated": 6,
+    "criterion_6_second_half": true
+  },
+  "frozen_profile": "profile_freeze_10_39.json",
+  "frozen_at": "2026-09-19T11:07:19.220+00:00",
+  "ordering": "profile frozen before case 50-59 process results were read; enforced by requiring the freeze file to exist",
+  "global_baselines": {
+    "n_expert_invocations": 660,
+    "n_discarded": 17,
+    "n_uncommitted": 347,
+    "n_attributed_nodes": 377,
+    "n_nodes_used_in_reasoning": 243,
+    "n_p3_used": 6,
+    "p_discard": 0.027190332326283987,
+    "p_discard_raw": 0.025757575757575757,
+    "p_p3_use": 0.02857142857142857,
+    "p_p3_use_raw": 0.024691358024691357
+  },
+  "targets": [
+    {
+      "target": "execution_abnormality (§9.2)",
+      "status": "UNTESTABLE_NO_POSITIVES",
+      "note": "degraded/failed have no source in the artifacts; §9.2 applies verbatim -- the target is untestable and no 'perfect prediction' is claimed",
+      "n": 288,
+      "positives": 0,
+      "base_rate": 0.0,
+      "brier_role_profile": null,
+      "brier_global": null,
+      "delta_brier": null,
+      "delta_brier_ci95": null
+    },
+    {
+      "target": "parse_discard (secondary, NOT §9.2)",
+      "status": "ok",
+      "note": "the one execution signal the artifacts carry; reported separately and named differently so it cannot be read as §6.1's execution_abnormal",
+      "n": 288,
+      "positives": 4,
+      "base_rate": 0.013888888888888888,
+      "brier_role_profile": 0.013989476134876368,
+      "brier_global": 0.013872916051839209,
+      "delta_brier": 0.00011656008303715867,
+      "delta_brier_ci95": {
+        "lo": 5.482796991813921e-06,
+        "hi": 0.00019996409724116256,
+        "n_boot": 2000,
+        "includes_zero": false
+      }
+    },
+    {
+      "target": "unsupported_evidence_risk (§9.3)",
+      "status": "ok",
+      "note": "unit is the attributable evidence node; unattributed nodes (§5 NO_LINK) are excluded rather than assigned",
+      "n": 86,
+      "positives": 3,
+      "base_rate": 0.03488372093023256,
+      "brier_role_profile": 0.03411753787630548,
+      "brier_global": 0.03370669197911723,
+      "delta_brier": 0.0004108458971882542,
+      "delta_brier_ci95": {
+        "lo": -0.00039740614875193037,
+        "hi": 0.0010179049256693884,
+        "n_boot": 2000,
+        "includes_zero": true
+      }
+    }
+  ],
+  "headline": {
+    "primary_target_1": "UNTESTABLE_NO_POSITIVES",
+    "target_2": "ok",
+    "any_core_target_testable": true,
+    "note": "§9.2's target is untestable for want of a source, not for want of a method. §9.3's is testable."
+  }
+}

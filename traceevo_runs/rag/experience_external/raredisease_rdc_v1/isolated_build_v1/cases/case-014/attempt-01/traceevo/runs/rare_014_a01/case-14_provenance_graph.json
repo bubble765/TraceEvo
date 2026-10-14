@@ -1,0 +1,719 @@
+{
+  "task_id": "case-14",
+  "n_nodes": 19,
+  "n_edges": 26,
+  "nodes": [
+    {
+      "event_id": "evt-case-14-00001",
+      "task_id": "case-14",
+      "step_id": 0,
+      "timestamp": "2026-10-08T07:45:17.113+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-1",
+        "node-2",
+        "node-3"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_hash": "edd3deeae15ff76dd1a44307bcaf69a391c1008621426345c0ee00ab1f284693",
+      "payload": {
+        "phase": "ingest:basic_node",
+        "response": "{\"symptom_node\":\"Intermittent, dull, throbbing, localized tenderness in an alopecic patch on the right parietal-occipital scalp for 2-3 months\",\"isolated_evidence\":[\"Patient is a woman in her early twenties with a lifelong history of alopecia; the affected right parietal-occipital scalp alopecic patch has been stable in size and appearance since birth, and three other round alopecia patches present since birth remain asymptomatic\",\"Clinical scalp examination revealed an atrophic white patch of alopecia, with ill-defined bogginess surrounding the lesion and extending to the central and posterior occipital scalp\"]}"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00002",
+      "task_id": "case-14",
+      "step_id": 0,
+      "timestamp": "2026-10-08T07:46:12.070+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-4",
+        "node-5",
+        "node-6",
+        "node-7"
+      ],
+      "source_class": "INPUT_OBSERVATION",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "edd3deeae15ff76dd1a44307bcaf69a391c1008621426345c0ee00ab1f284693",
+      "event_hash": "41462368564c9298187f10dcf1c8639b7acb31dc66b7396a7aa9309cf5e005dc",
+      "payload": {
+        "phase": "ingest:l1_hypo",
+        "response": "{\n  \"candidates\": [\n    {\n      \"id\": \"h001\",\n      \"label\": \"Congenital scalp defect\",\n      \"confidence\": 0.55,\n      \"why\": \"node-2 lifelong stable alopecic patches support congenital origin; node-3 atrophic patch with boggy surrounding suggests underlying defect.\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Local infection/inflammation\",\n      \"confidence\": 0.35,\n      \"why\": \"node-3 bogginess and localized tenderness support inflammation/infection; node-2 stable lifelong alopecia lacks acute signs.\"\n    },\n    {\n      \"id\": \"h003\",\n      \"label\": \"Neoplastic/adnexal lesion\",\n      \"confidence\": 0.2,\n      \"why\": \"node-3 atrophic patch with boggy surrounding suggests tumor/cyst; node-2 lifelong stability argues against aggressive neoplasm.\"\n    },\n    {\n      \"id\": \"h004\",\n      \"label\": \"Primary neuralgia/headache\",\n      \"confidence\": 0.1,\n      \"why\": \"node-3 structural scalp findings refute isolated neuralgia; node-2 stable asymptomatic patches do not explain primary headache.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h001\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h002\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h003\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h003\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h004\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h004\",\n      \"relation\": \"refute\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00003",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:46:24.640+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-4"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-4"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "41462368564c9298187f10dcf1c8639b7acb31dc66b7396a7aa9309cf5e005dc",
+      "event_hash": "67148ee8569440efd286e43b2c9699e47980161b44a51ff0221755d3515510b0",
+      "payload": {
+        "response": "[{\"expert_name\":\"Radiologist\",\"planning_intent\":\"seek_discriminating_evidence\"}]",
+        "focus": {
+          "node_id": "node-4",
+          "label": "Congenital scalp defect",
+          "why": "node-2 lifelong stable alopecic patches support congenital origin; node-3 atrophic patch with boggy surrounding suggests underlying defect.",
+          "score": 0.55,
+          "level": 1,
+          "supports": 2,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-14-00004",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:46:24.643+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-4"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "67148ee8569440efd286e43b2c9699e47980161b44a51ff0221755d3515510b0",
+      "event_hash": "013496bca8a272623d065eb01cf2ff987d3da8850fe368eee06f1aaa80822dc5",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00005",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:46:37.334+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0001"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "013496bca8a272623d065eb01cf2ff987d3da8850fe368eee06f1aaa80822dc5",
+      "event_hash": "a5dc924204717990d1bfcef8ef8e100ad34b3ddae3dc4f2200c444c36c36bc33",
+      "payload": {
+        "query": "Need the patient's birth records/photographs documenting the scalp lesion since birth and cranial MRI/ultrasound to assess for underlying skull/brain defects (core to confirm congenital scalp defect, exclude associated anomalies, and rule out neoplastic or infectious causes).",
+        "hit": true,
+        "retrieval_output": "On dermoscopic examination, the alopecic patch showed a translucent epidermis with multiple branched blood vessels and hair bulbs at the edge of the patch.\nA non-contrast head CT showed no evidence of osseous, vascular, neural, or soft tissue defects..",
+        "record_hash": "3a0528e55082e1f06956052236dc167eefbc2c1cd607d0c03aaf6b58dc726cf5",
+        "started_at": "2026-10-08T07:46:33.028+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00006",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:46:37.338+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0002"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "a5dc924204717990d1bfcef8ef8e100ad34b3ddae3dc4f2200c444c36c36bc33",
+      "event_hash": "31147b96d608f92bb4ff6a27d0c43b581038fc014d6c672b736e500fbc3c9f58",
+      "payload": {
+        "query": "Need the patient's birth records/photographs documenting the scalp lesion since birth and cranial MRI/ultrasound to assess for underlying skull/brain defects (core to confirm congenital scalp defect, exclude associated anomalies, and rule out neoplastic or infectious causes).",
+        "hit": true,
+        "retrieval_output": "On dermoscopic examination, the alopecic patch showed a translucent epidermis with multiple branched blood vessels and hair bulbs at the edge of the patch.\nA non-contrast head CT showed no evidence of osseous, vascular, neural, or soft tissue defects..",
+        "record_hash": "3a0528e55082e1f06956052236dc167eefbc2c1cd607d0c03aaf6b58dc726cf5",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00007",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:47:03.708+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0003"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "31147b96d608f92bb4ff6a27d0c43b581038fc014d6c672b736e500fbc3c9f58",
+      "event_hash": "8871982f2ff0ffd0f55f7c9efc788b12a729395d69869719ddf49694e1a3ce4b",
+      "payload": {
+        "query": "Congenital scalp defect remains likely, but prior dermoscopy and head CT do not confirm birth onset or soft-tissue depth. Need birth documentation/photographs plus dedicated scalp MRI/ultrasound report to assess dermal, galeal, and periosteal integrity and exclude sinus tract (core to confirm congenital defect). Family history/genetic testing if syndromic features present.",
+        "hit": true,
+        "retrieval_output": "On dermoscopic examination, the alopecic patch showed a translucent epidermis with multiple branched blood vessels and hair bulbs at the edge of the patch.\nA non-contrast head CT showed no evidence of osseous, vascular, neural, or soft tissue defects.",
+        "record_hash": "fee64b31a8dc653cb01122accac6e7bd800c770fbebf158be308a54531e3c5c1",
+        "started_at": "2026-10-08T07:47:00.451+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00008",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:47:03.712+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0004"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8871982f2ff0ffd0f55f7c9efc788b12a729395d69869719ddf49694e1a3ce4b",
+      "event_hash": "28b943c98407c7da2b1bfaef2a4f3be142ae05b7a84d6426600e04daff62b0fb",
+      "payload": {
+        "query": "Congenital scalp defect remains likely, but prior dermoscopy and head CT do not confirm birth onset or soft-tissue depth. Need birth documentation/photographs plus dedicated scalp MRI/ultrasound report to assess dermal, galeal, and periosteal integrity and exclude sinus tract (core to confirm congenital defect). Family history/genetic testing if syndromic features present.",
+        "hit": true,
+        "retrieval_output": "On dermoscopic examination, the alopecic patch showed a translucent epidermis with multiple branched blood vessels and hair bulbs at the edge of the patch.\nA non-contrast head CT showed no evidence of osseous, vascular, neural, or soft tissue defects.",
+        "record_hash": "fee64b31a8dc653cb01122accac6e7bd800c770fbebf158be308a54531e3c5c1",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00009",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:47:30.143+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-14-0001",
+        "rec-case-14-0002",
+        "rec-case-14-0003",
+        "rec-case-14-0004"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "28b943c98407c7da2b1bfaef2a4f3be142ae05b7a84d6426600e04daff62b0fb",
+      "event_hash": "882b5352a7746e39124aebc63b8b744d8992e0127f1645a3849605426a1b1630",
+      "payload": {
+        "analysis": "Max retrieval reached. Belief favors congenital scalp defect (0.55). Dermoscopy shows translucent epidermis, branched vessels, marginal hair bulbs; head CT shows no osseous, vascular, neural, or soft-tissue defects. These support chronic congenital/atrophic scalp anomaly, arguing against acute infection or neoplasm. Birth records/MRI missing; congenital defect likely. All available data covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-14-00010",
+      "task_id": "case-14",
+      "step_id": 1,
+      "timestamp": "2026-10-08T07:48:00.921+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-8",
+        "node-9",
+        "node-10"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "882b5352a7746e39124aebc63b8b744d8992e0127f1645a3849605426a1b1630",
+      "event_hash": "8627c950573bc50c41f4c220db5c861d6ed3c32fb7afa58354a0635a5faaafd2",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\n  \"edit\": [\n    {\n      \"node_id\": \"node-4\",\n      \"confidence\": 0.75,\n      \"why\": \"Radiologist analysis notes dermoscopy shows translucent epidermis, branched vessels, and marginal hair bulbs, and head CT shows no osseous, vascular, neural, or soft-tissue defects; these findings support a chronic congenital/atrophic scalp anomaly and argue against acute infection or neoplasm. Combined with lifelong stable alopecic patches since birth and an atrophic boggy scalp lesion, confidence increases from 0.55 to 0.75.\"\n    },\n    {\n      \"node_id\": \"node-5\",\n      \"confidence\": 0.1,\n      \"why\": \"New dermoscopy and head CT findings (translucent epidermis, branched vessels, marginal hair bulbs; no soft-tissue defect or mass) argue against acute infection or inflammation, and the lifelong stable asymptomatic alopecia lacks acute signs. Confidence decreases from 0.35 to 0.10.\"\n    },\n    {\n      \"node_id\": \"node-6\",\n      \"confidence\": 0.05,\n      \"why\": \"New dermoscopy and head CT findings show no neoplastic/adnexal features or soft-tissue mass; lifelong stability further refutes an aggressive neoplasm. Confidence decreases from 0.2 to 0.05.\"\n    },\n    {\n      \"node_id\": \"node-7\",\n      \"confidence\": 0.05,\n      \"why\": \"New structural scalp findings (atrophic patch, dermoscopy abnormalities) support a congenital/atrophic anomaly rather than isolated primary neuralgia; the pain is better explained by the structural scalp defect. Confidence decreases from 0.1 to 0.05.\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"id\": \"ev002\",\n      \"label\": \"Dermoscopy shows translucent epidermis, branched vessels, and marginal hair bulbs\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"ev003\",\n      \"label\": \"Head CT shows no osseous, vascular, neural, or soft-tissue defects\",\n      \"node_type\": \"Evidence\"\n    },\n    {\n      \"id\": \"h002\",\n      \"label\": \"Aplasia cutis congenita of the scalp\",\n      \"node_type\": \"Hypothesis\",\n      \"confidence\": 0.55,\n      \"why\": \"Dermoscopy findings of translucent epidermis, branched vessels, and marginal hair bulbs, together with head CT showing no underlying osseous/vascular/neural/soft-tissue defects, support a congenital atrophic scalp anomaly. Combined with lifelong stable alopecic patches since birth, this specific congenital scalp defect is favored. Confidence is 0.55 because birth records/MRI are missing and the recent tenderness is atypical.\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-4\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-5\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-6\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"node-7\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev003\",\n      \"dst\": \"node-4\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev003\",\n      \"dst\": \"node-5\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev003\",\n      \"dst\": \"node-6\",\n      \"relation\": \"refute\"\n    },\n    {\n      \"src\": \"ev002\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"ev003\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-2\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    },\n    {\n      \"src\": \"node-3\",\n      \"dst\": \"h002\",\n      \"relation\": \"support\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00011",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:48:21.071+00:00",
+      "event_type": "PLAN",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [
+        "node-4"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-4"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8627c950573bc50c41f4c220db5c861d6ed3c32fb7afa58354a0635a5faaafd2",
+      "event_hash": "04123b9acbae52507f5b5d50039110c5a6847360d6c0d3db7062dc882c54c60f",
+      "payload": {
+        "response": "[\n  {\n    \"expert_name\": \"Radiologist\",\n    \"planning_intent\": \"assess_hypothesis\"\n  }\n]",
+        "focus": {
+          "node_id": "node-4",
+          "label": "Congenital scalp defect",
+          "why": "Radiologist analysis notes dermoscopy shows translucent epidermis, branched vessels, and marginal hair bulbs, and head CT shows no osseous, vascular, neural, or soft-tissue defects; these findings support a chronic congenital/atrophic scalp anomaly and argue against acute infection or neoplasm. Combined with lifelong stable alopecic patches since birth and an atrophic boggy scalp lesion, confidence increases from 0.55 to 0.75.",
+          "score": 0.75,
+          "level": 1,
+          "supports": 4,
+          "refutes": 0
+        }
+      }
+    },
+    {
+      "event_id": "evt-case-14-00012",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:48:21.074+00:00",
+      "event_type": "AGENT_CALL",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "Radiologist",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [
+        "node-4"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "04123b9acbae52507f5b5d50039110c5a6847360d6c0d3db7062dc882c54c60f",
+      "event_hash": "eb1cf51fafbf1bc412cbe6ab0e6458a6e2bd73d949c4fa86b40f9ef71d352289",
+      "payload": {
+        "expert": "Radiologist"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00013",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:48:50.055+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0005"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "eb1cf51fafbf1bc412cbe6ab0e6458a6e2bd73d949c4fa86b40f9ef71d352289",
+      "event_hash": "8fd10364a76c7a16e21f92f5dc9ae10a702db878a266fdeb414c000a9b411574",
+      "payload": {
+        "query": "Need dermatopathology report if biopsy was taken, family history/genetic testing for syndromic features, and detailed timeline of new tenderness (core to confirm congenital atrophic scalp defect and exclude late-onset inflammatory/neoplastic mimics; prior dermoscopy/CT did not assess these).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "4becb07f6a458766c65d7f38f02298937fa77e06ba62212f17e3a3508495d4ea",
+        "started_at": "2026-10-08T07:48:39.053+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00014",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:48:50.059+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0006"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8fd10364a76c7a16e21f92f5dc9ae10a702db878a266fdeb414c000a9b411574",
+      "event_hash": "32dbdbdbbc42e8969485c3a93b0cb2d0355e98f38506e8dc43af5f75649a9511",
+      "payload": {
+        "query": "Need dermatopathology report if biopsy was taken, family history/genetic testing for syndromic features, and detailed timeline of new tenderness (core to confirm congenital atrophic scalp defect and exclude late-onset inflammatory/neoplastic mimics; prior dermoscopy/CT did not assess these).",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "4becb07f6a458766c65d7f38f02298937fa77e06ba62212f17e3a3508495d4ea",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00015",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:49:09.712+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0007"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "32dbdbdbbc42e8969485c3a93b0cb2d0355e98f38506e8dc43af5f75649a9511",
+      "event_hash": "415bcbc861b8277e3f97c2d5692e634771d21b3bc207844ccc4d28f375a5ffd1",
+      "payload": {
+        "query": "Need the actual birth documentation/photographs and dedicated scalp MRI/ultrasound report results, plus dermatopathology and genetic testing results if obtained, as these remain the core missing items to confirm congenital onset and exclude late-onset inflammatory/neoplastic mimics; prior retrievals returned only dermoscopy/head CT or empty, so this is critical.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "2baa6e2e413a771658deffb855c84d4aa9941e76a87835123b258a078654207b",
+        "started_at": "2026-10-08T07:49:06.797+00:00",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00016",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:49:09.716+00:00",
+      "event_type": "TOOL_CALL",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "Evidence_Text",
+      "input_refs": [],
+      "output_refs": [
+        "rec-case-14-0008"
+      ],
+      "causal_node_refs": [],
+      "source_class": "RETRIEVED_RECORD",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "415bcbc861b8277e3f97c2d5692e634771d21b3bc207844ccc4d28f375a5ffd1",
+      "event_hash": "2018d5e46f047b20ad7c594bf41c8adb69533d6db0118233db324ad6d180534b",
+      "payload": {
+        "query": "Need the actual birth documentation/photographs and dedicated scalp MRI/ultrasound report results, plus dermatopathology and genetic testing results if obtained, as these remain the core missing items to confirm congenital onset and exclude late-onset inflammatory/neoplastic mimics; prior retrievals returned only dermoscopy/head CT or empty, so this is critical.",
+        "hit": true,
+        "retrieval_output": "\"\"",
+        "record_hash": "2baa6e2e413a771658deffb855c84d4aa9941e76a87835123b258a078654207b",
+        "started_at": "",
+        "source_store": "patient_evidence"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00017",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:49:34.516+00:00",
+      "event_type": "ANALYSIS",
+      "actor_id": "Radiologist",
+      "actor_role": "expert",
+      "tool_or_model": "",
+      "input_refs": [
+        "rec-case-14-0005",
+        "rec-case-14-0006",
+        "rec-case-14-0007",
+        "rec-case-14-0008"
+      ],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "2018d5e46f047b20ad7c594bf41c8adb69533d6db0118233db324ad6d180534b",
+      "event_hash": "8bafdd6c0744875cdee8b748e4b5c80552ebd5f540eda0bd7939a373ef8a22db",
+      "payload": {
+        "analysis": "Lifelong alopecic patches, atrophic bogginess, dermoscopy with translucent epidermis, branched vessels and marginal hair bulbs, and head CT without bone, vascular, neural or soft-tissue defects support congenital scalp defect/aplasia cutis congenita. Recent tenderness is atypical, not infectious/neoplastic. Birth records, scalp MRI/ultrasound, pathology/genetics remain missing; imaging covered.",
+        "exit_cause": ""
+      }
+    },
+    {
+      "event_id": "evt-case-14-00018",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:50:04.498+00:00",
+      "event_type": "GRAPH_UPDATE",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [],
+      "causal_node_refs": [],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "8bafdd6c0744875cdee8b748e4b5c80552ebd5f540eda0bd7939a373ef8a22db",
+      "event_hash": "63767a0d9400e821ee3fb28a55a83a706dbc6e6aa918c7e1ab34201e410ae02c",
+      "payload": {
+        "phase": "update_graph",
+        "response": "{\"edit\":[{\"node_id\":\"node-4\",\"confidence\":0.8,\"why\":\"Radiologist analysis explicitly supports a congenital scalp defect/aplasia cutis congenita, citing lifelong alopecic patches, atrophic bogginess, dermoscopy findings (translucent epidermis, branched vessels, marginal hair bulbs), and head CT without osseous/vascular/neural/soft-tissue defects; recent tenderness is atypical rather than infectious/neoplastic. Combined with the lifelong stable patches and atrophic boggy lesion, confidence increases from 0.75 to 0.80.\"},{\"node_id\":\"node-5\",\"confidence\":0.05,\"why\":\"Radiologist analysis states the recent tenderness is not infectious, and dermoscopy/head CT show no signs of local infection or inflammation; the lifelong stable, asymptomatic alopecia also lacks acute inflammatory features. Confidence decreases from 0.10 to 0.05.\"},{\"node_id\":\"node-10\",\"confidence\":0.7,\"why\":\"Radiologist analysis specifically supports aplasia cutis congenita, noting dermoscopy with translucent epidermis, branched vessels, and marginal hair bulbs plus head CT without underlying defects; recent tenderness is atypical and not infectious/neoplastic. This raises confidence in the specific congenital scalp defect from 0.55 to 0.70, though birth records, scalp MRI/ultrasound, pathology, and genetics remain unavailable.\"}],\"nodes\":[],\"edges\":[]}"
+      }
+    },
+    {
+      "event_id": "evt-case-14-00019",
+      "task_id": "case-14",
+      "step_id": 2,
+      "timestamp": "2026-10-08T07:50:31.883+00:00",
+      "event_type": "FINAL_REPORT",
+      "actor_id": "Primary_Physician",
+      "actor_role": "central",
+      "tool_or_model": "",
+      "input_refs": [],
+      "output_refs": [
+        "node-4"
+      ],
+      "causal_node_refs": [
+        "node-4"
+      ],
+      "source_class": "AGENT_GENERATED",
+      "model_id": "deepseek-v4-flash",
+      "model_version": null,
+      "version_observable": false,
+      "status": "success",
+      "reason_code": "NONE",
+      "prev_hash": "63767a0d9400e821ee3fb28a55a83a706dbc6e6aa918c7e1ab34201e410ae02c",
+      "event_hash": "fcbc78f0ab42c6ceaac40a30e39b1bd478e5f93b5e4b24750e8f9020a911a088",
+      "payload": {
+        "prediction": "Aplasia cutis congenita",
+        "report": "The patient has lifelong stable alopecic patches; the affected right parietal-occipital patch is atrophic and boggy. Dermoscopy shows translucent epidermis, branched vessels, and marginal hair bulbs, and head CT reveals no underlying osseous, vascular, neural, or soft-tissue defects. These findings are diagnostic of a congenital scalp defect, specifically aplasia cutis congenita. Recent tenderness is atypical but not infectious or neoplastic, as confirmed by dermoscopy and CT. Thus, aplasia cutis congenita of the scalp is the best explanation.",
+        "report_chars": 549,
+        "fsm_context": {
+          "fsm_before_transition": {
+            "state": 1,
+            "history": [
+              1
+            ],
+            "stage_steps": {
+              "1": 2
+            },
+            "thresholds": {
+              "gap_delta": 0.3,
+              "min_support": 3,
+              "max_steps": 2
+            }
+          },
+          "transition_advance": true,
+          "loop_step": 2,
+          "session_max_steps": 3,
+          "report_flag": "False",
+          "frontier": {
+            "node_id": "node-4",
+            "label": "Congenital scalp defect",
+            "why": "Radiologist analysis explicitly supports a congenital scalp defect/aplasia cutis congenita, citing lifelong alopecic patches, atrophic bogginess, dermoscopy findings (translucent epidermis, branched vessels, marginal hair bulbs), and head CT without osseous/vascular/neural/soft-tissue defects; recent tenderness is atypical rather than infectious/neoplastic. Combined with the lifelong stable patches and atrophic boggy lesion, confidence increases from 0.75 to 0.80.",
+            "score": 0.8,
+            "level": 1,
+            "supports": 4,
+            "refutes": 0
+          }
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "evt-case-14-00001",
+      "dst": "evt-case-14-00002"
+    },
+    {
+      "src": "evt-case-14-00002",
+      "dst": "evt-case-14-00003"
+    },
+    {
+      "src": "evt-case-14-00003",
+      "dst": "evt-case-14-00004"
+    },
+    {
+      "src": "evt-case-14-00004",
+      "dst": "evt-case-14-00005"
+    },
+    {
+      "src": "evt-case-14-00004",
+      "dst": "evt-case-14-00006"
+    },
+    {
+      "src": "evt-case-14-00004",
+      "dst": "evt-case-14-00007"
+    },
+    {
+      "src": "evt-case-14-00004",
+      "dst": "evt-case-14-00008"
+    },
+    {
+      "src": "evt-case-14-00004",
+      "dst": "evt-case-14-00009"
+    },
+    {
+      "src": "evt-case-14-00005",
+      "dst": "evt-case-14-00009"
+    },
+    {
+      "src": "evt-case-14-00006",
+      "dst": "evt-case-14-00009"
+    },
+    {
+      "src": "evt-case-14-00007",
+      "dst": "evt-case-14-00009"
+    },
+    {
+      "src": "evt-case-14-00008",
+      "dst": "evt-case-14-00009"
+    },
+    {
+      "src": "evt-case-14-00009",
+      "dst": "evt-case-14-00010"
+    },
+    {
+      "src": "evt-case-14-00010",
+      "dst": "evt-case-14-00011"
+    },
+    {
+      "src": "evt-case-14-00011",
+      "dst": "evt-case-14-00012"
+    },
+    {
+      "src": "evt-case-14-00012",
+      "dst": "evt-case-14-00013"
+    },
+    {
+      "src": "evt-case-14-00012",
+      "dst": "evt-case-14-00014"
+    },
+    {
+      "src": "evt-case-14-00012",
+      "dst": "evt-case-14-00015"
+    },
+    {
+      "src": "evt-case-14-00012",
+      "dst": "evt-case-14-00016"
+    },
+    {
+      "src": "evt-case-14-00012",
+      "dst": "evt-case-14-00017"
+    },
+    {
+      "src": "evt-case-14-00013",
+      "dst": "evt-case-14-00017"
+    },
+    {
+      "src": "evt-case-14-00014",
+      "dst": "evt-case-14-00017"
+    },
+    {
+      "src": "evt-case-14-00015",
+      "dst": "evt-case-14-00017"
+    },
+    {
+      "src": "evt-case-14-00016",
+      "dst": "evt-case-14-00017"
+    },
+    {
+      "src": "evt-case-14-00017",
+      "dst": "evt-case-14-00018"
+    },
+    {
+      "src": "evt-case-14-00018",
+      "dst": "evt-case-14-00019"
+    }
+  ]
+}

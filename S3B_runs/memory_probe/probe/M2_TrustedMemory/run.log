@@ -1,0 +1,332 @@
+
+=== M2_TrustedMemory case-49 (attempt 1/3) ===
+[S0] Running 1 case(s): [49]
+
+
+===============[RUN] Case 49  =================
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1464 | Output token nums：616 | price(CNY)：0.00000000
+Response: {
+  "symptom_node": "17-year-old male presented with 3 days of mouth pain and nonpainful penile erosions",
+  "isolated_evidence": [
+    "One week prior, he experienced transient anosmia and ageusia that spontaneously resolved; he denied fever, cough, dyspnea, rhinorrhea, and gastrointestinal symptoms",
+    "Physical examination showed afebrile status with normal vital signs (respiratory rate 16 breaths per minute, oxygen saturation 97%); shallow erosions of the vermilion lips and hard palate, circumferential erythematous erosions of the periurethral glans penis, and 5 small vesicles on the trunk and upper extremities; palms, soles, cervical lymphatic, and cardiopulmonary examinations were unremarkable",
+    "He had taken acetaminophen and ibuprofen before presenting to the emergency department, but no medications before the onset of the mucocutaneous eruption"
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | 17-year-old male presented with 3 days of mouth pain and no… | score=1.000
+[node-2] Evidence[-] | One week prior, he experienced transient anosmia and ageusi… | score=1.000
+[node-3] Evidence[-] | Physical examination showed afebrile status with normal vit… | score=1.000
+[node-4] Evidence[-] | He had taken acetaminophen and ibuprofen before presenting … | score=1.000
+=== Edges ===
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1506 | Output token nums：2801 | price(CNY)：0.00000000
+Response: {
+  "candidates": [
+    {
+      "id": "h001",
+      "label": "Viral mucocutaneous infection (post-COVID)",
+      "confidence": 0.7,
+      "why": "node-2 anosmia/ageusia indicates recent viral infection; node-3 vesicles and mucocutaneous erosions with normal vital signs fit viral exanthem; node-4 no medication before onset supports infectious rather than drug cause."
+    },
+    {
+      "id": "h002",
+      "label": "Immune-mediated mucocutaneous disease (SJS/EM)",
+      "confidence": 0.15,
+      "why": "node-2 viral infection can trigger immune-mediated disease; node-3 oral/genital erosions with skin vesicles suggest SJS/EM; node-4 absence of drug before onset weakens drug-induced form."
+    },
+    {
+      "id": "h003",
+      "label": "Sexually transmitted infection (syphilis/HSV)",
+      "confidence": 0.1,
+      "why": "node-3 genital erosions and oral lesions raise possibility of syphilis/HSV; node-2 viral anosmia/ageusia is atypical for sexually transmitted infection."
+    },
+    {
+      "id": "h004",
+      "label": "Systemic autoimmune disease (e.g., Behçet)",
+      "confidence": 0.05,
+      "why": "node-3 oral and genital ulcers raise Behçet disease; node-2 viral prodrome and skin vesicles are atypical, lowering likelihood."
+    }
+  ],
+  "edges": [
+    {
+      "src": "node-2",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h003",
+      "relation": "refute"
+    },
+    {
+      "src": "node-2",
+      "dst": "h004",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h003",
+      "relation": "support"
+    },
+    {
+      "src": "node-3",
+      "dst": "h004",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h001",
+      "relation": "support"
+    },
+    {
+      "src": "node-4",
+      "dst": "h002",
+      "relation": "refute"
+    }
+  ]
+}
+=== Nodes ===
+[node-1] Signal[-] | 17-year-old male presented with 3 days of mouth pain and no… | score=1.000
+[node-2] Evidence[-] | One week prior, he experienced transient anosmia and ageusi… | score=1.000
+[node-3] Evidence[-] | Physical examination showed afebrile status with normal vit… | score=1.000
+[node-4] Evidence[-] | He had taken acetaminophen and ibuprofen before presenting … | score=1.000
+[node-5] Hypothesis[1] | Viral mucocutaneous infection (post-COVID) | score=0.700 | attrs={"why": "node-2 anosmia/ageusia indicates recent viral infection; node-3 vesicl…
+[node-6] Hypothesis[1] | Immune-mediated mucocutaneous disease (SJS/EM) | score=0.150 | attrs={"why": "node-2 viral infection can trigger immune-mediated disease; node-3 ora…
+[node-7] Hypothesis[1] | Sexually transmitted infection (syphilis/HSV) | score=0.100 | attrs={"why": "node-3 genital erosions and oral lesions raise possibility of syphilis…
+[node-8] Hypothesis[1] | Systemic autoimmune disease (e.g., Behçet) | score=0.050 | attrs={"why": "node-3 oral and genital ulcers raise Behçet disease; node-2 viral prod…
+=== Edges ===
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-5[Viral mucocutaneous infection (post-COVID)] | refines | conf=0.000
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | refines | conf=0.000
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-7[Sexually transmitted infection (syphilis/HSV)] | refines | conf=0.000
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-8[Systemic autoimmune disease (e.g., Behçet)] | refines | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | support | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-7[Sexually transmitted infection (syphilis/HSV)] | refute | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-8[Systemic autoimmune disease (e.g., Behçet)] | refute | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | support | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-7[Sexually transmitted infection (syphilis/HSV)] | support | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-8[Systemic autoimmune disease (e.g., Behçet)] | support | conf=0.000
+node-4[He had taken acetaminophen and ibuprofen before presenting …] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-4[He had taken acetaminophen and ibuprofen before presenting …] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1448 | Output token nums：459 | price(CNY)：0.00000000
+Response: {"belief": "The clinical presentation of oral and penile erosions with scattered vesicles in a young male is most consistent with a viral mucocutaneous infection, likely post-COVID. The transient anosmia and ageusia support a recent viral illness, and the afebrile status with normal vital signs, along with mucocutaneous lesions, fits a viral exanthem. The absence of medication before symptom onset further favors an infectious cause over a drug-induced immune reaction. Immune-mediated conditions such as SJS/EM are considered less likely because the lack of antecedent medication weakens that trigger. Sexually transmitted infections and systemic autoimmune diseases are even less probable, as the viral prodromal symptoms are atypical for these entities. Overall, the evidence converges on a post-viral mucocutaneous process."}
+{'node_id': 'node-5', 'label': 'Viral mucocutaneous infection (post-COVID)', 'why': 'node-2 anosmia/ageusia indicates recent viral infection; node-3 vesicles and mucocutaneous erosions with normal vital signs fit viral exanthem; node-4 no medication before onset supports infectious rather than drug cause.', 'score': 0.7, 'level': 1, 'supports': 3, 'refutes': 0}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1460 | Output token nums：1060 | price(CNY)：0.00000000
+Response: [
+  {"expert_name": "Laboratory_Physician"},
+  {"expert_name": "Pathologist"}
+]
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1245 | Output token nums：122 | price(CNY)：0.00000000
+Step 1 Decision: {"type":1,"decision":"retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1417 | Output token nums：389 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's viral pathogen testing results (SARS-CoV-2 PCR/serology, HSV PCR, enterovirus panel) and dermatopathology/Tzanck smear report, as they are core for confirming post-COVID viral mucocutaneous infection and ruling out SJS/EM and other mimics."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：698 | Output token nums：874 | price(CNY)：0.00000000
+Step 1 Observations: - SARS-CoV-2 nasopharyngeal PCR: Positive (repeated)
+- Negative nasopharyngeal PCR for: Mycoplasma pneumoniae, adenovirus, Chlamydophila pneumoniae, human metapneumovirus, influenza A/B, parainfluenza 1-4, rhinovirus, respiratory syncytial virus
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1367 | Output token nums：130 | price(CNY)：0.00000000
+Step 2 Decision: {"type":1,"decision":"retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1539 | Output token nums：280 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need HSV PCR and enterovirus panel results from lesion swabs, plus Tzanck smear/dermatopathology report, to differentiate post-COVID mucocutaneous infection from HSV or enterovirus etiologies and confirm viral cytopathic changes."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：686 | Output token nums：92 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1434 | Output token nums：123 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1606 | Output token nums：450 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"Combined with the suspicion of post-COVID viral mucocutaneous infection, repeated positive SARS-CoV-2 PCR confirms recent COVID, while negative respiratory pathogen testing supports a viral rather than atypical bacterial cause. The lack of medication before onset and afebrile normal vitals further favor a post-viral exanthem over SJS/EM. However, HSV PCR, enterovirus panel, and Tzanck/dermatopathology results remain unavailable, so HSV or enterovirus cannot be fully excluded; lesion-specific testing is still needed for definitive differentiation. All currently retrievable key information has been covered."}
+
+Step 1 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1237 | Output token nums：114 | price(CNY)：0.00000000
+Step 1 Decision: {"type": 1, "decision": "retrieve"}
+Step 1 parsed result: type=1, decision=retrieve
+Step 1 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1409 | Output token nums：219 | price(CNY)：0.00000000
+Step 1 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's COVID-19 PCR or serology results and viral panel (HSV, VZV, enterovirus) to confirm post-viral mucocutaneous infection and rule out other viral etiologies."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：681 | Output token nums：152 | price(CNY)：0.00000000
+Step 1 Observations: SARS-CoV-2 nasopharyngeal PCR: Positive (repeated)
+
+Step 2 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1294 | Output token nums：331 | price(CNY)：0.00000000
+Step 2 Decision: {"type": 1, "decision": "retrieve"}
+Step 2 parsed result: type=1, decision=retrieve
+Step 2 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1466 | Output token nums：322 | price(CNY)：0.00000000
+Step 2 reponse: {"type":1,"decision":"retrieve","content":"Need the patient's viral panel results (HSV, VZV, enterovirus PCR/serology) from blood and lesion swabs, which are critical to confirm the post-COVID mucocutaneous infection and definitively exclude other viral etiologies."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：689 | Output token nums：84 | price(CNY)：0.00000000
+Step 2 Observations: 
+
+Step 3 - Decision Making
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1364 | Output token nums：74 | price(CNY)：0.00000000
+Step 3 Decision: {"type":1,"decision":"analyze"}
+Step 3 parsed result: type=1, decision=analyze
+Step 3 - Content Generation
+here we are
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：1536 | Output token nums：416 | price(CNY)：0.00000000
+Step 3 reponse: {"type":1,"decision":"analyze","content":"SARS-CoV-2 PCR positivity confirms recent COVID-19, supporting a post-viral mucocutaneous process. However, the viral panel (HSV, VZV, enterovirus) is unavailable, so other viral etiologies cannot be definitively excluded. Given the clinical picture, afebrile status, and absence of antecedent medication, post-COVID viral exanthem remains most likely; clinical follow-up is recommended. All available key information is covered, though the missing viral panel is a noted limitation."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：3548 | Output token nums：10681 | price(CNY)：0.00000000
+Response: {
+  "edit": [
+    {
+      "node_id": "node-5",
+      "confidence": 0.8,
+      "why": "Repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and negative respiratory pathogen testing supports a viral rather than atypical bacterial cause. The afebrile status, normal vital signs, and absence of medication before onset favor a post-viral exanthem. However, HSV PCR, VZV/enterovirus panels, and Tzanck/dermatopathology are unavailable, so other viral etiologies cannot be fully excluded, limiting confidence to 0.80."
+    },
+    {
+      "node_id": "node-6",
+      "confidence": 0.08,
+      "why": "Although positive SARS-CoV-2 PCR confirms a recent viral infection, the afebrile status, normal vital signs, and lack of any medication before symptom onset favor a post-viral exanthem over SJS/EM. Negative respiratory pathogen testing reduces the likelihood of an atypical bacterial trigger, so confidence is lowered to 0.08."
+    },
+    {
+      "node_id": "node-7",
+      "confidence": 0.06,
+      "why": "Repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and the transient anosmia/ageusia is more consistent with a viral upper respiratory infection than with syphilis/HSV. HSV PCR is unavailable, so HSV cannot be completely excluded, but the absence of fever, normal vital signs, and atypical prodrome keep the likelihood low at 0.06."
+    },
+    {
+      "node_id": "node-8",
+      "confidence": 0.03,
+      "why": "Positive SARS-CoV-2 PCR supports an infectious viral process, and the transient anosmia/ageusia and scattered skin vesicles are atypical for Behçet disease. No new evidence supports a systemic autoimmune cause, so confidence is reduced to 0.03."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ev001",
+      "label": "Repeated SARS-CoV-2 PCR is positive, confirming recent COVID-19",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev002",
+      "label": "Respiratory pathogen panel is negative for non-SARS-CoV-2 pathogens",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "ev003",
+      "label": "HSV PCR, VZV/enterovirus panels, and Tzanck/dermatopathology results are unavailable",
+      "node_type": "Evidence"
+    },
+    {
+      "id": "h002",
+      "label": "Patient has enterovirus mucocutaneous infection",
+      "node_type": "Hypothesis",
+      "confidence": 0.08,
+      "why": "Oral erosions and scattered vesicles are compatible with enterovirus infection, and the enterovirus panel has not been performed, so it cannot be fully excluded. However, transient anosmia/ageusia and confirmed recent COVID-19 make post-COVID exanthem more likely, so confidence is only 0.08."
+    }
+  ],
+  "edges": [
+    {
+      "src": "ev001",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-5",
+      "relation": "support"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-7",
+      "relation": "refute"
+    },
+    {
+      "src": "ev001",
+      "dst": "node-8",
+      "relation": "refute"
+    },
+    {
+      "src": "ev002",
+      "dst": "node-6",
+      "relation": "refute"
+    },
+    {
+      "src": "node-3",
+      "dst": "h002",
+      "relation": "support"
+    },
+    {
+      "src": "node-2",
+      "dst": "h002",
+      "relation": "refute"
+    }
+  ]
+}
+{'node_id': 'node-5', 'label': 'Viral mucocutaneous infection (post-COVID)', 'why': {'why': 'Repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and negative respiratory pathogen testing supports a viral rather than atypical bacterial cause. The afebrile status, normal vital signs, and absence of medication before onset favor a post-viral exanthem. However, HSV PCR, VZV/enterovirus panels, and Tzanck/dermatopathology are unavailable, so other viral etiologies cannot be fully excluded, limiting confidence to 0.80.'}, 'score': 0.8, 'level': 1, 'supports': 5, 'refutes': 0}
+=== Nodes ===
+[node-1] Signal[-] | 17-year-old male presented with 3 days of mouth pain and no… | score=1.000
+[node-2] Evidence[-] | One week prior, he experienced transient anosmia and ageusi… | score=1.000
+[node-3] Evidence[-] | Physical examination showed afebrile status with normal vit… | score=1.000
+[node-4] Evidence[-] | He had taken acetaminophen and ibuprofen before presenting … | score=1.000
+[node-5] Hypothesis[1] | Viral mucocutaneous infection (post-COVID) | score=0.800 | attrs={"why": {"why": "Repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and…
+[node-6] Hypothesis[1] | Immune-mediated mucocutaneous disease (SJS/EM) | score=0.080 | attrs={"why": {"why": "Although positive SARS-CoV-2 PCR confirms a recent viral infec…
+[node-7] Hypothesis[1] | Sexually transmitted infection (syphilis/HSV) | score=0.060 | attrs={"why": {"why": "Repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and…
+[node-8] Hypothesis[1] | Systemic autoimmune disease (e.g., Behçet) | score=0.030 | attrs={"why": {"why": "Positive SARS-CoV-2 PCR supports an infectious viral process, …
+[node-9] Evidence[-] | Repeated SARS-CoV-2 PCR is positive, confirming recent COVI… | score=1.000
+[node-1] Evidence[-] | Respiratory pathogen panel is negative for non-SARS-CoV-2 p… | score=1.000
+[node-1] Evidence[-] | HSV PCR, VZV/enterovirus panels, and Tzanck/dermatopatholog… | score=1.000
+[node-1] Hypothesis[1] | Patient has enterovirus mucocutaneous infection | score=0.080 | attrs={"why": "Oral erosions and scattered vesicles are compatible with enterovirus i…
+=== Edges ===
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-5[Viral mucocutaneous infection (post-COVID)] | refines | conf=0.000
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | refines | conf=0.000
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-7[Sexually transmitted infection (syphilis/HSV)] | refines | conf=0.000
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-8[Systemic autoimmune disease (e.g., Behçet)] | refines | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | support | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-7[Sexually transmitted infection (syphilis/HSV)] | refute | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-8[Systemic autoimmune disease (e.g., Behçet)] | refute | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | support | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-7[Sexually transmitted infection (syphilis/HSV)] | support | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-8[Systemic autoimmune disease (e.g., Behçet)] | support | conf=0.000
+node-4[He had taken acetaminophen and ibuprofen before presenting …] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-4[He had taken acetaminophen and ibuprofen before presenting …] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | refute | conf=0.000
+node-1[17-year-old male presented with 3 days of mouth pain and no…] -> node-1[Patient has enterovirus mucocutaneous infection] | refines | conf=0.000
+node-9[Repeated SARS-CoV-2 PCR is positive, confirming recent COVI…] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-1[Respiratory pathogen panel is negative for non-SARS-CoV-2 p…] -> node-5[Viral mucocutaneous infection (post-COVID)] | support | conf=0.000
+node-9[Repeated SARS-CoV-2 PCR is positive, confirming recent COVI…] -> node-7[Sexually transmitted infection (syphilis/HSV)] | refute | conf=0.000
+node-9[Repeated SARS-CoV-2 PCR is positive, confirming recent COVI…] -> node-8[Systemic autoimmune disease (e.g., Behçet)] | refute | conf=0.000
+node-1[Respiratory pathogen panel is negative for non-SARS-CoV-2 p…] -> node-6[Immune-mediated mucocutaneous disease (SJS/EM)] | refute | conf=0.000
+node-3[Physical examination showed afebrile status with normal vit…] -> node-1[Patient has enterovirus mucocutaneous infection] | support | conf=0.000
+node-2[One week prior, he experienced transient anosmia and ageusi…] -> node-1[Patient has enterovirus mucocutaneous infection] | refute | conf=0.000
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：2169 | Output token nums：423 | price(CNY)：0.00000000
+Response: {"belief": "The patient’s mucocutaneous lesions, transient anosmia/ageusia, and absence of fever or prior medication are most consistent with a viral mucocutaneous infection, specifically a post-COVID exanthem. Repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and the negative respiratory pathogen panel supports a viral rather than atypical bacterial cause. The afebrile status, normal vital signs, and lack of medication before onset argue against SJS/EM and other immune-mediated or sexually transmitted causes. However, HSV PCR, VZV/enterovirus panels, and dermatopathology were unavailable, so alternative viral etiologies such as enterovirus cannot be fully excluded. Overall, the evidence strongly favors post-COVID viral mucocutaneous infection over SJS/EM, syphilis/HSV, or systemic autoimmune disease."}
+[LLM-API] Generation Completed | Model：deepseek-v4-flash | Input token nums：4351 | Output token nums：524 | price(CNY)：0.00000000
+Response: {
+  "type": 1,
+  "answer": "Post-COVID viral mucocutaneous infection",
+  "report": "The patient's repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and the negative respiratory pathogen panel supports a viral rather than atypical bacterial cause. The transient anosmia/ageusia, afebrile status, normal vital signs, and absence of medications before onset strongly favor a post-COVID viral exanthem over SJS/EM, syphilis/HSV, or systemic autoimmune disease. Although HSV PCR, VZV/enterovirus panels, and dermatopathology are unavailable, the overall evidence converges on post-COVID viral mucocutaneous infection as the most likely diagnosis, with alternative etiologies having much lower confidence."
+}
+Answer: Post-COVID viral mucocutaneous infection
+Report: The patient's repeated positive SARS-CoV-2 PCR confirms recent COVID-19, and the negative respiratory pathogen panel supports a viral rather than atypical bacterial cause. The transient anosmia/ageusia, afebrile status, normal vital signs, and absence of medications before onset strongly favor a post-COVID viral exanthem over SJS/EM, syphilis/HSV, or systemic autoimmune disease. Although HSV PCR, VZV/enterovirus panels, and dermatopathology are unavailable, the overall evidence converges on post-COVID viral mucocutaneous infection as the most likely diagnosis, with alternative etiologies having much lower confidence.
+[TraceEvo] case 49: 17 events, chain=OK, replay=OK
+[LLM-API] Total | Invoke times：23 | Input token nums：35614 | Output token nums：20736 | Total token nums：56350 | price(CNY)：0.00000000

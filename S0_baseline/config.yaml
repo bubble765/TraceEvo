@@ -1,0 +1,71 @@
+# TraceEvo S0 — frozen run configuration
+# Everything needed to reproduce the S0_dev10 run.
+# Companion of gos/configs/{Agent,Belief,LLM}_Configs.yaml (those are the files the
+# code actually reads; this file records the run-level choices).
+
+run:
+  stage: S0
+  name: S0_dev10
+  date: "2026-09-16"
+  dataset: DiagnosisArena
+  case_indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]   # Dev-Small split, plan §10
+  command: >
+    TRACEEVO_API_KEY=... python3 -u main.py --cases 0-9
+    --out-csv outputs/s0_dev10.csv --html-dir outputs/html_s0
+    --log-dir logs/S0 --tag dev10
+
+# ---------------------------------------------------------------- backbone
+# Plan §10: GoS paper uses GPT-5.1-2025-11-13 via api.chatanywhere.tech.
+# That endpoint/key is not available here, so a substitute backbone is used and
+# must stay fixed for every baseline and for TraceEvo in all later stages.
+llm:
+  model_path: deepseek-v4-flash
+  is_substitute_backbone: true
+  paper_backbone: gpt-5.1-2025-11-13
+  temperature: 0.8          # upstream Agent_Configs.yaml
+  max_tokens: 4096          # upstream value; see note below
+  max_tokens_sent_in_payload: false   # upstream accepts the arg but never sends it
+  return_meta: true
+  transport:
+    scheme: http
+    host: localhost:18080
+    endpoint: /v1/chat/completions
+    gateway: local opencode gateway (OpenAI-compatible)
+    session_header: ses_traceevo_s0
+    timeout_s: 300
+  retry:
+    max_attempts: 5
+    base_delay_s: 2.0
+    max_delay_s: 60.0
+  # Hardcoded model overrides patched in S0 (upstream mixed in other backbones):
+  patched_call_sites:
+    evidence_retriever: "gpt-5.1 -> deepseek-v4-flash"
+    BeliefGraph.generate_belief_text: "gpt-3.5-turbo -> deepseek-v4-flash"
+
+# ---------------------------------------------------------------- GoS belief
+belief:
+  gap_delta: 0.3            # δ, configs/Belief_Configs.yaml
+  min_support: 3            # η, configs/Belief_Configs.yaml
+  max_steps: 2              # same-level fallback, NOT in paper Algorithm 2
+  session_max_steps: 3      # paper §4: max neuro-symbolic interaction iterations
+  max_retrieval_steps: 3    # paper §4: retrieval actions per expert agent
+
+agents:
+  central: Primary_Physician
+  experts: [Laboratory_Physician, Pathologist, Radiologist]
+
+# ---------------------------------------------------------------- scoring
+scoring:
+  protocol: LLM-as-a-Judge (paper §4), 3-point scale
+  judge_model: deepseek-v4-flash
+  group_size: 5
+  temperature: 1.0
+  max_tokens: 8192
+  script: gos/evaluate_Medical_scoring.py
+  human_as_judge: not performed in S0   # requires a clinical expert; see report
+
+# ---------------------------------------------------------------- discipline
+discipline:
+  cases_used_for_development: 10
+  held_out_test_cases: "indices 10-137, NOT touched in S0"
+  seeds: "not applicable (temperature sampling, no explicit seed in upstream code)"
