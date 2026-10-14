@@ -26,7 +26,7 @@ from typing import Any, Dict, List, Optional, Tuple
 ROOT = Path(__file__).resolve().parents[1]
 GOS = ROOT / "gos"
 GOLD_CSV = GOS / "datasets" / "DiagnosisArena" / "test_set.csv"
-DIAGNOSTIC_CSV = ROOT / "S5B_final_heldout" / "diagnostic_metrics.csv"
+DIAGNOSTIC_CSV = ROOT / "evaluations" / "diagnosis_final" / "diagnostic_metrics.csv"
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(GOS))
 from traceevo.recovery_pilot import _completion_budget_status

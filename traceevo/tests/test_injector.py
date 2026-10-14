@@ -18,8 +18,7 @@ from traceevo.audit.injector import (
     inject_a1, inject_a2, inject_a3, inject_a4, inject_a5)
 from traceevo.audit.integrity import verify_chain
 
-RUN_DIR = os.path.join("S2A_runs", "s2a_dev10", "C_prov_on_replay", "traceevo",
-                       "runs", "C_prov_on_replay")
+RUN_DIR = os.path.join("traceevo", "tests", "fixtures", "audit_clean")
 needs_run = pytest.mark.skipif(
     not os.path.isdir(RUN_DIR),
     reason="run the T1 driver to produce Dev-Small artifacts")

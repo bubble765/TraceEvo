@@ -5,7 +5,7 @@
 所以没有盲化、没有密封、没有尝试记录 —— 也不该有，那套东西是给 held-out
 评估用的，拿来做演示会污染它记录的含义。
 
-产物落在**独立目录**，绝不写进 `S5B_final_heldout/`。封存块的哈希一旦被动过，
+产物落在**独立目录**，绝不写进 `evaluations/diagnosis_final/`。封存块的哈希一旦被动过，
 S5B 的结论就不再成立。
 
 跑出来的东西与封存运行**同构**：八类产物齐全（events / deltas / bindings /
@@ -50,7 +50,7 @@ def main() -> int:
         raise SystemExit(f"找不到病例 CSV：{csv_path}")
 
     # 封存块的路径。任何形式的写入都要在这里被拦住 —— 事先检查比事后道歉便宜。
-    sealed = os.path.abspath(os.path.join(ROOT, "S5B_final_heldout"))
+    sealed = os.path.abspath(os.path.join(ROOT, "evaluations", "diagnosis_final"))
     if os.path.commonpath([out_dir, sealed]) == sealed:
         raise SystemExit(
             f"out-dir 落在 S5B 封存块里（{sealed}）。\n"

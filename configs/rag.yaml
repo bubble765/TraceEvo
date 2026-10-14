@@ -1,5 +1,4 @@
-# Independent RAG configuration. Core-v1 remains unchanged until a separate,
-# explicitly versioned integration phase is approved.
+# Current RAG layout. Runtime CLI defaults are defined in gos/main.py.
 rag:
   patient_evidence:
     enabled: true
@@ -12,17 +11,18 @@ rag:
   medical_knowledge:
     enabled: true
     vector_db: qdrant
-    storage_path: traceevo_runs/rag/qdrant
-    collection: traceevo_medical_knowledge
+    storage_path: traceevo_runs/rag/qdrant_v5
+    collection: traceevo_medical_knowledge_v5
     index: hnsw
     distance: cosine
-    retrieve_k: 30
-    rerank_k: 5
+    document_candidate_k: 5
+    child_candidates_per_document: 4
+    min_reranker_score: null
     final_k: 4
     ingestion:
       raw_dir: traceevo_runs/rag/medical_knowledge/raw
-      normalized_dir: traceevo_runs/rag/medical_knowledge/normalized
-      normalized_schema: schema-v2
+      normalized_dir: traceevo_runs/rag/medical_knowledge/normalized/schema-v5
+      normalized_schema: schema-v5
       pmc_adapter: ncbi_bioc_json
       who_adapter: explicit_manifest_only
       who_manifest: null
@@ -53,9 +53,9 @@ rag:
   chunking:
     target_tokens: 384
     max_tokens: 480
-    overlap_tokens: 64
-    min_tokens: 120
-    tokenizer: unicode_lexical_estimate_v1
+    overlap_tokens: 0
+    tail_merge_max_tokens: 96
+    tokenizer: Qwen/Qwen3-Embedding-0.6B
 
   query_planning:
     max_subqueries: 4

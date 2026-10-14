@@ -304,8 +304,7 @@ def test_write_csv_has_every_required_column(tmp_path):
 
 
 # ------------------------------------------------------- clean-trace FPR gate
-RUN_DIR = os.path.join("S2A_runs", "s2a_dev10", "C_prov_on_replay", "traceevo",
-                       "runs", "C_prov_on_replay")
+RUN_DIR = os.path.join("traceevo", "tests", "fixtures", "audit_clean")
 
 
 @pytest.mark.skipif(not os.path.isdir(RUN_DIR),

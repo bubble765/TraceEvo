@@ -27,14 +27,6 @@ _MEDICAL_KNOWLEDGE_CORPORA = {
         "traceevo_runs/rag/qdrant_v5",
         "traceevo_medical_knowledge_v5",
     ),
-    # Candidate corpus for the blinded case-57 retrieval experiment. The
-    # original v5 artifacts remain untouched so this can be compared and
-    # rolled back without rebuilding or deleting the existing collection.
-    "dle_v6": (
-        "traceevo_runs/rag/medical_knowledge_dle_v6",
-        "traceevo_runs/rag/qdrant_dle_v6",
-        "traceevo_medical_knowledge_dle_v6",
-    ),
 }
 
 

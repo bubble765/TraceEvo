@@ -105,12 +105,11 @@ diagnostic-test text, opt in explicitly. Literature is shown to the expert as
 general context, never as a patient finding; the provenance event records its
 PMCID, source URL, and license separately.
 
-Run one topic-matched case from this repository's `gos/` directory (the clean
-official CSV is used explicitly because the working-copy CSV is not the pilot
-source):
+Run one topic-matched case from this repository's `gos/` directory. The original
+benchmark CSV is retained alongside the working dataset:
 
 ```bash
-PYTHONPATH=.:.. TRACEEVO_DATASET_CSV=../gos_official/datasets/DiagnosisArena/test_set.csv \
+PYTHONPATH=.:.. TRACEEVO_DATASET_CSV=datasets/DiagnosisArena/test_set_original.csv \
   python main.py --cases 79 --medical-rag --medical-rag-top-k 2 \
   --tag medical_rag_pilot \
   --out-csv outputs/medical_rag_pilot/results.csv \

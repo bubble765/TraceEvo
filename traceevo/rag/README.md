@@ -66,7 +66,7 @@ The independent `traceevo.rag.medical_knowledge` package now supports:
   NoDerivatives are rejected. Noncommercial licenses require the explicit
   `--allow-noncommercial` flag.
 - Raw, content-addressed source files plus immutable normalized artifacts.
-  Historical `schema-v2` through `schema-v4` stores remain intact. Current
+  Historical `schema-v2` through `schema-v4` data stores have been archived outside the project. Current
   `schema-v5` stores a `MedicalDocument`, heading-scoped `DocumentSection`s,
   typed source blocks, and direct child chunks with section-local character
   spans. A section is the offset container; it is not a retrieval parent.
@@ -133,7 +133,7 @@ Example single-case pilot (run from `gos/`; provide the configured gateway key
 in `TRACEEVO_API_KEY` without putting it in source files):
 
 ```bash
-PYTHONPATH=.:.. TRACEEVO_DATASET_CSV=../gos_official/datasets/DiagnosisArena/test_set.csv \
+PYTHONPATH=.:.. TRACEEVO_DATASET_CSV=datasets/DiagnosisArena/test_set_original.csv \
   python main.py --cases 79 --medical-rag --medical-rag-top-k 4 \
     --medical-rag-child-candidates-per-document 4 \
   --tag medical_rag_pilot \
@@ -201,8 +201,7 @@ independent immutable `normalized/schema-v5` layer. It does not modify
 schema-v4 artifacts. Section offsets address the normalized extracted text
 stored in each section record, not byte offsets into the BioC JSON/XML.
 
-The historical schema-v4 snapshot contains eight PMC OA articles/reviews. The
-active schema-v5 corpus has since expanded to 50 articles, but it remains a
+The active schema-v5 corpus contains 50 articles and remains a
 mixed biomedical-literature collection rather than an issuing-body clinical
 practice-guideline library. A formal guideline can be added through the
 WHO-manifest path after its exact document license is verified.

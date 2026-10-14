@@ -26,7 +26,7 @@ from typing import Any, Dict, List, Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
 GOS = ROOT / "gos"
-S5B = ROOT / "S5B_final_heldout"
+S5B = ROOT / "evaluations" / "diagnosis_final"
 BLINDED = S5B / "dataset_blinded_80_137.csv"
 CASE_MATRIX = ROOT / "refine-logs" / "results" / "R000_baseline_opportunity" / "case_matrix.csv"
 DEFAULT_OUT = ROOT / "refine-logs" / "results" / "R003_live_p3_guard_pilot"

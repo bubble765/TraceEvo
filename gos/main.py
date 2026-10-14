@@ -68,9 +68,9 @@ def parse_args():
                         help="Calibrated cross-encoder logit cutoff; omit to disable rejection.")
     parser.add_argument(
         "--medical-rag-corpus-version",
-        choices=["v5", "dle_v6"],
+        choices=["v5"],
         default="v5",
-        help="Select the pinned medical corpus; dle_v6 is an isolated case-57 candidate corpus.",
+        help="Select the current pinned medical corpus (v5).",
     )
     parser.add_argument(
         "--post-report-audit-retry",

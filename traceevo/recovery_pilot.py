@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Sequence, Tuple
 
 
 ROOT = Path(__file__).resolve().parents[1]
-S5B = ROOT / "S5B_final_heldout"
+S5B = ROOT / "evaluations" / "diagnosis_final"
 BLINDED = S5B / "dataset_blinded_80_137.csv"
 TRACE_DIR = S5B / "heldout_original" / "traceevo" / "runs" / "core_v1_final"
 GRAPH_DIR = S5B / "heldout_original" / "graphs"

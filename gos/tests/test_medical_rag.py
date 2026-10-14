@@ -34,21 +34,13 @@ def test_medical_rag_child_candidate_budget_defaults_to_four_and_is_overridable(
     assert overrides.medical_rag_top_k == 5
 
 
-def test_medical_corpus_versions_resolve_to_isolated_paths(tmp_path):
+def test_current_medical_corpus_resolves_and_removed_versions_are_rejected(tmp_path):
     v5_data, v5_qdrant, v5_collection = resolve_medical_knowledge_corpus_paths(tmp_path)
-    dle_data, dle_qdrant, dle_collection = resolve_medical_knowledge_corpus_paths(
-        tmp_path,
-        "dle_v6",
-    )
-
     assert v5_data == Path(tmp_path) / "traceevo_runs/rag/medical_knowledge"
     assert v5_qdrant == Path(tmp_path) / "traceevo_runs/rag/qdrant_v5"
     assert v5_collection == "traceevo_medical_knowledge_v5"
-    assert dle_data == Path(tmp_path) / "traceevo_runs/rag/medical_knowledge_dle_v6"
-    assert dle_qdrant == Path(tmp_path) / "traceevo_runs/rag/qdrant_dle_v6"
-    assert dle_collection == "traceevo_medical_knowledge_dle_v6"
-    assert v5_data != dle_data and v5_qdrant != dle_qdrant
-
+    with pytest.raises(ValueError, match="unknown medical knowledge corpus"):
+        resolve_medical_knowledge_corpus_paths(tmp_path, "dle_v6")
     with pytest.raises(ValueError, match="unknown medical knowledge corpus"):
         resolve_medical_knowledge_corpus_paths(tmp_path, "missing")
 

@@ -21,9 +21,9 @@ from typing import Any, Dict, Iterable, List
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_DIAGNOSTIC = ROOT / "S5B_final_heldout" / "diagnostic_metrics.csv"
-DEFAULT_OUTCOMES = ROOT / "S5B_final_heldout" / "outcome_results.csv"
-DEFAULT_AUDIT = ROOT / "S5B_final_heldout" / "natural_audit_summary.csv"
+DEFAULT_DIAGNOSTIC = ROOT / "evaluations" / "diagnosis_final" / "diagnostic_metrics.csv"
+DEFAULT_OUTCOMES = ROOT / "evaluations" / "diagnosis_final" / "outcome_results.csv"
+DEFAULT_AUDIT = ROOT / "evaluations" / "diagnosis_final" / "natural_audit_summary.csv"
 DEFAULT_OUTPUT = ROOT / "refine-logs" / "results" / "R000_baseline_opportunity"
 PROCESS_TYPES = {"A2", "A3", "A4", "A5"}
 

@@ -18,9 +18,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 # ---------------------------------------------------------------- 数据来源
 # 封存的最终 held-out 结果。演示用 case-85 取自这里。
 SEALED_RUN = os.path.join(
-    ROOT, "S5B_final_heldout", "heldout_original", "traceevo", "runs",
+    ROOT, "evaluations", "diagnosis_final", "heldout_original", "traceevo", "runs",
     "core_v1_final")
-SEALED_SEALS = os.path.join(ROOT, "S5B_final_heldout", "seals")
+SEALED_SEALS = os.path.join(ROOT, "evaluations", "diagnosis_final", "seals")
 
 # 其他可作为历史任务浏览的病例块。每一项是 (标签, 运行目录, 病例区间)。
 # 只登记已经落盘且完整的块；真实分析模式产生的运行会追加到 RUNS_INDEX。
@@ -34,7 +34,7 @@ HISTORICAL_RUNS = [
     {
         "id": "s5a-validation",
         "label": "协议验证（case 70-79）",
-        "run_dir": os.path.join(ROOT, "S5A_protocol_validation", "runs_70_79",
+        "run_dir": os.path.join(ROOT, "evaluations", "protocol_validation", "runs_70_79",
                                 "traceevo", "runs", "core_v1"),
         "cases": list(range(70, 80)),
     },
@@ -46,7 +46,7 @@ RUNS_INDEX = os.path.join(RUNS_ROOT, "index.jsonl")
 
 # 判题与门控的既有产物（`outcome_results.csv` 等）不在运行目录里，
 # 它们在阶段交付目录中，按病例区间分文件。
-S5B_OUT = os.path.join(ROOT, "S5B_final_heldout")
+S5B_OUT = os.path.join(ROOT, "evaluations", "diagnosis_final")
 
 # ------------------------------------------------------------------ 冻结项
 # 前端图例需要展示阈值来源。这些值从冻结清单里读，不在这里硬编码 ——

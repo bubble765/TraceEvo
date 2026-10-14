@@ -22,6 +22,9 @@ from traceevo.audit.event_schema import REASON_CODES, STATUSES
 # The fixed upstream fallback string (expert_agent.py); S2 must not alter it.
 UPSTREAM_FALLBACK = ("Insufficient information to complete the analysis "
                      "(max retrieval steps reached or invalid decision/response)")
+PATIENT_QUERY = {"type": 1, "decision": "retrieve", "store": "patient_evidence",
+                 "exam_type": "blood_test", "query_text": "troponin",
+                 "retrieval_goal": "Check troponin evidence for ACS"}
 
 
 def _enable(tmp_path, task_id):
@@ -48,7 +51,7 @@ def _mk_expert(tmp_path, task_id, max_retrieval_steps=2, name="Cardiologist"):
         llm_args={"model_path": "stub", "temperature": 0.0, "max_tokens": 32,
                   "return_meta": True, "session_max_steps": 3,
                   "max_retrieval_steps": max_retrieval_steps},
-        evidence_text="Troponin was elevated at 4.2 ng/mL.",
+        evidence_text="Blood test: Troponin was elevated at 4.2 ng/mL.",
         max_retrieval_steps=max_retrieval_steps)
 
 
@@ -112,7 +115,7 @@ def test_budget_exhaustion_emits_degraded(tmp_path, monkeypatch):
 
     # Every iteration: decide "retrieve", then produce a non-empty query.
     retrieve = {"type": 1, "decision": "retrieve", "content": "troponin"}
-    stub = _StubLLM([retrieve] * 8)
+    stub = _StubLLM([retrieve, PATIENT_QUERY] * 2)
     monkeypatch.setattr(ea, "llm_generate_response", stub)
 
     hooks.on_step(1)
@@ -195,7 +198,7 @@ def test_normal_analysis_emits_success(tmp_path, monkeypatch):
 
     stub = _StubLLM([
         {"type": 1, "decision": "retrieve", "content": "troponin"},
-        {"type": 1, "decision": "retrieve", "content": "troponin"},
+        PATIENT_QUERY,
         {"type": 1, "decision": "analyze",
          "content": "Elevated troponin supports an acute coronary syndrome."},
         {"type": 1, "decision": "analyze",

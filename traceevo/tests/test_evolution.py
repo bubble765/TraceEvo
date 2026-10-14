@@ -538,8 +538,7 @@ def test_verified_success_alone_is_not_gold_safe():
     import os
     root = os.path.dirname(os.path.dirname(os.path.dirname(
         os.path.abspath(__file__))))
-    archive = os.path.join(root, "S3A_runs", "s3a_migration", "traceevo",
-                           "runs", "migration_holdout")
+    archive = os.path.join(root, "traceevo", "tests", "fixtures", "experience_gate")
     if not os.path.isdir(archive):
         pytest.skip("S3A archive not present")
     g22 = gold_safe_conditions(archive, "case-22")

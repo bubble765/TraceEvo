@@ -167,7 +167,7 @@ Backtrack、回到 L1 最高分节点继续深挖、替代假设和最终报告�
 展示轨迹的界面本来就有琥珀色「展示轨迹 · 无审计产物」标记，读者知道这一页
 是可编排的。
 
-`build_demo_run.py` **不写进 `S5B_final_heldout/`**：开头就拦，out-dir 落在
+`build_demo_run.py` **不写进 `evaluations/diagnosis_final/`**：开头就拦，out-dir 落在
 封存块里直接退出。演示运行与 held-out 评估必须分开 —— 动过封存块的哈希，
 S5B 的结论就不再成立。
 
